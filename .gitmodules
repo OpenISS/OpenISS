@@ -4,3 +4,6 @@
 [submodule "libfreenect"]
 	path = libfreenect
 	url = https://github.com/OpenKinect/libfreenect.git
+[submodule "openFrameworks"]
+	path = openFrameworks
+	url = https://github.com/openframeworks/openFrameworks.git
