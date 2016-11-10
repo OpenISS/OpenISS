@@ -7,3 +7,6 @@
 [submodule "openFrameworks"]
 	path = openFrameworks
 	url = https://github.com/openframeworks/openFrameworks.git
+[submodule "opencv"]
+	path = opencv
+	url = https://github.com/opencv/opencv.git
