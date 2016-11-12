@@ -1,0 +1,13 @@
+Team 1: libfreenect2, and opencv
+Brian Baron, Colin Brady, Robert Gentile
+CSI-230 Fall 2016
+OpenISS Project Report
+
+Instructions:
+
+Bugs:
+
+Special Features:
+
+
+

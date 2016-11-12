@@ -33,6 +33,13 @@ yum install -y cmake
 yum install -y turbojpeg
 yum install -y libusb
 
+# OpenCV dependencies
+yum install -y libgtk2.0-dev
+yum install -y pkg-config
+yum install -y libavcodec-dev
+yum install -y libavformat-dev
+yum install -y libswscale-dev
+
 # install libfreenect2
 cd $LFN2_DIR
 git clone https://github.com/OpenKinect/libfreenect2.git
