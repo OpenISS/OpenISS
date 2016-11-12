@@ -18,19 +18,19 @@
 LFN2_DIR=../../../../libfreenect2
 
 # install requirements
-yum install git -y
+yum install -y git
 
-yum install mesa-libGL -y
-yum install mesa-libGL-devel -y
+yum install -y mesa-libGL
+yum install -y mesa-libGL-devel
 
-yum --enablerepo=elrepo-kernel install kernel-ml -y
+yum --enablerepo=elrepo-kernel install -y kernel-ml
 
-yum install gcc -y
-yum install make -y
+yum install -y gcc
+yum install -y make
 
-yum install cmake -y
-yum install turbojpeg -y
-yum install libusb -y
+yum install -y cmake
+yum install -y turbojpeg
+yum install -y libusb
 
 # install libfreenect2
 cd $LFN2_DIR
