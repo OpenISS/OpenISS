@@ -16,6 +16,7 @@
 
 # Paths
 LFN2_DIR=../../../../libfreenect2
+OPCV_DIR=../../../../opencv
 
 # install requirements
 yum install -y git
@@ -39,3 +40,6 @@ cd libfreenect2
 
 
 # install opencv
+cd $OPCV_DIR
+git clone https://github.com/opencv/opencv.git
+
