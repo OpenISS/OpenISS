@@ -9,14 +9,9 @@ $(EXE) :
 $(OBJ) :
 
 all: $(EXE) $(OBJ)
-	cd ./scripts; \
+	cd scripts; \
 		./$(EXE).sh $(OBJ)
 
-compile: $(EXE)
-	d ./scripts; \
-		./$(EXE).sh --compile
-	
-
 clean: $(EXE)
-	cd ./scripts; \
+	cd scripts; \
 	./$(EXE).sh --cleanup 
