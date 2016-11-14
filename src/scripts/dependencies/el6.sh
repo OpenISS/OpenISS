@@ -39,8 +39,10 @@ yum install -y turbojpeg
 yum install -y turbojpeg-devel
 
 #opencv dependencies
-#ligbtk2.0-dev
-#pkg-congfig
+yum groupinstall "Development Tools"
+yum install -y gtk+-devel gtk2-devel
+yum install -y pkgconfig.x86_64
 yum install -y python
-#python-numpy
-#libavcodec-dev libavformat-dev libswscale-dev
+yum install -y numpy
+yum install -y libavc1394-devel.x86_64
+yum install -y libavc1394.x86_64
