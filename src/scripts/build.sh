@@ -10,11 +10,16 @@ if [[ $1 == "el6" ]]; then
 	./dependencies/el6.sh --install
 
 	# compile the libfreenect2 stuff
+	cd ../../libfreenect2
 	mkdir build && cd build
 	cmake -L ..
 	make install
 
 	# compile opencv
+	cd ../../opencv
+	mkdir build && cd build
+	cmake ..
+	make
 
 elif [[ $1 == "--cleanup" ]]; then
 	./dependencies/el6.sh --cleanup
