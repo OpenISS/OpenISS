@@ -4,10 +4,15 @@ CSI-230 Fall 2016
 OpenISS Project Report
 
 Instructions:
+	Install:	cd to /OpenISS/src
+				make all (installs all dependencies)
 
+	Compile:
+
+	Clean:		cd to /OpenISS/src
+				make clean
 Bugs:
+	* Currently not removing libusb files on --cleanup
 
 Special Features:
-
-
-
+N/A
