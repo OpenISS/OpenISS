@@ -45,7 +45,7 @@ if [[ $1 == "--install" ]]; then
 	yum install -y turbojpeg-devel
 	
 	#opencv dependencies
-	yum groupinstall "Development Tools"
+	yum groupinstall -y "Development Tools"
 	yum install -y gtk+-devel gtk2-devel
 	yum install -y pkgconfig.x86_64
 	yum install -y python
@@ -56,6 +56,9 @@ elif [[ $1 == "--cleanup" ]]; then
 	echo "cleanup"
 	
 	#libusb
+	cd libusb-1.0.20
+	make uninstall
+	cd ..
 	rm -rf libusb-1.0.20
 	rm -f libusb-1.0.20.tar.bz2
 	rm -f libusb-1.0.20.tar.bz2.1
