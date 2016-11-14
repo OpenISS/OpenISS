@@ -32,14 +32,9 @@ if [[ $1 == "--install" ]]; then
 	
 	#libfreenect2 dependencies
 	#libusb
-	wget --no-check-certificate https://sourceforge.net/projects/libusb/files/libusb-1.0/libusb-1.0.20/libusb-1.0.20.tar.bz2/download
-	mkdir libusb-1.0.20
-	tar -xf libusb-1.0.20.tar.bz2
-	rm -f libusb-1.0.20.tar.bz2
-	cd libusb-1.0.20
-	./configure; make; make install
-	cd ..
-	
+	cd ../../../libfreenect2/depends
+	./install_libusb.sh
+
 	#turbojpeg
 	yum install -y turbojpeg
 	yum install -y turbojpeg-devel
@@ -52,16 +47,13 @@ if [[ $1 == "--install" ]]; then
 	yum install -y numpy
 	yum install -y libavc1394-devel.x86_64
 	yum install -y libavc1394.x86_64
+	
 elif [[ $1 == "--cleanup" ]]; then
 	echo "cleanup"
 	
 	#libusb
-	cd libusb-1.0.20
-	make uninstall
-	cd ..
-	rm -rf libusb-1.0.20
-	rm -f libusb-1.0.20.tar.bz2
-	rm -f libusb-1.0.20.tar.bz2.1
+	#cd ../../../libfreenect2/depends
+
 
 	#turbojpeg
 	yum remove -y turbojpeg
