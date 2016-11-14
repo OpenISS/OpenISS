@@ -6,7 +6,6 @@
 # Need to be root when running this script
 
 if [[ $1 == "el6" ]]; then
-	#statements
 	echo "running el6.sh"
 	./dependencies/el6.sh --install
 elif [[ $1 == "--cleanup" ]]; then

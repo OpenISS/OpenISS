@@ -3,7 +3,6 @@ CC=gcc
 CFLAGS= - g -WALL
 
 EXE=build
-
 OBJ=el6
 
 $(EXE) :
@@ -13,8 +12,10 @@ all: $(EXE) $(OBJ)
 	cd ./scripts; \
 		./$(EXE).sh $(OBJ)
 
-run: 
-
+compile: $(EXE)
+	d ./scripts; \
+		./$(EXE).sh --compile
+	
 
 clean: $(EXE)
 	cd ./scripts; \
