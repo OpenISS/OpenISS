@@ -14,10 +14,6 @@
 #
 # Need to be root when running this script
 
-# Paths
-LFN2_DIR=../../../../libfreenect2
-OPCV_DIR=../../../../opencv
-
 # install requirements
 yum install -y git
 
@@ -28,25 +24,23 @@ yum --enablerepo=elrepo-kernel install -y kernel-ml
 
 yum install -y gcc
 yum install -y make
-
 yum install -y cmake
+
+#libfreenect2 dependencies
+#libusb
+wget --no-check-certificate https://sourceforge.net/projects/libusb/files/libusb-1.0/libusb-1.0.20/libusb-1.0.20.tar.bz2/download
+tar -xf libusb-1.0.20.tar.bz2
+cd libusb-1.0.20.tar.bz2
+./configure; make; make install
+cd ..
+
+#turbojpeg
 yum install -y turbojpeg
-yum install -y libusb
+yum install -y turbojpeg-devel
 
-# OpenCV dependencies
-yum install -y libgtk2.0-dev
-yum install -y pkg-config
-yum install -y libavcodec-dev
-yum install -y libavformat-dev
-yum install -y libswscale-dev
-
-# install libfreenect2
-cd $LFN2_DIR
-git clone https://github.com/OpenKinect/libfreenect2.git
-cd libfreenect2
-
-
-# install opencv
-cd $OPCV_DIR
-git clone https://github.com/opencv/opencv.git
-
+#opencv dependencies
+#ligbtk2.0-dev
+#pkg-congfig
+yum install -y python
+#python-numpy
+#libavcodec-dev libavformat-dev libswscale-dev
