@@ -11,12 +11,14 @@ if [[ $1 == "el6" ]]; then
 
 	# compile the libfreenect2 stuff
 	cd ../../libfreenect2
+	rm -rf build
 	mkdir build && cd build
 	cmake -L ..
 	make install
 
 	# compile opencv
 	cd ../../opencv
+	rm -rf build
 	mkdir build && cd build
 	cmake ..
 	make

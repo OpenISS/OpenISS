@@ -5,9 +5,6 @@ CFLAGS= - g -WALL
 EXE=build
 OBJ=el6
 
-$(EXE) :
-$(OBJ) :
-
 all: $(EXE) $(OBJ)
 	cd scripts; \
 		./$(EXE).sh $(OBJ)
@@ -15,3 +12,6 @@ all: $(EXE) $(OBJ)
 clean: $(EXE)
 	cd scripts; \
 	./$(EXE).sh --cleanup 
+
+$(EXE):
+$(OBJ):

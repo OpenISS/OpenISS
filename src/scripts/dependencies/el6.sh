@@ -32,7 +32,7 @@ if [[ $1 == "--install" ]]; then
 	
 	#libfreenect2 dependencies
 	#libusb
-	cd ../../../libfreenect2/depends
+	cd ../../libfreenect2/depends
 	./install_libusb.sh
 
 	#turbojpeg
@@ -52,8 +52,11 @@ elif [[ $1 == "--cleanup" ]]; then
 	echo "cleanup"
 	
 	#libusb
-	#cd ../../../libfreenect2/depends
-
+	cd ../../../libfreenect2/depends/libusb_src
+	make distclean
+	cd ..
+	rm -rf libusb
+	rm -rf libusb_src
 
 	#turbojpeg
 	yum remove -y turbojpeg
