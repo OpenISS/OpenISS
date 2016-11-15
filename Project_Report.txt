@@ -5,14 +5,14 @@ OpenISS Project Report
 
 Instructions:
 	Install:	cd to /OpenISS/src
-				make all (installs all dependencies)
+				make (installs all dependencies)
 
-	Compile:
+	Compile:	Happens during make process
 
 	Clean:		cd to /OpenISS/src
 				make clean
 Bugs:
-	* Currently not removing libusb files on --cleanup
+N/A
 
 Special Features:
 N/A
