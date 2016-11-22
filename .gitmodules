@@ -10,3 +10,9 @@
 [submodule "opencv"]
 	path = opencv
 	url = https://github.com/opencv/opencv.git
+[submodule "ogl"]
+	path = ogl
+	url = https://github.com/opengl-tutorials/ogl.git
+[submodule "tinyosc"]
+	path = tinyosc
+	url = https://github.com/mhroth/tinyosc.git
