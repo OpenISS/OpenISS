@@ -1,0 +1,18 @@
+Team 1: libfreenect2, and opencv
+Brian Baron, Colin Brady, Robert Gentile
+CSI-230 Fall 2016
+OpenISS Project Report
+
+Instructions:
+	Install:	cd to /OpenISS/src
+				make (installs all dependencies)
+
+	Compile:	Happens during make process
+
+	Clean:		cd to /OpenISS/src
+				make clean
+Bugs:
+N/A
+
+Special Features:
+N/A
