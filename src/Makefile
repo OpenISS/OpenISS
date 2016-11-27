@@ -1,10 +1,13 @@
 SHELL:=/bin/bash
 
-EXE=./scripts/build.sh
+EXE=build.sh
+SCRIPTSDIR=./scripts
 OPTIONS=el6
 
-all: $(EXE)
-	$(EXE) $(OPTIONS)
+all: $(SCRIPTSDIR)/$(EXE)
+	cd $(SCRIPTSDIR) ; \
+	./$(EXE) $(OPTIONS)
 
 clean:
-	$(EXE) --cleanup 
+	cd $(SCRIPTSDIR) ; \
+	./$(EXE) --cleanup 
