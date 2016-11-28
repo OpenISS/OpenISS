@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # el6.sh
 # Script to install requirements:
 #		libraries
@@ -85,4 +86,7 @@ elif [[ $1 == "--cleanup" ]]; then
 	yum remove -y numpy
 	yum remove -y libavc1394-devel.x86_64
 	yum remove -y libavc1394.x86_64
+
+	#remove packages installed by yum
+	yum remove -y libXmu-devel libXi-devel glut-devel libudev-devel gstreamer-devel gstreamer-plugins-base-devel
 fi

@@ -14,25 +14,24 @@ if [[ $1 == "el6" ]]; then
 
 	# compile the libfreenect2 stuff
 	pushd ../../libfreenect2
-	rm -rf build
-	mkdir build && cd build
-	cmake -L ..
-	make install
+		rm -rf build
+		mkdir build && cd build
+		cmake -L ..
+		make install
 
-	# compile opencv
-	cd ../../opencv
-	rm -rf build
-	mkdir build && cd build
-	cmake ..
-	make
-
+		# compile opencv
+		cd ../../opencv
+		rm -rf build
+		mkdir build && cd build
+		cmake ..
+		make
 	popd
 
-	cd ./dependencies
-	./el6.sh
+	#cd ./dependencies
+	#./el6.sh
 
 	#run cmake and make files for libfreenect
-	cd ../../../libfreenect
+	cd ../../libfreenect
 	mkdir build && cd build
 	cmake -L ..
 	make
@@ -65,7 +64,4 @@ elif [[ $1 == "--cleanup" ]]; then
 	#remove links created by libfreenect
 	rm -f /usr/local/lib/libfreenect*
 	rm -rf /usr/local/lib/fakenect
-
-	#remove packages installed by yum
-	yum remove -y libXmu-devel libXi-devel glut-devel libudev-devel gstreamer-devel gstreamer-plugins-base-devel
 fi
