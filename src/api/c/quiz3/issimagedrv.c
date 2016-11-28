@@ -98,8 +98,6 @@ void cleanup_module(void)
  */
 static int device_open(struct inode *inode, struct file *file)
 {
-	system("echo memes");
-
 	static int counter = 0;
 
 	if (Device_Open)
