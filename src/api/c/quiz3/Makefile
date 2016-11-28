@@ -1,12 +1,12 @@
-obj-m += hello.o
+obj-m += issimagedrv.o
 
 all: compile
-	insmod ./hello.ko
+	insmod ./issimagedrv.ko
 
 clean:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-	rmmod hello
-	rm -f /dev/hello
+	rmmod issimagedrv
+	rm -f /dev/issimagedrv
 
 compile:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
