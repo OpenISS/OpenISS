@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 		
 		int j = read(fd, buf, i);
 
-		if(nuts < 0)
+		if(j < 0)
 		{
 			perror("cant read");
 		}
