@@ -13,7 +13,7 @@ if [[ $1 == "el6" ]]; then
 	./dependencies/el6.sh --install
 
 	# compile the libfreenect2 stuff
-	cd ../../libfreenect2
+	pushd ../../libfreenect2
 	rm -rf build
 	mkdir build && cd build
 	cmake -L ..
@@ -25,6 +25,8 @@ if [[ $1 == "el6" ]]; then
 	mkdir build && cd build
 	cmake ..
 	make
+
+	popd
 
 	cd ./dependencies
 	./el6.sh
