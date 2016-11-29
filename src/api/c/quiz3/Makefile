@@ -15,7 +15,7 @@ clean:
 	rm -f $(EXE) $(OBJ)
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 	rmmod issimagedrv
-	rm -f /dev/issimagedrv
+	rm -f /dev/ISSIMAGEDRV
 
 register:
 	insmod ./$(MODULE)
