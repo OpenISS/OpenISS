@@ -25,8 +25,13 @@ if [[ $1 == "--install" ]]; then
 	yum install -y mesa-libGL
 	yum install -y mesa-libGL-devel
 
-	yum --enablerepo=elrepo-kernel install -y kernel-ml
+	# todo: add epel and elrepo repos. install python 34 from epel. fix kernel install
+	yum --enablerepo=elrepo-kernel install -y kernel-ml-devel-4.8.7-1.el6.elrepo.x86_64
+	wget us.download.nvidia.com/XFree86/Linux-x86_64/375.20/NVIDIA-Linux-x86_64-375.20.run
+	sh NVIDIA-Linux-x86_64-375.20.run
 	
+	yum --enablerepo=epel install -y python34.x86_64
+
 	yum install -y gcc
 	yum install -y make
 	yum install -y cmake
@@ -68,6 +73,8 @@ if [[ $1 == "--install" ]]; then
 elif [[ $1 == "--cleanup" ]]; then
 	echo "cleanup"
 	
+	rm -f NVIDIA-Linux-x86_64-375.20.run
+
 	#libusb
 	cd ../../../libfreenect2/depends/libusb_src
 	make distclean
@@ -82,7 +89,7 @@ elif [[ $1 == "--cleanup" ]]; then
 	#opencv
 	yum remove -y gtk+-devel gtk2-devel
 	yum remove -y pkgconfig.x86_64
-	yum remove -y python
+	#yum remove -y python
 	yum remove -y numpy
 	yum remove -y libavc1394-devel.x86_64
 	yum remove -y libavc1394.x86_64
