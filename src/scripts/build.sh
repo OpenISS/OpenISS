@@ -30,6 +30,12 @@ if [[ $1 == "el6" ]]; then
 	#cd ./dependencies
 	#./el6.sh
 
+	#patch and compile tinyosc
+	cd ../../tinyosc
+	patch build.sh < ../src/scripts/dependencies/tinyosc.build.sh.patch
+	./build.sh
+
+
 	#run cmake and make files for libfreenect
 	cd ../../libfreenect
 	mkdir build && cd build
