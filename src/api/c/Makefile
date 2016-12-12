@@ -16,6 +16,7 @@ OBJ=$(EXE).o
 
 # Default target
 all: $(EXE)
+	make -C examples $@
 	@echo "All is perfectly done!"
 
 # Other subtargets to make it happen
