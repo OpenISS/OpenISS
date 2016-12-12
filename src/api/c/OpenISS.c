@@ -14,6 +14,7 @@ void setup()
 int main(int argc, char** argv)
 {
     setup();
+    return 0;
 }
 
 void draw()
