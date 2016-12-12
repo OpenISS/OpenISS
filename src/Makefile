@@ -4,7 +4,10 @@ EXE=build.sh
 SCRIPTSDIR=./scripts
 OPTIONS=el6
 
-all: $(SCRIPTSDIR)/$(EXE)
+all:
+	make -c api $@
+
+deps: $(SCRIPTSDIR)/$(EXE)
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(OPTIONS)
 
