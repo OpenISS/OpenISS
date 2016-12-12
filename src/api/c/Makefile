@@ -29,6 +29,9 @@ $(EXE): $(OBJ)
 vfx.o: vfx.c
 	$(CC) $(CFLAGS) -c $<
 
+issimgdrv:
+	make -C quiz3 all
+
 
 # Cleaning up afterwards
 clean:
