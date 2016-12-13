@@ -26,7 +26,11 @@ $(EXE): $(OBJ)
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $<
 
-vfx.o: vfx.c
+vfx: vfx.c include/vfx.h
+	$(CC) $(CFLAGS) -DMAIN_VFX_TEST -c vfx.c
+	$(CC) vfx.o -o $@
+
+vfx.o: vfx.c include/vfx.h
 	$(CC) $(CFLAGS) -c $<
 
 issimgdrv:
