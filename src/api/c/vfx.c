@@ -1,3 +1,5 @@
+#include "vfx.h"
+
 /* Include standard headers */
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,16 +16,28 @@ GLFWwindow* window;
 using namespace glm;
 */
 
+t_iss_vfx_ops p_oVFXEmptyOpenGLTest;
 
+void vfx_init(void);
+void vfx_draw(void);
+void vfx_free(void);
 
-int draw()
+void vfx_init()
+{
+}
+
+void vfx_free()
+{
+}
+
+void vfx_draw()
 {
     /* Initialise GLFW */
     if( !glfwInit() )
     {
         fprintf( stderr, "Failed to initialize GLFW\n" );
         getchar();
-        return -1;
+        /*return -1;*/
     }
     
     glfwWindowHint(GLFW_SAMPLES, 4);
@@ -38,7 +52,7 @@ int draw()
         fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
         getchar();
         glfwTerminate();
-        return -1;
+        /*return -1;*/
     }
     glfwMakeContextCurrent(window);
     
@@ -47,7 +61,8 @@ int draw()
         fprintf(stderr, "Failed to initialize GLEW\n");
         getchar();
         glfwTerminate();
-        return -1;
+        
+        /*return -1;*/
     }
     
     /* Ensure we can capture the escape key being pressed below */
@@ -74,6 +89,19 @@ int draw()
     /* Close OpenGL window and terminate GLFW */
     glfwTerminate();
     
-    return 0;
+    /*return 0;*/
 }
 
+#ifdef MAIN_VFX_TEST
+int main(int argc, char** argv)
+{
+    p_oVFXEmptyOpenGLTest.vfx_init = &vfx_init;
+    p_oVFXEmptyOpenGLTest.vfx_init = &vfx_draw;
+    p_oVFXEmptyOpenGLTest.vfx_init = &vfx_free;
+
+    vfx_init();
+    vfx_draw();
+    vfx_free();
+    return 0;
+}
+#endif
