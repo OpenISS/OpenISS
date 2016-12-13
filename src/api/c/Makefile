@@ -14,6 +14,11 @@ CFLAGS=\
 EXE=OpenISS
 OBJ=$(EXE).o
 
+VFXLIBS=\
+	-L ../../../ogl/build/external/glfw-3.1.2/src \
+	-L ../../../ogl/build/external
+	#-L ../../../ogl/build/external/glfw-3.1.2/src/libglfw3.a
+
 # Default target
 all: $(EXE)
 	make -C examples $@
@@ -26,9 +31,16 @@ $(EXE): $(OBJ)
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $<
 
+vfx-deps: ogl
+
 vfx: vfx.c include/vfx.h
-	$(CC) $(CFLAGS) -DMAIN_VFX_TEST -c vfx.c
-	$(CC) vfx.o -o $@
+	$(CC) $(VFXLIBS) -lglfw3 -lGLEW_1130 $(CFLAGS) -DMAIN_VFX_TEST -c vfx.c
+	$(CC) $(VFXLIBS) \
+		../../../ogl/build/external/glfw-3.1.2/src/libglfw3.a \
+		../../../ogl/build/external/libGLEW_1130.a \
+		-lstdc++ \
+		vfx.o -o $@
+	#$(CC) $(VFXLIBS) -lglfw3 -lGLEW_1130 vfx.o -o $@
 
 vfx.o: vfx.c include/vfx.h
 	$(CC) $(CFLAGS) -c $<
@@ -40,3 +52,23 @@ issimgdrv:
 # Cleaning up afterwards
 clean:
 	rm -f $(OBJ)
+
+deps-clean:
+	rm -f epel cmake3
+
+
+ogl: cmake3
+	cd ../../../ogl/ \
+		&& mkdir build \
+		&& cd build \
+		&& cmake3 .. \
+		&& make 
+
+epel:
+	yum install epel-release
+	touch epel
+
+cmake3: epel
+	yum --enablerepo=epel install cmake3
+	touch cmake3
+
