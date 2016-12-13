@@ -6,16 +6,19 @@ Gabriel Pereyra, Justin Mulkin, Duncan Carrol, Lucas Spiker
 
 Build Instructions:
 
-	Install:	Navigate to /OpenISS/src
+	Install:	
+			Navigate to /OpenISS/src
 			Run the command:
 				make deps
 
 			This will install all of the 3rd party
 			dependencies
 
-	Compile:	Occurs during the make process
+	Compile:	
+			Occurs during the make process
 
-	Clean:		Navigate to /OpenISS/src
+	Clean:		
+			Navigate to /OpenISS/src
 			Run the command:
 				make clean
 
