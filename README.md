@@ -5,6 +5,7 @@ Birna Baron, Colin Brady, Robert Gentile,
 Gabriel Pereyra, Justin Mulkin, Duncan Carrol, Lucas Spiker 
 
 Build Instructions:
+
 	Install:	Navigate to /OpenISS/src
 			Run the command:
 				make deps
