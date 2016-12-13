@@ -20,9 +20,12 @@ t_iss_state;
 
 extern t_iss_state g_tISSStage;
 
+extern void* a_pvfx[VFX_END_CLOSING + 1];
 
-void setup(void);
-void draw(void);
+
+void iss_init(void);
+void iss_draw(void);
+void iss_free(void);
 
 
 #endif
