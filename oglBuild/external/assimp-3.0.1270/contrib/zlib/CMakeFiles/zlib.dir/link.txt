@@ -1,0 +1,2 @@
+/usr/bin/ar qc libz.a  CMakeFiles/zlib.dir/adler32.c.o CMakeFiles/zlib.dir/compress.c.o CMakeFiles/zlib.dir/crc32.c.o CMakeFiles/zlib.dir/deflate.c.o CMakeFiles/zlib.dir/inffast.c.o CMakeFiles/zlib.dir/inflate.c.o CMakeFiles/zlib.dir/inftrees.c.o CMakeFiles/zlib.dir/trees.c.o CMakeFiles/zlib.dir/zutil.c.o
+/usr/bin/ranlib libz.a

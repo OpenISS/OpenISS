@@ -13,4 +13,8 @@ deps: $(SCRIPTSDIR)/$(EXE)
 
 clean:
 	cd $(SCRIPTSDIR) ; \
-	./$(EXE) --cleanup 
+	./$(EXE) --cleanup
+
+maintainer-clean:
+	make clean;
+	rm /scripts/build.cache 
