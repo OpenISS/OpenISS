@@ -58,17 +58,17 @@ deps-clean:
 
 
 ogl: cmake3
-	cd ../../../ogl/ \
-		&& mkdir build \
-		&& cd build \
-		&& cmake3 .. \
-		&& make 
+	cd ../../../ogl/ ; \
+		mkdir build ; \
+		cd build ; \
+		cmake3 .. ;  \
+		make 
 
 epel:
-	yum install epel-release
+	yum -y install epel-release
 	touch epel
 
 cmake3: epel
-	yum --enablerepo=epel install cmake3
+	yum -y --enablerepo=epel install cmake3
 	touch cmake3
 
