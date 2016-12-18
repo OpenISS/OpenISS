@@ -5,7 +5,7 @@ SCRIPTSDIR=./scripts
 OPTIONS=el6
 
 all:
-	make -c api $@
+	make -C api $@
 
 deps: $(SCRIPTSDIR)/$(EXE)
 	cd $(SCRIPTSDIR) ; \

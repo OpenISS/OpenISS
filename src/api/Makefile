@@ -1,4 +1,4 @@
 
 all:
-	make -c c $@
+	make -C c $@
 
