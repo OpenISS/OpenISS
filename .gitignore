@@ -1,2 +1,9 @@
+# OpenISS generated / downloaded files
+
 *.o
 src/api/c/OpenISS
+
+src/api/c/cmake3
+src/api/c/epel
+src/scripts/build.cache
+src/scripts/dependencies/NVIDIA-Linux-*.run
