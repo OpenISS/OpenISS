@@ -1,9 +1,17 @@
-# OpenISS generated / downloaded files
+##
+## OpenISS generated / downloaded files
+##
 
+# Objects and executables
 *.o
 src/api/c/OpenISS
 
+# Touch and cache files
 src/api/c/cmake3
 src/api/c/epel
 src/scripts/build.cache
-src/scripts/dependencies/NVIDIA-Linux-*.run
+
+# Downloaded locally non-OS non-repo packages
+src/scripts/dependencies/NVIDIA-Linux-*.run*
+
+# EOF
