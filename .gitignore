@@ -10,6 +10,8 @@ src/api/c/OpenISS
 src/api/c/cmake3
 src/api/c/epel
 src/scripts/build.cache
+# vim swap files
+*.swp
 
 # Downloaded locally non-OS non-repo packages
 src/scripts/dependencies/NVIDIA-Linux-*.run*
