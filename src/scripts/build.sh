@@ -1,13 +1,14 @@
 #!/bin/bash
 
 # build.sh
+#
 # Brian Baron, Colin Brady, Robert Gentile
 # Justin, Gabriel Pereyra, Duncan, Lucas Spiker
 # CSI-230
 #
 # Need to be root when running this script
 
-if [[ $1 == "el6" ]]; then
+if [[ "$1" == "el6" ]]; then
 
 	if [ ! -e "build.cache" ]
 	then
@@ -26,7 +27,7 @@ if [[ $1 == "el6" ]]; then
 
 	if [ $(grep "libfreenect2" build.cache) != "libfreenect2" ]
 	then
-	# compile the libfreenect2 stuff
+		# compile the libfreenect2 stuff
 		pushd ../../libfreenect2
 		rm -rf build
 		mkdir build && cd build
@@ -51,9 +52,6 @@ if [[ $1 == "el6" ]]; then
 	else
 		echo "opencv already installed"
 	fi
-
-	#cd ./dependencies
-	#./el6.sh
 
 	if [ $(grep "tinyosc" build.cache) != "tinyosc" ]
 	then
@@ -96,7 +94,7 @@ if [[ $1 == "el6" ]]; then
 		echo "openframeworks already installed"
 	fi
 
-elif [[ $1 == "--cleanup" ]]; then
+elif [[ "$1" == "--cleanup" ]]; then
 	./dependencies/el6.sh --cleanup
 
 	#uninstall libusb

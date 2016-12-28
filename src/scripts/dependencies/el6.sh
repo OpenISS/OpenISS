@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # el6.sh
+#
 # Script to install requirements:
 #		libraries
 #		compilers
@@ -16,7 +17,7 @@
 # Need to be root when running this script
 
 
-if [[ $1 == "--install" ]]; then
+if [[ "$1" == "--install" ]]; then
 	echo "install"
 
 	# install requirements
@@ -70,7 +71,7 @@ if [[ $1 == "--install" ]]; then
 	cd ../../../../openFrameworks/scripts/linux/fedora
 	./install_dependencies.sh
 	yum install -y gstreamer-devel gstreamer-plugins-base-devel
-elif [[ $1 == "--cleanup" ]]; then
+elif [[ "$1" == "--cleanup" ]]; then
 	echo "cleanup"
 	
 	rm -f NVIDIA-Linux-x86_64-375.20.run
