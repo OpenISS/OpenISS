@@ -8,14 +8,14 @@
 #
 # Need to be root when running this script
 
-if [[ "$1" == "el6" ]]; then
+if [ "$1" == "el6" ]; then
 
 	if [ ! -e "build.cache" ]
 	then
 		touch build.cache
 	fi
 
-	if [ $(grep "el6-dependencies" build.cache) != "el6-dependencies" ]
+	if [ "$(grep "el6-dependencies" build.cache)" != "el6-dependencies" ]
 	then
 		#install dependencies
 		echo "running el6.sh"
@@ -25,7 +25,7 @@ if [[ "$1" == "el6" ]]; then
 		echo "el6-dependencies already installed"
 	fi
 
-	if [ $(grep "libfreenect2" build.cache) != "libfreenect2" ]
+	if [ "$(grep "libfreenect2" build.cache)" != "libfreenect2" ]
 	then
 		# compile the libfreenect2 stuff
 		pushd ../../libfreenect2
@@ -39,7 +39,7 @@ if [[ "$1" == "el6" ]]; then
 		echo "libfreenect2 already installed"
 	fi		
 
-	if [ $(grep "opencv" build.cache) != "opencv" ]
+	if [ "$(grep "opencv" build.cache)" != "opencv" ]
 	then
 		# compile opencv
 		pushd ../../opencv
@@ -53,7 +53,7 @@ if [[ "$1" == "el6" ]]; then
 		echo "opencv already installed"
 	fi
 
-	if [ $(grep "tinyosc" build.cache) != "tinyosc" ]
+	if [ "$(grep "tinyosc" build.cache)" != "tinyosc" ]
 	then
 		#patch and compile tinyosc
 		pushd ../../tinyosc
@@ -65,7 +65,7 @@ if [[ "$1" == "el6" ]]; then
 		echo "tinyosc already installed"
 	fi
 
-	if [ $(grep "libfreenect_" build.cache) != "libfreenect_" ]
+	if [ "$(grep "libfreenect_" build.cache)" != "libfreenect_" ]
 	then
 		#run cmake and make files for libfreenect
 		pushd ../../libfreenect
@@ -79,7 +79,7 @@ if [[ "$1" == "el6" ]]; then
 		echo "libfreenect already installed"
 	fi
 
-	if [ $(grep "openframeworks" build.cache) != "openframeworks" ]
+	if [ "$(grep "openframeworks" build.cache)" != "openframeworks" ]
 	then
 		#run install script to openframeworks
 		cd ../../openFrameworks/scripts/linux
