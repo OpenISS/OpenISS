@@ -10,43 +10,48 @@
 #
 # These are all needed to compile submodules in OpenISS
 #
-# Team 1: libfreenect2, and opencv
-# Brian Baron, Colin Brady, Robert Gentile
-# CSI-230
-#
 # Need to be root when running this script
-
 
 if [[ "$1" == "--install" ]]; then
 	echo "install"
 
-	# install requirements
+	# add epel and elrepo repos needed form some packages below
+	yum install -y epel-release elrepo-release
+
+	# basic install/compile requirements
 	yum install -y git
+	yum install -y gcc
+	yum install -y make cmake
 	
+	# install python 34 from epel. fix kernel install
+	#yum --enablerepo=elrepo-kernel install -y kernel-ml-devel-4.8.7-1.el6.elrepo.x86_64
+	yum --enablerepo=elrepo-kernel install -y kernel-ml-devel
+
+	# OpenGL
 	yum install -y mesa-libGL
 	yum install -y mesa-libGL-devel
 
-	# todo: add epel and elrepo repos. install python 34 from epel. fix kernel install
-	yum --enablerepo=elrepo-kernel install -y kernel-ml-devel-4.8.7-1.el6.elrepo.x86_64
-	wget us.download.nvidia.com/XFree86/Linux-x86_64/375.20/NVIDIA-Linux-x86_64-375.20.run
-	sh NVIDIA-Linux-x86_64-375.20.run
+	# TODO: refactor somehow; to select dynamically from lspci then download or dpkg
+	# TODO: this will need to be installed when booted
+	VIDEODRIVER=XFree86/Linux-x86_64/375.20/NVIDIA-Linux-x86_64-375.20.run
+	#VIDEODRIVER=XFree86/Linux-x86_64/340.104/NVIDIA-Linux-x86_64-340.104.run
+	wget us.download.nvidia.com/$VIDEODRIVER
+	sh $VIDEODRIVER
 	
 	yum --enablerepo=epel install -y python34.x86_64
 
-	yum install -y gcc
-	yum install -y make
-	yum install -y cmake
-	
-	#libfreenect2 dependencies
-	#libusb
+	# packages for OpenGL and libusb
+	yum install -y libXmu-devel libXi-devel glut-devel libudev-devel
+
+	# libfreenect2 dependencies
+	# libusb, requires libudev-devel from above
 	cd ../../libfreenect2/depends
 	./install_libusb.sh
 
-	#turbojpeg
-	yum install -y turbojpeg
+	# turbojpeg (libfreenect2)
 	yum install -y turbojpeg-devel
 	
-	#opencv dependencies
+	# opencv dependencies
 	yum groupinstall -y "Development Tools"
 	yum install -y gtk+-devel gtk2-devel
 	yum install -y pkgconfig.x86_64
@@ -54,10 +59,8 @@ if [[ "$1" == "--install" ]]; then
 	yum install -y numpy
 	yum install -y libavc1394-devel.x86_64
 	yum install -y libavc1394.x86_64
-	
-	#packages for openGL and libusb
-	yum install -y libXmu-devel libXi-devel glut-devel libudev-devel cmake make
 
+	# XXX: review	
 	#installing libusb from source because repo version is outdated
 	# Team 1 also needed libusb, which is installed above, differently, from libfreenect2
 	#wget --no-check-certificate -O libusb.tar.bz2 "http://downloads.sourceforge.net/project/libusb/libusb-1.0/libusb-1.0.20/libusb-1.0.20.tar.bz2?r=http%3A%2F%2Flibusb.info%2F&ts=1479155730&use_mirror=heanet"
@@ -67,10 +70,11 @@ if [[ "$1" == "--install" ]]; then
 	#make
 	#make install
 
-	#openframeworks dependencies from provided script
+	# openframeworks dependencies from provided script
 	cd ../../../../openFrameworks/scripts/linux/fedora
 	./install_dependencies.sh
 	yum install -y gstreamer-devel gstreamer-plugins-base-devel
+
 elif [[ "$1" == "--cleanup" ]]; then
 	echo "cleanup"
 	
