@@ -11,8 +11,8 @@ See background on the original ISS below.
 
 * Project Lead: Serguei A. Mokhov
 
-* Original build automation contributors for Linux in EL6 (CentOS 6.x), CSI230-101 course students teams:
-  - Brian Baron, Colin Brady, Robert Gentile,
+* Original build automation contributors for Linux in EL6 (CentOS 6.x), CSI230-101 Fall 2016 course students teams:
+  - Brian Baron, Colin Brady, Robert Gentile
   - Gabriel Pereyra, Justin Mulkin, Duncan Carrol, Lucas Spiker 
 
 ## Build Instructions ##
@@ -22,11 +22,14 @@ See background on the original ISS below.
 Notice, EL6 requires a newer kernel for
 proper USB3 and NVIDIA support. If you prefer
 to install dependencies manually, you can follow
-the scripts referenced here and repeat their
+the scripts referenced here (`build.sh` and `el6.sh`) and repeat their
 relevant steps one by one.
 
-	Install:	
-			Navigate to /OpenISS/src
+	Install:
+			yum install git
+			git clone https://github.com/OpenISS/OpenISS.git
+			git submodule update --init --recursive
+			Navigate to OpenISS/src
 			Run the command:
 				make deps
 
@@ -37,7 +40,7 @@ relevant steps one by one.
 			Occurs during the make process
 
 	Clean:		
-			Navigate to /OpenISS/src
+			Navigate to OpenISS/src
 			Run the command:
 				make clean
 
@@ -47,7 +50,7 @@ relevant steps one by one.
 
 * See [issues](https://github.com/OpenISS/OpenISS/issues).
 
-### Build ###
+### Build Support ###
 
 * OS X
 * Windows
@@ -59,7 +62,7 @@ relevant steps one by one.
 * Processing
 * Max
 * Python
-* …
+* ...
 
 ### Currently Known Bugs ###
 
@@ -77,7 +80,7 @@ relevant steps one by one.
 * RQ-FAKENECT - N/A
 * RQ-SOUND - N/A
 
-## Background on the /original/ ISS ##
+## Background on the original ISS ##
 
 OpenISS’s core goals are to enable achieving something akin
 to the original ISS below in an open educational setting. Then,
