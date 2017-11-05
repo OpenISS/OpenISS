@@ -15,6 +15,5 @@ clean:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) --cleanup
 
-maintainer-clean:
-	make clean;
-	rm /scripts/build.cache 
+maintainer-clean: clean
+	rm $(SCRIPTSDIR)/build.cache 
