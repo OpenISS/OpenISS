@@ -16,7 +16,18 @@ if [[ "$1" == "--install" ]]; then
 	echo "install"
 
 	# add epel and elrepo repos needed form some packages below
-	yum install -y epel-release elrepo-release
+	EL6TYPE=`head -1 /etc/issue | cut -d ' ' -f 1`
+	if [[ $EL6TYPE -eq 'Scientific' ]]
+	then
+		yum install -y epel-release elrepo-release
+	else
+		# Presuming CentOS and RHEL
+		# From 'extras'
+		yum install -y epel-release
+		# From elrepo.org
+		rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+		rpm -Uvh http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm
+	fi
 
 	# basic install/compile requirements
 	yum install -y git
@@ -31,12 +42,14 @@ if [[ "$1" == "--install" ]]; then
 	yum install -y mesa-libGL
 	yum install -y mesa-libGL-devel
 
-	# TODO: refactor somehow; to select dynamically from lspci then download or dpkg
+	# TODO: refactor somehow; to select dynamically from lspci,
+	#       then download or dpkg-nvidia from elrepo
 	# TODO: this will need to be installed when booted
-	VIDEODRIVER=XFree86/Linux-x86_64/375.20/NVIDIA-Linux-x86_64-375.20.run
+	VIDEODRIVERSCRIPT=NVIDIA-Linux-x86_64-375.20.run
+	VIDEODRIVERPATH=XFree86/Linux-x86_64/375.20/$VIDEODRIVERSCRIPT
 	#VIDEODRIVER=XFree86/Linux-x86_64/340.104/NVIDIA-Linux-x86_64-340.104.run
-	wget us.download.nvidia.com/$VIDEODRIVER
-	sh $VIDEODRIVER
+	wget us.download.nvidia.com/$VIDEODRIVERPATH
+	sh $VIDEODRIVERSCRIPT
 	
 	yum --enablerepo=epel install -y python34.x86_64
 
@@ -71,8 +84,10 @@ if [[ "$1" == "--install" ]]; then
 	#make install
 
 	# openframeworks dependencies from provided script
+	# XXX: no longer works as uses dfn
 	cd ../../../../openFrameworks/scripts/linux/fedora
 	./install_dependencies.sh
+
 	yum install -y gstreamer-devel gstreamer-plugins-base-devel
 
 elif [[ "$1" == "--cleanup" ]]; then
