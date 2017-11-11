@@ -121,3 +121,9 @@ to build custom applications based on it.
 * https://vimeo.com/50069419
 * https://vimeo.com/49682696
 * https://vimeo.com/49399617
+
+## References and Acknowledgements ##
+
+* TravisCI EL6 and EL7 builds on Github:
+  Derek Weitzel, Building CentOS packages on Travis-CI,
+  https://djw8605.github.io/2016/05/03/building-centos-packages-on-travisci/
