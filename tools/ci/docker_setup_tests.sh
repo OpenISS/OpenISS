@@ -6,13 +6,14 @@
 el_version=$1
 
 # Commands and paths
-BUILDDEPS="make -f src/Makefile deps"
 DOCKERPATH=/OpenISS
+BUILDDEPS="make -f $DOCKERPATH/src/Makefile deps"
 
 # Debug
 DEBUG=1
 
 if [ "$DEBUG" -eq "1" ]; then
+	uname -a
 	date
 	pwd
 	ls -al
@@ -32,7 +33,7 @@ elif [ "$el_version" -eq "7" ]; then
 
 	docker run \
 		--privileged -d -ti -e "container=docker"  \
-		-v /sys/fs/cgroup:/sys/fs/cgroup
+		-v /sys/fs/cgroup:/sys/fs/cgroup \
 		-v `pwd`:$DOCKERPATH:rw  centos:centos${OS_VERSION} /usr/sbin/init
 
 	DOCKER_CONTAINER_ID=$(docker ps | grep centos | awk '{print $1}')
