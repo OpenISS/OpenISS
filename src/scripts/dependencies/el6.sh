@@ -83,10 +83,14 @@ if [[ "$1" == "--install" ]]; then
 	#make
 	#make install
 
-	# openframeworks dependencies from provided script
-	# XXX: no longer works as uses dfn
-	cd ../../../../openFrameworks/scripts/linux/fedora
-	./install_dependencies.sh
+        # openFrameworks
+        cd ../../../../openFrameworks
+        git submodule update --init --recursive
+        # openframeworks dependencies from provided script
+        # XXX: no longer works as uses dfn
+        cd ../../../../openFrameworks/scripts/linux/fedora
+                ./install_dependencies.sh
+                ./install_codecs.sh
 
 	yum install -y gstreamer-devel gstreamer-plugins-base-devel
 
