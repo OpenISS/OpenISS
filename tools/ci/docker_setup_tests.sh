@@ -6,7 +6,7 @@
 el_version=$1
 
 # Commands and paths
-BULDDEPS="make -f OpenISS/src/Makefile deps"
+BUILDDEPS="make -f src/Makefile deps"
 DOCKERPATH=/OpenISS
 
 # Debug
@@ -26,7 +26,7 @@ if [ "$el_version" -eq "6" ]; then
 		--privileged \
 		-v /sys/fs/cgroup:/sys/fs/cgroup --rm=true \
 		-v `pwd`:$DOCKERPATH:rw centos:centos${OS_VERSION} \
-		/bin/bash -c $BUILDDEPS
+		/bin/bash -c "$BUILDDEPS"
 
 elif [ "$el_version" -eq "7" ]; then
 
