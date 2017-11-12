@@ -40,7 +40,7 @@ elif [ "$el_version" -eq "7" ]; then
 	docker logs $DOCKER_CONTAINER_ID
 	docker exec \
 		-ti $DOCKER_CONTAINER_ID \
-		/bin/bash -xec "$BUILDDEPS; echo -ne \"------\nEND OpenISS TESTS\n\";"
+		/bin/bash -xec "yum -y install make; $BUILDDEPS; echo -ne \"------\nEND OpenISS TESTS\n\";"
 	docker ps -a
 	docker stop $DOCKER_CONTAINER_ID
 	docker rm -v $DOCKER_CONTAINER_ID
