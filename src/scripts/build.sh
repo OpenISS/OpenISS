@@ -1,12 +1,13 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # build.sh
 #
-# Brian Baron, Colin Brady, Robert Gentile
-# Justin, Gabriel Pereyra, Duncan, Lucas Spiker
-# CSI-230
-#
 # Need to be root when running this script
+#
+# CSI-230 Fall 2016
+#   Brian Baron, Colin Brady, Robert Gentile
+#   Justin Mulkin, Gabriel Pereyra, Duncan Carrol, Lucas Spiker
+#
 
 if [ "$1" == "el6" ]; then
 

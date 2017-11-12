@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # el6.sh
 #
@@ -14,6 +14,9 @@
 
 if [[ "$1" == "--install" ]]; then
 	echo "install"
+
+	yum -y clean all
+	yum -y clean expire-cache
 
 	# add epel and elrepo repos needed form some packages below
 	EL6TYPE=`head -1 /etc/issue | cut -d ' ' -f 1`
@@ -84,13 +87,15 @@ if [[ "$1" == "--install" ]]; then
 	#make install
 
         # openFrameworks
-        cd ../../../../openFrameworks
-        git submodule update --init --recursive
+        pushd ../../../../openFrameworks
+        	git submodule update --init --recursive
+	popd
         # openframeworks dependencies from provided script
         # XXX: no longer works as uses dfn
-        cd ../../../../openFrameworks/scripts/linux/fedora
+        pushd ../../../../openFrameworks/scripts/linux/el6
                 ./install_dependencies.sh
                 ./install_codecs.sh
+	popd
 
 	yum install -y gstreamer-devel gstreamer-plugins-base-devel
 
