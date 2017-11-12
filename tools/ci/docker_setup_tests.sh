@@ -7,7 +7,7 @@ el_version=$1
 
 # Commands and paths
 DOCKERPATH=/OpenISS
-BUILDDEPS="make -f $DOCKERPATH/src/Makefile deps"
+BUILDDEPS="cd $DOCKERPATH/src && make deps"
 
 # Debug
 DEBUG=1
