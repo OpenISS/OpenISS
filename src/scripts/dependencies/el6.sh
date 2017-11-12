@@ -57,12 +57,13 @@ if [[ "$1" == "--install" ]]; then
 	yum --enablerepo=epel install -y python34.x86_64
 
 	# packages for OpenGL and libusb
-	yum install -y libXmu-devel libXi-devel glut-devel libudev-devel
+	yum install -y libXmu-devel libXi-devel glut-devel libudev-devel libtool
 
 	# libfreenect2 dependencies
-	# libusb, requires libudev-devel from above
-	cd ../../libfreenect2/depends
-	./install_libusb.sh
+	# libusb, requires libudev-devel, libtool from above
+	pushd ../../libfreenect2/depends
+		./install_libusb.sh
+	popd
 
 	# turbojpeg (libfreenect2)
 	yum install -y turbojpeg-devel
@@ -87,12 +88,12 @@ if [[ "$1" == "--install" ]]; then
 	#make install
 
         # openFrameworks
-        pushd ../../../../openFrameworks
+        pushd ../../openFrameworks
         	git submodule update --init --recursive
 	popd
         # openframeworks dependencies from provided script
         # XXX: no longer works as uses dfn
-        pushd ../../../../openFrameworks/scripts/linux/el6
+        pushd ../../openFrameworks/scripts/linux/el6
                 ./install_dependencies.sh
                 ./install_codecs.sh
 	popd
