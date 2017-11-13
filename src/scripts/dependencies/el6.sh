@@ -20,7 +20,7 @@ if [[ "$1" == "--install" ]]; then
 
 	# add epel and elrepo repos needed form some packages below
 	EL6TYPE=`head -1 /etc/issue | cut -d ' ' -f 1`
-	if [[ $EL6TYPE -eq 'Scientific' ]]
+	if [[ "$EL6TYPE" -eq "Scientific" ]];
 	then
 		yum install -y epel-release elrepo-release
 	else
@@ -100,6 +100,7 @@ if [[ "$1" == "--install" ]]; then
 
 	yum install -y gstreamer-devel gstreamer-plugins-base-devel
 
+# XXX: clean up is outdated; need to be careful
 elif [[ "$1" == "--cleanup" ]]; then
 	echo "cleanup"
 	
