@@ -20,7 +20,7 @@ if [[ "$1" == "--install" ]]; then
 
 	# add epel and elrepo repos needed form some packages below
 	EL6TYPE=`head -1 /etc/issue | cut -d ' ' -f 1`
-	if [[ "$EL6TYPE" -eq "Scientific" ]];
+	if [[ "$EL6TYPE" == "Scientific" ]];
 	then
 		yum install -y epel-release elrepo-release
 	else
