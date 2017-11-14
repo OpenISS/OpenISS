@@ -71,7 +71,12 @@ if [ "$1" == "el6" ]; then
 		#run cmake and make files for libfreenect
 		pushd ../../libfreenect
 		mkdir build && cd build
-		cmake -L ..
+		# XXX: BUILD_OPENNI2_DRIVER=ON would work with cmake3 and gcc 4.8+ once installed
+		cmake \
+			-DLIBUSB_1_LIBRARY=../../libfreenect2/depends/libusb/lib/libusb-1.0.so \
+			-DLIBUSB_1_INCLUDE_DIR=../../libfreenect2/depends/libusb/include/libusb-1.0 \
+			-DBUILD_OPENNI2_DRIVER=OFF \
+			-L ..
 		make
 		make install
 		popd
@@ -83,13 +88,14 @@ if [ "$1" == "el6" ]; then
 	if [ "$(grep "openframeworks" build.cache)" != "openframeworks" ]
 	then
 		#run install script to openframeworks
-		cd ../../openFrameworks/scripts/linux
+		pushd ../../openFrameworks/scripts/linux
 		#tells scripts to use 3 cpu cores compile
 
 		#cant actually compile openframeworks as 11/14/16 becuase github master branch doesn't build
 		#but it looks like theyre working on fixing
 
 		#./compileOF.sh -j3
+		popd
 		echo "openframeworks" >> build.cache
 	else
 		echo "openframeworks already installed"

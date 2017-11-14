@@ -37,9 +37,9 @@ if [[ "$1" == "--install" ]]; then
 	yum install -y gcc
 	yum install -y make cmake
 	
-	# install python 34 from epel. fix kernel install
+	# recent kernel install for the latest USB3 drivers
 	#yum --enablerepo=elrepo-kernel install -y kernel-ml-devel-4.8.7-1.el6.elrepo.x86_64
-	yum --enablerepo=elrepo-kernel install -y kernel-ml-devel
+	yum --enablerepo=elrepo-kernel install -y kernel-ml kernel-ml-devel
 
 	# OpenGL
 	yum install -y mesa-libGL
@@ -54,6 +54,7 @@ if [[ "$1" == "--install" ]]; then
 	wget us.download.nvidia.com/$VIDEODRIVERPATH
 	sh $VIDEODRIVERSCRIPT
 	
+	# install python 34 from epel
 	yum --enablerepo=epel install -y python34.x86_64
 
 	# packages for OpenGL and libusb
@@ -77,25 +78,19 @@ if [[ "$1" == "--install" ]]; then
 	yum install -y libavc1394-devel.x86_64
 	yum install -y libavc1394.x86_64
 
-	# XXX: review	
-	#installing libusb from source because repo version is outdated
-	# Team 1 also needed libusb, which is installed above, differently, from libfreenect2
-	#wget --no-check-certificate -O libusb.tar.bz2 "http://downloads.sourceforge.net/project/libusb/libusb-1.0/libusb-1.0.20/libusb-1.0.20.tar.bz2?r=http%3A%2F%2Flibusb.info%2F&ts=1479155730&use_mirror=heanet"
-	#tar -xvf libusb.tar.bz2
-	#cd libusb-1.0.20
-	#./configure
-	#make
-	#make install
+	# libfreenect	
+	# also needs libusb, which is installed above, differently, from libfreenect2
+	# we link to it in build.sh
+	# XXX: OpenNI2 will require cmake3 and gcc 4.8+ from devtoolset-2
 
         # openFrameworks
         pushd ../../openFrameworks
         	git submodule update --init --recursive
 	popd
-        # openframeworks dependencies from provided script
-        # XXX: no longer works as uses dfn
+        # openframeworks dependencies from the provided script
         pushd ../../openFrameworks/scripts/linux/el6
-                ./install_dependencies.sh
                 ./install_codecs.sh
+                ./install_dependencies.sh
 	popd
 
 	yum install -y gstreamer-devel gstreamer-plugins-base-devel
