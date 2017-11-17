@@ -19,6 +19,7 @@ fi
 tinyosc_option="--tinyosc"
 libfreenect_option="--freenect"
 ofx_option="--ofx"
+ogl_option="--ogl"
 
 do_all=1
 install_option="--install"
@@ -41,6 +42,7 @@ function install_tinyosc()
 		echo "tinyosc already installed"
 	fi
 }
+
 function cleanup_tinyosc()
 {	
 	if [ "$(grep "tinyosc" build.cache)" == "tinyosc" ]; then
@@ -134,6 +136,25 @@ function cleanup_libfreenect()
 	fi
 }
 
+# install ogl - Matthew Roy
+function install_ogl()
+{
+	#compile ogl
+        pushd ../../ogl
+        rm -rf build
+        mkdir build && cd build
+        cmake ..
+        make
+        popd
+        echo "ogl" >> build.cache
+}
+
+# cleanup ogl - Matthew Roy
+function cleanup_ogl()
+{
+		
+}
+
 for var in "$@"
 do
 	if [ $var == $install_option ]; then
@@ -150,6 +171,9 @@ do
 		do_all=0
 	elif [ $var == $libfreenect_option ]; then
 		libfreenect_option=1	
+		do_all=0
+	elif [ $var == $ogl_option ]; then
+		ogl_option=1	
 		do_all=0
 	fi
 done
@@ -178,3 +202,12 @@ if [ $libfreenect_option == 1 -o $do_all == 1 ]; then
 	fi
 fi
 
+if [ $libfreenect_option == 1 -o $do_all == 1 ]; then
+	# call install ogl function - Matthew Roy
+	if [ $mode == $install_option ]; then
+		install_ogl
+	# call cleanup ogl function - Matthew Roy
+	elif [ $mode == $cleanup_option ]; then
+		cleanup_ogl
+	fi
+fi

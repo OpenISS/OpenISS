@@ -49,6 +49,13 @@ function cleanOpenFrameworks()
 	echo "openframeworks el6 cleanup complete"
 }
 
+# el6.sh - dependencies for ogl - Matthew Roy
+function install_ogl_deps()
+{
+	# dependencies for ogl
+	yum install -y cmake make g++ libx11-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxrandr-dev libxext-dev libxcursor-dev libxinerama-dev libxi-dev
+}
+
 for var in "$@"
 do
 	if [ $var == $install_option ]; then
@@ -60,8 +67,6 @@ do
 	elif [ $var == $ofx_option ]; then
 		ofx_option=1
 	fi
-fi
-
 done
 
 if [ $tinyosc_option == 1 ]; then
@@ -79,6 +84,3 @@ if [ $ofx_option == 1 ]; then
 		cleanOpenFrameworks
 	fi
 fi
-
-
->>>>>>> origin/OpenFrameworks
