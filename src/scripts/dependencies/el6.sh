@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 # el6.sh
 #
@@ -11,6 +11,19 @@
 # These are all needed to compile submodules in OpenISS
 #
 # Need to be root when running this script
+
+tinyosc_option="--tinyosc"
+
+function install_tinyosc()
+{
+	yum install -y gcc
+	echo "tinyosc dependencies installed"
+}
+#alex
+function cleanup_tinyosc()
+{
+	echo "nothing to uninstall to small"
+}
 
 if [[ "$1" == "--install" ]]; then
 	echo "install"
@@ -95,6 +108,14 @@ if [[ "$1" == "--install" ]]; then
 
 	yum install -y gstreamer-devel gstreamer-plugins-base-devel
 
+	# alex did tinyosc
+	for var in "$@"
+	do
+		if [ $var == $tinyosc_option ]; then
+			install_tinyosc		
+		fi
+	done 
+
 # XXX: clean up is outdated; need to be careful
 elif [[ "$1" == "--cleanup" ]]; then
 	echo "cleanup"
@@ -122,4 +143,10 @@ elif [[ "$1" == "--cleanup" ]]; then
 
 	#remove packages installed by yum
 	yum remove -y libXmu-devel libXi-devel glut-devel libudev-devel gstreamer-devel gstreamer-plugins-base-devel
+	for var in "$@"
+	do
+		if [ $var == $tinyosc_option ]; then
+			cleanup_tinyosc		
+		fi
+	done 
 fi

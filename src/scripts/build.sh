@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 # build.sh
 #
@@ -8,6 +8,29 @@
 #   Brian Baron, Colin Brady, Robert Gentile
 #   Justin Mulkin, Gabriel Pereyra, Duncan Carrol, Lucas Spiker
 #
+
+tinyosc_option="--tinyosc"
+
+#alex
+function install_tinyosc()
+{
+	if [ "$(grep "tinyosc" build.cache)" != "tinyosc" ]
+	then
+		#patch and compile tinyosc
+		pushd ../../tinyosc
+		patch build.sh < ../src/scripts/dependencies/tinyosc.build.sh.patch
+		./build.sh
+		popd
+		echo "tinyosc" >> build.cache
+	else
+		echo "tinyosc already installed"
+	fi
+}
+#alex
+function cleanup_tinyosc()
+{
+	echo "nothing to uninstall to small"
+}
 
 if [ "$1" == "el6" ]; then
 
@@ -53,18 +76,14 @@ if [ "$1" == "el6" ]; then
 	else
 		echo "opencv already installed"
 	fi
-
-	if [ "$(grep "tinyosc" build.cache)" != "tinyosc" ]
-	then
-		#patch and compile tinyosc
-		pushd ../../tinyosc
-		patch build.sh < ../src/scripts/dependencies/tinyosc.build.sh.patch
-		./build.sh
-		popd
-		echo "tinyosc" >> build.cache
-	else
-		echo "tinyosc already installed"
-	fi
+	
+	# alex did tinyosc
+	for var in "$@"
+	do
+		if [ $var == $tinyosc_option ]; then
+			install_tinyosc		
+		fi
+	done 
 
 	if [ "$(grep "libfreenect_" build.cache)" != "libfreenect_" ]
 	then
@@ -120,4 +139,11 @@ elif [[ "$1" == "--cleanup" ]]; then
 	#remove links created by libfreenect
 	rm -f /usr/local/lib/libfreenect*
 	rm -rf /usr/local/lib/fakenect
+	
+	for var in "$@"
+	do
+		if [ $var == $tinyosc_option ]; then
+			cleanup_tinyosc		
+		fi
+	done 
 fi
