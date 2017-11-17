@@ -12,6 +12,13 @@
 #
 # Need to be root when running this script
 
+# el6.sh - dependencies for ogl - Matthew Roy
+function install_ogl_deps()
+{
+	# dependencies for ogl
+	yum install -y cmake make g++ libx11-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxrandr-dev libxext-dev libxcursor-dev libxinerama-dev libxi-dev
+}
+
 if [[ "$1" == "--install" ]]; then
 	echo "install"
 

@@ -9,6 +9,27 @@
 #   Justin Mulkin, Gabriel Pereyra, Duncan Carrol, Lucas Spiker
 #
 
+ogl_option = "--ogl"
+
+# install ogl - Matthew Roy
+function install_ogl()
+{
+	#compile ogl
+        pushd ../../ogl
+        rm -rf build
+        mkdir build && cd build
+        cmake ..
+        make
+        popd
+        echo "ogl" >> build.cache
+}
+
+# cleanup ogl - Matthew Roy
+function cleanup_ogl()
+{
+		
+}
+
 if [ "$1" == "el6" ]; then
 
 	if [ ! -e "build.cache" ]
@@ -101,6 +122,14 @@ if [ "$1" == "el6" ]; then
 		echo "openframeworks already installed"
 	fi
 
+	# call install ogl function - Matthew Roy
+	for var in "$@"
+	do
+		if [ $var == $ogl_option ]; then
+			install_ogl		
+		fi
+	done 
+
 elif [[ "$1" == "--cleanup" ]]; then
 	./dependencies/el6.sh --cleanup
 
@@ -120,4 +149,12 @@ elif [[ "$1" == "--cleanup" ]]; then
 	#remove links created by libfreenect
 	rm -f /usr/local/lib/libfreenect*
 	rm -rf /usr/local/lib/fakenect
+
+	# call cleanup ogl function - Matthew Roy
+        for var in "$@"
+        do
+                if [ $var == $ogl_option ]; then
+                        cleanup_ogl
+                fi
+        done
 fi
