@@ -12,6 +12,28 @@
 #
 # Need to be root when running this script
 
+function installOpenFrameworkDeps()
+{
+	 # openFrameworks
+        pushd ../../openFrameworks
+        	git submodule update --init --recursive
+	popd
+        # openframeworks dependencies from the provided script
+        pushd ../../openFrameworks/scripts/linux/el6
+                ./install_codecs.sh
+                ./install_dependencies.sh
+	popd
+
+}
+
+
+
+if [[ "$1" == "--ofx" ]]; then
+	installOpenFrameworkDeps
+fi
+
+
+
 if [[ "$1" == "--install" ]]; then
 	echo "install"
 
@@ -82,17 +104,9 @@ if [[ "$1" == "--install" ]]; then
 	# also needs libusb, which is installed above, differently, from libfreenect2
 	# we link to it in build.sh
 	# XXX: OpenNI2 will require cmake3 and gcc 4.8+ from devtoolset-2
-
-        # openFrameworks
-        pushd ../../openFrameworks
-        	git submodule update --init --recursive
-	popd
-        # openframeworks dependencies from the provided script
-        pushd ../../openFrameworks/scripts/linux/el6
-                ./install_codecs.sh
-                ./install_dependencies.sh
-	popd
-
+	
+	installOpenFrameworkDeps
+       
 	yum install -y gstreamer-devel gstreamer-plugins-base-devel
 
 # XXX: clean up is outdated; need to be careful

@@ -9,6 +9,49 @@
 #   Justin Mulkin, Gabriel Pereyra, Duncan Carrol, Lucas Spiker
 #
 
+function installOpenFrameworks()
+{
+	
+
+
+	if [ "$(grep "openframeworks" build.cache)" != "openframeworks" ]
+	then
+		#run install script to openframeworks
+		pushd ../../openFrameworks/scripts/linux
+		#tells scripts to use 3 cpu cores compile
+
+		#cant actually compile openframeworks as 11/14/16 becuase github master branch doesn't build
+		#but it looks like theyre working on fixing
+
+		#./compileOF.sh -j3
+		popd
+		echo "openframeworks" >> build.cache
+	else
+		echo "openframeworks already installed"
+	fi
+}
+
+function installOpenFrameworksDeps()
+{
+	if [ "$(grep "openframeworks" build.cache)" != "openframeworks" ]
+	then
+		#install dependencies
+		echo "running el6.sh"
+		./dependencies/el6.sh --install
+		echo "openframeworks" >> build.cache
+	else
+		echo "openframeworks already installed"
+	fi
+}
+
+if [ "$1" == "--ofx" ]; then
+	installOpenFrameworks
+fi
+
+if [ "$1" == "--ofxdeps" ]; then
+	installOpenFrameworksDeps
+fi
+
 if [ "$1" == "el6" ]; then
 
 	if [ ! -e "build.cache" ]
@@ -85,21 +128,7 @@ if [ "$1" == "el6" ]; then
 		echo "libfreenect already installed"
 	fi
 
-	if [ "$(grep "openframeworks" build.cache)" != "openframeworks" ]
-	then
-		#run install script to openframeworks
-		pushd ../../openFrameworks/scripts/linux
-		#tells scripts to use 3 cpu cores compile
-
-		#cant actually compile openframeworks as 11/14/16 becuase github master branch doesn't build
-		#but it looks like theyre working on fixing
-
-		#./compileOF.sh -j3
-		popd
-		echo "openframeworks" >> build.cache
-	else
-		echo "openframeworks already installed"
-	fi
+	installOpenFrameworks
 
 elif [[ "$1" == "--cleanup" ]]; then
 	./dependencies/el6.sh --cleanup
