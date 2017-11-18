@@ -14,6 +14,7 @@
 
 # worked on by Alex Rader, Cory Smith, Nicholas Robbins
 
+
 tinyosc_option="--tinyosc"
 ofx_option="--ofx"
 
@@ -83,4 +84,9 @@ if [ $ofx_option == 1 ]; then
 	elif [ $mode == $cleanup_option ]; then
 		cleanOpenFrameworks
 	fi
+fi
+
+if [[ "$1" == "--ogl" ]]; then
+	install_ogl_deps
+        echo "ogl"
 fi

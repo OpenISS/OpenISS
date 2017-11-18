@@ -11,10 +11,6 @@
 
 # worked on by Alex Rader, Cory Smith, Nicholas Robbins
 
-if [ ! -e "build.cache" ]
-then
-	touch build.cache
-fi
 
 tinyosc_option="--tinyosc"
 libfreenect_option="--freenect"
@@ -139,6 +135,14 @@ function cleanup_libfreenect()
 # install ogl - Matthew Roy
 function install_ogl()
 {
+	if [ "$(grep "ogl" build.cache)" != "ogl" ]
+	then
+		echo "running el6.sh ogl"
+		./dependencies/el6.sh --ogl
+	else
+		echo "ogl already installed"
+	fi
+
 	#compile ogl
         pushd ../../ogl
         rm -rf build
@@ -154,6 +158,11 @@ function cleanup_ogl()
 {
 		
 }
+
+if [ ! -e "build.cache" ]
+then
+	touch build.cache
+fi
 
 for var in "$@"
 do

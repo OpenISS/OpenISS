@@ -38,5 +38,12 @@ clean-libfreenect:
 	cd $(SCRIPTSDIR) ; \
         ./$(EXE) $(UNINSTALL_OPTION) --freenect
 
+install_ogl:
+	cd $(SCRIPTSDIR) ; \
+	./$(EXE) --ogl
+
+build_ogl:
+	
+
 maintainer-clean: clean
 	rm $(SCRIPTSDIR)/build.cache 
