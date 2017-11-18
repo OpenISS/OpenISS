@@ -30,6 +30,19 @@ function cleanup_ogl()
 		
 }
 
+if [ "$1" == ogl_option ]; then
+	if [ "$(grep "ogl" build.cache)" != "ogl" ]
+	then
+		echo "running el6.sh ogl"
+		./dependencies/el6.sh --ogl
+	else
+		echo "ogl already installed"
+	fi
+	install_ogl
+fi
+
+
+
 if [ "$1" == "el6" ]; then
 
 	if [ ! -e "build.cache" ]
