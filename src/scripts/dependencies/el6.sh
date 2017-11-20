@@ -31,7 +31,7 @@ function cleanup_tinyosc()
 function install_ogl_deps()
 {
 	# dependencies for ogl
-	yum install -y cmake make gcc-g++ libX11-devel libXi-devel mesa-libGL mesa-libGLU libXrandr-devel libXext-devel libXcursor-devel libXinerama-devel libXi-devel
+	yum install -y cmake make gcc-c++ libX11-devel libXi-devel mesa-libGL mesa-libGLU libXrandr-devel libXext-devel libXcursor-devel libXinerama-devel libXi-devel
 }
 
 #Nick - Installs dependencies for openframeworks
