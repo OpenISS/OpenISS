@@ -115,7 +115,7 @@ function cleanup_ogl()
 	echo "need to actually write this function"		
 }
 
-#Cory
+
 function install_libfreenect()
 {
         if [ "$(grep "libfreenect_" build.cache)" != "libfreenect_" ]
