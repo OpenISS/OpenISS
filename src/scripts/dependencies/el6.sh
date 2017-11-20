@@ -13,6 +13,8 @@
 # Need to be root when running this script
 
 tinyosc_option="--tinyosc"
+opencv_option="--opencv"
+libfreenect2_option="--freenect2"
 
 function install_tinyosc()
 {
@@ -24,6 +26,89 @@ function cleanup_tinyosc()
 {
 	echo "nothing to uninstall to small"
 }
+
+# el6.sh - dependencies for ogl - Matthew Roy
+function install_ogl_deps()
+{
+	# dependencies for ogl
+	yum install -y cmake make gcc-g++ libX11-devel libXi-devel mesa-libGL mesa-libGLU libXrandr-devel libXext-devel libXcursor-devel libXinerama-devel libXi-devel
+}
+
+#Nick - Installs dependencies for openframeworks
+function installOpenFrameworkDeps()
+{
+	 # openFrameworks
+        pushd ../../openFrameworks
+        	git submodule update --init --recursive
+	popd
+        # openframeworks dependencies from the provided script
+        pushd ../../openFrameworks/scripts/linux/el6
+                ./install_codecs.sh
+                ./install_dependencies.sh
+	popd
+
+}
+
+#Rosser - install / cleanup for opencv
+function installOpenCV()
+{
+	# opencv dependencies
+        yum groupinstall -y "Development Tools"
+        yum install -y gtk+-devel gtk2-devel
+        yum install -y pkgconfig.x86_64
+        yum install -y python
+        yum install -y numpy
+        yum install -y libavc1394-devel.x86_64
+        yum install -y libavc1394.x86_64
+}
+
+function cleanupOpenCV()
+{
+	#opencv
+        yum remove -y gtk+-devel gtk2-devel
+        yum remove -y pkgconfig.x86_64
+	
+}
+
+#Nick - Cleans up openframework dependencies
+function clean_Openframeworks
+{
+	echo "Nothing to delete yet"
+}
+
+#Calum
+function install_libfreenect2()
+{
+	# libfreenect2 dependencies
+        # libusb, requires libudev-devel, libtool from above
+        pushd ../../libfreenect2/depends
+                ./install_libusb.sh
+        popd
+
+        # turbojpeg (libfreenect2)
+        yum install -y turbojpeg-devel
+}
+
+#Calum
+function cleanup_libfreenect2()
+{
+	echo "libfreenect2 cleaned"
+}
+
+
+if [[ "$1" == "--ogl" ]]; then
+	install_ogl_deps
+        echo "ogl"
+fi
+
+#Nick
+if [[ "$1" == "--ofx" ]]; then
+	installOpenFrameworkDeps
+fi
+
+if [[ "$1" == "--cleanofx" ]]; then
+	clean_Openframeworks
+fi
 
 if [[ "$1" == "--install" ]]; then
 	echo "install"
@@ -75,36 +160,30 @@ if [[ "$1" == "--install" ]]; then
 
 	# libfreenect2 dependencies
 	# libusb, requires libudev-devel, libtool from above
-	pushd ../../libfreenect2/depends
-		./install_libusb.sh
-	popd
+#	pushd ../../libfreenect2/depends
+#		./install_libusb.sh
+#	popd
 
 	# turbojpeg (libfreenect2)
-	yum install -y turbojpeg-devel
+#	yum install -y turbojpeg-devel
 	
 	# opencv dependencies
-	yum groupinstall -y "Development Tools"
-	yum install -y gtk+-devel gtk2-devel
-	yum install -y pkgconfig.x86_64
-	yum install -y python
-	yum install -y numpy
-	yum install -y libavc1394-devel.x86_64
-	yum install -y libavc1394.x86_64
+#	yum groupinstall -y "Development Tools"
+#	yum install -y gtk+-devel gtk2-devel
+#	yum install -y pkgconfig.x86_64
+#	yum install -y python
+#	yum install -y numpy
+#	yum install -y libavc1394-devel.x86_64
+#	yum install -y libavc1394.x86_64
+	#REFACTOR
+#	installOpenCV
 
 	# libfreenect	
 	# also needs libusb, which is installed above, differently, from libfreenect2
 	# we link to it in build.sh
 	# XXX: OpenNI2 will require cmake3 and gcc 4.8+ from devtoolset-2
 
-        # openFrameworks
-        pushd ../../openFrameworks
-        	git submodule update --init --recursive
-	popd
-        # openframeworks dependencies from the provided script
-        pushd ../../openFrameworks/scripts/linux/el6
-                ./install_codecs.sh
-                ./install_dependencies.sh
-	popd
+        installOpenFrameworkDeps
 
 	yum install -y gstreamer-devel gstreamer-plugins-base-devel
 
@@ -112,12 +191,17 @@ if [[ "$1" == "--install" ]]; then
 	for var in "$@"
 	do
 		if [ $var == $tinyosc_option ]; then
-			install_tinyosc		
+			install_tinyosc	
+		elif [ $var == $opencv_option ]; then
+			installOpenCV	
+		elif [ $var == $libfreenect2_option ]; then
+			install_libfreenect2
 		fi
 	done 
 
 # XXX: clean up is outdated; need to be careful
 elif [[ "$1" == "--cleanup" ]]; then
+
 	echo "cleanup"
 	
 	rm -f NVIDIA-Linux-x86_64-375.20.run
@@ -134,8 +218,11 @@ elif [[ "$1" == "--cleanup" ]]; then
 	yum remove -y turbojpeg-devel
 
 	#opencv
-	yum remove -y gtk+-devel gtk2-devel
-	yum remove -y pkgconfig.x86_64
+#	yum remove -y gtk+-devel gtk2-devel
+#	yum remove -y pkgconfig.x86_64
+	#REFACTOR
+	cleanupOpenCV
+
 	#yum remove -y python
 	yum remove -y numpy
 	yum remove -y libavc1394-devel.x86_64
@@ -146,7 +233,11 @@ elif [[ "$1" == "--cleanup" ]]; then
 	for var in "$@"
 	do
 		if [ $var == $tinyosc_option ]; then
-			cleanup_tinyosc		
+			cleanup_tinyosc
+		elif [ $var == $opencv_option ]; then
+			cleanupOpenCV		
+		elif [ $var == $libfreenect2_option ]; then
+			cleanup_libfreenect2
 		fi
 	done 
 fi
