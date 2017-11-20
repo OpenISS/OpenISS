@@ -12,7 +12,7 @@
 tinyosc_option="--tinyosc"
 ogl_option="--ogl"
 opencv_option="--opencv"
-libfreenect_option="--libfreenect"
+libfreenect_option="--freenect"
 libfreenect2_option="--freenect2"
 
 #alex
@@ -247,25 +247,6 @@ if [ "$1" == "el6" ]; then
                 fi
 
 	done 
-
-	if [ "$(grep "libfreenect_" build.cache)" != "libfreenect_" ]
-	then
-		#run cmake and make files for libfreenect
-		pushd ../../libfreenect
-		mkdir build && cd build
-		# XXX: BUILD_OPENNI2_DRIVER=ON would work with cmake3 and gcc 4.8+ once installed
-		cmake \
-			-DLIBUSB_1_LIBRARY=../../libfreenect2/depends/libusb/lib/libusb-1.0.so \
-			-DLIBUSB_1_INCLUDE_DIR=../../libfreenect2/depends/libusb/include/libusb-1.0 \
-			-DBUILD_OPENNI2_DRIVER=OFF \
-			-L ..
-		make
-		make install
-		popd
-		echo "libfreenect_" >> build.cache
-	else
-		echo "libfreenect already installed"
-	fi
 
 	installOpenFrameworks
 
