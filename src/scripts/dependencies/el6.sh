@@ -12,6 +12,7 @@
 #
 # Need to be root when running this script
 
+
 # worked on by Alex Rader, Cory Smith, Nicholas Robbins
 
 
@@ -54,7 +55,7 @@ function cleanOpenFrameworks()
 function install_ogl_deps()
 {
 	# dependencies for ogl
-	yum install -y cmake make g++ libx11-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxrandr-dev libxext-dev libxcursor-dev libxinerama-dev libxi-dev
+	yum install -y cmake3 make gcc-c++ libX11-devel libXi-devel mesa-libGL mesa-libGLU libXrandr-devel libXext-devel libXcursor-devel libXinerama-devel libXi-devel
 }
 
 for var in "$@"
