@@ -28,6 +28,12 @@ opencv:
 	$(SCRIPTSDIR)/$(EXE)
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(OPTIONS) --opencv
+
+libfreenect:
+	pushd $(SCRIPTSDIR) ; \
+	./$(EXE) $(OPTIONS) --freenect
+	popd
+
 libfreenect2:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(OPTIONS) --freenect2
@@ -48,6 +54,10 @@ clean-opencv:
 clean-libfreenect2:
 	cd $(SCRIPTSDIR) ; \
         ./$(EXE) $(OPTIONS) --cleanup --freenect2
+
+clean-libfreenect:
+	cd $(SCRIPTSDIR) ; \
+        ./$(EXE) $(OPTIONS) --cleanup --freenect
 
 maintainer-clean: clean
 	rm $(SCRIPTSDIR)/build.cache 
