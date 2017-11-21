@@ -125,6 +125,10 @@ void 02_draw()
 
 int main(int argc, char** argv)
 {
+	p_o02EmptyOpenGLTest.02_init = &02_init;
+    	p_o02EmptyOpenGLTest.02_init = &02_draw;
+    	p_o02EmptyOpenGLTest.02_init = &02_free;
+
 	02_init();
 	02_draw();
 	02_free();
