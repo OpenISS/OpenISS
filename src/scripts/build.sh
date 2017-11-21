@@ -12,6 +12,7 @@
 # worked on by Alex Rader, Cory Smith, Nicholas Robbins
 
 
+opencv_option="--opencv"
 tinyosc_option="--tinyosc"
 libfreenect_option="--freenect"
 ofx_option="--ofx"
@@ -62,16 +63,45 @@ function installOpenFrameworks()
 		#run install script to openframeworks
 		pushd ../../openFrameworks/scripts/linux
 		#tells scripts to use 3 cpu cores compile
-
-		#cant actually compile openframeworks as 11/14/16 becuase github master branch doesn't build
-		#but it looks like theyre working on fixing
-
 		#./compileOF.sh -j3
 		popd
 		echo "openframeworks" >> build.cache
 	else
 		echo "openframeworks already installed"
 	fi
+}
+
+install_opencv()
+{
+        if [ "$(grep "opencv" build.cache)" != "opencv" ]
+        then
+		./dependencies/$system.sh --install --opencv
+
+                # compile opencv
+                pushd ../../opencv
+                rm -rf build
+                mkdir build && cd build
+                cmake ..
+                make
+                popd
+                echo "opencv" >> build.cache
+        else
+                echo "opencv already installed"
+        fi
+}
+
+cleanup_opencv()
+{
+
+	if [ "$(grep "opencv" build.cache)" == "opencv" ]
+        then
+                # compile opencv
+                ./dependencies/$system.sh --cleanup --opencv
+        	sed -i '/foo/d' ./build.cache
+		echo "opencv removed"
+        else
+                echo "opencv not installed"
+        fi
 }
 
 function cleanOpenFrameworks()
@@ -184,6 +214,9 @@ do
 		system=$el6_system
 
 	# according to mode, do something with the inputted program
+	elif [ $var == $opencv_option ]; then
+		opencv_option=1
+		do_all=0
 	elif [ $var == $tinyosc_option ]; then
 		tinyosc_option=1
 		do_all=0
@@ -239,5 +272,12 @@ if [ ogl_option == 1 -o do_all == 1 ]; then
 		install_ogl
 	elif [ $mode == $cleanup_option]; then
 		cleanup_ogl
+fi
+
+if [ $opencv_option == 1 -o $do_all == 1 ]; then
+	if [$mode == $install_option ]; then
+		install_opencv
+	if [$mode == $cleanup_option ]; then
+		cleanup_opencv
 	fi
 fi
