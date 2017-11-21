@@ -20,8 +20,6 @@ ogl_option = "--ogl"
 install_option="--install"
 cleanup_option="--cleanup"
 mode=0
-system="el6"
-el6_system="el6"
 
 #install/cleanup functions
 function install_libfreenect2()
