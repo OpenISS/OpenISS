@@ -9,6 +9,8 @@
 #   Justin Mulkin, Gabriel Pereyra, Duncan Carrol, Lucas Spiker
 #
 
+# worked on by Alex Rader, Cory Smith, Nicholas Robbins
+
 if [ ! -e "build.cache" ]
 then
 	touch build.cache

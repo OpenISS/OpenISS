@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # el6.sh
 #
@@ -11,6 +11,8 @@
 # These are all needed to compile submodules in OpenISS
 #
 # Need to be root when running this script
+
+# worked on by Alex Rader, Cory Smith, Nicholas Robbins
 
 tinyosc_option="--tinyosc"
 ofx_option="--ofx"
