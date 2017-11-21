@@ -3,51 +3,26 @@ SHELL:=/bin/bash
 EXE=build.sh
 SCRIPTSDIR=./scripts
 OPTIONS=el6
+INSTALL_OPTION=--install
+UNINSTALL_OPTION=--cleanup
 
 all:
 	make -C api $@
 
 deps: $(SCRIPTSDIR)/$(EXE)
 	cd $(SCRIPTSDIR) ; \
-	./$(EXE) $(OPTIONS)
+	./$(EXE) $(INSTALL_OPTION)
 
 tinyosc: $(SCRIPTSDIR)/$(EXE)
 	cd $(SCRIPTSDIR) ; \
-	./$(EXE) $(OPTIONS) --tinyosc
-
-ofx:
-	cd $(SCRIPTSDIR) ; \
-	./$(EXE) --ofx
-
-install-ofx:
-	$(SCRIPTSDIR)/$(EXE)
-	cd $(SCRIPTSDIR) ; \
-	./$(EXE) --ofxdeps
-
-opencv:
-	$(SCRIPTSDIR)/$(EXE)
-	cd $(SCRIPTSDIR) ; \
-	./$(EXE) $(OPTIONS) --opencv
-libfreenect2:
-	cd $(SCRIPTSDIR) ; \
-	./$(EXE) $(OPTIONS) --freenect2
-
+	./$(EXE) $(INSTALL_OPTION) --tinyosc
 
 clean:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) --cleanup
 clean-tinyosc:
 	cd $(SCRIPTSDIR) ; \
-	./$(EXE) --cleanup --tinyosc
-clean-openframeworks:
-	cd $(SCRIPTSDIR) ; \
-	./dependencies/el6.sh --cleanofx
-clean-opencv:
-	cd $(SCRIPTSDIR) ; \
-	./$(EXE) --cleanup --opencv
-clean-libfreenect2:
-	cd $(SCRIPTSDIR) ; \
-        ./$(EXE) $(OPTIONS) --cleanup --freenect2
+	./$(EXE) $(UNINSTALL_OPTION) --tinyosc
 
 maintainer-clean: clean
 	rm $(SCRIPTSDIR)/build.cache 
