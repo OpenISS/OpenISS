@@ -10,13 +10,13 @@ all:
 deps: $(SCRIPTSDIR)/$(EXE)
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(OPTIONS)
-build-ofx:
+ofx:
 	cd $(SCRIPTSDIR) ; \
-	./$(EXE) --ofx
-install-ofx:
-	$(SCRIPTSDIR)/$(EXE)
+	./$(EXE) --install --ofx
+clean-ofx:
 	cd $(SCRIPTSDIR) ; \
-	./$(EXE) --ofxdeps
+	./$(EXE) --cleanup --ofx
+	
 clean:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) --cleanup

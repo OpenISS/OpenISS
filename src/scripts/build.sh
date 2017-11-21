@@ -9,13 +9,24 @@
 #   Justin Mulkin, Gabriel Pereyra, Duncan Carrol, Lucas Spiker
 #
 
+ofx_option="--ofx"
+
+do_all=1
+install_option="--install"
+cleanup_option="--cleanup"
+mode=0
+system="el6"
+el6_system="el6"
+
 function installOpenFrameworks()
 {
-	
-
-
-	if [ "$(grep "openframeworks" build.cache)" != "openframeworks" ]
+	if [ "$(grep "openframeworks" build.cache)" != "openframeworks" ];
 	then
+		#install dependencies
+		echo "running el6.sh"
+		./dependencies/$system.sh $cleanup_option $ofx_option
+		echo "openframeworks" >> build.cache
+
 		#run install script to openframeworks
 		pushd ../../openFrameworks/scripts/linux
 		#tells scripts to use 3 cpu cores compile
@@ -31,122 +42,40 @@ function installOpenFrameworks()
 	fi
 }
 
-function installOpenFrameworksDeps()
+function cleanOpenFrameworks()
 {
-	if [ "$(grep "openframeworks" build.cache)" != "openframeworks" ]
+
+	if [ "$(grep "openframeworks" build.cache)" == "openframeworks" ];
 	then
-		#install dependencies
-		echo "running el6.sh"
-		./dependencies/el6.sh --install
-		echo "openframeworks" >> build.cache
+		./dependencies/$system.sh --cleanup --ofx
+		sed -i '/openframeworks/d' build.cache
+		echo "openframeworks cleanup complete"
+
 	else
-		echo "openframeworks already installed"
+		echo "openframeworks is not installed"
 	fi
 }
 
-if [ "$1" == "--ofx" ]; then
-	installOpenFrameworks
-fi
 
-if [ "$1" == "--ofxdeps" ]; then
-	installOpenFrameworksDeps
-fi
 
-if [ "$1" == "el6" ]; then
-
-	if [ ! -e "build.cache" ]
-	then
-		touch build.cache
+for var in "$@"
+do
+	if [ $var == $install_option ]; then
+		mode=$install_option
+	elif [ $var == $cleanup_option ]; then
+		mode=$cleanup_option
+	elif [ $var == $el6_system ]; then
+		system=$el6_system
+	elif [ $var == $ofx_option ]; then
+		ofx_option=1
+		do_all=0
 	fi
+done
 
-	if [ "$(grep "el6-dependencies" build.cache)" != "el6-dependencies" ]
-	then
-		#install dependencies
-		echo "running el6.sh"
-		./dependencies/el6.sh --install
-		echo "el6-dependencies" >> build.cache
-	else
-		echo "el6-dependencies already installed"
+if [ $ofx_option == 1 -o $do_all == 1 ]; then
+	if [ $mode == $install_option ]; then
+		installOpenFrameworks
+	elif [ $mode == $cleanup_option ]; then
+		cleanOpenFrameworks
 	fi
-
-	if [ "$(grep "libfreenect2" build.cache)" != "libfreenect2" ]
-	then
-		# compile the libfreenect2 stuff
-		pushd ../../libfreenect2
-		rm -rf build
-		mkdir build && cd build
-		cmake -L ..
-		make install
-		popd
-		echo "libfreenect2" >> build.cache
-	else
-		echo "libfreenect2 already installed"
-	fi		
-
-	if [ "$(grep "opencv" build.cache)" != "opencv" ]
-	then
-		# compile opencv
-		pushd ../../opencv
-		rm -rf build
-		mkdir build && cd build
-		cmake ..
-		make
-		popd
-		echo "opencv" >> build.cache
-	else
-		echo "opencv already installed"
-	fi
-
-	if [ "$(grep "tinyosc" build.cache)" != "tinyosc" ]
-	then
-		#patch and compile tinyosc
-		pushd ../../tinyosc
-		patch build.sh < ../src/scripts/dependencies/tinyosc.build.sh.patch
-		./build.sh
-		popd
-		echo "tinyosc" >> build.cache
-	else
-		echo "tinyosc already installed"
-	fi
-
-	if [ "$(grep "libfreenect_" build.cache)" != "libfreenect_" ]
-	then
-		#run cmake and make files for libfreenect
-		pushd ../../libfreenect
-		mkdir build && cd build
-		# XXX: BUILD_OPENNI2_DRIVER=ON would work with cmake3 and gcc 4.8+ once installed
-		cmake \
-			-DLIBUSB_1_LIBRARY=../../libfreenect2/depends/libusb/lib/libusb-1.0.so \
-			-DLIBUSB_1_INCLUDE_DIR=../../libfreenect2/depends/libusb/include/libusb-1.0 \
-			-DBUILD_OPENNI2_DRIVER=OFF \
-			-L ..
-		make
-		make install
-		popd
-		echo "libfreenect_" >> build.cache
-	else
-		echo "libfreenect already installed"
-	fi
-
-	installOpenFrameworks
-
-elif [[ "$1" == "--cleanup" ]]; then
-	./dependencies/el6.sh --cleanup
-
-	#uninstall libusb
-	cd ./dependencies
-	cd libusb-1.0.20
-	make uninstall
-	cd ../
-	rm -rf libusb-1.0.20 libusb.tar.bz2
-
-	#uninstall libfreenect
-	cd ../../../libfreenect/build
-	make uninstall
-	cd ../
-	rm -rf build
-
-	#remove links created by libfreenect
-	rm -f /usr/local/lib/libfreenect*
-	rm -rf /usr/local/lib/fakenect
 fi
