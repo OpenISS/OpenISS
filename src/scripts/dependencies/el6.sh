@@ -12,8 +12,10 @@
 #
 # Need to be root when running this script
 
+#Options
 libfreenect2_option="--freenect2"
 opencv_option="--opencv"
+ogl_option = "--ogl"
 
 install_option="--install"
 cleanup_option="--cleanup"
@@ -21,6 +23,7 @@ mode=0
 system="el6"
 el6_system="el6"
 
+#install/cleanup functions
 function install_libfreenect2()
 {
 	# libfreenect2 dependencies
@@ -68,19 +71,37 @@ function cleanup_opencv()
 
 }
 
+function install_ogl_deps()
+{
+	# dependencies for ogl
+	yum install -y cmake3 make gcc-c++ libX11-devel libXi-devel mesa-libGL mesa-libGLU libXrandr-devel libXext-devel libXcursor-devel libXinerama-devel libXi-devel
+}
+
+function cleanup_ogl_deps()
+{
+	# dependencies for ogl
+	echo "cleaned ogl"
+}
+
 for var in "$@"
 do
+	#Install or clean inputs
         if [ $var == $install_option ]; then
                 mode=$install_option
         elif [ $var == $cleanup_option ]; then
                 mode=$cleanup_option
+
+	#Specific install options
         elif [ $var == $opencv_option ]; then
                 opencv_option=1
         elif [ $var == $libfreenect2_option ]; then
 		libfreenect2_option=1
+	elif [ $var == $ogl_option ]; then
+		ogl_option=1
 	fi
 done
 
+#Ifs to parse selcted inputs
 if [ $libfreenect2_option == 1 ]; then
 	if [ $mode == $install_option ]; then
 		install_libfreenect2
@@ -97,3 +118,10 @@ if [ $opencv_option == 1 ]; then
         fi
 fi
 
+if [ $ogl_option == 1 ]
+	if [ $mode == $install_option ]; then
+		install_ogl
+	elif [ $mode == $cleanup_option]; then
+		cleanup_ogl
+	fi
+fi
