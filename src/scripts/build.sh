@@ -15,6 +15,13 @@ opencv_option="--opencv"
 libfreenect_option="--freenect"
 libfreenect2_option="--freenect2"
 
+install_option="--install"
+cleanup_option="--cleanup"
+mode=0
+do_all=0
+system="el6"
+el6_system="el6"
+
 #alex
 function install_tinyosc()
 {
@@ -70,52 +77,6 @@ function installOpenFrameworksDeps()
 	fi
 }
 
-#Rosser
-function installOpenCV()
-{
-
-	if [ "$(grep "opencv" build.cache)" != "opencv" ]
-        then
-                # compile opencv
-                pushd ../../opencv
-                rm -rf build
-                mkdir build && cd build
-                cmake ..
-                make
-                popd
-                echo "opencv" >> build.cache
-        else
-                echo "opencv already installed"
-        fi
-		
-}
-
-function cleanupOpenCV()
-{
-	#fill this up with that sweet code namsayin
-	./el6.sh --cleanup --opencv
-}
-
-# install ogl - Matthew Roy
-function install_ogl()
-{
-	#compile ogl
-        pushd ../../ogl
-        rm -rf build
-        mkdir build && cd build
-        cmake ..
-	#make
-        popd
-        echo "ogl" >> build.cache
-}
-
-# cleanup ogl - Matthew Roy
-function cleanup_ogl()
-{
-	echo "need to actually write this function"		
-}
-
-
 function install_libfreenect()
 {
         if [ "$(grep "libfreenect_" build.cache)" != "libfreenect_" ]
@@ -152,139 +113,39 @@ function cleanup_libfreenect()
         #remove links created by libfreenect
         rm -f /usr/local/lib/libfreenect*
         rm -rf /usr/local/lib/fakenect
+
+	echo "libfreenect uninstalled"
 }
 
-#Calum
-function install_libfreenect2()
-{
-	if [ "$(grep "libfreenect2" build.cache)" != "libfreenect2" ]
-        then
-                # compile the libfreenect2 stuff
-                pushd ../../libfreenect2
-                rm -rf build
-                mkdir build && cd build
-                cmake -L ..
-                make install
-                popd
-                echo "libfreenect2" >> build.cache
-        else
-                echo "libfreenect2 already installed"
-        fi
-}
-
-#Calum
-function cleanup_libfreenect2()
-{
-	echo "libfreenect2 uninstalled"
-}
-
-#Nick
-if [ "$1" == "--ofx" ]; then
-	installOpenFrameworks
+if [ ! -e "build.cache" ]
+then
+	touch build.cache
 fi
 
-#Nick
-if [ "$1" == "--ofxdeps" ]; then
-	installOpenFrameworksDeps
-fi
 
-if [ "$1" == "el6" ]; then
-
-	if [ ! -e "build.cache" ]
-	then
-		touch build.cache
+for var in "$@"
+do
+	if [ $var == $install_option ]; then
+		mode=$install_option		
+	elif [ $var == $cleanup_option ]; then
+		mode=$cleanup_option
+	elif [ $var == $libfreenect_option ]; then
+		libfreenect_option=1	
+		do_all=0
+	elif [ $var == $el6_system ]; then
+		system=$el6_system
 	fi
+done 
 
-	if [ "$(grep "el6-dependencies" build.cache)" != "el6-dependencies" ]
+
+if [ $libfreenect_option == 1 -o $do_all == 1 ]; 
+then
+	if [ $mode == $install_option ]; 
 	then
-		#install dependencies
-		echo "running el6.sh"
-		./dependencies/el6.sh --install
-		echo "el6-dependencies" >> build.cache
-	else
-		echo "el6-dependencies already installed"
+		install_libfreenect
+	elif [ $mode == $cleanup_option ];
+	then
+		cleanup_libfreenect
 	fi
-
-	if [ "$(grep "libfreenect2" build.cache)" != "libfreenect2" ]
-	then
-		# compile the libfreenect2 stuff
-		pushd ../../libfreenect2
-		rm -rf build
-		mkdir build && cd build
-		cmake -L ..
-		make install
-		popd
-		echo "libfreenect2" >> build.cache
-	else
-		echo "libfreenect2 already installed"
-	fi		
-
-	if [ "$(grep "opencv" build.cache)" != "opencv" ]
-	then
-		# compile opencv
-		pushd ../../opencv
-		rm -rf build
-		mkdir build && cd build
-		cmake ..
-		make
-		popd
-		echo "opencv" >> build.cache
-	else
-		echo "opencv already installed"
-	fi
-	
-	# alex did tinyosc
-	for var in "$@"
-	do
-		if [ $var == $tinyosc_option ]; then
-			install_tinyosc		
-                elif [ $var == $opencv_option ]; then
-                        installOpenCV
-		elif [ $var == $libfreenect_option ]; then
-                        install_libfreenect
-		elif [ $var == $libfreenect2_option ]; then
-			install_libfreenect2
-                fi
-
-	done 
-
-	installOpenFrameworks
-
-elif [[ "$1" == "--cleanup" ]]; then
-	./dependencies/el6.sh --cleanup
-
-	#uninstall libusb
-	cd ./dependencies
-	cd libusb-1.0.20
-	make uninstall
-	cd ../
-	rm -rf libusb-1.0.20 libusb.tar.bz2
-
-
-	for var in "$@"
-	do
-		if [ $var == $tinyosc_option ]; then
-			cleanup_tinyosc
-		elif [ $var == $opencv_option ]; then
-			cleanupOpenCV		
-		elif [ $var == $libfreenect_option ]; then
-			cleanup_libfreenect
-		elif [ $var == $libfreenect2_option ]; then
-			cleanup_libfreenect2
-		fi
-	done 
-
-	
-
-else
-	if [ "$1" == ogl_option ]; then
-		if [ "$(grep "ogl" build.cache)" != "ogl" ]
-		then
-			echo "running el6.sh ogl"
-			./dependencies/el6.sh --ogl
-		else
-			echo "ogl already installed"
-		fi
-	install_ogl
 fi
-fi
+
