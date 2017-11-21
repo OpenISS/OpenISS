@@ -135,43 +135,55 @@ function cleanup_libfreenect()
 # install ogl - Matthew Roy
 function install_ogl()
 {
-	if [ "$(grep "ogl" build.cache)" != "ogl" ]
-	then
-		echo "running el6.sh ogl"
-		./dependencies/el6.sh --ogl
+	# call the function in &system.sh to install dependencies
+	./dependencies/$system.sh --install --ogl
+
+	# check if we need to install
+	if [ "$(grep "ogl" build.cache)" != "ogl" ]; then
+		# then install
+        	pushd ../../ogl
+        	rm -rf build
+        	mkdir build && cd build
+        	cmake ..
+        	make
+        	popd
+        	echo "ogl" >> build.cache
 	else
+		# else don't bother
 		echo "ogl already installed"
 	fi
-
-	#compile ogl
-        pushd ../../ogl
-        rm -rf build
-        mkdir build && cd build
-        cmake ..
-        make
-        popd
-        echo "ogl" >> build.cache
 }
 
 # cleanup ogl - Matthew Roy
 function cleanup_ogl()
 {
-		
+	# call the function in $system.sh to cleanup dependencies
+	./dependencies/$system.sh --cleanup --ogl
+
+	# except it really isn't
+	echo "cleaned ogl"
 }
+
 
 if [ ! -e "build.cache" ]
 then
 	touch build.cache
 fi
 
+# figure out what we're doing
 for var in "$@"
 do
+	# find out whether or not we're running install or cleanup
 	if [ $var == $install_option ]; then
 		mode=$install_option
 	elif [ $var == $cleanup_option ]; then
 		mode=$cleanup_option
+
+	# in case we want to be able to install to a different system
 	elif [ $var == $el6_system ]; then
 		system=$el6_system
+
+	# according to mode, do something with the inputted program
 	elif [ $var == $tinyosc_option ]; then
 		tinyosc_option=1
 		do_all=0
@@ -217,6 +229,15 @@ if [ $libfreenect_option == 1 -o $do_all == 1 ]; then
 		install_ogl
 	# call cleanup ogl function - Matthew Roy
 	elif [ $mode == $cleanup_option ]; then
+		cleanup_ogl
+	fi
+fi
+
+# check if our option has been affected or we're doing all
+if [ ogl_option == 1 -o do_all == 1 ]; then
+	if [ $mode == $install_option ]; then
+		install_ogl
+	elif [ $mode == $cleanup_option]; then
 		cleanup_ogl
 	fi
 fi

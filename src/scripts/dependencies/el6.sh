@@ -12,7 +12,6 @@
 #
 # Need to be root when running this script
 
-
 # worked on by Alex Rader, Cory Smith, Nicholas Robbins
 
 
@@ -58,16 +57,30 @@ function install_ogl_deps()
 	yum install -y cmake3 make gcc-c++ libX11-devel libXi-devel mesa-libGL mesa-libGLU libXrandr-devel libXext-devel libXcursor-devel libXinerama-devel libXi-devel
 }
 
+# el6.sh - dependencies for ogl - Matthew Roy
+function cleanup_ogl_deps()
+{
+	# dependencies for ogl
+	echo "cleaned ogl"
+}
+
+
+# figure out what we're doing
 for var in "$@"
 do
+	# find out whether or not we're running install or cleanup
 	if [ $var == $install_option ]; then
 		mode=$install_option
 	elif [ $var == $cleanup_option ]; then
 		mode=$cleanup_option
+
 	elif [ $var == $tinyosc_option ]; then
 		tinyosc_option=1
 	elif [ $var == $ofx_option ]; then
 		ofx_option=1
+	# according to mode, do something with the inputted program
+	elif [ $var == $ogl_option ]; then
+		ogl_option=1
 	fi
 done
 
@@ -87,7 +100,11 @@ if [ $ofx_option == 1 ]; then
 	fi
 fi
 
-if [[ "$1" == "--ogl" ]]; then
-	install_ogl_deps
-        echo "ogl"
+# check if our option has been affected
+if [ ogl_option == 1 ]
+	if [ $mode == $install_option ]; then
+		install_ogl
+	elif [ $mode == $cleanup_option]; then
+		cleanup_ogl
+	fi
 fi

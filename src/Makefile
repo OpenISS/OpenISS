@@ -25,6 +25,10 @@ ofx:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(INSTALL_OPTION) --ofx
 	
+ogl:
+	cd $(SCRIPTSDIR) ; \
+	./$(EXE) $(INSTALL_OPTION) --ogl
+
 clean:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(UNINSTALL_OPTION)
@@ -38,12 +42,9 @@ clean-libfreenect:
 	cd $(SCRIPTSDIR) ; \
         ./$(EXE) $(UNINSTALL_OPTION) --freenect
 
-install_ogl:
+clean-ogl:
 	cd $(SCRIPTSDIR) ; \
-	./$(EXE) --ogl
-
-build_ogl:
-	
+        ./$(EXE) $(UNINSTALL_OPTION) --ogl
 
 maintainer-clean: clean
-	rm $(SCRIPTSDIR)/build.cache 
+rm $(SCRIPTSDIR)/build.cache 
