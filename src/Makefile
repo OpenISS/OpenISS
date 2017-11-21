@@ -10,6 +10,16 @@ all:
 deps: $(SCRIPTSDIR)/$(EXE)
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(OPTIONS)
+	#add --option to the end of the above line like $(OPTIONS) --boom
+
+opencv:
+	$(SCRIPTSDIR)/$(EXE)
+	cd $(SCRIPTSDIR) ; \
+        ./$(EXE) $(OPTIONS) --opencv
+
+clean-opencv:
+	cd $(SCRIPTSDIR) ; \
+        ./$(EXE) --cleanup --opencv
 
 clean:
 	cd $(SCRIPTSDIR) ; \
