@@ -13,7 +13,11 @@ deps: $(SCRIPTSDIR)/$(EXE)
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(INSTALL_OPTION)
 
-tinyosc: $(SCRIPTSDIR)/$(EXE)
+libfreenect:
+	cd $(SCRIPTSDIR) ; \
+	./$(EXE) $(INSTALL_OPTION) --freenect
+
+tinyosc:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(INSTALL_OPTION) --tinyosc
 
@@ -30,6 +34,9 @@ clean-tinyosc:
 clean-ofx:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(UNINSTALL_OPTION) --ofx
+clean-libfreenect:
+	cd $(SCRIPTSDIR) ; \
+        ./$(EXE) $(UNINSTALL_OPTION) --freenect
 
 maintainer-clean: clean
 	rm $(SCRIPTSDIR)/build.cache 

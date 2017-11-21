@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # build.sh
 #
@@ -15,6 +15,7 @@ then
 fi
 
 tinyosc_option="--tinyosc"
+libfreenect_option="--freenect"
 ofx_option="--ofx"
 
 do_all=1
@@ -75,7 +76,6 @@ function installOpenFrameworks()
 
 function cleanOpenFrameworks()
 {
-
 	if [ "$(grep "openframeworks" build.cache)" == "openframeworks" ];
 	then
 		./dependencies/$system.sh --cleanup --ofx
@@ -84,6 +84,51 @@ function cleanOpenFrameworks()
 
 	else
 		echo "openframeworks is not installed"
+	fi
+}
+
+function install_libfreenect()
+{
+        if [ "$(grep "libfreenect_" build.cache)" != "libfreenect_" ]
+        then
+		./dependencies/$system.sh --install --freenect
+                #run cmake and make files for libfreenect
+                pushd ../../libfreenect
+                mkdir build && cd build
+                # XXX: BUILD_OPENNI2_DRIVER=ON would work with cmake3 and gcc 4.8+ once installed
+                cmake \
+                        -DLIBUSB_1_LIBRARY=../../libfreenect2/depends/libusb/lib/libusb-1.0.so \
+                        -DLIBUSB_1_INCLUDE_DIR=../../libfreenect2/depends/libusb/include/libusb-1.0 \
+                        -DBUILD_OPENNI2_DRIVER=OFF \
+                        -L ..
+                make
+	        make install
+        	popd
+	        echo "libfreenect_" >> build.cache
+        else
+                echo "libfreenect already installed"
+	fi
+
+}
+
+function cleanup_libfreenect()
+{
+	if [ "$(grep "libfreenect_" build.cache)" == "openframeworks" ];
+	then
+		./dependencies/$system.sh --cleanup --freenect
+        	#uninstall libfreenect
+       		cd ../../../libfreenect/build
+        	make uninstall
+        	cd ../
+        	rm -rf build
+
+       		#remove links created by libfreenect
+        	rm -f /usr/local/lib/libfreenect*
+        	rm -rf /usr/local/lib/fakenect
+
+		echo "libfreenect uninstalled"
+	else
+		echo "libfreenect is not installed"
 	fi
 }
 
@@ -97,8 +142,12 @@ do
 		system=$el6_system
 	elif [ $var == $tinyosc_option ]; then
 		tinyosc_option=1
+		do_all=0
 	elif [ $var == $ofx_option ]; then
 		ofx_option=1
+		do_all=0
+	elif [ $var == $libfreenect_option ]; then
+		libfreenect_option=1	
 		do_all=0
 	fi
 done
@@ -118,3 +167,12 @@ if [ $ofx_option == 1 -o $do_all == 1 ]; then
 		cleanOpenFrameworks
 	fi
 fi
+
+if [ $libfreenect_option == 1 -o $do_all == 1 ]; then
+	if [ $mode == $install_option ]; then
+		install_libfreenect
+	elif [ $mode == $cleanup_option ]; then
+		cleanup_libfreenect
+	fi
+fi
+
