@@ -165,12 +165,11 @@ function cleanup_libfreenect()
 # install ogl - Matthew Roy
 function install_ogl()
 {
-	# call the function in &system.sh to install dependencies
-	./dependencies/$system.sh --install --ogl
-
 	# check if we need to install
 	if [ "$(grep "ogl" build.cache)" != "ogl" ]; then
-		# then install
+		# call the function in &system.sh to install dependencies
+		./dependencies/$system.sh --install --ogl
+
         	pushd ../../ogl
         	rm -rf build
         	mkdir build && cd build
@@ -187,11 +186,20 @@ function install_ogl()
 # cleanup ogl - Matthew Roy
 function cleanup_ogl()
 {
-	# call the function in $system.sh to cleanup dependencies
-	./dependencies/$system.sh --cleanup --ogl
+	# check if we need to uninstall
+	if [ "$(grep "ogl" build.cache)" == "ogl" ]; then
+		# call the function in $system.sh to cleanup dependencies
+		./dependencies/$system.sh --cleanup --ogl
 
-	# except it really isn't
-	echo "cleaned ogl"
+		# remove the line from build.cache
+		sed -i '/ogl/d' build.cache	
+
+		# except it really isn't
+		echo "cleaned ogl"
+	else
+		# else we don't need to uninstall it
+		echo "ogl not installed"
+	fi
 }
 
 
