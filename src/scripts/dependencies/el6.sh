@@ -17,7 +17,9 @@
 
 tinyosc_option="--tinyosc"
 ofx_option="--ofx"
+ogl_option="--ogl"
 opencv_option="--opencv"
+libfreenect2_option="--freenect2"
 install_option="--install"
 cleanup_option="--cleanup"
 mode=0
@@ -92,6 +94,25 @@ function cleanup_opencv()
 
 }
 
+function install_libfreenect2()
+{
+	# libfreenect2 dependencies
+        # libusb, requires libudev-devel, libtool from above
+        pushd ../../libfreenect2/depends
+                ./install_libusb.sh
+        popd
+
+        # turbojpeg (libfreenect2)
+        yum install -y turbojpeg-devel
+
+	echo "libfreenect2 deps installed"
+}
+
+function cleanup_libfreenect2()
+{
+	echo "libfreenect2 deps cleaned"
+}
+
 # figure out what we're doing
 for var in "$@"
 do
@@ -101,6 +122,9 @@ do
 	elif [ $var == $cleanup_option ]; then
 		mode=$cleanup_option
 
+
+	elif [ $var == $libfreenect2_option ]; then
+		libfreenect2_option=1
         elif [ $var == $opencv_option ]; then
                 opencv_option=1
 	elif [ $var == $tinyosc_option ]; then
@@ -146,3 +170,10 @@ if [ $opencv_option == 1 ]; then
         fi
 fi
 
+if [ $libfreenect2_option == 1 ]; then
+	if [ $mode == $install_option ]; then
+		install_libfreenect2
+	elif [ $mode == $cleanup_option ]; then
+		cleanup_libfreenect2
+	fi
+fi

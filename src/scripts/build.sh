@@ -17,6 +17,7 @@ tinyosc_option="--tinyosc"
 libfreenect_option="--freenect"
 ofx_option="--ofx"
 ogl_option="--ogl"
+libfreenect2_option="--freenect2"
 
 do_all=1
 install_option="--install"
@@ -36,7 +37,7 @@ function install_tinyosc()
 		popd
 		echo "tinyosc" >> build.cache
 	else
-		echo "tinyosc already installed"
+ 		echo "tinyosc already installed"
 	fi
 }
 
@@ -202,6 +203,38 @@ function cleanup_ogl()
 	fi
 }
 
+function install_libfreenect2()
+{
+	#install deps
+	./dependencies/$system.sh --install --freenect2
+
+	if [ "$(grep "libfreenect2" build.cache)" != "libfreenect2" ]
+        then
+                # compile the libfreenect2 stuff
+                pushd ../../libfreenect2
+                rm -rf build
+                mkdir build && cd build
+                cmake -L ..
+                make install
+                popd
+                echo "libfreenect2" >> build.cache
+        else
+		echo "libfreenect2 already installed"
+	fi
+}
+
+function cleanup_libfreenect2()
+{
+	if [ "$(grep "libfreenect2" build.cache)" == "libfreenect2" ]
+        then
+		./dependencies/$system.sh --cleanup --freenect2
+		sed -i '/libfreenect2/d' build.cache
+		echo "cleaned libfreenect2"
+	else
+		echo "libfreenect2 not installed"
+	fi
+}
+
 
 if [ ! -e "build.cache" ]
 then
@@ -222,6 +255,9 @@ do
 		system=$el6_system
 
 	# according to mode, do something with the inputted program
+	elif [ $var == $libfreenect2_option ]; then
+		libfreenect2_option=1
+		do_all=0
 	elif [ $var == $opencv_option ]; then
 		opencv_option=1
 		do_all=0
@@ -287,5 +323,13 @@ if [ $opencv_option == 1 -o $do_all == 1 ]; then
 		install_opencv
 	if [$mode == $cleanup_option ]; then
 		cleanup_opencv
+	fi
+fi
+
+if [ $libfreenect2_option == 1 -o $do_all == 1 ]; then
+	if [ $mode == $install_option ]; then
+		install_libfreenect2
+	elif [ $mode == $cleanup_option ]; then
+		cleanup_libfreenect2
 	fi
 fi
