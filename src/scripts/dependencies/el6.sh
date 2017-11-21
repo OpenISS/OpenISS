@@ -13,6 +13,7 @@
 # Need to be root when running this script
 
 tinyosc_option="--tinyosc"
+ofx_option="--ofx"
 
 install_option="--install"
 cleanup_option="--cleanup"
@@ -28,6 +29,23 @@ function cleanup_tinyosc()
 	echo "unistalled tinyosc"
 }
 
+function installOpenFrameworks()
+{
+	 # openFrameworks
+        pushd ../../openFrameworks
+        	git submodule update --init --recursive
+	popd
+        # openframeworks dependencies from the provided script
+        pushd ../../openFrameworks/scripts/linux/el6
+                ./install_codecs.sh
+                ./install_dependencies.sh
+	popd
+}
+
+function cleanOpenFrameworks()
+{
+	echo "openframeworks el6 cleanup complete"
+}
 
 for var in "$@"
 do
@@ -37,7 +55,10 @@ do
 		mode=$cleanup_option
 	elif [ $var == $tinyosc_option ]; then
 		tinyosc_option=1
+	elif [ $var == $ofx_option ]; then
+		ofx_option=1
 	fi
+fi
 
 done
 
@@ -49,3 +70,13 @@ if [ $tinyosc_option == 1 ]; then
 	fi
 fi
 
+if [ $ofx_option == 1 ]; then
+	if [ $mode == $install_option ]; then
+		installOpenFrameworks
+	elif [ $mode == $cleanup_option ]; then
+		cleanOpenFrameworks
+	fi
+fi
+
+
+>>>>>>> origin/OpenFrameworks

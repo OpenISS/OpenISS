@@ -17,12 +17,19 @@ tinyosc: $(SCRIPTSDIR)/$(EXE)
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(INSTALL_OPTION) --tinyosc
 
+ofx:
+	cd $(SCRIPTSDIR) ; \
+	./$(EXE) $(INSTALL_OPTION) --ofx
+	
 clean:
 	cd $(SCRIPTSDIR) ; \
-	./$(EXE) --cleanup
+	./$(EXE) $(UNINSTALL_OPTION)
 clean-tinyosc:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(UNINSTALL_OPTION) --tinyosc
+clean-ofx:
+	cd $(SCRIPTSDIR) ; \
+	./$(EXE) $(UNINSTALL_OPTION) --ofx
 
 maintainer-clean: clean
 	rm $(SCRIPTSDIR)/build.cache 
