@@ -43,4 +43,4 @@ clean:
 	./$(EXE) $(UNINSTALL_OPTION)
 
 maintainer-clean: clean
-rm $(SCRIPTSDIR)/build.cache 
+	rm $(SCRIPTSDIR)/build.cache 
