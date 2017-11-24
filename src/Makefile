@@ -67,4 +67,4 @@ clean-libfreenect2:
 
 
 maintainer-clean: clean
-rm $(SCRIPTSDIR)/build.cache 
+	rm $(SCRIPTSDIR)/build.cache 
