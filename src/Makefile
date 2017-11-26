@@ -23,11 +23,11 @@ clean-opencv:
         ./$(EXE) $(UNINSTALL_OPTION) --opencv
 
 libfreenect2: $(SCRIPTSDIR)/$(EXE)
-        cd $(SCRIPTSDIR) ; \
+	cd $(SCRIPTSDIR) ; \
         ./$(EXE) $(INSTALL_OPTION) --freenect2
 
 clean-libfreenect2:
-        cd $(SCRIPTSDIR) ; \
+	cd $(SCRIPTSDIR) ; \
         ./$(EXE) $(UNINSTALL_OPTION) --freenect2
 
 ogl:
