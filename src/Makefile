@@ -28,8 +28,6 @@ ofx:
 ogl:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(INSTALL_OPTION) --ogl
-	./$(EXE) $(OPTIONS)
-	#add --option to the end of the above line like $(OPTIONS) --boom
 
 opencv:
 	$(SCRIPTSDIR)/$(EXE)
@@ -41,8 +39,12 @@ clean-opencv:
         ./$(EXE) --cleanup --opencv
 
 libfreenect2: $(SCRIPTSDIR)/$(EXE)
-        cd $(SCRIPTSDIR) ; \
-        ./$(EXE) $(OPTIONS) --freenect2
+	cd $(SCRIPTSDIR) ; \
+        ./$(EXE) $(INSTALL_OPTION) --freenect2
+
+clean-libfreenect2:
+	cd $(SCRIPTSDIR) ; \
+        ./$(EXE) $(UNINSTALL_OPTION) --freenect2
 
 clean:
 	cd $(SCRIPTSDIR) ; \
