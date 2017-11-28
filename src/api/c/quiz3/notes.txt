@@ -1,0 +1,3 @@
+Compiles in:
+	2.6
+	4 (with errors)
