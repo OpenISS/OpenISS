@@ -1,5 +1,7 @@
 /* issimagedrv.c */
 
+#include <linux/sched.h>
+
 #include "issimagedrv.h"
 #include <linux/fs.h>
 #include <asm/segment.h>
@@ -77,7 +79,46 @@ static int device_release(struct inode *inode, struct file *file)
 /* Process attempts to read from device file */
 static ssize_t device_read(struct file *file, char *buffer, size_t length, loff_t * offset)
 {
- 	printk("%s being read\n", DEVICE_NAME);
+ 	/*initialize needed vars*/
+	int i, oldSize = dataSize;
+	char nullChar = '\0';
+	
+	/*if there is less data than the buffer size*/
+	if (dataSize < length)
+	{
+		i = 0;
+		while (i < dataSize)
+		{
+			buffer[i] = data[i];
+			i++;
+		}
+		while (i < length)
+		{
+			buffer[i] = nullChar;
+		}
+		realloc(data, 0);
+		dataSize = 0;
+	}
+	else /*more data than buffer size*/
+	{
+		for (i = 0; i < length; i++)
+		{
+			buffer[i] = data[i];
+			dataSize--;
+		}
+		char* temp[dataSize];
+		for (int i = dataSize; i < oldSize; i--)
+		{
+			temp[i - dataSize] = data[i];
+		}
+
+		realloc(data, dataSize);
+		for (i = 0; i < dataSize; i++)
+		{
+			data[i] = temp[i];	
+		}
+	}
+	printk("%s being read\n", DEVICE_NAME);
 	return SUCCESS;
 }
 
