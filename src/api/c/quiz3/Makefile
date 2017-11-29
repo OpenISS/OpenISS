@@ -5,6 +5,9 @@ DRIVER=issimagedrv.o
 MODULE=issimagedrv.ko
 EXE=driver-test
 OBJ=main.o $(DRIVER)
+DEVICE_NAME="ISSIMAGEDRV"
+DEVICE_MINOR=1
+
 
 obj-m += $(DRIVER)
 
@@ -15,10 +18,12 @@ clean:
 	rm -f $(EXE) $(OBJ)
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 	rmmod issimagedrv
-	rm -f /dev/ISSIMAGEDRV
+	rm -f /dev/$(DEVICE_NAME)
 
 register:
 	insmod ./$(MODULE)
+	DEVICE_MAJOR=dmesg | tail -3 | grep 'ISSIMG' | sed s/"ISSIMG "/\/
+	mknod $(DEVICE_NAME) c $(DEVICE_MAJOR) $(DEVICE_MINOR)
 
 $(EXE): main.o
 	$(CC) $(CC_OPTIONS) main.o -o $(EXE)
