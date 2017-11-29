@@ -7,9 +7,9 @@
 #include <linux/buffer_head.h>
 
 static int Major; /* Major number assigned to our device driver */
-unsigned int** data[3];
-unsigned char* readData;
-unsigned int size = 255;
+/*unsigned char* data[3];*/
+unsigned char* data;
+unsigned int dataSize;
 
 /* Module initially loaded */
 int init_module(void)
@@ -84,8 +84,21 @@ static ssize_t device_read(struct file *file, char *buffer, size_t length, loff_
 /* Process attempts to write to device file */
 static ssize_t device_write(struct file *file, const char *buff, size_t len, loff_t * off)
 {
-	printk("%s", buff);
-	//printk("%i", ret);
-	//printk("%s being written to\n", DEVICE_NAME);
+	int tmpSize = dataSize + len;
+	int count = 0;
+
+	/* reallocate for our new array size */
+	realloc(data, tmpSize);
+
+	/* add the new data */
+	for (int i = dataSize; i < tmpSize; i++)
+	{
+		data[i] = buff[count];
+		count++;
+
+		/* keep keeping track of data size */
+		dataSize++;
+	}
+
 	return SUCCESS;
 }
