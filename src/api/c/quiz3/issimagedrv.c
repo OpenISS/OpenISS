@@ -1,5 +1,7 @@
 /* issimagedrv.c */
 
+#include <linux/sched.h>
+
 #include "issimagedrv.h"
 #include <linux/fs.h>
 #include <asm/segment.h>
@@ -7,9 +9,9 @@
 #include <linux/buffer_head.h>
 
 static int Major; /* Major number assigned to our device driver */
-unsigned int** data[3];
-unsigned char* readData;
-unsigned int size = 255;
+/*unsigned char* data[3];*/
+unsigned char* data;
+unsigned int dataSize;
 
 /* Module initially loaded */
 int init_module(void)
@@ -77,15 +79,69 @@ static int device_release(struct inode *inode, struct file *file)
 /* Process attempts to read from device file */
 static ssize_t device_read(struct file *file, char *buffer, size_t length, loff_t * offset)
 {
- 	printk("%s being read\n", DEVICE_NAME);
-	return SUCCESS;
+ 	/*initialize needed vars*/
+	int i, oldSize = dataSize;
+	char nullChar = '\0';
+	
+	/*if there is less data than the buffer size*/
+	if (dataSize < length)
+	{
+		i = 0;
+		while (i < dataSize)
+		{
+			buffer[i] = data[i];
+			i++;
+		}
+		while (i < length)
+		{
+			buffer[i] = nullChar;
+		}
+		realloc(data, 0);
+		int temp = datasize;		
+		dataSize = 0;
+		return dataSize;
+	}
+	else /*more data than buffer size*/
+	{
+		for (i = 0; i < length; i++)
+		{
+			buffer[i] = data[i];
+			dataSize--;
+		}
+		char* temp[dataSize];
+		for (int i = dataSize; i < oldSize; i--)
+		{
+			temp[i - dataSize] = data[i];
+		}
+
+		realloc(data, dataSize);
+		for (i = 0; i < dataSize; i++)
+		{
+			data[i] = temp[i];	
+		}
+	}
+	printk("%s being read\n", DEVICE_NAME);
+	return length;
 }
 
 /* Process attempts to write to device file */
 static ssize_t device_write(struct file *file, const char *buff, size_t len, loff_t * off)
 {
-	printk("%s", buff);
-	//printk("%i", ret);
-	//printk("%s being written to\n", DEVICE_NAME);
+	int tmpSize = dataSize + len;
+	int count = 0;
+
+	/* reallocate for our new array size */
+	realloc(data, tmpSize);
+
+	/* add the new data */
+	for (int i = dataSize; i < tmpSize; i++)
+	{
+		data[i] = buff[count];
+		count++;
+
+		/* keep keeping track of data size */
+		dataSize++;
+	}
+
 	return SUCCESS;
 }
