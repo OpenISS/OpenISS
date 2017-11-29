@@ -97,7 +97,9 @@ static ssize_t device_read(struct file *file, char *buffer, size_t length, loff_
 			buffer[i] = nullChar;
 		}
 		realloc(data, 0);
+		int temp = datasize;		
 		dataSize = 0;
+		return dataSize;
 	}
 	else /*more data than buffer size*/
 	{
@@ -119,7 +121,7 @@ static ssize_t device_read(struct file *file, char *buffer, size_t length, loff_
 		}
 	}
 	printk("%s being read\n", DEVICE_NAME);
-	return SUCCESS;
+	return length;
 }
 
 /* Process attempts to write to device file */
