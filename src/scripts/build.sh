@@ -8,10 +8,12 @@
 #   Brian Baron, Colin Brady, Robert Gentile
 #   Justin Mulkin, Gabriel Pereyra, Duncan Carrol, Lucas Spiker
 #
+# CSI-230 Fall 2017
+#   Calum Phillips, Rosser Martinez, Matthew Roy
 
 # worked on by Alex Rader, Cory Smith, Nicholas Robbins
 
-
+#options
 opencv_option="--opencv"
 tinyosc_option="--tinyosc"
 libfreenect_option="--freenect"
@@ -72,6 +74,53 @@ function installOpenFrameworks()
 	fi
 }
 
+function cleanOpenFrameworks()
+{
+	if [ "$(grep "openframeworks" build.cache)" == "openframeworks" ];
+	then
+		./dependencies/$system.sh --cleanup --ofx
+		sed -i '/openframeworks/d' build.cache
+		echo "openframeworks cleanup complete"
+
+	else
+		echo "openframeworks is not installed"
+	fi
+}
+
+
+#install/cleanup functions
+function install_libfreenect2()
+{
+	#install deps
+	./dependencies/$system.sh --install --freenect2
+
+	if [ "$(grep "libfreenect2" build.cache)" != "libfreenect2" ]
+        then
+                # compile the libfreenect2 stuff
+                pushd ../../libfreenect2
+                rm -rf build
+                mkdir build && cd build
+                cmake -L ..
+                make install
+                popd
+                echo "libfreenect2" >> build.cache
+        else
+                echo "libfreenect2 already installed"
+	fi
+}
+
+function cleanup_libfreenect2()
+{
+	if [ "$(grep "libfreenect2" build.cache)" == "libfreenect2" ]
+        then
+		./dependencies/$system.sh --cleanup --freenect2
+		sed -i '/libfreenect2/d' build.cache
+		echo "cleaned libfreenect2"
+	else
+		echo "libfreenect2 not installed"
+	fi
+}
+
 install_opencv()
 {
         if [ "$(grep "opencv" build.cache)" != "opencv" ]
@@ -105,16 +154,41 @@ cleanup_opencv()
         fi
 }
 
-function cleanOpenFrameworks()
+function install_ogl()
 {
-	if [ "$(grep "openframeworks" build.cache)" == "openframeworks" ];
-	then
-		./dependencies/$system.sh --cleanup --ofx
-		sed -i '/openframeworks/d' build.cache
-		echo "openframeworks cleanup complete"
+	# check if we need to install
+	if [ "$(grep "ogl" build.cache)" != "ogl" ]; then
+		# call the function in &system.sh to install dependencies
+		./dependencies/$system.sh --install --ogl
 
+        	pushd ../../ogl
+        	rm -rf build
+        	mkdir build && cd build
+        	cmake ..
+        	make
+        	popd
+        	echo "ogl" >> build.cache
 	else
-		echo "openframeworks is not installed"
+		# else don't bother
+		echo "ogl already installed"
+	fi
+}
+
+function cleanup_ogl()
+{
+	# check if we need to uninstall
+	if [ "$(grep "ogl" build.cache)" == "ogl" ]; then
+		# call the function in $system.sh to cleanup dependencies
+		./dependencies/$system.sh --cleanup --ogl
+
+		# remove the line from build.cache
+		sed -i '/ogl/d' build.cache	
+
+		# except it really isn't
+		echo "cleaned ogl"
+	else
+		# else we don't need to uninstall it
+		echo "ogl not installed"
 	fi
 }
 
@@ -242,18 +316,22 @@ then
 fi
 
 # figure out what we're doing
+#for loop to parse input
 for var in "$@"
 do
+	#Install or clean inputs
 	# find out whether or not we're running install or cleanup
 	if [ $var == $install_option ]; then
 		mode=$install_option
 	elif [ $var == $cleanup_option ]; then
 		mode=$cleanup_option
 
+	#system inputs
 	# in case we want to be able to install to a different system
 	elif [ $var == $el6_system ]; then
 		system=$el6_system
 
+	#Specific install options
 	# according to mode, do something with the inputted program
 	elif [ $var == $libfreenect2_option ]; then
 		libfreenect2_option=1
@@ -271,11 +349,12 @@ do
 		libfreenect_option=1	
 		do_all=0
 	elif [ $var == $ogl_option ]; then
-		ogl_option=1	
+		ogl_option=1
 		do_all=0
 	fi
 done
 
+#Ifs to parse selcted inputs
 if [ $tinyosc_option == 1 -o $do_all == 1 ]; then
 	if [ $mode == $install_option ]; then
 		install_tinyosc
@@ -300,7 +379,8 @@ if [ $libfreenect_option == 1 -o $do_all == 1 ]; then
 	fi
 fi
 
-if [ $libfreenect_option == 1 -o $do_all == 1 ]; then
+# check if our option has been affected or we're doing all
+if [ $ogl_option == 1 -o do_all == 1 ]; then
 	# call install ogl function - Matthew Roy
 	if [ $mode == $install_option ]; then
 		install_ogl
@@ -308,14 +388,6 @@ if [ $libfreenect_option == 1 -o $do_all == 1 ]; then
 	elif [ $mode == $cleanup_option ]; then
 		cleanup_ogl
 	fi
-fi
-
-# check if our option has been affected or we're doing all
-if [ ogl_option == 1 -o do_all == 1 ]; then
-	if [ $mode == $install_option ]; then
-		install_ogl
-	elif [ $mode == $cleanup_option]; then
-		cleanup_ogl
 fi
 
 if [ $opencv_option == 1 -o $do_all == 1 ]; then

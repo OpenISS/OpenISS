@@ -36,7 +36,7 @@ opencv:
 
 clean-opencv:
 	cd $(SCRIPTSDIR) ; \
-        ./$(EXE) --cleanup --opencv
+        ./$(EXE) $(UNINSTALL_OPTION) --opencv
 
 libfreenect2: $(SCRIPTSDIR)/$(EXE)
 	cd $(SCRIPTSDIR) ; \
@@ -46,9 +46,14 @@ clean-libfreenect2:
 	cd $(SCRIPTSDIR) ; \
         ./$(EXE) $(UNINSTALL_OPTION) --freenect2
 
+ogl:
+	cd $(SCRIPTSDIR) ; \
+	./$(EXE) $(INSTALL_OPTION) --ogl
+
 clean:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(UNINSTALL_OPTION)
+
 clean-tinyosc:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(UNINSTALL_OPTION) --tinyosc
@@ -66,7 +71,6 @@ clean-ogl:
 clean-libfreenect2:
         cd $(SCRIPTSDIR) ; \
         ./$(EXE) --cleanup --freenect2
-
 
 maintainer-clean: clean
 	rm $(SCRIPTSDIR)/build.cache 

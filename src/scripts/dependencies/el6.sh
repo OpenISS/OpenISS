@@ -14,7 +14,7 @@
 
 # worked on by Alex Rader, Cory Smith, Nicholas Robbins
 
-
+#Options
 tinyosc_option="--tinyosc"
 ofx_option="--ofx"
 ogl_option="--ogl"
@@ -58,7 +58,6 @@ function install_ogl_deps()
 	# dependencies for ogl
 	yum install -y cmake3 make gcc-c++ libX11-devel libXi-devel mesa-libGL mesa-libGLU libXrandr-devel libXext-devel libXcursor-devel libXinerama-devel libXi-devel
 }
-
 # el6.sh - dependencies for ogl - Matthew Roy
 function cleanup_ogl_deps()
 {
@@ -94,6 +93,7 @@ function cleanup_opencv()
 
 }
 
+#install/cleanup functions
 function install_libfreenect2()
 {
 	# libfreenect2 dependencies
@@ -125,6 +125,8 @@ do
 
 	elif [ $var == $libfreenect2_option ]; then
 		libfreenect2_option=1
+	elif [ $var == $libfreenect_option ]; then
+		libfreenect_option=1
         elif [ $var == $opencv_option ]; then
                 opencv_option=1
 	elif [ $var == $tinyosc_option ]; then
@@ -136,6 +138,15 @@ do
 		ogl_option=1
 	fi
 done
+
+#Ifs to parse selcted inputs
+if [ $libfreenect2_option == 1 ]; then
+	if [ $mode == $install_option ]; then
+		install_libfreenect2
+	elif [ $mode == $cleanup_option ]; then
+		cleanup_libfreenect2
+	fi
+fi
 
 if [ $tinyosc_option == 1 ]; then
 	if [ $mode == $install_option ]; then
@@ -154,7 +165,7 @@ if [ $ofx_option == 1 ]; then
 fi
 
 # check if our option has been affected
-if [ ogl_option == 1 ]
+if [ $ogl_option == 1 ]
 	if [ $mode == $install_option ]; then
 		install_ogl
 	elif [ $mode == $cleanup_option]; then
@@ -168,12 +179,4 @@ if [ $opencv_option == 1 ]; then
         if [$mode == $cleanup_option ]; then
                 cleanup_opencv
         fi
-fi
-
-if [ $libfreenect2_option == 1 ]; then
-	if [ $mode == $install_option ]; then
-		install_libfreenect2
-	elif [ $mode == $cleanup_option ]; then
-		cleanup_libfreenect2
-	fi
 fi
