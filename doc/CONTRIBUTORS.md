@@ -1,5 +1,10 @@
-Project Report - Assignment 3
-Team:
+
+CSI230-101 Fall 2016 Teams:
+
+	- Brian Baron
+	- Colin Brady
+	- Robert Gentile
+
 	- Gabriel Pereyra
 	- Lucas Spiker
 	- Duncan Carrol
@@ -15,3 +20,19 @@ Build Instructions:
 Currently Known Bugs:
 	- Cannot build openframeworks as they are currently having some issues with their linux version
 		According to their repo they know of the issue and are working on it
+
+Team 1: libfreenect2, and opencv
+
+Instructions:
+	Install:	cd to /OpenISS/src
+				make (installs all dependencies)
+
+	Compile:	Happens during make process
+
+	Clean:		cd to /OpenISS/src
+				make clean
+Bugs:
+N/A
+
+Special Features:
+N/A

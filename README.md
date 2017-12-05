@@ -4,7 +4,7 @@
 
 OpenISS is inspired by its counterparts of ISS and ISSv2, but being built
 from scratch using C and C++ and open-source libraries and toolkits for
-sensors and creative coding. Various wrappers are being planned.
+sensors and creative coding. Various wrappers are being developed.
 See background on the original ISS below.
 
 ## Contributors ##
@@ -14,6 +14,8 @@ See background on the original ISS below.
 * Original build automation contributors for Linux in EL6 (CentOS 6.x), CSI230-101 Fall 2016 course students teams:
   - Brian Baron, Colin Brady, Robert Gentile
   - Gabriel Pereyra, Justin Mulkin, Duncan Carrol, Lucas Spiker 
+
+* See detailed list [here](docs/CONTRIBUTORS.md)
 
 ## Build Instructions ##
 
