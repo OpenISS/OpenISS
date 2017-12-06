@@ -1,0 +1,21 @@
+--- fwfetcher.py        2017-12-05 21:49:54.830936016 -0500
++++ modified_python_file.py     2017-11-28 21:51:08.464021245 -0500
+@@ -560,11 +560,17 @@
+     print("done, saved to", filename)
+     return retval
+
++class FixedZip(zipfile.ZipFile):
++       def __enter__(self):
++               return self
++       def __exit__(self,*args):
++               self.close()
++
+ def extractPirsFromZip(systemupdate):
+     print("Extracting $SystemUpdate/FFFE07DF00000001 from system update "
+           "file...")
+     updatefile = io.BytesIO(systemupdate)
+-    with zipfile.ZipFile(updatefile) as z:
++    with FixedZip(updatefile) as z:
+         # print(z.namelist())
+         pirs = z.open("$SystemUpdate/FFFE07DF00000001").read()
+     print("done.")
