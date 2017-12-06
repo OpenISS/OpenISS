@@ -1,0 +1,10 @@
+installing NVIDIA by blacklisting nouveau
+December 5th, 2017
+
+go to kernel 4.14
+press e to edit
+press e to edit the second option
+write " rdblacklist=nouveau blacklist=nouveau single"
+press enter
+press b on root
+after it builds, type sh followed by the NVIDIA install file
