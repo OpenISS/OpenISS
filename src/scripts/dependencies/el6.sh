@@ -3,65 +3,78 @@
 # el6.sh
 #
 # Script to install requirements:
-#		libraries
-#		compilers
-#		kernels
-#		drivers
+#	libraries
+#	compilers
+#	kernels
+#	drivers
 #
 # These are all needed to compile submodules in OpenISS
 #
 # Need to be root when running this script
 
-# worked on by Alex Rader, Cory Smith, Nicholas Robbins
+# Supported options
+install_option="--install"
+cleanup_option="--cleanup"
 
-#Options
 tinyosc_option="--tinyosc"
 ofx_option="--ofx"
 ogl_option="--ogl"
 opencv_option="--opencv"
+libfreenect_option="--freenect"
 libfreenect2_option="--freenect2"
-install_option="--install"
-cleanup_option="--cleanup"
+
+# Mode selects between install and cleanup
 mode=0
+
+# Install/cleanup functions
 
 function install_tinyosc()
 {
+	# Making sure gcc is installed
 	yum install -y gcc
 	echo "tinyosc dependencies installed"
 }
+
 function cleanup_tinyosc()
 {
+	# Intentionally not removing gcc as needed in many places    
 	echo "unistalled tinyosc"
 }
 
-function installOpenFrameworks()
+function install_open_frameworks()
 {
-	 # openFrameworks
-        pushd ../../openFrameworks
-        	git submodule update --init --recursive
+	# openFrameworks submodules
+	pushd ../../openFrameworks
+		git submodule update --init --recursive
 	popd
-        # openframeworks dependencies from the provided script
-        pushd ../../openFrameworks/scripts/linux/el6
-                ./install_codecs.sh
-                ./install_dependencies.sh
+
+	# openframeworks dependencies from the provided script
+	pushd ../../openFrameworks/scripts/linux/el6
+		./install_codecs.sh
+		./install_dependencies.sh
 	popd
 }
 
-function cleanOpenFrameworks()
+function cleanup_open_frameworks()
 {
-	echo "openframeworks el6 cleanup complete"
+	# Empty for now
+	echo "openFrameworks el6 cleanup complete"
 }
 
-# el6.sh - dependencies for ogl - Matthew Roy
-function install_ogl_deps()
+function install_ogl()
 {
 	# dependencies for ogl
-	yum install -y cmake3 make gcc-c++ libX11-devel libXi-devel mesa-libGL mesa-libGLU libXrandr-devel libXext-devel libXcursor-devel libXinerama-devel libXi-devel
+	yum install -y \
+		cmake3 make \
+		gcc-c++ \
+		libX11-devel libXi-devel mesa-libGL mesa-libGLU \
+		libXrandr-devel libXext-devel libXcursor-devel \
+		libXinerama-devel libXi-devel
 }
-# el6.sh - dependencies for ogl - Matthew Roy
+
 function cleanup_ogl_deps()
 {
-	# dependencies for ogl
+	# Empty for now
 	echo "cleaned ogl"
 }
 
@@ -69,6 +82,7 @@ function install_opencv()
 {
 	# opencv dependencies
         yum groupinstall -y "Development Tools"
+
         yum install -y gtk+-devel gtk2-devel
         yum install -y pkgconfig.x86_64
         yum install -y python
@@ -90,10 +104,8 @@ function cleanup_opencv()
         yum remove -y libavc1394.x86_64
 
 	echo "opencv cleaned up!"
-
 }
 
-#install/cleanup functions
 function install_libfreenect2()
 {
 	# libfreenect2 dependencies
@@ -113,70 +125,80 @@ function cleanup_libfreenect2()
 	echo "libfreenect2 deps cleaned"
 }
 
+function install_libfreenect()
+{
+	echo "libfreenect deps installed"
+}
+
+function cleanup_libfreenect()
+{
+	echo "libfreenect deps cleaned"
+}
+
 # figure out what we're doing
-for var in "$@"
+for current_option in "$@"
 do
 	# find out whether or not we're running install or cleanup
-	if [ $var == $install_option ]; then
+	if [ "$current_option" == "$install_option" ]; then
 		mode=$install_option
-	elif [ $var == $cleanup_option ]; then
+	elif [ "$current_option" == "$cleanup_option" ]; then
 		mode=$cleanup_option
 
-
-	elif [ $var == $libfreenect2_option ]; then
-		libfreenect2_option=1
-	elif [ $var == $libfreenect_option ]; then
-		libfreenect_option=1
-        elif [ $var == $opencv_option ]; then
-                opencv_option=1
-	elif [ $var == $tinyosc_option ]; then
-		tinyosc_option=1
-	elif [ $var == $ofx_option ]; then
-		ofx_option=1
 	# according to mode, do something with the inputted program
-	elif [ $var == $ogl_option ]; then
+	elif [ "$current_option" == "$libfreenect2_option" ]; then
+		libfreenect2_option=1
+	elif [ "$current_option" == "$libfreenect_option" ]; then
+		libfreenect_option=1
+        elif [ "$current_option" == "$opencv_option" ]; then
+                opencv_option=1
+	elif [ "$current_option" == "$tinyosc_option" ]; then
+		tinyosc_option=1
+	elif [ "$current_option" == "$ofx_option" ]; then
+		ofx_option=1
+	elif [ "$current_option" == "$ogl_option" ]; then
 		ogl_option=1
 	fi
 done
 
-#Ifs to parse selcted inputs
+# Parse selected inputs to check if our options have been affected
 if [ $libfreenect2_option == 1 ]; then
-	if [ $mode == $install_option ]; then
+	if [ "$mode" == "$install_option" ]; then
 		install_libfreenect2
-	elif [ $mode == $cleanup_option ]; then
+	elif [ "$mode" == "$cleanup_option" ]; then
 		cleanup_libfreenect2
 	fi
 fi
 
 if [ $tinyosc_option == 1 ]; then
-	if [ $mode == $install_option ]; then
+	if [ "$mode" == "$install_option" ]; then
 		install_tinyosc
-	elif [ $mode == $cleanup_option ]; then
+	elif [ "$mode" == "$cleanup_option" ]; then
 		cleanup_tinyosc
 	fi
 fi
 
 if [ $ofx_option == 1 ]; then
-	if [ $mode == $install_option ]; then
-		installOpenFrameworks
-	elif [ $mode == $cleanup_option ]; then
-		cleanOpenFrameworks
+	if [ "$mode" == "$install_option" ]; then
+		install_open_frameworks
+	elif [ "$mode" == "$cleanup_option" ]; then
+		cleanup_open_frameworks
 	fi
 fi
 
-# check if our option has been affected
-if [ $ogl_option == 1 ]
-	if [ $mode == $install_option ]; then
+if [ $ogl_option == 1 ]; then
+	if [ "$mode" == "$install_option" ]; then
 		install_ogl
-	elif [ $mode == $cleanup_option]; then
+	elif [ "$mode" == "$cleanup_option" ]; then
 		cleanup_ogl
 	fi
 fi
 
 if [ $opencv_option == 1 ]; then
-        if [$mode == $install_option ]; then
-                install_opencv
-        if [$mode == $cleanup_option ]; then
-                cleanup_opencv
-        fi
+	if [ "$mode" == "$install_option" ]; then
+		install_opencv
+	elif [ "$mode" == "$cleanup_option" ]; then
+		cleanup_opencv
+	fi
 fi
+
+# EOF
