@@ -17,6 +17,10 @@ libfreenect:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(INSTALL_OPTION) --freenect
 
+libfreenect2: $(SCRIPTSDIR)/$(EXE)
+	cd $(SCRIPTSDIR) ; \
+	./$(EXE) $(INSTALL_OPTION) --freenect2
+
 tinyosc:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(INSTALL_OPTION) --tinyosc
@@ -24,53 +28,42 @@ tinyosc:
 ofx:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(INSTALL_OPTION) --ofx
-	
+
 ogl:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(INSTALL_OPTION) --ogl
 
 opencv:
-	$(SCRIPTSDIR)/$(EXE)
 	cd $(SCRIPTSDIR) ; \
-        ./$(EXE) $(OPTIONS) --opencv
-
-clean-opencv:
-	cd $(SCRIPTSDIR) ; \
-        ./$(EXE) $(UNINSTALL_OPTION) --opencv
-
-libfreenect2: $(SCRIPTSDIR)/$(EXE)
-	cd $(SCRIPTSDIR) ; \
-        ./$(EXE) $(INSTALL_OPTION) --freenect2
-
-clean-libfreenect2:
-	cd $(SCRIPTSDIR) ; \
-        ./$(EXE) $(UNINSTALL_OPTION) --freenect2
-
-ogl:
-	cd $(SCRIPTSDIR) ; \
-	./$(EXE) $(INSTALL_OPTION) --ogl
+	./$(EXE) $(OPTIONS) --opencv
 
 clean:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(UNINSTALL_OPTION)
 
+clean-opencv:
+	cd $(SCRIPTSDIR) ; \
+	./$(EXE) $(UNINSTALL_OPTION) --opencv
+
+clean-libfreenect2:
+	cd $(SCRIPTSDIR) ; \
+	./$(EXE) $(UNINSTALL_OPTION) --freenect2
+
 clean-tinyosc:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(UNINSTALL_OPTION) --tinyosc
+
 clean-ofx:
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(UNINSTALL_OPTION) --ofx
+
 clean-libfreenect:
 	cd $(SCRIPTSDIR) ; \
-        ./$(EXE) $(UNINSTALL_OPTION) --freenect
+	./$(EXE) $(UNINSTALL_OPTION) --freenect
 
 clean-ogl:
 	cd $(SCRIPTSDIR) ; \
-        ./$(EXE) $(UNINSTALL_OPTION) --ogl
-
-clean-libfreenect2:
-        cd $(SCRIPTSDIR) ; \
-        ./$(EXE) --cleanup --freenect2
+	./$(EXE) $(UNINSTALL_OPTION) --ogl
 
 maintainer-clean: clean
-	rm $(SCRIPTSDIR)/build.cache 
+	rm -f $(SCRIPTSDIR)/build.cache 
