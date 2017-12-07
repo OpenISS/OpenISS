@@ -32,6 +32,10 @@ mode=0
 # Generic dependecies for development
 function install_dev_dependencies()
 {
+ 	echo "==============================="
+ 	echo "installign GENERAL dependencies"
+ 	echo "==============================="
+
 	# Making sure gcc is installed
 	yum -y clean all
 	yum -y clean expire-cache
@@ -54,7 +58,8 @@ function install_dev_dependencies()
 	yum install -y git
 	yum install -y gcc
 	yum install -y make cmake
-	
+	yum install -y patch wget
+
 	# recent kernel install for the latest USB3 drivers
 	#yum --enablerepo=elrepo-kernel install -y kernel-ml-devel-4.8.7-1.el6.elrepo.x86_64
 	yum --enablerepo=elrepo-kernel install -y kernel-ml kernel-ml-devel
@@ -64,6 +69,10 @@ function install_dev_dependencies()
 
 	# install python 34 from epel
 	yum --enablerepo=epel install -y python34.x86_64
+
+ 	echo "==============================="
+	echo "GENERAL dependencies installed"
+ 	echo "==============================="
 }
 
 function install_tinyosc()
@@ -252,60 +261,60 @@ done
 # Parse selected inputs to check if our options have been affected
 if [ "$mode" == "$install_option" ]; then
 
-	echo "install"
+	echo "INSTALL"
 
-	install_dev_dependencies
+	time install_dev_dependencies
 
 	if [ "$ogl_option" == "1" ]; then
-		install_ogl
+		time install_ogl
 	fi
 
 	if [ "$libfreenect2_option" == "1" ]; then
-		install_libfreenect2
+		time install_libfreenect2
 	fi
 
 	if [ "$libfreenect_option" == "1" ]; then
-		install_libfreenect
+		time install_libfreenect
 	fi
 
 	if [ "$tinyosc_option" == "1" ]; then
-		install_tinyosc
+		time install_tinyosc
 	fi
 
 	if [ "$opencv_option" == "1" ]; then
-		install_opencv
+		time install_opencv
 	fi
 
 	if [ "$ofx_option" == "1" ]; then
-		install_open_frameworks
+		time install_open_frameworks
 	fi
 
 elif [ "$mode" == "$cleanup_option" ]; then
 
-	echo "cleanup"
+	echo "CLEANUP"
 
 	if [ "$ofx_option" == "1" ]; then
-		cleanup_open_frameworks
+		time cleanup_open_frameworks
 	fi
 
 	if [ "$opencv_option" == "1" ]; then
-		cleanup_opencv
+		time cleanup_opencv
 	fi
 
 	if [ "$tinyosc_option" == "1" ]; then
-		cleanup_tinyosc
+		time cleanup_tinyosc
 	fi
 
 	if [ "$libfreenect_option" == "1" ]; then
-		cleanup_libfreenect
+		time cleanup_libfreenect
 	fi
 
 	if [ "$libfreenect2_option" == "1" ]; then
-		cleanup_libfreenect2
+		time cleanup_libfreenect2
 	fi
 
 	if [ "$ogl_option" == "1" ]; then
-		cleanup_ogl
+		time cleanup_ogl
 	fi
 
 else

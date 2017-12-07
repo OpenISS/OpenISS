@@ -10,8 +10,7 @@
 #
 # CSI-230 Fall 2017
 #   Calum Phillips, Rosser Martinez, Matthew Roy
-
-# worked on by Alex Rader, Cory Smith, Nicholas Robbins
+#   Alex Rader, Cory Smith, Nicholas Robbins
 
 #options
 opencv_option="--opencv"
@@ -54,7 +53,7 @@ function cleanup_tinyosc()
 	fi
 }
 
-function installOpenFrameworks()
+function install_open_frameworks()
 {
 	if [ "$(grep "openframeworks" build.cache)" != "openframeworks" ];
 	then
@@ -74,14 +73,13 @@ function installOpenFrameworks()
 	fi
 }
 
-function cleanOpenFrameworks()
+function cleanup_open_frameworks()
 {
 	if [ "$(grep "openframeworks" build.cache)" == "openframeworks" ];
 	then
 		./dependencies/$system.sh --cleanup --ofx
 		sed -i '/openframeworks/d' build.cache
 		echo "openframeworks cleanup complete"
-
 	else
 		echo "openframeworks is not installed"
 	fi
@@ -91,21 +89,22 @@ function cleanOpenFrameworks()
 #install/cleanup functions
 function install_libfreenect2()
 {
-	#install deps
-	./dependencies/$system.sh --install --freenect2
-
 	if [ "$(grep "libfreenect2" build.cache)" != "libfreenect2" ]
-        then
-                # compile the libfreenect2 stuff
-                pushd ../../libfreenect2
-                rm -rf build
-                mkdir build && cd build
-                cmake -L ..
-                make install
-                popd
-                echo "libfreenect2" >> build.cache
-        else
-                echo "libfreenect2 already installed"
+	then
+		#install deps
+		./dependencies/$system.sh --install --freenect2
+
+		# compile the libfreenect2 stuff
+		pushd ../../libfreenect2
+			rm -rf build
+			mkdir build && cd build
+			cmake -L ..
+			make install
+		popd
+
+		echo "libfreenect2" >> build.cache
+	else
+		echo "libfreenect2 already installed"
 	fi
 }
 
@@ -121,37 +120,37 @@ function cleanup_libfreenect2()
 	fi
 }
 
-install_opencv()
+function install_opencv()
 {
-        if [ "$(grep "opencv" build.cache)" != "opencv" ]
-        then
+	if [ "$(grep "opencv" build.cache)" != "opencv" ]
+	then
 		./dependencies/$system.sh --install --opencv
 
-                # compile opencv
-                pushd ../../opencv
-                rm -rf build
-                mkdir build && cd build
-                cmake ..
-                make
-                popd
-                echo "opencv" >> build.cache
-        else
-                echo "opencv already installed"
-        fi
+		# compile opencv
+		# TODO: add examplee compile
+		pushd ../../opencv
+			rm -rf build
+			mkdir build && cd build
+			cmake ..
+			make
+		popd
+		echo "opencv" >> build.cache
+	else
+		echo "opencv already installed"
+	fi
 }
 
-cleanup_opencv()
+function cleanup_opencv()
 {
-
 	if [ "$(grep "opencv" build.cache)" == "opencv" ]
-        then
-                # compile opencv
-                ./dependencies/$system.sh --cleanup --opencv
-        	sed -i '/foo/d' ./build.cache
+	then
+		# compile opencv
+		./dependencies/$system.sh --cleanup --opencv
+		sed -i '/foo/d' ./build.cache
 		echo "opencv removed"
-        else
-                echo "opencv not installed"
-        fi
+	else
+		echo "opencv not installed"
+	fi
 }
 
 function install_ogl()
@@ -162,10 +161,10 @@ function install_ogl()
 		./dependencies/$system.sh --install --ogl
 
         	pushd ../../ogl
-        	rm -rf build
-        	mkdir build && cd build
-        	cmake ..
-        	make
+			rm -rf build
+			mkdir build && cd build
+			cmake3 ..
+			make
         	popd
         	echo "ogl" >> build.cache
 	else
@@ -194,42 +193,42 @@ function cleanup_ogl()
 
 function install_libfreenect()
 {
-        if [ "$(grep "libfreenect_" build.cache)" != "libfreenect_" ]
-        then
+	if [ "$(grep "libfreenect_" build.cache)" != "libfreenect_" ]
+	then
 		./dependencies/$system.sh --install --freenect
-                #run cmake and make files for libfreenect
-                pushd ../../libfreenect
-                mkdir build && cd build
-                # XXX: BUILD_OPENNI2_DRIVER=ON would work with cmake3 and gcc 4.8+ once installed
-                cmake \
-                        -DLIBUSB_1_LIBRARY=../../libfreenect2/depends/libusb/lib/libusb-1.0.so \
-                        -DLIBUSB_1_INCLUDE_DIR=../../libfreenect2/depends/libusb/include/libusb-1.0 \
-                        -DBUILD_OPENNI2_DRIVER=OFF \
-                        -L ..
-                make
-	        make install
-        	popd
-	        echo "libfreenect_" >> build.cache
-        else
-                echo "libfreenect already installed"
+		#run cmake and make files for libfreenect
+		pushd ../../libfreenect
+			mkdir build && cd build
+			# TODO: BUILD_OPENNI2_DRIVER=ON would work with cmake3 and gcc 4.8+ once installed
+			cmake \
+				-DLIBUSB_1_LIBRARY=../../libfreenect2/depends/libusb/lib/libusb-1.0.so \
+				-DLIBUSB_1_INCLUDE_DIR=../../libfreenect2/depends/libusb/include/libusb-1.0 \
+				-DBUILD_OPENNI2_DRIVER=OFF \
+				-L ..
+			make
+			make install
+		popd
+		echo "libfreenect_" >> build.cache
+	else
+		echo "libfreenect already installed"
 	fi
-
 }
 
 function cleanup_libfreenect()
 {
-	if [ "$(grep "libfreenect_" build.cache)" == "openframeworks" ];
+	if [ "$(grep "libfreenect_" build.cache)" == "libfreenect_" ];
 	then
 		./dependencies/$system.sh --cleanup --freenect
-        	#uninstall libfreenect
-       		cd ../../../libfreenect/build
-        	make uninstall
-        	cd ../
-        	rm -rf build
+		#uninstall libfreenect
+		pushd ../../../libfreenect/build
+			make uninstall
+			cd ../
+			rm -rf build
 
-       		#remove links created by libfreenect
-        	rm -f /usr/local/lib/libfreenect*
-        	rm -rf /usr/local/lib/fakenect
+			#remove links created by libfreenect
+			rm -f /usr/local/lib/libfreenect*
+			rm -rf /usr/local/lib/fakenect
+		popd
 
 		echo "libfreenect uninstalled"
 	else
@@ -237,78 +236,9 @@ function cleanup_libfreenect()
 	fi
 }
 
-# install ogl - Matthew Roy
-function install_ogl()
-{
-	# check if we need to install
-	if [ "$(grep "ogl" build.cache)" != "ogl" ]; then
-		# call the function in &system.sh to install dependencies
-		./dependencies/$system.sh --install --ogl
-
-        	pushd ../../ogl
-        	rm -rf build
-        	mkdir build && cd build
-        	cmake ..
-        	make
-        	popd
-        	echo "ogl" >> build.cache
-	else
-		# else don't bother
-		echo "ogl already installed"
-	fi
-}
-
-# cleanup ogl - Matthew Roy
-function cleanup_ogl()
-{
-	# check if we need to uninstall
-	if [ "$(grep "ogl" build.cache)" == "ogl" ]; then
-		# call the function in $system.sh to cleanup dependencies
-		./dependencies/$system.sh --cleanup --ogl
-
-		# remove the line from build.cache
-		sed -i '/ogl/d' build.cache	
-
-		# except it really isn't
-		echo "cleaned ogl"
-	else
-		# else we don't need to uninstall it
-		echo "ogl not installed"
-	fi
-}
-
-function install_libfreenect2()
-{
-	#install deps
-	./dependencies/$system.sh --install --freenect2
-
-	if [ "$(grep "libfreenect2" build.cache)" != "libfreenect2" ]
-        then
-                # compile the libfreenect2 stuff
-                pushd ../../libfreenect2
-                rm -rf build
-                mkdir build && cd build
-                cmake -L ..
-                make install
-                popd
-                echo "libfreenect2" >> build.cache
-        else
-		echo "libfreenect2 already installed"
-	fi
-}
-
-function cleanup_libfreenect2()
-{
-	if [ "$(grep "libfreenect2" build.cache)" == "libfreenect2" ]
-        then
-		./dependencies/$system.sh --cleanup --freenect2
-		sed -i '/libfreenect2/d' build.cache
-		echo "cleaned libfreenect2"
-	else
-		echo "libfreenect2 not installed"
-	fi
-}
-
+#
+# main
+#
 
 if [ ! -e "build.cache" ]
 then
@@ -321,87 +251,89 @@ for var in "$@"
 do
 	#Install or clean inputs
 	# find out whether or not we're running install or cleanup
-	if [ $var == $install_option ]; then
+	if [ "$var" == "$install_option" ]; then
 		mode=$install_option
-	elif [ $var == $cleanup_option ]; then
+	elif [ "$var" == "$cleanup_option" ]; then
 		mode=$cleanup_option
 
 	#system inputs
 	# in case we want to be able to install to a different system
-	elif [ $var == $el6_system ]; then
+	elif [ "$var" == "$el6_system" ]; then
 		system=$el6_system
 
 	#Specific install options
 	# according to mode, do something with the inputted program
-	elif [ $var == $libfreenect2_option ]; then
+	elif [ "$var" == "$libfreenect2_option" ]; then
 		libfreenect2_option=1
 		do_all=0
-	elif [ $var == $opencv_option ]; then
+	elif [ "$var" == "$opencv_option" ]; then
 		opencv_option=1
 		do_all=0
-	elif [ $var == $tinyosc_option ]; then
+	elif [ "$var" == "$tinyosc_option" ]; then
 		tinyosc_option=1
 		do_all=0
-	elif [ $var == $ofx_option ]; then
+	elif [ "$var" == "$ofx_option" ]; then
 		ofx_option=1
 		do_all=0
-	elif [ $var == $libfreenect_option ]; then
+	elif [ "$var" == "$libfreenect_option" ]; then
 		libfreenect_option=1	
 		do_all=0
-	elif [ $var == $ogl_option ]; then
+	elif [ "$var" == "$ogl_option" ]; then
 		ogl_option=1
 		do_all=0
 	fi
 done
 
-#Ifs to parse selcted inputs
-if [ $tinyosc_option == 1 -o $do_all == 1 ]; then
-	if [ $mode == $install_option ]; then
+# Ifs to parse selected inputs
+if [ "$tinyosc_option" == "1" -o "$do_all" == "1" ]; then
+	if [ "$mode" == "$install_option" ]; then
 		install_tinyosc
-	elif [ $mode == $cleanup_option ]; then
+	elif [ "$mode" == "$cleanup_option" ]; then
 		cleanup_tinyosc
 	fi
 fi
 
-if [ $ofx_option == 1 -o $do_all == 1 ]; then
-	if [ $mode == $install_option ]; then
-		installOpenFrameworks
-	elif [ $mode == $cleanup_option ]; then
-		cleanOpenFrameworks
+if [ "$ofx_option" == "1" -o "$do_all" == "1" ]; then
+	if [ "$mode" == "$install_option" ]; then
+		install_open_frameworks
+	elif [ "$mode" == "$cleanup_option" ]; then
+		cleanup_open_frameworks
 	fi
 fi
 
-if [ $libfreenect_option == 1 -o $do_all == 1 ]; then
-	if [ $mode == $install_option ]; then
+if [ "$libfreenect_option" == "1" -o "$do_all" == "1" ]; then
+	if [ "$mode" == "$install_option" ]; then
 		install_libfreenect
-	elif [ $mode == $cleanup_option ]; then
+	elif [ "$mode" == "$cleanup_option" ]; then
 		cleanup_libfreenect
 	fi
 fi
 
 # check if our option has been affected or we're doing all
-if [ $ogl_option == 1 -o do_all == 1 ]; then
+if [ "$ogl_option" == "1" -o "$do_all" == "1" ]; then
 	# call install ogl function - Matthew Roy
-	if [ $mode == $install_option ]; then
+	if [ "$mode" == "$install_option" ]; then
 		install_ogl
 	# call cleanup ogl function - Matthew Roy
-	elif [ $mode == $cleanup_option ]; then
+	elif [ "$mode" == "$cleanup_option" ]; then
 		cleanup_ogl
 	fi
 fi
 
-if [ $opencv_option == 1 -o $do_all == 1 ]; then
-	if [$mode == $install_option ]; then
+if [ "$opencv_option" == "1" -o "$do_all" == "1" ]; then
+	if [ "$mode" == "$install_option" ]; then
 		install_opencv
-	if [$mode == $cleanup_option ]; then
+	elif [ "$mode" == "$cleanup_option" ]; then
 		cleanup_opencv
 	fi
 fi
 
-if [ $libfreenect2_option == 1 -o $do_all == 1 ]; then
-	if [ $mode == $install_option ]; then
+if [ "$libfreenect2_option" == "1" -o "$do_all" == "1" ]; then
+	if [ "$mode" == "$install_option" ]; then
 		install_libfreenect2
-	elif [ $mode == $cleanup_option ]; then
+	elif [ "$mode" == "$cleanup_option" ]; then
 		cleanup_libfreenect2
 	fi
 fi
+
+# EOF
