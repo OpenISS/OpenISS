@@ -33,7 +33,7 @@ mode=0
 function install_dev_dependencies()
 {
  	echo "==============================="
- 	echo "installign GENERAL dependencies"
+ 	echo "installing GENERAL dependencies"
  	echo "==============================="
 
 	# Making sure gcc is installed
@@ -70,22 +70,27 @@ function install_dev_dependencies()
 	# install python 34 from epel
 	yum --enablerepo=epel install -y python34.x86_64
 
- 	echo "==============================="
+	echo "==============================="
 	echo "GENERAL dependencies installed"
- 	echo "==============================="
+	echo "==============================="
 }
 
 function install_tinyosc()
 {
 	# Making sure gcc is installed
 	yum install -y gcc
+
+	echo "=============================="
 	echo "tinyosc dependencies installed"
+	echo "=============================="
 }
 
 function cleanup_tinyosc()
 {
 	# Intentionally not removing gcc as needed in many places    
-	echo "unistalled tinyosc"
+	echo "====================================="
+	echo "NOOP: unistalled tinyosc dependencies"
+	echo "====================================="
 }
 
 function install_open_frameworks()
@@ -102,6 +107,10 @@ function install_open_frameworks()
 	popd
 
 	yum install -y gstreamer-devel gstreamer-plugins-base-devel
+
+	echo "====================================="
+	echo "openFrameworks dependencies installed"
+	echo "====================================="
 }
 
 function cleanup_open_frameworks()
@@ -109,7 +118,10 @@ function cleanup_open_frameworks()
 	# Empty for now
 	#remove packages installed by yum
 	yum remove -y gstreamer-devel gstreamer-plugins-base-devel
+
+	echo "==================================="
 	echo "openFrameworks el6 cleanup complete"
+	echo "==================================="
 }
 
 function install_ogl()
@@ -135,6 +147,10 @@ function install_ogl()
 	wget us.download.nvidia.com/$VIDEODRIVERPATH
 	# Suppress non-zero exist code if fails, may need to resolve manually
 	sh $VIDEODRIVERSCRIPT || echo 0 > /dev/null
+
+	echo "============================="
+	echo "OpenGL dependencies installed"
+	echo "============================="
 }
 
 function cleanup_ogl()
@@ -142,23 +158,28 @@ function cleanup_ogl()
 	# Empty for now
 	#remove packages installed by yum
 	yum remove -y libXmu-devel libXi-devel glut-devel libudev-devel
-	echo "cleaned ogl"
+
+	echo "==========================="
+	echo "cleaned OpenGL dependencies"
+	echo "==========================="
 }
 
 function install_opencv()
 {
 	# opencv dependencies
-        yum groupinstall -y "Development Tools"
+	yum groupinstall -y "Development Tools"
 
-        yum install -y opencv
-        yum install -y gtk+-devel gtk2-devel
-        yum install -y pkgconfig.x86_64
-        yum install -y python
-        yum install -y numpy
-        yum install -y libavc1394-devel.x86_64
-        yum install -y libavc1394.x86_64
+	yum install -y opencv
+	yum install -y gtk+-devel gtk2-devel
+	yum install -y pkgconfig.x86_64
+	yum install -y python
+	yum install -y numpy
+	yum install -y libavc1394-devel.x86_64
+	yum install -y libavc1394.x86_64
 
-	echo "opencv installed"	
+	echo "============================="
+	echo "OpenCV dependencies installed"	
+	echo "============================="
 }
 
 function cleanup_opencv()
@@ -172,7 +193,9 @@ function cleanup_opencv()
 	#yum remove -y libavc1394-devel.x86_64
 	#yum remove -y libavc1394.x86_64
 
-	echo "opencv cleaned up!"
+	echo "=================="
+	echo "OpenCV cleaned up!"
+	echo "=================="
 }
 
 function install_libfreenect2()
@@ -197,6 +220,7 @@ function cleanup_libfreenect2()
 	yum remove -y turbojpeg-devel
 
 	#libusb
+	# TODO: ignores the fact that libfreenect may still be using it
 	pushd ../../libfreenect2/depends/libusb_src
 		make distclean
 		cd ..
@@ -221,11 +245,6 @@ function install_libfreenect()
 	yum install -y cmake3
 
 	echo "libfreenect deps installed"
-}
-
-function cleanup_libfreenect()
-{
-	echo "libfreenect deps cleaned"
 }
 
 function cleanup_libfreenect()

@@ -33,9 +33,9 @@ function install_tinyosc()
 		#patch and compile tinyosc
 		./dependencies/$system.sh --install --tinyosc
 		pushd ../../tinyosc
-		patch build.sh < ../src/scripts/dependencies/tinyosc.build.sh.patch
-		./build.sh
-		popd
+			patch build.sh < ../src/scripts/dependencies/tinyosc.build.sh.patch
+			./build.sh
+			popd
 		echo "tinyosc" >> build.cache
 	else
  		echo "tinyosc already installed"
@@ -45,7 +45,7 @@ function install_tinyosc()
 function cleanup_tinyosc()
 {	
 	if [ "$(grep "tinyosc" build.cache)" == "tinyosc" ]; then
-		./dependencies/$system.sh --install --tinyosc
+		./dependencies/$system.sh --cleanup --tinyosc
 		sed -i '/tinyosc/d' build.cache
 		echo "tinyosc uninstalled"
 	else
@@ -59,8 +59,7 @@ function install_open_frameworks()
 	then
 		#install dependencies
 		echo "running el6.sh"
-		./dependencies/$system.sh $cleanup_option $ofx_option
-		echo "openframeworks" >> build.cache
+		./dependencies/$system.sh $install_option $ofx_option
 
 		#run install script to openframeworks
 		pushd ../../openFrameworks/scripts/linux
