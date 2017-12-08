@@ -11,6 +11,10 @@ See background on the original ISS below.
 
 * Project Lead: Serguei A. Mokhov
 
+* Updates for Linux and C in EL6 (CentOS 6.x), CSI230-101 Fall 2017 course students teams:
+  - Calum Phillips, Rosser Martinez, Matthew Roy
+  - Alex Rader, Cory Smith, Nicholas Robbins
+
 * Original build automation contributors for Linux in EL6 (CentOS 6.x), CSI230-101 Fall 2016 course students teams:
   - Brian Baron, Colin Brady, Robert Gentile
   - Gabriel Pereyra, Justin Mulkin, Duncan Carrol, Lucas Spiker 
@@ -39,7 +43,8 @@ relevant steps one by one.
 			dependencies
 
 	Compile:	
-			Occurs during the make process
+			cd OpenISS/src
+			make
 
 	Clean:		
 			Navigate to OpenISS/src
@@ -65,22 +70,6 @@ relevant steps one by one.
 * Max
 * Python
 * ...
-
-### Currently Known Bugs ###
-
-- Still cannot build openFrameworks
-  - Not sure if its on our end or their end
-
-### Progress on Requirements ###
-
-* RQ-IMG-DRV - Stumped on this one.
-* RQ-OSC - N/A
-* RQ-OGL - We think that this is done?
-* RQ-PROTONECT - N/A
-* RQ-IMG-DRV-GL - N/A
-* RQ-BLD-CACHE - Cache work is done.
-* RQ-FAKENECT - N/A
-* RQ-SOUND - N/A
 
 ## Background on the original ISS ##
 
