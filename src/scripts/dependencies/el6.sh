@@ -105,6 +105,42 @@ function install_open_frameworks()
 	pushd ../../openFrameworks/scripts/linux/el6
 		./install_codecs.sh
 		./install_dependencies.sh
+		../download_libs.sh
+
+		wget -O /etc/yum.repos.d/slc6-devtoolset.repo http://linuxsoft.cern.ch/cern/devtoolset/slc6-devtoolset.repo
+		rpm --import http://linuxsoft.cern.ch/cern/slc6X/x86_64/RPM-GPG-KEY-cern
+
+		# glm requires gcc 4.7 on el6, else assembly errors crop up
+		yum install -y devtoolset-1.1-gcc-c++ cmake
+		scl enable devtoolset-1.1 bash
+			git clone https://github.com/g-truc/glm.git
+			pushd glm
+				mkdir build
+				cd build
+				cmake ..
+				make
+				make install
+			popd
+		exit 0
+
+		# need glfw a-la libfreenect2
+		DEPENDS_DIR=`pwd`
+
+		# glfw
+		GLFW_SOURCE_DIR=$DEPENDS_DIR/glfw_src
+		rm -rf $GLFW_SOURCE_DIR
+		git clone https://github.com/glfw/glfw.git $GLFW_SOURCE_DIR
+		pushd $GLFW_SOURCE_DIR
+			git checkout 3.0.4
+			mkdir build
+			cd build
+			cmake -DBUILD_SHARED_LIBS=TRUE ..
+			make && make install
+		popd
+
+		# ofx itself requires gcc 4.8 on el6, else other errors crop up
+		# scl enable it in build.sh
+		yum install -y devtoolset-2-gcc-c++ cmake
 	popd
 
 	yum install -y gstreamer-devel gstreamer-plugins-base-devel

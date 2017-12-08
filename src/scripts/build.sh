@@ -4,13 +4,6 @@
 #
 # Need to be root when running this script
 #
-# CSI-230 Fall 2016
-#   Brian Baron, Colin Brady, Robert Gentile
-#   Justin Mulkin, Gabriel Pereyra, Duncan Carrol, Lucas Spiker
-#
-# CSI-230 Fall 2017
-#   Calum Phillips, Rosser Martinez, Matthew Roy
-#   Alex Rader, Cory Smith, Nicholas Robbins
 
 # options
 opencv_option="--opencv"
@@ -59,14 +52,24 @@ function install_open_frameworks()
 {
 	if [ "$(grep "openframeworks" build.cache)" != "openframeworks" ];
 	then
-		#install dependencies
+		# install dependencies
 		echo "running el6.sh"
 		./dependencies/$system.sh $install_option $ofx_option
 
-		#run install script to openframeworks
+		# run install script to openframeworks
+		# nvidia driver must be present with OpenGL 4 support
 		pushd ../../openFrameworks/scripts/linux
-		#tells scripts to use 3 cpu cores compile
-		#./compileOF.sh -j3
+			# have to use gcc 4.8 with c++11
+			scl enable devtoolset-2 bash
+				# tells scripts to use 3 cpu cores compile
+				./compileOF.sh -j3
+				./compilePH.sh
+			exit 0
+  
+			# compile examples
+			cd ../../
+			ls -al
+			./projectGenerator -r -o"." examples
 		popd
 		echo "openframeworks" >> build.cache
 	else
