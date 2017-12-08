@@ -12,7 +12,7 @@
 #   Calum Phillips, Rosser Martinez, Matthew Roy
 #   Alex Rader, Cory Smith, Nicholas Robbins
 
-#options
+# options
 opencv_option="--opencv"
 tinyosc_option="--tinyosc"
 libfreenect_option="--freenect"
@@ -26,6 +26,8 @@ cleanup_option="--cleanup"
 mode=0
 system="el6"
 el6_system="el6"
+
+# install/cleanup functions
 
 function install_tinyosc()
 {
@@ -84,8 +86,6 @@ function cleanup_open_frameworks()
 	fi
 }
 
-
-#install/cleanup functions
 function install_libfreenect2()
 {
 	if [ "$(grep "libfreenect2" build.cache)" != "libfreenect2" ]
@@ -145,7 +145,7 @@ function cleanup_opencv()
 	then
 		# compile opencv
 		./dependencies/$system.sh --cleanup --opencv
-		sed -i '/foo/d' ./build.cache
+		sed -i '/opencv/d' ./build.cache
 		echo "opencv removed"
 	else
 		echo "opencv not installed"
@@ -199,6 +199,7 @@ function install_libfreenect()
 		pushd ../../libfreenect
 			mkdir build && cd build
 			# TODO: BUILD_OPENNI2_DRIVER=ON would work with cmake3 and gcc 4.8+ once installed
+			# TODO: add patch and flag for fwfetcher.py to load firmware for 1473 models, etc.
 			cmake \
 				-DLIBUSB_1_LIBRARY=../../libfreenect2/depends/libusb/lib/libusb-1.0.so \
 				-DLIBUSB_1_INCLUDE_DIR=../../libfreenect2/depends/libusb/include/libusb-1.0 \
@@ -239,100 +240,109 @@ function cleanup_libfreenect()
 # main
 #
 
+echo "============="
+echo "$0 STARTED"
+date
+echo "============="
+
 if [ ! -e "build.cache" ]
 then
 	touch build.cache
 fi
 
-# figure out what we're doing
-#for loop to parse input
-for var in "$@"
+# for loop to parse input to figure out what we're doing
+for current_option in "$@"
 do
 	#Install or clean inputs
 	# find out whether or not we're running install or cleanup
-	if [ "$var" == "$install_option" ]; then
+	if [ "$current_option" == "$install_option" ]; then
 		mode=$install_option
 	elif [ "$var" == "$cleanup_option" ]; then
 		mode=$cleanup_option
 
 	#system inputs
 	# in case we want to be able to install to a different system
-	elif [ "$var" == "$el6_system" ]; then
+	elif [ "$current_option" == "$el6_system" ]; then
 		system=$el6_system
 
 	#Specific install options
 	# according to mode, do something with the inputted program
-	elif [ "$var" == "$libfreenect2_option" ]; then
+	elif [ "$current_option" == "$libfreenect2_option" ]; then
 		libfreenect2_option=1
 		do_all=0
-	elif [ "$var" == "$opencv_option" ]; then
+	elif [ "$current_option" == "$opencv_option" ]; then
 		opencv_option=1
 		do_all=0
-	elif [ "$var" == "$tinyosc_option" ]; then
+	elif [ "$current_option" == "$tinyosc_option" ]; then
 		tinyosc_option=1
 		do_all=0
-	elif [ "$var" == "$ofx_option" ]; then
+	elif [ "$current_option" == "$ofx_option" ]; then
 		ofx_option=1
 		do_all=0
-	elif [ "$var" == "$libfreenect_option" ]; then
+	elif [ "$current_option" == "$libfreenect_option" ]; then
 		libfreenect_option=1	
 		do_all=0
-	elif [ "$var" == "$ogl_option" ]; then
+	elif [ "$current_option" == "$ogl_option" ]; then
 		ogl_option=1
 		do_all=0
 	fi
 done
 
 # Ifs to parse selected inputs
+# check if our options have been affected or we're doing all
 if [ "$tinyosc_option" == "1" -o "$do_all" == "1" ]; then
 	if [ "$mode" == "$install_option" ]; then
-		install_tinyosc
+		time install_tinyosc
 	elif [ "$mode" == "$cleanup_option" ]; then
-		cleanup_tinyosc
+		time cleanup_tinyosc
 	fi
 fi
 
-if [ "$ofx_option" == "1" -o "$do_all" == "1" ]; then
-	if [ "$mode" == "$install_option" ]; then
-		install_open_frameworks
-	elif [ "$mode" == "$cleanup_option" ]; then
-		cleanup_open_frameworks
-	fi
-fi
-
-if [ "$libfreenect_option" == "1" -o "$do_all" == "1" ]; then
-	if [ "$mode" == "$install_option" ]; then
-		install_libfreenect
-	elif [ "$mode" == "$cleanup_option" ]; then
-		cleanup_libfreenect
-	fi
-fi
-
-# check if our option has been affected or we're doing all
 if [ "$ogl_option" == "1" -o "$do_all" == "1" ]; then
 	# call install ogl function - Matthew Roy
 	if [ "$mode" == "$install_option" ]; then
-		install_ogl
+		time install_ogl
 	# call cleanup ogl function - Matthew Roy
 	elif [ "$mode" == "$cleanup_option" ]; then
-		cleanup_ogl
-	fi
-fi
-
-if [ "$opencv_option" == "1" -o "$do_all" == "1" ]; then
-	if [ "$mode" == "$install_option" ]; then
-		install_opencv
-	elif [ "$mode" == "$cleanup_option" ]; then
-		cleanup_opencv
+		time cleanup_ogl
 	fi
 fi
 
 if [ "$libfreenect2_option" == "1" -o "$do_all" == "1" ]; then
 	if [ "$mode" == "$install_option" ]; then
-		install_libfreenect2
+		time install_libfreenect2
 	elif [ "$mode" == "$cleanup_option" ]; then
-		cleanup_libfreenect2
+		time cleanup_libfreenect2
 	fi
 fi
+
+if [ "$opencv_option" == "1" -o "$do_all" == "1" ]; then
+	if [ "$mode" == "$install_option" ]; then
+		time install_opencv
+	elif [ "$mode" == "$cleanup_option" ]; then
+		time cleanup_opencv
+	fi
+fi
+
+if [ "$libfreenect_option" == "1" -o "$do_all" == "1" ]; then
+	if [ "$mode" == "$install_option" ]; then
+		time install_libfreenect
+	elif [ "$mode" == "$cleanup_option" ]; then
+		time cleanup_libfreenect
+	fi
+fi
+
+if [ "$ofx_option" == "1" -o "$do_all" == "1" ]; then
+	if [ "$mode" == "$install_option" ]; then
+		time install_open_frameworks
+	elif [ "$mode" == "$cleanup_option" ]; then
+		time cleanup_open_frameworks
+	fi
+fi
+
+echo "============="
+echo "$0 DONE"
+date
+echo "============="
 
 # EOF

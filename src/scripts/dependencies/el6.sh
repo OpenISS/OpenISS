@@ -13,6 +13,8 @@
 # - Need to be root when running this script.
 # - For NVIDIA install to work, need to run it in runlevel 2 with nouveau blacklisted
 
+# TODO: add an option for unconditional installation of all dependencies
+
 # Supported options
 install_option="--install"
 cleanup_option="--cleanup"
@@ -28,8 +30,7 @@ libfreenect2_option="--freenect2"
 mode=0
 
 # Install/cleanup functions
-
-# Generic dependecies for development
+# Generic dependencies for development
 function install_dev_dependencies()
 {
  	echo "==============================="
@@ -40,7 +41,7 @@ function install_dev_dependencies()
 	yum -y clean all
 	yum -y clean expire-cache
 
-	# add epel and elrepo repos needed form some packages below
+	# add epel and elrepo repos needed form some dependencies
 	EL6TYPE=`head -1 /etc/issue | cut -d ' ' -f 1`
 	if [[ "$EL6TYPE" == "Scientific" ]];
 	then
@@ -115,7 +116,6 @@ function install_open_frameworks()
 
 function cleanup_open_frameworks()
 {
-	# Empty for now
 	#remove packages installed by yum
 	yum remove -y gstreamer-devel gstreamer-plugins-base-devel
 
@@ -146,7 +146,7 @@ function install_ogl()
 	#VIDEODRIVER=XFree86/Linux-x86_64/340.104/NVIDIA-Linux-x86_64-340.104.run
 	wget us.download.nvidia.com/$VIDEODRIVERPATH
 	# Suppress non-zero exist code if fails, may need to resolve manually
-	sh $VIDEODRIVERSCRIPT || echo 0 > /dev/null
+	sh $VIDEODRIVERSCRIPT --silent || echo 0 > /dev/null
 
 	echo "============================="
 	echo "OpenGL dependencies installed"
@@ -155,7 +155,6 @@ function install_ogl()
 
 function cleanup_ogl()
 {
-	# Empty for now
 	#remove packages installed by yum
 	yum remove -y libXmu-devel libXi-devel glut-devel libudev-devel
 
@@ -210,7 +209,9 @@ function install_libfreenect2()
 	# turbojpeg (libfreenect2)
 	yum install -y turbojpeg-devel
 
+	echo "==========================="
 	echo "libfreenect2 deps installed"
+	echo "==========================="
 }
 
 function cleanup_libfreenect2()
@@ -228,7 +229,9 @@ function cleanup_libfreenect2()
 		rm -rf libusb_src
 	popd
 
+	echo "========================="
 	echo "libfreenect2 deps cleaned"
+	echo "========================="
 }
 
 function install_libfreenect()
@@ -244,12 +247,16 @@ function install_libfreenect()
 	# TODO: OpenNI2 will require cmake3 and gcc 4.8+ from devtoolset-2
 	yum install -y cmake3
 
+	echo "=========================="
 	echo "libfreenect deps installed"
+	echo "=========================="
 }
 
 function cleanup_libfreenect()
 {
-	echo "libfreenect deps cleaned"
+	echo "=============================="
+	echo "NOOP: libfreenect deps cleaned"
+	echo "=============================="
 }
 
 # figure out what we're doing
@@ -280,37 +287,76 @@ done
 # Parse selected inputs to check if our options have been affected
 if [ "$mode" == "$install_option" ]; then
 
+	echo "======="
 	echo "INSTALL"
+	echo -n "Started: " ; date
+	echo "======="
 
-	time install_dev_dependencies
+	if [ ! -e "$0.cache" ]
+	then
+		touch $0.cache
+	fi
+
+	if [ "$(grep "el6-dependencies" $0.cache)" != "el6-dependencies" ]; then
+		time install_dev_dependencies
+		echo "el6-dependencies" >> $0.cache 
+	fi
 
 	if [ "$ogl_option" == "1" ]; then
-		time install_ogl
+		if [ "$(grep "ogl" $0.cache)" != "ogl" ]; then
+			time install_ogl
+			echo "ogl" >> $0.cache 
+		fi
 	fi
 
 	if [ "$libfreenect2_option" == "1" ]; then
-		time install_libfreenect2
+		if [ "$(grep "libfreenect2" $0.cache)" != "libfreenect2" ]; then
+			time install_libfreenect2
+			echo "libfreenect2" >> $0.cache 
+		fi
 	fi
 
 	if [ "$libfreenect_option" == "1" ]; then
-		time install_libfreenect
+		if [ "$(grep "libfreenect_" $0.cache)" != "libfreenect_" ]; then
+			time install_libfreenect
+			echo "libfreenect_" >> $0.cache 
+		fi
 	fi
 
 	if [ "$tinyosc_option" == "1" ]; then
-		time install_tinyosc
+		if [ "$(grep "tinyosc" $0.cache)" != "tinyosc" ]; then
+			time install_tinyosc
+			echo "tinyosc" >> $0.cache 
+		fi
 	fi
 
 	if [ "$opencv_option" == "1" ]; then
-		time install_opencv
+		if [ "$(grep "opencv" $0.cache)" != "opencv" ]; then
+			time install_opencv
+			echo "opencv" >> $0.cache 
+		fi
 	fi
 
 	if [ "$ofx_option" == "1" ]; then
-		time install_open_frameworks
+		if [ "$(grep "ofx" $0.cache)" != "ofx" ]; then
+			time install_open_frameworks
+			echo "ofx" >> $0.cache 
+		fi
 	fi
 
+	echo "============"
+	echo "INSTALL DONE"
+	date
+	echo "Cache:"
+	cat $0.cache
+	echo "============"
+
+# TODO: cache entries removal
 elif [ "$mode" == "$cleanup_option" ]; then
 
+	echo "======="
 	echo "CLEANUP"
+	echo "======="
 
 	if [ "$ofx_option" == "1" ]; then
 		time cleanup_open_frameworks
