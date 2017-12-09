@@ -53,17 +53,21 @@ function install_open_frameworks()
 	if [ "$(grep "openframeworks" build.cache)" != "openframeworks" ];
 	then
 		# install dependencies
-		echo "running el6.sh"
+		echo "running el6.sh $install_option $ofx_option"
 		./dependencies/$system.sh $install_option $ofx_option
 
-		# run install script to openframeworks
+		# run install script to openFrameworks
 		# nvidia driver must be present with OpenGL 4 support
 		pushd ../../openFrameworks/scripts/linux
+			which gcc
+			whereis gcc
+			gcc --version
+
 			# have to use gcc 4.8 with c++11
 			scl enable devtoolset-2 bash
 				# tells scripts to use 3 cpu cores compile
 				./compileOF.sh -j3
-				./compilePH.sh
+				./compilePG.sh
 			exit 0
   
 			# compile examples
