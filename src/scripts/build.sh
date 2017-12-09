@@ -129,7 +129,7 @@ function install_opencv()
 		./dependencies/$system.sh --install --opencv
 
 		# compile opencv
-		# TODO: add examplee compile
+		# TODO: add examples compilation
 		pushd ../../opencv
 			rm -rf build
 			mkdir build && cd build
@@ -319,19 +319,19 @@ if [ "$libfreenect2_option" == "1" -o "$do_all" == "1" ]; then
 	fi
 fi
 
-if [ "$opencv_option" == "1" -o "$do_all" == "1" ]; then
-	if [ "$mode" == "$install_option" ]; then
-		time install_opencv
-	elif [ "$mode" == "$cleanup_option" ]; then
-		time cleanup_opencv
-	fi
-fi
-
 if [ "$libfreenect_option" == "1" -o "$do_all" == "1" ]; then
 	if [ "$mode" == "$install_option" ]; then
 		time install_libfreenect
 	elif [ "$mode" == "$cleanup_option" ]; then
 		time cleanup_libfreenect
+	fi
+fi
+
+if [ "$opencv_option" == "1" -o "$do_all" == "1" ]; then
+	if [ "$mode" == "$install_option" ]; then
+		time install_opencv
+	elif [ "$mode" == "$cleanup_option" ]; then
+		time cleanup_opencv
 	fi
 fi
 

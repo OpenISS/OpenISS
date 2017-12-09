@@ -111,13 +111,13 @@ function install_open_frameworks()
 		rpm --import http://linuxsoft.cern.ch/cern/slc6X/x86_64/RPM-GPG-KEY-cern
 
 		# glm requires gcc 4.7 on el6, else assembly errors crop up
-		yum install -y devtoolset-1.1-gcc-c++ cmake
+		yum install -y devtoolset-1.1-gcc-c++
 		scl enable devtoolset-1.1 bash
 			git clone https://github.com/g-truc/glm.git
 			pushd glm
 				mkdir build
 				cd build
-				cmake ..
+				cmake3 ..
 				make
 				make install
 			popd
@@ -140,7 +140,7 @@ function install_open_frameworks()
 
 		# ofx itself requires gcc 4.8 on el6, else other errors crop up
 		# scl enable it in build.sh
-		yum install -y devtoolset-2-gcc-c++ cmake
+		yum install -y devtoolset-2-gcc-c++
 	popd
 
 	yum install -y gstreamer-devel gstreamer-plugins-base-devel
