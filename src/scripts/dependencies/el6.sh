@@ -134,7 +134,8 @@ function install_open_frameworks()
 
 		# glm requires gcc 4.7 on el6, else assembly errors crop up
 		yum install -y devtoolset-1.1-gcc-c++
-		scl enable devtoolset-1.1 bash
+		#scl enable devtoolset-1.1 bash
+		. /opt/rh/devtoolset-1.1/enable
 			which gcc
 			whereis gcc
 			gcc --version
@@ -147,7 +148,7 @@ function install_open_frameworks()
 				make
 				make install
 			popd
-		exit 0
+		#exit 0
 	popd
 
 	echo "====================================="

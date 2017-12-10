@@ -64,15 +64,17 @@ function install_open_frameworks()
 			gcc --version
 
 			# have to use gcc 4.8 with c++11
-			scl enable devtoolset-2 bash
+			#scl enable devtoolset-2 bash
+			. /opt/rh/devtoolset-2/enable
 				# tells scripts to use 3 cpu cores compile
 				./compileOF.sh -j3
 				./compilePG.sh
-			exit 0
+			#exit 0
   
 			# compile examples
 			cd ../../
 			ls -al
+			find . -name projectGenerator
 			./projectGenerator -r -o"." examples
 		popd
 		echo "openframeworks" >> build.cache
