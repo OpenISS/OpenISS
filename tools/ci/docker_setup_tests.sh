@@ -7,7 +7,7 @@ el_version=$1
 
 # Commands and paths
 DOCKERPATH=/OpenISS
-BUILDDEPS="$DOCKERPATH/tools && ./docker_run_tests.sh"
+BUILDDEPS="cd $DOCKERPATH/tools && ./docker_run_tests.sh"
 
 # Debug
 DEBUG=1
