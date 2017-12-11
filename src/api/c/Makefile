@@ -12,7 +12,7 @@ CFLAGS=\
 
 # A list of executable, object, and library files
 EXE=OpenISS
-OBJ=$(EXE).o
+OBJ=$(EXE).o pipeline.o
 
 VFXLIBS=\
 	-L ../../../ogl/build/external/glfw-3.1.2/src \
@@ -52,6 +52,8 @@ issimgdrv:
 # Cleaning up afterwards
 clean:
 	rm -f $(OBJ)
+
+# Tmp rules, nearly subsumed by build.sh and el6.sh
 
 deps-clean:
 	rm -f epel cmake3
