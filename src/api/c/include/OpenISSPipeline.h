@@ -1,6 +1,8 @@
 #ifndef _OPENISS_PIPELINE_H
 #define _OPENISS_PIPELINE_H
 
+#include "vfx.h"
+
 typedef enum
 {
     VFX_TEST_START = 0,
@@ -14,18 +16,12 @@ typedef struct
 }
 t_iss_state;
 
-/* 
- extern e_vfx_enum g_eCurrentEffect;
-*/
-
 extern t_iss_state g_tISSStage;
 
-extern void* a_pvfx[VFX_END_CLOSING + 1];
-
+extern t_iss_vfx_ops* a_pvfx[VFX_END_CLOSING + 1];
 
 void iss_init(void);
 void iss_draw(void);
 void iss_free(void);
-
 
 #endif
