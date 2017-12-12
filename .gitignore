@@ -10,10 +10,12 @@ src/api/c/OpenISS
 src/api/c/cmake3
 src/api/c/epel
 src/scripts/build.cache
+src/scripts/dependencies/*.cache
 make.log
 
-# vim swap files
+# editor, vim swap/backup files
 *.swp
+*~
 
 # Downloaded locally non-OS non-repo packages
 NVIDIA-Linux-*.run*

@@ -3,6 +3,11 @@
 #ifndef ISS_IMAGE_DRV_H
 #define ISS_IMAGE_DRV_H
 
+/* http://www.linuxsavvy.com/resources/linux/man/man9/register_chrdev.9.html */
+/* https://lwn.net/Articles/722267 */
+/* (how to fix set_fs error) */
+#include <linux/sched.h>
+
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/fs.h>
