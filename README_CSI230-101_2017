@@ -1,10 +1,16 @@
 installing NVIDIA by blacklisting nouveau
 December 5th, 2017
 
-go to kernel 4.14
-press e to edit
+do "yum remove xorg-x11-drv-nouveau"
+
+----temporary solution:
+reboot
+at the kernel selection, press e on kernel 4.14
 press e to edit the second option
 write " rdblacklist=nouveau blacklist=nouveau single"
 press enter
 press b on root
 after it builds, type sh followed by the NVIDIA install file
+----better solution
+open etc/grub.conf and add " rdblacklist=nouveau blacklist=nouveau" under the kernel you want to fix
+reboot and type sh followed by the NVIDIA install file
