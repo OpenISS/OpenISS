@@ -28,25 +28,25 @@
  * either License.
  */
 
-/** @file Protonect.cpp Main application file. */
-
-#include <iostream>
-#include <cstdlib>
 #include <signal.h>
 
-/// [headers]
-#include <libfreenect2/libfreenect2.hpp>
+/* [headers]*/
+/*#include <libfreenect2/libfreenect2.hpp> 
 #include <libfreenect2/frame_listener_impl.h>
 #include <libfreenect2/registration.h>
 #include <libfreenect2/packet_pipeline.h>
 #include <libfreenect2/logger.h>
-/// [headers]
+
+*/
+
+#include "CProtonect.h"
+
 #ifdef EXAMPLES_WITH_OPENGL_SUPPORT
-#include "viewer.h"
+/*#include "viewer.h"*/
 #endif
 
 
-int protonect_shutdown = 0; ///< Whether the running application should shut down.
+int protonect_shutdown = 0; /* Whether the running application should shut down. */
 
 void sigint_handler(int s)
 {
@@ -55,30 +55,26 @@ void sigint_handler(int s)
 
 int protonect_paused = 0;
 
-//        libfreenect2::Freenect2Device *devtopause;
-//        libfreenect2_Freenect2Device_create *devToPause; //yikes, come back to this
+CFreenect2Device devtopause = libfreenect2_Freenect2Device_create()
 
-//Doing non-trivial things in signal handler is bad. If you want to pause,
-//do it in another thread.
-//Though libusb operations are generally thread safe, I cannot guarantee
-//everything above is thread safe when calling start()/stop() while
-//waitForNewFrame().
+ 
 void sigusr1_handler(int s)
 {
   if (devtopause == 0)
     return;
-/// [pause]
+/* [pause] */
   if (protonect_paused)
-    devtopause->start();
+    Freenect2Device_start(devtopause);
   else
-    devtopause->stop();
+    Freenect2Device_stop(devtopause);
   protonect_paused = !protonect_paused;
-/// [pause]
+
 }
 
+/*
 //The following demostrates how to create a custom logger
 /// [logger]
-/*#include <fstream>
+#include <fstream>
 #include <cstdlib>
 class MyFileLogger: public libfreenect2::Logger
 {
@@ -99,24 +95,10 @@ public:
   {
     logfile_ << "[" << libfreenect2::Logger::level2str(level) << "] " << message << std::endl;
   }
-};/*
+};*/
 
-/// [logger]
 
-/// [main]
-/**
- * Main application entry point.
- *
- * Accepted argumemnts:
- * - cpu Perform depth processing with the CPU.
- * - gl  Perform depth processing with OpenGL.
- * - cl  Perform depth processing with OpenCL.
- * - <number> Serial number of the device to open.
- * - -noviewer Disable viewer window.
- */
-
-//similar message function to the one in ifv to output error messages
-ssize_t errorMessage(char* msg)
+ssize_t errorMessage(char *msg[])
 {
 	if(!msg)
 	{
@@ -126,14 +108,16 @@ ssize_t errorMessage(char* msg)
 }
 
 int main(int argc, char *argv[])
-/// [main]
 {
 
-//REPLACE THESE WITH PROPER ERROR PRINTING, SEE NOTES !!!!!
+
   errorMessage( program_path(argv[0]));
-  errorMessage( "Version: " + LIBFREENECT2_VERSION + "\n");
-  errorMessage( "Environment variables: LOGFILE=<protonect.log> \n");
-  errorMessage( "Usage: " + program_path + " [-gpu=<id>] [gl | cl | clkde | cuda | cudakde | cpu] [<device serial>] \n");
+  errorMessage( "Version: ");
+  errorMessage( LIBFREENECT2_VERSION);
+  errorMessage( "\n Environment variables: LOGFILE=<protonect.log> \n");
+  errorMessage( "Usage: " );
+  errorMessage( program_path );
+  errorMessage(" [-gpu=<id>] [gl | cl | clkde | cuda | cudakde | cpu] [<device serial>] \n");
   errorMessage( "        [-noviewer] [-norgb | -nodepth] [-help] [-version] \n";
   errorMessage( "        [-frames <number of frames to process>] \n");
   errorMessage( "To pause and unpause: pkill -USR1 Protonect \n");
@@ -141,29 +125,13 @@ int main(int argc, char *argv[])
 
   char *binpath = "/"; 
 
-  if(executable_name_idx != std::string::npos)
+  if(executable_name_idx != -1)
   {
     binpath = program_path.substr(0, executable_name_idx);
   }
+}
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
-  // avoid flooing the very slow Windows console with debug messages
-//  libfreenect2::setGlobalLogger(libfreenect2::createConsoleLogger(libfreenect2::Logger::Info));
-#else
-  // create a console logger with debug level (default is console logger with info level)
-/// [logging]
-//  libfreenect2::setGlobalLogger(libfreenect2::createConsoleLogger(libfreenect2::Logger::Debug));
-/// [logging]
-#endif
-/// [file logging]
-//  MyFileLogger *filelogger = new MyFileLogger(getenv("LOGFILE"));
-//  if (filelogger->good())
-//    libfreenect2::setGlobalLogger(filelogger);
-//  else
-//    delete filelogger;
-/// [file logging]
-
-/// [context]
+/*
   libfreenect2::Freenect2 freenect2;
   libfreenect2::Freenect2Device *dev = 0;
   libfreenect2::PacketPipeline *pipeline = 0;
@@ -399,7 +367,7 @@ int main(int argc, char *argv[])
     }
 
 #ifdef EXAMPLES_WITH_OPENGL_SUPPORT
-/*    if (enable_rgb)
+/ *    if (enable_rgb)
     {
       viewer.addFrame("RGB", rgb);
     }
@@ -412,13 +380,13 @@ int main(int argc, char *argv[])
     {
       viewer.addFrame("registered", &registered);
     }
-*/
+* /
     protonect_shutdown = protonect_shutdown;// || viewer.render();
 #endif
 
 /// [loop end]
     listener.release(frames);
-    /** libfreenect2::this_thread::sleep_for(libfreenect2::chrono::milliseconds(100)); */
+    / ** libfreenect2::this_thread::sleep_for(libfreenect2::chrono::milliseconds(100)); * /
   }
 /// [loop end]
 
