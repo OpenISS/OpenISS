@@ -1,33 +1,18 @@
 #include "OpenISS.h"
 
 /*
-e_vfx_enum g_eCurrentEffect = VFX_TEST_START;
+ TODO: option to select GL2 or GL3 viewer
+ TODO: options to record/replay/stream
 */
- 
-t_iss_state g_tISSStage;
-void* a_pvfx[VFX_END_CLOSING + 1];
-
-void iss_init()
-{
-    g_tISSStage.m_eCurrentEffect = VFX_TEST_START;
-}
 
 int main(int argc, char** argv)
 {
+    /* From pipeline */
     iss_init();
     iss_draw();
     iss_free();
-    return 0;
-}
-
-void iss_draw()
-{
-
-}
-
-void iss_free()
-{
     
+    return 0;
 }
 
 /* EOF */

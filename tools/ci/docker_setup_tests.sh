@@ -7,7 +7,7 @@ el_version=$1
 
 # Commands and paths
 DOCKERPATH=/OpenISS
-BUILDDEPS="cd $DOCKERPATH/src && make deps"
+BUILDDEPS="cd $DOCKERPATH/tools/ci && ./docker_run_tests.sh"
 
 # Debug
 DEBUG=1
@@ -27,7 +27,7 @@ if [ "$el_version" -eq "6" ]; then
 		--privileged \
 		-v /sys/fs/cgroup:/sys/fs/cgroup --rm=true \
 		-v `pwd`:$DOCKERPATH:rw centos:centos${OS_VERSION} \
-		/bin/bash -c "$BUILDDEPS"
+		/bin/bash -c "$BUILDDEPS $el_version"
 
 elif [ "$el_version" -eq "7" ]; then
 
@@ -40,7 +40,7 @@ elif [ "$el_version" -eq "7" ]; then
 	docker logs $DOCKER_CONTAINER_ID
 	docker exec \
 		-ti $DOCKER_CONTAINER_ID \
-		/bin/bash -xec "yum -y install make; $BUILDDEPS; echo -ne \"------\nEND OpenISS TESTS\n\";"
+		/bin/bash -xec "$BUILDDEPS $el_version"
 	docker ps -a
 	docker stop $DOCKER_CONTAINER_ID
 	docker rm -v $DOCKER_CONTAINER_ID
