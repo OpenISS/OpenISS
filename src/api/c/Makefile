@@ -35,12 +35,14 @@ vfx-deps: ogl
 
 vfx: vfx.c include/vfx.h
 	$(CC) $(VFXLIBS) -lglfw3 -lGLEW_1130 $(CFLAGS) -DMAIN_VFX_TEST -c vfx.c
-	$(CC) $(VFXLIBS) \
-		../../../ogl/build/external/glfw-3.1.2/src/libglfw3.a \
-		../../../ogl/build/external/libGLEW_1130.a \
-		-lstdc++ \
-		vfx.o -o $@
-	#$(CC) $(VFXLIBS) -lglfw3 -lGLEW_1130 vfx.o -o $@
+# 	$(CC) $(VFXLIBS) $(CFLAGS) \
+# 		../../../ogl/build/external/glfw-3.1.2/src/libglfw3.a \
+# 		../../../ogl/build/external/libGLEW_1130.a \
+# 		../../../ogl/build/external/libANTTWEAKBAR_116_OGLCORE_GLFW.a \
+# 		-lstdc++ \
+# 		vfx.o -o $@
+	#$(CC) $(VFXLIBS) -lglfw3 -lGLEW_1130 -lANTTWEAKBAR_116_OGLCORE_GLFW -lstdc++ vfx.o -o $@
+	$(CC) $(VFXLIBS) -lglfw3 -lGLEW_1130 -lANTTWEAKBAR_116_OGLCORE_GLFW -lstdc++ vfx.o -o $@
 
 vfx.o: vfx.c include/vfx.h
 	$(CC) $(CFLAGS) -c $<
