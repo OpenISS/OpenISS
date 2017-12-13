@@ -1,0 +1,40 @@
+{
+    "reg_info": {
+        "ax": 1830,
+        "bx": 11,
+        "cx": 31,
+        "dx": 497,
+        "ay": 56,
+        "by": 2582,
+        "cy": 641,
+        "dy": 77,
+        "dx_start": 3269,
+        "dy_start": 8447,
+        "dx_beta_start": 10062,
+        "dy_beta_start": 130801,
+        "dx_beta_inc": 170,
+        "dy_beta_inc": 136,
+        "dxdx_start": 2096139,
+        "dxdy_start": 1537,
+        "dydx_start": 8,
+        "dydy_start": 2096178,
+        "dxdxdx_start": 134215349,
+        "dydxdx_start": 134217225,
+        "dxdxdy_start": 134216993,
+        "dydxdy_start": 134216795,
+        "dydydx_start": 134217133,
+        "dydydy_start": 134215132,
+        "pad_info": {
+            "start_lines": 0,
+            "end_lines": 0,
+            "cropping_lines": 0
+        },
+        "zero_plane_info": {
+            "dcmos_emitter_distance": 7.5,
+            "dcmos_rcmos_distance": 2.4000000953674316,
+            "reference_distance": 120,
+            "reference_pixel_size": 0.10419999808073044
+        }
+    },
+    "const_shift": 200
+}
