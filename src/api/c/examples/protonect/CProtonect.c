@@ -39,7 +39,7 @@
 
 */
 
-#include "CProtonect.h"
+#include "CProtonectWrapper.h"
 
 #ifdef EXAMPLES_WITH_OPENGL_SUPPORT
 /*#include "viewer.h"*/
@@ -55,18 +55,18 @@ void sigint_handler(int s)
 
 int protonect_paused = 0;
 
-CFreenect2Device devtopause = libfreenect2_Freenect2Device_create()
+CFreenect2Device *devtopause = libfreenect2_Freenect2Device_create();
 
  
 void sigusr1_handler(int s)
 {
-  if (devtopause == 0)
+  if (freedev == 0)
     return;
 /* [pause] */
   if (protonect_paused)
-    Freenect2Device_start(devtopause);
+    CFreenect2Device_start(devtopause);
   else
-    Freenect2Device_stop(devtopause);
+    CFreenect2Device_stop(devtopause);
   protonect_paused = !protonect_paused;
 
 }
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
 
   errorMessage( program_path(argv[0]));
   errorMessage( "Version: ");
-  errorMessage( LIBFREENECT2_VERSION);
+  errorMessage( CFreenect2Device_getFirmwareVersion(devtopause));
   errorMessage( "\n Environment variables: LOGFILE=<protonect.log> \n");
   errorMessage( "Usage: " );
   errorMessage( program_path );
@@ -131,12 +131,12 @@ int main(int argc, char *argv[])
   }
 }
 
-/*
-  libfreenect2::Freenect2 freenect2;
-  libfreenect2::Freenect2Device *dev = 0;
-  libfreenect2::PacketPipeline *pipeline = 0;
-/// [context]
 
+  *freenect2 = libfreenect2_CFreenect2_create();
+  *dev = libfreenect2_CFreenect2Device_create();
+  *pipeline = libfreenect2_CPacketPipeline_create();
+/// [context]
+/*
   std::string serial = "";
 
   int viewer_enabled = 1;
@@ -253,7 +253,7 @@ int main(int argc, char *argv[])
   }
 
 /// [discovery]
-  if(freenect2.enumerateDevices() == 0)
+  if(libfreenect2_CFreenect2_enumerateDevices() == 0)
   {
     std::cout << "no device connected!" << std::endl;
     return -1;
@@ -400,4 +400,4 @@ int main(int argc, char *argv[])
   delete registration;
 
   return 0;
-}
+}*/

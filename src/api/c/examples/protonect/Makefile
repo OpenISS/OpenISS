@@ -1,23 +1,15 @@
-# basic makefile modified from atsm/examples/c/syscalls/util/Makefile
-# Compiler and compiler flags
-CC=gcc
-CFLAGS=-g -Wall -ansi -pedantic
+# basic makefile modified from atsm/examples/c/call-cpp-from-c/example01
+#
 
-# A list of executable, object, and library files
-EXE=CProtonect
-OBJ=$(EXE).o CProtonectWrapper.o
+all: protonect
 
-# Default target
-all: $(EXE)
-	@echo "All is perfectly done!"
+protonect: CProtonect.o CProtonectWrapper.o
+	gcc *.o -lstdc++ -o protonect
 
-$(EXE): $(OBJ)
-	$(CC) $(OBJ) -o $(EXE)
+CProtonect.o: CProtonect.c CProtonectWrapper.h Makefile
+	gcc -c CProtonect.c -o CProtonect.o
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $<
+CProtonectWrapper.o: CProtonectWrapper.cpp CProtonectWrapper.h
+	g++ -c CProtonectWrapper.cpp
 
-# Cleaning up afterwards
-clean:
-	rm -f $(OBJ) $(EXE)
-
+	

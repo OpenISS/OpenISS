@@ -1,5 +1,9 @@
-#include <fstream>
-#include <cstdlib>
+#ifdef __cplusplus
+#define EXTERNC  extern "C"
+#else
+#define EXTERNC
+#endif
+
 
 #ifdef __cplusplus
 
@@ -29,14 +33,14 @@ struct CSyncMultiFrameListener;
 struct CFrame;
 struct CRegister;
 struct CViewer;
-typedef struct CFreenect2Device;
-typedef struct CFreenect2;
-typedef struct CPacketPipeline;
-typedef struct CFrameMap;
-typedef struct CSyncMultiFrameListener;
-typedef struct CFrame;
-typedef struct CRegister;
-typedef struct CViewer;
+typedef struct CFreenect2Device CFreenect2Device;
+typedef struct CFreenect2 CFreenect2;
+typedef struct CPacketPipeline CPacketPipeline;
+typedef struct CFrameMap CFrameMap;
+typedef struct CSyncMultiFrameListener CSyncMultiFrameListener;
+typedef struct CFrame CFrame;
+typedef struct CRegister CRegister;
+typedef struct CViewer CViewer;
 #endif
 
 //LIST OF FUNCTIONS TO WRAP
@@ -54,14 +58,13 @@ typedef struct CViewer;
 //	 destructor
 //} 
 
-CFreenect2Device* libfreenect2_CFreenect2Device_create();
+struct CFreenect2Device* libfreenect2_CFreenect2Device_create();
 void CFreenect2Device_start(CFreenect2Device* instance);
 void CFreenect2Device_stop(CFreenect2Device* instance);
 void CFreenect2Device_setColorFrameListener(CFreenect2Device* instance, CSyncMultiFrameListener* listener);
 void CFreenect2Device_startStreams(CFreenect2Device* instance, int rgb, int depth);
 struct CFreenect2Device_getIrCameraParams(CFreenect2Device* instance);
 struct CFreenect2Device_getColorCameraParams(CFreenect2Device* instance);
-void CFreenect2Device_setColorFrameListener(CFreenect2Device* instance, CSyncMultiFrameListener* listener);
 void CFreenect2Device_setIrAndDepthFrameListener(CFreenect2Device* instance, CSyncMultiFrameListener* listener); 
 char* CFreenect2Device_getSerialNumber(CFreenect2Device* instance);
 char* CFreenect2Device_getFirmwareVersion(CFreenect2Device* instance);
@@ -80,7 +83,7 @@ void CFreenect2Device_destroy(CFreenect2Device* instance);
 //}
 //
 
-CFreenect2* libfreenect2_Freenect2_create();
+struct CFreenect2* libfreenect2_Freenect2_create();
 void CFreenect2_enumerateDevices(CFreenect2* instance);
 char* CFreenect2_getDefaultDeviceSerialNumber(CFreenect2* instance);
 void CFreenect2_openDevice(CFreenect2* instance, char* serial, CPacketPipeline* pipeline);
@@ -89,13 +92,13 @@ void CFreenect2_stop(CFreenect2* instance);
 void CFreenect2_destroy(CFreenect2* instance);
 
 
-CPacketPipeline* libfreenect2_PacketPipeline_create();
-CPacketPipeline* libfreenect2_CpuPacketPipeline();
-CPacketPipeline* libfreenect2_COpenGLPacketPipeline();
-CPacketPipeline* libfreenect2_COpenCLPacketPipeline();
-CPacketPipeline* libfreenect2_COpenCLKdePacketPipeline();
-CPacketPipeline* libfreenect2_CCudaPacketPipeline();
-CPacketPipeline* libfreenect2_CCudaKdePacketPipeline();
+struct CPacketPipeline* libfreenect2_PacketPipeline_create();
+struct CPacketPipeline* libfreenect2_CpuPacketPipeline();
+struct CPacketPipeline* libfreenect2_COpenGLPacketPipeline();
+struct CPacketPipeline* libfreenect2_COpenCLPacketPipeline();
+struct CPacketPipeline* libfreenect2_COpenCLKdePacketPipeline();
+struct CPacketPipeline* libfreenect2_CCudaPacketPipeline();
+struct CPacketPipeline* libfreenect2_CCudaKdePacketPipeline();
 void CPacketPipeline_destroy(CPacketPipeline* instance);
 
 //functions that extend packetpipeline?? all constructors i think maybe?? whatever look into it
@@ -115,7 +118,7 @@ void CPacketPipeline_destroy(CPacketPipeline* instance);
 
 
 
-CFrameMap* libfreenect2_CFrameMap_create();
+struct CFrameMap* libfreenect2_CFrameMap_create();
 void CFrameMap_destroy(FrameMap* instance);
 
 //SyncMultiFrameListener (types)
@@ -125,7 +128,7 @@ void CFrameMap_destroy(FrameMap* instance);
 //	release(framemap)
 //}
 
-CSyncMultiFrameListener* libfreenect2_CSyncMultiFrameListener_create(int types);
+struct CSyncMultiFrameListener* libfreenect2_CSyncMultiFrameListener_create(int types);
 void CSyncMultiFrameListener_waitForNewFrame(CSyncMultiFrameListener* instance, CFrameMap* fm, int seconds);
 void CSyncMultiFrameListener_destroy(CSyncMultiFrameListener* instance);
 
@@ -139,7 +142,7 @@ void CSyncMultiFrameListener_destroy(CSyncMultiFrameListener* instance);
 //	Depth
 //}
 
-CFrame* libfreenect2_CFrame_create(int color, int ir, int depth);
+struct CFrame* libfreenect2_CFrame_create(int color, int ir, int depth);
 int CFrame_Color(CFrame* instance);
 int CFrame_Ir(CFrame* instance);
 int CFrame_Depth(CFrame* instance);
@@ -147,11 +150,11 @@ void CFrame_destroy(CFrame* instance);
 
 //Registration
 
-CRegistration* libfreenect2_CRegistration_create(CFreenect2Device* device); //ir and color
+struct CRegistration* libfreenect2_CRegistration_create(CFreenect2Device* device); //ir and color
 void CRegistration_apply(CRegistration* instance, CFrame* rgb, CFrame* depth, CFrame* undistort, CFrame* unreg);
 void CRegistration_destroy(CRegistration* instance);
 
-CViewer* CViewer_create();
+struct CViewer* CViewer_create();
 void CViewer_initialize(CViewer* instance);
 void CViewer_addFrame(CViewer* instance, char* string, Frame* frameToAdd);
 void CViewer_destroy(CViewer* instance);
