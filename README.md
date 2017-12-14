@@ -19,7 +19,7 @@ See background on the original ISS below.
   - Brian Baron, Colin Brady, Robert Gentile
   - Gabriel Pereyra, Justin Mulkin, Duncan Carrol, Lucas Spiker 
 
-* See detailed list [here](docs/CONTRIBUTORS.md)
+* See detailed list [here](doc/CONTRIBUTORS.md).
 
 ## Build Instructions ##
 
@@ -82,18 +82,24 @@ to build custom applications based on it.
 * Origins are in Dr. Miao Song’s thesis:
   * http://arxiv.org/abs/1212.6250
 * SIGGRAPH and SIGGRAPH Asia
+  * https://doi.org/10.1145/3084863.3084864
   * https://doi.org/10.1145/2988458.2988460
   * https://doi.org/10.1145/2992138.2992139
   * https://doi.org/10.1145/2668947.2668953
   * https://doi.org/10.1145/2820926.2820940
+* JIDPS
+  * https://doi.org/10.3233/jid-2016-0026
 * GEM
   * http://dx.doi.org/10.1109/GEM.2015.7377204
   * http://dx.doi.org/10.1109/GEM.2015.7377247
 * VSMM
   * http://dx.doi.org/10.1109/VSMM.2014.7136675
+* IDEAS
+  * http://doi.acm.org/10.1145/3105831.3105862
 
 ### Videos ###
 
+* https://www.youtube.com/watch?v=yjH0S7Otwj4
 * https://vimeo.com/169321384
 * https://vimeo.com/169319502
 * https://vimeo.com/166999333
