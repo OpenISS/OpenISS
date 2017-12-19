@@ -15,8 +15,8 @@ VFXFLAGS=\
 	../../../../../ogl/build/external/libGLEW_1130.a
 
 VFXLIBS=\
-	-L ../../../../../libfreenect/lib/ \
-	 ../../../../../libfreenect/lib/libfreenect.so.0.6
+	-L ../../../../../libfreenect/build/lib/ \
+	 ../../../../../libfreenect/build/lib/libfreenect.so.0.6
 #        -L ../../../../../ogl/build/external/glfw-3.1.2/src \
 #        -L ../../../../../ogl/build/external
 
@@ -33,7 +33,7 @@ PRELOAD="../../../../../libfreenect/lib/fakenect/libfakenect.so"
 RECORDING_PATH="./test-recording"
 
 # Default target
-all:
+all: $(GL_EXE) $(GLPCL_EXE)
 	@echo "All is perfectly done!"
 
 rungl: $(GL_EXE)
