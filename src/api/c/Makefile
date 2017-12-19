@@ -48,7 +48,7 @@ vfx.o: vfx.c include/vfx.h
 	$(CC) $(CFLAGS) -c $<
 
 issimgdrv:
-	make -C quiz3 all
+	make -C issimagedrv all
 
 
 # Cleaning up afterwards
