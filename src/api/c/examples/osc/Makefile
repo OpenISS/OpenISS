@@ -5,6 +5,8 @@ DEP=tinyosc
 SENDER=issoscsender
 RECEIVER=issoscreceiver
 
+all: sender receiver
+
 sender: 
 	$(CC) -c $(FLAG) $(DEP).c
 	$(CC) -c $(SENDER).c
