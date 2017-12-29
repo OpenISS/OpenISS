@@ -1,8 +1,10 @@
 sudo: required
 env:
   matrix:
-  - OS_TYPE=centos OS_VERSION=6
-  - OS_TYPE=centos OS_VERSION=7
+  - OS_TYPE=centos OS_VERSION=6 OS_VERSION_PREFIX=centos
+  - OS_TYPE=centos OS_VERSION=7 OS_VERSION_PREFIX=centos
+  - OS_TYPE=ringo/scientific OS_VERSION=6.8 OS_VERSION_PREFIX=''
+  - OS_TYPE=ringo/scientific OS_VERSION=7.2 OS_VERSION_PREFIX=''
   
 services:
   - docker
@@ -12,9 +14,9 @@ before_install:
   - echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"' | sudo tee /etc/default/docker > /dev/null
   - sudo service docker restart
   - sleep 5
-  - sudo docker pull centos:centos${OS_VERSION}
+  - sudo docker pull ${OS_TYPE}:${OS_VERSION_PREFIX}${OS_VERSION}
 
   
 script:
- # Run tests in Container
-- tools/ci/docker_setup_tests.sh ${OS_VERSION}
+  # Run tests in Container
+  - tools/ci/docker_setup_tests.sh ${OS_VERSION}

@@ -19,7 +19,7 @@ if [ "$DEBUG" -eq "1" ]; then
 fi
 
 # Run tests
-if [ "$el_version" -eq "6" ]; then
+if [ "$el_version" -eq "6" -o "$el_version" -eq "6.8" ]; then
 
 	cd $DOCKERPATH/src
  
@@ -29,7 +29,7 @@ if [ "$el_version" -eq "6" ]; then
 	make deps
 	make all
 
-elif [ "$el_version" -eq "7" ]; then
+elif [ "$el_version" -eq "7" -o "$el_version" -eq "7.2" ]; then
 
 	yum -y install make
 
