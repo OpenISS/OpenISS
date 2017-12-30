@@ -19,17 +19,17 @@ if [ "$DEBUG" -eq "1" ]; then
 fi
 
 # Run tests
-if [ "$el_version" -eq "6" -o "$el_version" -eq "6.8" ]; then
+if [ "$el_version" -eq "6" ]; then
 
 	cd $DOCKERPATH/src
  
 	bash -n scripts/build.sh
 	bash -n scripts/dependencies/el6.sh
 
-	make deps
+	make deps6
 	make all
 
-elif [ "$el_version" -eq "7" -o "$el_version" -eq "7.2" ]; then
+elif [ "$el_version" -eq "7" ]; then
 
 	yum -y install make
 
@@ -40,7 +40,7 @@ elif [ "$el_version" -eq "7" -o "$el_version" -eq "7.2" ]; then
 
 	cp scripts/dependencies/el6.sh scripts/dependencies/el7.sh
 
-	make deps
+	make deps7
 	make all
 
 fi

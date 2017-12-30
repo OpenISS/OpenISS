@@ -7,11 +7,23 @@ INSTALL_OPTION=--install
 UNINSTALL_OPTION=--cleanup
 
 all:
+	@echo "Assuming api build... Run 'make deps' to install dependencies."
 	make -C api $@
 
 deps: $(SCRIPTSDIR)/$(EXE)
+	env | grep OS_
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(INSTALL_OPTION)
+
+deps6: $(SCRIPTSDIR)/$(EXE)
+	env | grep OS_
+	cd $(SCRIPTSDIR) ; \
+	./$(EXE) $(INSTALL_OPTION) el6
+
+deps7: $(SCRIPTSDIR)/$(EXE)
+	env | grep OS_
+	cd $(SCRIPTSDIR) ; \
+	./$(EXE) $(INSTALL_OPTION) el7
 
 libfreenect:
 	cd $(SCRIPTSDIR) ; \
@@ -35,7 +47,7 @@ ogl:
 
 opencv:
 	cd $(SCRIPTSDIR) ; \
-	./$(EXE) $(OPTIONS) --opencv
+	./$(EXE) $(INSTALL_OPTION) --opencv
 
 clean:
 	cd $(SCRIPTSDIR) ; \
@@ -67,3 +79,4 @@ clean-ogl:
 
 maintainer-clean: clean
 	rm -f $(SCRIPTSDIR)/build.cache 
+	rm -f $(SCRIPTSDIR)/dependencies/*.cache

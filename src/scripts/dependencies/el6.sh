@@ -42,8 +42,8 @@ function install_dev_dependencies()
 	yum -y clean expire-cache
 
 	# add epel and elrepo repos needed form some dependencies
-	EL6TYPE=`head -1 /etc/issue | cut -d ' ' -f 1`
-	if [[ "$EL6TYPE" == "Scientific" ]];
+	EL_TYPE=`head -1 /etc/issue | cut -d ' ' -f 1`
+	if [[ "$EL_TYPE" == "Scientific" ]];
 	then
 		yum install -y epel-release elrepo-release
 	else
@@ -315,8 +315,8 @@ do
 		libfreenect2_option=1
 	elif [ "$current_option" == "$libfreenect_option" ]; then
 		libfreenect_option=1
-        elif [ "$current_option" == "$opencv_option" ]; then
-                opencv_option=1
+	elif [ "$current_option" == "$opencv_option" ]; then
+		opencv_option=1
 	elif [ "$current_option" == "$tinyosc_option" ]; then
 		tinyosc_option=1
 	elif [ "$current_option" == "$ofx_option" ]; then
@@ -339,9 +339,9 @@ if [ "$mode" == "$install_option" ]; then
 		touch $0.cache
 	fi
 
-	if [ "$(grep "el6-dependencies" $0.cache)" != "el6-dependencies" ]; then
+	if [ "$(grep "$0-dependencies" $0.cache)" != "$0-dependencies" ]; then
 		time install_dev_dependencies
-		echo "el6-dependencies" >> $0.cache 
+		echo "$0-dependencies" >> $0.cache
 	fi
 
 	if [ "$ogl_option" == "1" ]; then

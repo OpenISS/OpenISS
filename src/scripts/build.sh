@@ -19,6 +19,7 @@ cleanup_option="--cleanup"
 mode=0
 system="el6"
 el6_system="el6"
+el7_system="el7"
 
 # install/cleanup functions
 
@@ -30,7 +31,7 @@ function install_tinyosc()
 		pushd ../../tinyosc
 			patch build.sh < ../src/scripts/dependencies/tinyosc.build.sh.patch
 			./build.sh
-			popd
+		popd
 		echo "tinyosc" >> build.cache
 	else
  		echo "tinyosc already installed"
@@ -53,7 +54,7 @@ function install_open_frameworks()
 	if [ "$(grep "openframeworks" build.cache)" != "openframeworks" ];
 	then
 		# install dependencies
-		echo "running el6.sh $install_option $ofx_option"
+		echo "running $system.sh $install_option $ofx_option"
 		./dependencies/$system.sh $install_option $ofx_option
 
 		# run install script to openFrameworks
@@ -273,6 +274,8 @@ do
 	# in case we want to be able to install to a different system
 	elif [ "$current_option" == "$el6_system" ]; then
 		system=$el6_system
+	elif [ "$current_option" == "$el7_system" ]; then
+		system=$el7_system
 
 	#Specific install options
 	# according to mode, do something with the inputted program
