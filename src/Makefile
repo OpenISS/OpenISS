@@ -11,17 +11,14 @@ all:
 	make -C api $@
 
 deps: $(SCRIPTSDIR)/$(EXE)
-	env | grep OS_
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(INSTALL_OPTION)
 
 deps6: $(SCRIPTSDIR)/$(EXE)
-	env | grep OS_
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(INSTALL_OPTION) el6
 
 deps7: $(SCRIPTSDIR)/$(EXE)
-	env | grep OS_
 	cd $(SCRIPTSDIR) ; \
 	./$(EXE) $(INSTALL_OPTION) el7
 
