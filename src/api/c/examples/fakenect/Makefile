@@ -46,14 +46,14 @@ runglpcl: $(GLPCL_EXE)
 
 # Other subtargets to make it happen
 $(GL_EXE): $(GL_OBJ)
-	$(CC) $(VFXLIBS) $(GL_OBJ) -lfreenect -lGL -lglut -o $(GL_EXE)
+	$(CC) $(VFXLIBS) $(GL_OBJ) -lfreenect -lGL -lglut -lm -o $(GL_EXE)
 
 $(GL_OBJ): glview.c
 	$(CC) $(CFLAGS) -c glview.c -o $(GL_OBJ)
 	 export LD_LIBRARY_PATH=../../../../../libfreenect/lib/
 
 $(GLPCL_EXE): $(GLPCL_OBJ)
-	$(CC) $(VFXLIBS) $(GLPCL_OBJ) -lfreenect -lfreenect_sync -lGL -lglut -lGLU -o $(GLPCL_EXE)
+	$(CC) $(VFXLIBS) $(GLPCL_OBJ) -lfreenect -lfreenect_sync -lGL -lglut -lGLU -lm -o $(GLPCL_EXE)
 
 
 $(GLPCL_OBJ): glpclview.c
