@@ -60,7 +60,7 @@ CFreenect2Device *devtopause = libfreenect2_Freenect2Device_create();
  
 void sigusr1_handler(int s)
 {
-  if (freedev == 0)
+  if (devtopause == 0)
     return;
 /* [pause] */
   if (protonect_paused)
@@ -109,8 +109,6 @@ ssize_t errorMessage(char *msg[])
 
 int main(int argc, char *argv[])
 {
-
-
   errorMessage( program_path(argv[0]));
   errorMessage( "Version: ");
   errorMessage( CFreenect2Device_getFirmwareVersion(devtopause));
@@ -132,9 +130,9 @@ int main(int argc, char *argv[])
 }
 
 
-  *freenect2 = libfreenect2_CFreenect2_create();
-  *dev = libfreenect2_CFreenect2Device_create();
-  *pipeline = libfreenect2_CPacketPipeline_create();
+  CFreenect2 *freenect2 = libfreenect2_CFreenect2_create();
+  CFreenect2Device *dev = libfreenect2_CFreenect2Device_create();
+  CPacketPipeline *pipeline = libfreenect2_CPacketPipeline_create();
 /// [context]
 /*
   std::string serial = "";
