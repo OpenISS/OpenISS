@@ -28,6 +28,11 @@
  * either License.
  */
 
+#include <sys/types.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+
 #include <signal.h>
 
 /* [headers]*/
@@ -55,7 +60,7 @@ void sigint_handler(int s)
 
 int protonect_paused = 0;
 
-CFreenect2Device *devtopause = libfreenect2_Freenect2Device_create();
+CFreenect2Device* devtopause = NULL;
 
  
 void sigusr1_handler(int s)
@@ -98,7 +103,7 @@ public:
 };*/
 
 
-ssize_t errorMessage(char *msg[])
+ssize_t errorMessage(char *msg)
 {
 	if(!msg)
 	{
@@ -109,31 +114,37 @@ ssize_t errorMessage(char *msg[])
 
 int main(int argc, char *argv[])
 {
-  errorMessage( program_path(argv[0]));
+  //errorMessage( program_path(argv[0]));
   errorMessage( "Version: ");
-  errorMessage( CFreenect2Device_getFirmwareVersion(devtopause));
+  //errorMessage( CFreenect2Device_getFirmwareVersion(devtopause));
   errorMessage( "\n Environment variables: LOGFILE=<protonect.log> \n");
   errorMessage( "Usage: " );
-  errorMessage( program_path );
+  //errorMessage( program_path );
   errorMessage(" [-gpu=<id>] [gl | cl | clkde | cuda | cudakde | cpu] [<device serial>] \n");
-  errorMessage( "        [-noviewer] [-norgb | -nodepth] [-help] [-version] \n";
+  errorMessage( "        [-noviewer] [-norgb | -nodepth] [-help] [-version] \n");
   errorMessage( "        [-frames <number of frames to process>] \n");
   errorMessage( "To pause and unpause: pkill -USR1 Protonect \n");
-  size_t executable_name_idx = program_path.rfind("CProtonect");
+  //size_t executable_name_idx = program_path.rfind("CProtonect");
 
   char *binpath = "/"; 
 
-  if(executable_name_idx != -1)
+  //if(executable_name_idx != -1)
   {
-    binpath = program_path.substr(0, executable_name_idx);
+    //binpath = program_path.substr(0, executable_name_idx);
   }
+
+/// [context]
+  CFreenect2* freenect2 = libfreenect2_CFreenect2_create();
+  CFreenect2Device* dev = NULL;
+  CPacketPipeline* pipeline = NULL;
+/*
+  CFreenect2* freenect2 = libfreenect2_CFreenect2_create();
+  CFreenect2Device* dev = libfreenect2_CFreenect2Device_create();
+  CPacketPipeline* pipeline = libfreenect2_CPacketPipeline_create();
+*/
+/// [context]
 }
 
-
-  CFreenect2 *freenect2 = libfreenect2_CFreenect2_create();
-  CFreenect2Device *dev = libfreenect2_CFreenect2Device_create();
-  CPacketPipeline *pipeline = libfreenect2_CPacketPipeline_create();
-/// [context]
 /*
   std::string serial = "";
 

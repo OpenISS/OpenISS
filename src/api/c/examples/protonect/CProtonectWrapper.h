@@ -22,6 +22,7 @@ class FrameMap;
 class SyncMultiFrameListener;
 class Frame;
 class Register;
+class Registration;
 class Viewer;
 extern "C" {
 #else
@@ -32,6 +33,7 @@ struct CFrameMap;
 struct CSyncMultiFrameListener;
 struct CFrame;
 struct CRegister;
+struct CRegistration;
 struct CViewer;
 typedef struct CFreenect2Device CFreenect2Device;
 typedef struct CFreenect2 CFreenect2;
@@ -40,6 +42,7 @@ typedef struct CFrameMap CFrameMap;
 typedef struct CSyncMultiFrameListener CSyncMultiFrameListener;
 typedef struct CFrame CFrame;
 typedef struct CRegister CRegister;
+typedef struct CRegistration CRegistration;
 typedef struct CViewer CViewer;
 #endif
 
@@ -116,7 +119,7 @@ void CPacketPipeline_destroy(CPacketPipeline* instance);
 //}
 
 CFrameMap* libfreenect2_CFrameMap_create();
-void CFrameMap_destroy(FrameMap* instance);
+void CFrameMap_destroy(CFrameMap* instance);
 
 //SyncMultiFrameListener (types)
 //{	
@@ -153,7 +156,7 @@ void CRegistration_destroy(CRegistration* instance);
 
 CViewer* CViewer_create();
 void CViewer_initialize(CViewer* instance);
-void CViewer_addFrame(CViewer* instance, char* string, Frame* frameToAdd);
+void CViewer_addFrame(CViewer* instance, char* string, CFrame* frameToAdd);
 void CViewer_destroy(CViewer* instance);
 
 
