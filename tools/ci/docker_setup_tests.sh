@@ -35,7 +35,7 @@ elif [ "$el_version" -eq "7" ]; then
 		--privileged -d -ti -e "container=docker"  \
 		-v /sys/fs/cgroup:/sys/fs/cgroup \
 		-v `pwd`:$DOCKERPATH:rw ${OS_TYPE}:${OS_VERSION_PREFIX}${OS_VERSION}${OS_VERSION_SUFFIX} \
-		/sbin/init
+		/lib/systemd/systemd
 
 	DOCKER_CONTAINER_ID=$(docker ps | egrep 'centos|scientific' | awk '{print $1}')
 	echo "DOCKER_CONTAINER_ID=$DOCKER_CONTAINER_ID"
