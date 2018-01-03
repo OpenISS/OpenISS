@@ -1,10 +1,8 @@
 # basic makefile modified from atsm/examples/c/call-cpp-from-c/example01
 #
 
-# TODO: include and library flags for libreenect2
-
-all: #protonect
-	@echo "Uncomment protonect when compiles."
+all: protonect
+	@echo "CProtonect compiled."
 
 protonect: CProtonect.o CProtonectWrapper.o
 	gcc *.o -lstdc++ -lfreenect2 -o protonect
