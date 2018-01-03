@@ -2,7 +2,7 @@
 
 # This script starts docker and systemd (if el7)
 
-# Version of CentOS/RHEL
+# Version of CentOS/SL/RHEL
 el_version=$1
 
 # Commands and paths
@@ -20,7 +20,7 @@ if [ "$DEBUG" -eq "1" ]; then
 fi
 
 # Run tests in Container
-# Use `--privileged` for cgroup compatability
+# Use `--privileged` for cgroup compatibility
 if [ "$el_version" -eq "6" ]; then
 
 	sudo docker run \
@@ -35,9 +35,10 @@ elif [ "$el_version" -eq "7" ]; then
 		--privileged -d -ti -e "container=docker"  \
 		-v /sys/fs/cgroup:/sys/fs/cgroup \
 		-v `pwd`:$DOCKERPATH:rw ${OS_TYPE}:${OS_VERSION_PREFIX}${OS_VERSION}${OS_VERSION_SUFFIX} \
-		'yum -y install initscripts && /usr/sbin/init'
+		/sbin/init
 
 	DOCKER_CONTAINER_ID=$(docker ps | egrep 'centos|scientific' | awk '{print $1}')
+	echo "DOCKER_CONTAINER_ID=$DOCKER_CONTAINER_ID"
 	docker logs $DOCKER_CONTAINER_ID
 	docker exec \
 		-ti $DOCKER_CONTAINER_ID \
