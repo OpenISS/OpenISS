@@ -1,88 +1,107 @@
 #include "CProtonectWrapper.h"
 
+#include <iostream>
+#include <cstdlib>
+#include <signal.h>
+
+/// [headers]
+#include <libfreenect2/libfreenect2.hpp>
+#include <libfreenect2/frame_listener_impl.h>
+#include <libfreenect2/registration.h>
+#include <libfreenect2/packet_pipeline.h>
+#include <libfreenect2/logger.h>
+/// [headers]
+
+using namespace libfreenect2;
+
 //
 
 EXTERNC
-CFreenect2Device* libfreenect2_CFreenect2Device_create()
+CFreenect2Device* libfreenect2_Freenect2Device_create()
 {
-        return new Freenect2Device;
+	return 0;
+        //return new libfreenect2::Freenect2Device;
 }
 
 EXTERNC
-void CFreenect2Device_start(CFreenect2Device* instance)
+void Freenect2Device_start(CFreenect2Device* instance)
 {
-        static_cast<Freenect2Device*>(instance)->start();
+        reinterpret_cast<Freenect2Device*>(instance)->start();
 }
 
 EXTERNC
-void CFreenect2Device_stop(CFreenect2Device* instance)
+void Freenect2Device_stop(CFreenect2Device* instance)
 {
-        static_cast<Freenect2Device*>(instance)->stop();
+        reinterpret_cast<Freenect2Device*>(instance)->stop();
 }
 
+/*
 EXTERNC
-void CFreenect2Device_setColorFrameListener(CFreenect2Device* instance, CSyncMultiFrameListener* listener)
+void Freenect2Device_setColorFrameListener(Freenect2Device* instance, SyncMultiFrameListener* listener)
 {
         static_cast<Freenect2Device*>(instance)->setColorFrameListener(static_cast<SyncMultiFrameListener*>(listener));
 }
 
 EXTERNC
-void CFreenect2Device_startStreams(CFreenect2Device* instance, int rgb, int depth)
+void Freenect2Device_startStreams(Freenect2Device* instance, int rgb, int depth)
 {
         static_cast<Freenect2Device*>(instance)->startStreams(rgb, depth);
 }
 
 EXTERNC
-struct CFreenect2Device_getIrCameraParams(CFreenect2Device* instance)
+struct Freenect2Device_getIrCameraParams(Freenect2Device* instance)
 {
         //find return type of ir camera params, track that down via headers
        return static_cast<Freenect2Device*>(instance)->getIrCameraParams();
 }
 
 EXTERNC
-struct CFreenect2Device_getColorCameraParams(CFreenect2Device* instance)
+struct Freenect2Device_getColorCameraParams(Freenect2Device* instance)
 {
         //find return type of color camera params
        return static_cast<Freenect2Device*>(instance)->getColorCameraParams();
 }
        
 EXTERNC 
-void CFreenect2Device_setColorFrameListener(CFreenect2Device* instance, CSyncMultiFrameListener* listener)
+void Freenect2Device_setColorFrameListener(Freenect2Device* instance, SyncMultiFrameListener* listener)
 {
         static_cast<Freenect2Device*>(instance)->setColorFrameListener(static_cast<SyncMultiFrameListener*>(listener));
 }
-       
+
 EXTERNC 
-void CFreenect2Device_setIrAndDepthFrameListener(CFreenect2Device* instance, CSyncMultiFrameListener* listener)
+void Freenect2Device_setIrAndDepthFrameListener(Freenect2Device* instance, SyncMultiFrameListener* listener)
 {
          static_cast<Freenect2Device*>(instance)->setIrAndDepthFrameListener(static_cast<SyncMultiFrameListener*>(listener));
 }
 
 EXTERNC
-char* CFreenect2Device_getSerialNumber(CFreenect2Device* instance)
+char* Freenect2Device_getSerialNumber(Freenect2Device* instance)
 { 
        return static_cast<Freenect2Device*>(instance)->getSerialNumber().c_str();  
 }      
 
 EXTERNC                                                        
-char* CFreenect2Device_getFirmwareVersion(CFreenect2Device* instance)
+char* Freenect2Device_getFirmwareVersion(Freenect2Device* instance)
 {
        return static_cast<Freenect2Device*>(instance)->getFirmwareVersion().c_str();
 }
 
 EXTERNC
-void CFreenect2Device_destroy(CFreenect2Device* instance)
+void Freenect2Device_destroy(Freenect2Device* instance)
 {
         delete static_cast<Freenect2Device*>(instance);
 }
+*/
 
 /////////////Freenect2
 EXTERNC
-CFreenect2* libfreenect2_CFreenect2_create()
+CFreenect2* libfreenect2_Freenect2_create()
 {
-        return new Freenect2;
+	Freenect2* freenect2 = new Freenect2();
+        return reinterpret_cast<CFreenect2*>(freenect2);
 }
 
+/*
 EXTERNC
 void CFreenect2_enumerateDevices(CFreenect2* instance)
 {
@@ -272,3 +291,4 @@ void CViewer_destroy(CViewer* instance)
 	delete static_cast<Viewer*>(instance);
 }
 
+*/

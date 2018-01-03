@@ -1,14 +1,36 @@
+#ifndef C_PROTONECT_WRAPPER_H
+#define C_PROTONECT_WRAPPER_H
+
 #ifdef __cplusplus
-#define EXTERNC  extern "C"
+#define EXTERNC extern "C"
 #else
 #define EXTERNC
 #endif
 
+struct CFreenect2Device;
+struct CFreenect2;
+struct CPacketPipeline;
+struct CFrameMap;
+struct SyncMultiFrameListener;
+struct CFrame;
+struct CRegister;
+struct CRegistration;
+struct CViewer;
+typedef struct CFreenect2Device CFreenect2Device;
+typedef struct CFreenect2 CFreenect2;
+typedef struct CPacketPipeline CPacketPipeline;
+typedef struct CFrameMap CFrameMap;
+typedef struct CSyncMultiFrameListener CSyncMultiFrameListener;
+typedef struct CFrame CFrame;
+typedef struct CRegister CRegister;
+typedef struct CRegistration CRegistration;
+typedef struct CViewer CViewer;
+
 
 #ifdef __cplusplus
-
-using namespace libfreenect2;
-
+//namespace libfreenect2
+/*
+{
 class Freenect2Device;
 class Freenect2;
 class PacketPipeline;
@@ -23,14 +45,18 @@ class SyncMultiFrameListener;
 class Frame;
 class Register;
 class Registration;
-class Viewer;
-extern "C" {
+}
+*/
+//class Viewer;
+extern "C"
+{
 #else
+/*
 struct CFreenect2Device;
 struct CFreenect2;
 struct CPacketPipeline;
 struct CFrameMap;
-struct CSyncMultiFrameListener;
+struct SyncMultiFrameListener;
 struct CFrame;
 struct CRegister;
 struct CRegistration;
@@ -39,11 +65,12 @@ typedef struct CFreenect2Device CFreenect2Device;
 typedef struct CFreenect2 CFreenect2;
 typedef struct CPacketPipeline CPacketPipeline;
 typedef struct CFrameMap CFrameMap;
-typedef struct CSyncMultiFrameListener CSyncMultiFrameListener;
+typedef struct SyncMultiFrameListener SyncMultiFrameListener;
 typedef struct CFrame CFrame;
 typedef struct CRegister CRegister;
 typedef struct CRegistration CRegistration;
 typedef struct CViewer CViewer;
+*/
 #endif
 
 //LIST OF FUNCTIONS TO WRAP
@@ -62,16 +89,18 @@ typedef struct CViewer CViewer;
 //} 
 
 CFreenect2Device* libfreenect2_Freenect2Device_create();
-void CFreenect2Device_start(CFreenect2Device* instance);
-void CFreenect2Device_stop(CFreenect2Device* instance);
-void CFreenect2Device_setColorFrameListener(CFreenect2Device* instance, CSyncMultiFrameListener* listener);
-void CFreenect2Device_startStreams(CFreenect2Device* instance, int rgb, int depth);
-void* CFreenect2Device_getIrCameraParams(CFreenect2Device* instance);
-void* CFreenect2Device_getColorCameraParams(CFreenect2Device* instance);
-void CFreenect2Device_setIrAndDepthFrameListener(CFreenect2Device* instance, CSyncMultiFrameListener* listener); 
-char* CFreenect2Device_getSerialNumber(CFreenect2Device* instance);
-char* CFreenect2Device_getFirmwareVersion(CFreenect2Device* instance);
-void CFreenect2Device_destroy(CFreenect2Device* instance);
+void Freenect2Device_start(CFreenect2Device* instance);
+void Freenect2Device_stop(CFreenect2Device* instance);
+/*
+void Freenect2Device_setColorFrameListener(Freenect2Device* instance, SyncMultiFrameListener* listener);
+void Freenect2Device_startStreams(Freenect2Device* instance, int rgb, int depth);
+void* Freenect2Device_getIrCameraParams(Freenect2Device* instance);
+void* Freenect2Device_getColorCameraParams(Freenect2Device* instance);
+void Freenect2Device_setIrAndDepthFrameListener(Freenect2Device* instance, SyncMultiFrameListener* listener); 
+char* Freenect2Device_getSerialNumber(Freenect2Device* instance);
+char* Freenect2Device_getFirmwareVersion(Freenect2Device* instance);
+void Freenect2Device_destroy(Freenect2Device* instance);
+*/
 
 //Freenect2
 //{
@@ -87,6 +116,8 @@ void CFreenect2Device_destroy(CFreenect2Device* instance);
 //
 
 CFreenect2* libfreenect2_Freenect2_create();
+
+/*
 void CFreenect2_enumerateDevices(CFreenect2* instance);
 char* CFreenect2_getDefaultDeviceSerialNumber(CFreenect2* instance);
 void CFreenect2_openDevice_pipeline(CFreenect2* instance, char* serial, CPacketPipeline* pipeline);
@@ -150,7 +181,7 @@ void CFrame_destroy(CFrame* instance);
 
 //Registration
 
-CRegistration* libfreenect2_CRegistration_create(CFreenect2Device* device); //ir and color
+CRegistration* libfreenect2_CRegistration_create(Freenect2Device* device); //ir and color
 void CRegistration_apply(CRegistration* instance, CFrame* rgb, CFrame* depth, CFrame* undistort, CFrame* unreg);
 void CRegistration_destroy(CRegistration* instance);
 
@@ -158,8 +189,10 @@ CViewer* CViewer_create();
 void CViewer_initialize(CViewer* instance);
 void CViewer_addFrame(CViewer* instance, char* string, CFrame* frameToAdd);
 void CViewer_destroy(CViewer* instance);
-
+*/
 
 #ifdef __cplusplus
 }
 #endif
+
+#endif /*C_PROTONECT_WRAPPER_H */

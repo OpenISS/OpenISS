@@ -7,7 +7,7 @@ all: #protonect
 	@echo "Uncomment protonect when compiles."
 
 protonect: CProtonect.o CProtonectWrapper.o
-	gcc *.o -lstdc++ -o protonect
+	gcc *.o -lstdc++ -lfreenect2 -o protonect
 
 CProtonect.o: CProtonect.c CProtonectWrapper.h Makefile
 	gcc -c CProtonect.c -o CProtonect.o

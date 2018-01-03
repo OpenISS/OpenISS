@@ -69,9 +69,9 @@ void sigusr1_handler(int s)
     return;
 /* [pause] */
   if (protonect_paused)
-    CFreenect2Device_start(devtopause);
+    Freenect2Device_start(devtopause);
   else
-    CFreenect2Device_stop(devtopause);
+    Freenect2Device_stop(devtopause);
   protonect_paused = !protonect_paused;
 
 }
@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
   }
 
 /// [context]
-  CFreenect2* freenect2 = libfreenect2_CFreenect2_create();
+  CFreenect2* freenect2 = libfreenect2_Freenect2_create();
   CFreenect2Device* dev = NULL;
   CPacketPipeline* pipeline = NULL;
 /*
