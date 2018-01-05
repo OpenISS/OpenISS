@@ -42,7 +42,7 @@ function install_dev_dependencies()
 	yum -y clean expire-cache
 
 	# add epel and elrepo repos needed form some dependencies
-	EL_TYPE=`head -1 /etc/issue | cut -d ' ' -f 1`
+	EL_TYPE=`head -1 /etc/system-release | cut -d ' ' -f 1`
 	if [[ "$EL_TYPE" == "Scientific" ]];
 	then
 		if [ "$(echo $0 | grep "el6")" -eq 0 ]; then
