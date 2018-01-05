@@ -75,7 +75,7 @@ function install_open_frameworks()
 			# compile examples
 			cd ../../
 			ls -al
-			find . -name projectGenerator
+			find . -name projectGenerator -ls
 			./projectGenerator -r -o"." examples
 		popd
 		echo "openframeworks" >> build.cache

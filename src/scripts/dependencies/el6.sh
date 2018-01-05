@@ -45,7 +45,13 @@ function install_dev_dependencies()
 	EL_TYPE=`head -1 /etc/issue | cut -d ' ' -f 1`
 	if [[ "$EL_TYPE" == "Scientific" ]];
 	then
-		yum install -y epel-release elrepo-release
+		if [ "$(echo $0 | grep "el6")" -eq 0 ]; then
+			yum install -y epel-release elrepo-release
+		else
+			# 7.2 onwards
+			yum install -y yum-conf-repos
+			yum install -y yum-conf-epel yum-conf-elrepo
+		fi
 	else
 		# Presuming CentOS and RHEL
 		# From 'extras'
@@ -124,31 +130,33 @@ function install_open_frameworks()
 			make && make install
 		popd
 
-		# allows us to have gcc 4.7 and 4.8
-		wget -O /etc/yum.repos.d/slc6-devtoolset.repo http://linuxsoft.cern.ch/cern/devtoolset/slc6-devtoolset.repo
-		rpm --import http://linuxsoft.cern.ch/cern/slc6X/x86_64/RPM-GPG-KEY-cern
+		# el6 need gcc 4.7 and 4.8; el7 has 4.8 by default
+		if [ "$(echo $0 | grep "el6")" -eq 0 ]; then
+			# allows us to have gcc 4.7 and 4.8
+			wget -O /etc/yum.repos.d/slc6-devtoolset.repo http://linuxsoft.cern.ch/cern/devtoolset/slc6-devtoolset.repo
+			rpm --import http://linuxsoft.cern.ch/cern/slc6X/x86_64/RPM-GPG-KEY-cern
 
-		# ofx itself requires gcc 4.8 on el6, else other errors crop up
-		# scl enable it in build.sh
-		yum install -y devtoolset-2-gcc-c++
+			# ofx itself requires gcc 4.8 on el6, else other errors crop up
+			# scl enable it in build.sh
+			yum install -y devtoolset-2-gcc-c++
 
-		# glm requires gcc 4.7 on el6, else assembly errors crop up
-		yum install -y devtoolset-1.1-gcc-c++
-		#scl enable devtoolset-1.1 bash
-		. /opt/rh/devtoolset-1.1/enable
-			which gcc
-			whereis gcc
-			gcc --version
+			# glm requires gcc 4.7 on el6, else assembly errors crop up
+			yum install -y devtoolset-1.1-gcc-c++
+			. /opt/rh/devtoolset-1.1/enable
+		fi
 
-			git clone https://github.com/g-truc/glm.git
-			pushd glm
-				mkdir build
-				cd build
-				cmake3 ..
-				make
-				make install
-			popd
-		#exit 0
+		which gcc
+		whereis gcc
+		gcc --version
+
+		git clone https://github.com/g-truc/glm.git
+		pushd glm
+			mkdir build
+			cd build
+			cmake3 ..
+			make
+			make install
+		popd
 	popd
 
 	echo "====================================="
