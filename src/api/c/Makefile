@@ -17,10 +17,9 @@ OBJ=$(EXE).o pipeline.o
 VFXLIBS=\
 	-L ../../../ogl/build/external/glfw-3.1.2/src \
 	-L ../../../ogl/build/external
-	#-L ../../../ogl/build/external/glfw-3.1.2/src/libglfw3.a
 
 # Default target
-all: $(EXE)
+all: $(EXE) vfx-test
 	make -C examples $@
 	@echo "All is perfectly done!"
 
@@ -33,19 +32,15 @@ $(EXE): $(OBJ)
 
 vfx-deps: ogl
 
-vfx: vfx.c include/vfx.h
-	$(CC) $(VFXLIBS) -lglfw3 -lGLEW_1130 $(CFLAGS) -DMAIN_VFX_TEST -c vfx.c
-# 	$(CC) $(VFXLIBS) $(CFLAGS) \
-# 		../../../ogl/build/external/glfw-3.1.2/src/libglfw3.a \
-# 		../../../ogl/build/external/libGLEW_1130.a \
-# 		../../../ogl/build/external/libANTTWEAKBAR_116_OGLCORE_GLFW.a \
-# 		-lstdc++ \
-# 		vfx.o -o $@
-	#$(CC) $(VFXLIBS) -lglfw3 -lGLEW_1130 -lANTTWEAKBAR_116_OGLCORE_GLFW -lstdc++ vfx.o -o $@
-	$(CC) $(VFXLIBS) -lglfw3 -lGLEW_1130 -lANTTWEAKBAR_116_OGLCORE_GLFW -lstdc++ vfx.o -o $@
+vfx-test: vfx.o
+	$(CC) $(VFXLIBS) vfx.o \
+		-lglfw3 -lGLEW_1130 -lANTTWEAKBAR_116_OGLCORE_GLFW -lstdc++ \
+		-lXxf86vm -lXcursor -lpthread -lrt -lX11 -lXrandr -lXi -lXinerama -lm -ldl \
+		-lGL -lGLU -lGLEW \
+		-o $@
 
 vfx.o: vfx.c include/vfx.h
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -DMAIN_VFX_TEST -c vfx.c
 
 issimgdrv:
 	make -C issimagedrv all
@@ -53,7 +48,7 @@ issimgdrv:
 
 # Cleaning up afterwards
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJ) *.o
 
 # Tmp rules, nearly subsumed by build.sh and el6.sh
 

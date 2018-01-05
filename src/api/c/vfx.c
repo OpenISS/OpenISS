@@ -18,18 +18,18 @@ using namespace glm;
 
 t_iss_vfx_ops p_oVFXEmptyOpenGLTest;
 
-void vfx_init(void);
+int vfx_init(void);
 void vfx_draw(void);
 void vfx_free(void);
 
-void vfx_init()
+int vfx_init(void)
 {
     /* Initialise GLFW */
     if( !glfwInit() )
     {
         fprintf( stderr, "Failed to initialize GLFW\n" );
         getchar();
-        /*return -1;*/
+        return -1;
     }
     
     glfwWindowHint(GLFW_SAMPLES, 4);
@@ -44,7 +44,7 @@ void vfx_init()
         fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
         getchar();
         glfwTerminate();
-        /*return -1;*/
+        return -1;
     }
     glfwMakeContextCurrent(window);
     
@@ -54,18 +54,22 @@ void vfx_init()
         getchar();
         glfwTerminate();
         
-        /*return -1;*/
+        return -1;
     }
     
     /* Ensure we can capture the escape key being pressed below */
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+    
+    return 0;
 }
 
-void vfx_free()
+void vfx_free(void)
 {
+    /* Close OpenGL window and terminate GLFW */
+    glfwTerminate();
 }
 
-void vfx_draw()
+void vfx_draw(void)
 {
     /* Dark blue background */
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -84,23 +88,21 @@ void vfx_draw()
     } /* Check if the ESC key was pressed or the window was closed */
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
           glfwWindowShouldClose(window) == 0 );
-    
-    /* Close OpenGL window and terminate GLFW */
-    glfwTerminate();
-    
-    /*return 0;*/
 }
 
 #ifdef MAIN_VFX_TEST
 int main(int argc, char** argv)
 {
+    int iRetVal = 0;
+    
     p_oVFXEmptyOpenGLTest.vfx_init = &vfx_init;
-    p_oVFXEmptyOpenGLTest.vfx_init = &vfx_draw;
-    p_oVFXEmptyOpenGLTest.vfx_init = &vfx_free;
+    p_oVFXEmptyOpenGLTest.vfx_draw = &vfx_draw;
+    p_oVFXEmptyOpenGLTest.vfx_free = &vfx_free;
 
-    vfx_init();
+    iRetVal = vfx_init();
     vfx_draw();
     vfx_free();
-    return 0;
+    
+    return iRetVal;
 }
 #endif

@@ -136,13 +136,15 @@ t_iss_vfx_ops p_oVFXEmptyOpenGLTest;
 
 int main(int argc, char** argv)
 {
+	int iRetVal = 0;
+    
 	p_oVFXEmptyOpenGLTest.vfx_init = &two_init;
-    	p_oVFXEmptyOpenGLTest.vfx_draw = &two_draw;
-    	p_oVFXEmptyOpenGLTest.vfx_free = &two_free;
+	p_oVFXEmptyOpenGLTest.vfx_draw = &two_draw;
+	p_oVFXEmptyOpenGLTest.vfx_free = &two_free;
 
-	two_init();
+	iRetVal = two_init();
 	two_draw();
 	two_free();
 
-	return 0;
+	return iRetVal;
 }

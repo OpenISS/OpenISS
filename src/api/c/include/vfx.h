@@ -3,7 +3,7 @@
 
 typedef struct
 {
-    void (*vfx_init) (void);
+    int (*vfx_init) (void);
     void (*vfx_draw) (void);
     void (*vfx_free) (void);
 }

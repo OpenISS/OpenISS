@@ -25,7 +25,10 @@ all: $(EXE)
 
 # Other subtargets to make it happen
 $(EXE): $(OBJ)
-	$(CC) $(OBJ) $(VFXLIBS) -lGL -lglfw3 -lGLEW_1130 -lANTTWEAKBAR_116_OGLCORE_GLFW -lstdc++ -lXxf86vm -lXcursor -lpthread -lrt -lX11 -lXrandr -lXi -lXinerama -lm -ldl -o $(EXE)
+	$(CC) $(OBJ) $(VFXLIBS) \
+		-lGL -lglfw3 -lGLEW_1130 -lANTTWEAKBAR_116_OGLCORE_GLFW -lstdc++ \
+		-lXxf86vm -lXcursor -lpthread -lrt -lX11 -lXrandr -lXi -lXinerama -lm -ldl \
+		-o $(EXE)
 
 %.o: %.c %.h
 	$(CC) $(CFLAGS) $(VFXLIBS) -c $<
