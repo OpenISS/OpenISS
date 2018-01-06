@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-//#include "libfreenect.h"
+
+#include "kinect1.h"
 
 #include <pthread.h>
 
@@ -23,7 +24,7 @@
 
 t_iss_vfx_ops p_oVFXEmptyOpenGLTest;
 
-void vfx_init(void);
+int vfx_init(void);
 void vfx_draw(void);
 void vfx_free(void);
 
@@ -40,18 +41,18 @@ pthread_mutex_t gl_backbuf_mutex = PTHREAD_MUTEX_INITIALIZER;
 // back: owned by libfreenect (implicit for depth)
 // mid: owned by callbacks, "latest frame ready"
 // front: owned by GL, "currently being drawn"
-//uint8_t *depth_mid, *depth_front;
-//uint8_t *rgb_back, *rgb_mid, *rgb_front;
+uint8_t *depth_mid, *depth_front;
+uint8_t *rgb_back, *rgb_mid, *rgb_front;
 
 GLuint gl_depth_tex;
 GLuint gl_rgb_tex;
-//GLfloat camera_angle = 0.0;
+GLfloat camera_angle = 0.0;
 
-//int camera_rotate = 0;
+int camera_rotate = 0;
 //int tilt_changed = 0;
 
 //freenect_context *f_ctx;
-//freenect_device *f_dev;
+freenect_device *f_dev;
 //int freenect_angle = 0;
 //int freenect_led;
 
@@ -136,8 +137,9 @@ void keyPressed(unsigned char key, int x, int y)
 }
 
 
-void vfx_init()
+int vfx_init()
 {
+  return 0;
 }
 
 void vfx_free()
@@ -153,8 +155,8 @@ void vfx_draw()
 int main(int argc, char** argv)
 {
     p_oVFXEmptyOpenGLTest.vfx_init = &vfx_init;
-    p_oVFXEmptyOpenGLTest.vfx_init = &vfx_draw;
-    p_oVFXEmptyOpenGLTest.vfx_init = &vfx_free;
+    p_oVFXEmptyOpenGLTest.vfx_draw = &vfx_draw;
+    p_oVFXEmptyOpenGLTest.vfx_free = &vfx_free;
 
     vfx_init();
     vfx_draw();

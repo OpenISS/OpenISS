@@ -30,8 +30,9 @@ GFXLIBS=\
 FREENECTLIBS=-lfreenect -lfreenect_sync
 
 # Default target
-all: $(EXE) vfx-test viewers
+all: $(EXE)
 	make -C examples $@
+	make -C vfx $@
 	@echo "All is perfectly done!"
 
 # Other subtargets to make it happen
