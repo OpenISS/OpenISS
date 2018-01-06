@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-//#include "libfreenect.h"
+
+/*#include "libfreenect.h"*/
+#include "kinect1.h"
 
 #include <pthread.h>
 
@@ -16,14 +18,14 @@
 #include <math.h>
 
 //pthread_t freenect_thread;
-volatile int die = 0;
+//volatile int die = 0;
 
 int g_argc;
 char **g_argv;
 
 int window;
 
-pthread_mutex_t gl_backbuf_mutex = PTHREAD_MUTEX_INITIALIZER;
+//pthread_mutex_t gl_backbuf_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 // back: owned by libfreenect (implicit for depth)
 // mid: owned by callbacks, "latest frame ready"
@@ -46,13 +48,16 @@ GLuint gl_rgb_tex;
 //freenect_video_format requested_format = FREENECT_VIDEO_RGB;
 //freenect_video_format current_format = FREENECT_VIDEO_RGB;
 
-pthread_cond_t gl_frame_cond = PTHREAD_COND_INITIALIZER;
+//pthread_cond_t gl_frame_cond = PTHREAD_COND_INITIALIZER;
 //int got_rgb = 0;
 //int got_depth = 0;
 
 
 void DrawGLScene()
 {
+	/* TODO call draw functions of the VFXs */
+	
+	/*
 	kinect1_receive_rgb_depth_frames();
 	
 	glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
@@ -114,6 +119,8 @@ void DrawGLScene()
 	    glTexCoord2f(0, 0); glVertex3f(640,480,0);
 	  glEnd();
 	glPopMatrix();
+	*/
+	
 	glutSwapBuffers();
 }
 
@@ -123,7 +130,7 @@ void keyPressed(unsigned char key, int x, int y)
 	
 	if(key == 27)
 	{
-		die = 1;
+		//die = 1;
 		//pthread_join(freenect_thread, NULL);
 		glutDestroyWindow(window);
 		//free(depth_mid);
@@ -205,7 +212,7 @@ int viewer_main(int argc, char **argv)
 	g_argc = argc;
 	g_argv = argv;
 
-	int res = kinect1_init(agrc, argv);
+	int res = kinect1_init(argc, argv);
 
 	if(res)
 	{

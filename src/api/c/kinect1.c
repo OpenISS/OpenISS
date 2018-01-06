@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "libfreenect.h"
+
+#include "kinect1.h"
 
 #include <pthread.h>
 
