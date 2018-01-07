@@ -49,7 +49,7 @@ vfx-test: vfx.c include/vfx.h
 
 vfx.o: vfx.c include/vfx.h
 	$(CC) $(CFLAGS) -c vfx.c
-	make -C vfx $@
+	make -C vfx all
 
 viewers: GL2Viewer.o kinect1.o
 
