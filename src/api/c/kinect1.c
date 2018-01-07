@@ -32,8 +32,8 @@ pthread_mutex_t gl_backbuf_mutex = PTHREAD_MUTEX_INITIALIZER;
 uint8_t *depth_mid, *depth_front;
 uint8_t *rgb_back, *rgb_mid, *rgb_front;
 
-//GLuint gl_depth_tex;
-//GLuint gl_rgb_tex;
+GLuint gl_depth_tex;
+GLuint gl_rgb_tex;
 GLfloat camera_angle = 0.0;
 int camera_rotate = 0;
 int tilt_changed = 0;

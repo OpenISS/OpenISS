@@ -16,6 +16,7 @@ CFLAGS=\
 # A list of executable, object, and library files
 EXE=OpenISS
 OBJ=$(EXE).o pipeline.o vfx.o GL2Viewer.o kinect1.o
+VFX=vfx/Kinect1Depth.o vfx/Kinect1RGB.o
 
 VFXLIBS=\
 	-L ../../../ogl/build/external/glfw-3.1.2/src \
@@ -36,8 +37,8 @@ all: $(EXE)
 	@echo "All is perfectly done!"
 
 # Other subtargets to make it happen
-$(EXE): $(OBJ)
-	$(CC) $(VFXLIBS) $(OBJ) $(GFXLIBS) $(FREENECTLIBS) -o $(EXE)
+$(EXE): $(OBJ) Makefile
+	$(CC) $(VFXLIBS) $(OBJ) $(VFX) $(GFXLIBS) $(FREENECTLIBS) -o $(EXE)
 
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $<
@@ -48,6 +49,7 @@ vfx-test: vfx.c include/vfx.h
 
 vfx.o: vfx.c include/vfx.h
 	$(CC) $(CFLAGS) -c vfx.c
+	make -C vfx $@
 
 viewers: GL2Viewer.o kinect1.o
 

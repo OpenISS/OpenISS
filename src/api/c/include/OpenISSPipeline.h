@@ -7,6 +7,9 @@ typedef enum
 {
     VFX_TEST_START = 0,
     VFX_CONTOUR,
+    VFX_KINECT1_DEPTH,
+    VFX_KINECT1_RGB,
+    VFX_KINECT1_PCL,
     VFX_END_CLOSING
 } e_vfx_enum;
 

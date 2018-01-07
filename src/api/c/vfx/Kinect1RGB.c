@@ -27,48 +27,50 @@
 
 
 //pthread_t freenect_thread;
-volatile int die = 0;
+//volatile int die = 0;
 
-int g_argc;
-char **g_argv;
+//int g_argc;
+//char **g_argv;
 
-int window;
+//int window;
 
-pthread_mutex_t gl_backbuf_mutex = PTHREAD_MUTEX_INITIALIZER;
+//pthread_mutex_t gl_backbuf_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 // back: owned by libfreenect (implicit for depth)
 // mid: owned by callbacks, "latest frame ready"
 // front: owned by GL, "currently being drawn"
-uint8_t *depth_mid, *depth_front;
-uint8_t *rgb_back, *rgb_mid, *rgb_front;
+//uint8_t *depth_mid, *depth_front;
+extern uint8_t *rgb_back, *rgb_mid, *rgb_front;
 
-GLuint gl_depth_tex;
-GLuint gl_rgb_tex;
-GLfloat camera_angle = 0.0;
+//GLuint gl_depth_tex;
+extern GLuint gl_rgb_tex;
+//GLfloat camera_angle = 0.0;
+extern GLfloat camera_angle;
 
-int camera_rotate = 0;
+//int camera_rotate = 0;
 //int tilt_changed = 0;
 
 //freenect_context *f_ctx;
-freenect_device *f_dev;
+extern freenect_device *f_dev;
 //int freenect_angle = 0;
 //int freenect_led;
 
-freenect_video_format requested_format = FREENECT_VIDEO_RGB;
-freenect_video_format current_format = FREENECT_VIDEO_RGB;
+//freenect_video_format requested_format = FREENECT_VIDEO_RGB;
+//extern freenect_video_format current_format = FREENECT_VIDEO_RGB;
+extern freenect_video_format current_format;
 
-pthread_cond_t gl_frame_cond = PTHREAD_COND_INITIALIZER;
+//pthread_cond_t gl_frame_cond = PTHREAD_COND_INITIALIZER;
 //int got_rgb = 0;
 //int got_depth = 0;
 
-t_iss_vfx_ops p_oVFXEmptyOpenGLTest;
+t_iss_vfx_ops g_tVFXKinect1RGBOps;
 
-int vfx_init(void);
-void vfx_draw(void);
-void vfx_free(void);
+int vfx_kinect1_rgb_init(void);
+void vfx_kinect1_rgb_draw(void);
+void vfx_kinect1_rgb_free(void);
 
 
-void DrawGLScene()
+void vfx_kinect1_rgb_DrawGLScene()
 {
 	kinect1_receive_rgb_depth_frames();
 
@@ -133,37 +135,40 @@ void DrawGLScene()
 	  glEnd();
 	glPopMatrix();
 	
-	glutSwapBuffers();
+	// TODO: should be in the "parent"
+	//glutSwapBuffers();
 }
 
-void keyPressed(unsigned char key, int x, int y)
+void vfx_kinect1_rgb_keyPressed(unsigned char key, int x, int y)
 {
 }
 
 
-int vfx_init()
+int vfx_kinect1_rgb_init()
 {
   return 0;
 }
 
-void vfx_free()
+void vfx_kinect1_rgb_free()
 {
 }
 
-void vfx_draw()
+void vfx_kinect1_rgb_draw()
 {
+  vfx_kinect1_rgb_DrawGLScene();
 }
 
 #ifdef MAIN_VFX_TEST
 int main(int argc, char** argv)
 {
-    p_oVFXEmptyOpenGLTest.vfx_init = &vfx_init;
-    p_oVFXEmptyOpenGLTest.vfx_draw = &vfx_draw;
-    p_oVFXEmptyOpenGLTest.vfx_free = &vfx_free;
+    g_tVFXKinect1RGBOps.vfx_init = &vfx_kinect1_rgb_init;
+    g_tVFXKinect1RGBOps.vfx_draw = &vfx_kinect1_rgb_draw;
+    g_tVFXKinect1RGBOps.vfx_free = &vfx_kinect1_rgb_free;
 
-    vfx_init();
-    vfx_draw();
-    vfx_free();
+    vfx_kinect1_rgb_init();
+    vfx_kinect1_rgb_draw();
+    vfx_kinect1_rgb_free();
+    
     return 0;
 }
 #endif
