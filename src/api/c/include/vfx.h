@@ -9,6 +9,6 @@ typedef struct
 }
 t_iss_vfx_ops;
 
-extern t_iss_vfx_ops p_oVFXEmptyOpenGLTest;
+//extern t_iss_vfx_ops p_oVFXEmptyOpenGLTest;
 
 #endif

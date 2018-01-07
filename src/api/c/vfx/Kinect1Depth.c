@@ -1,11 +1,8 @@
+/* Include standard headers */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-
-#include "kinect1.h"
-
-#include <pthread.h>
 
 #if defined(__APPLE__)
 #include <GLUT/glut.h>
@@ -16,55 +13,25 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include "kinect1.h"
 #include "vfx.h"
-
-/* Include standard headers */
-#include <stdio.h>
-#include <stdlib.h>
+#include "OpenISSPipeline.h"
+#include "vfx/Kinect1Depth.h"
 
 t_iss_vfx_ops g_tVFXKinect1DepthOps;
-
-int vfx_kinect1_depth_init(void);
-void vfx_kinect1_depth_draw(void);
-void vfx_kinect1_depth_free(void);
-
-//pthread_t freenect_thread;
-//volatile int die = 0;
-
-//int g_argc;
-//char **g_argv;
-
-//int window;
-
-//pthread_mutex_t gl_backbuf_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 // back: owned by libfreenect (implicit for depth)
 // mid: owned by callbacks, "latest frame ready"
 // front: owned by GL, "currently being drawn"
 extern uint8_t *depth_mid, *depth_front;
-//uint8_t *rgb_back, *rgb_mid, *rgb_front;
 
 extern GLuint gl_depth_tex;
-//GLuint gl_rgb_tex;
 
-//GLfloat camera_angle = 0.0;
 extern GLfloat camera_angle;
 
-//int camera_rotate = 0;
 extern int camera_rotate;
-//int tilt_changed = 0;
 
-//freenect_context *f_ctx;
 extern freenect_device *f_dev;
-//int freenect_angle = 0;
-//int freenect_led;
-
-//freenect_video_format requested_format = FREENECT_VIDEO_RGB;
-//freenect_video_format current_format = FREENECT_VIDEO_RGB;
-
-//pthread_cond_t gl_frame_cond = PTHREAD_COND_INITIALIZER;
-//int got_rgb = 0;
-//int got_depth = 0;
 
 
 void vfx_kinect1_depth_DrawGLScene()
@@ -139,10 +106,20 @@ void vfx_kinect1_depth_keyPressed(unsigned char key, int x, int y)
 {
 }
 
+int vfx_kinect1_depth_module_init()
+{
+    g_tVFXKinect1DepthOps.vfx_init = &vfx_kinect1_depth_init;
+    g_tVFXKinect1DepthOps.vfx_draw = &vfx_kinect1_depth_draw;
+    g_tVFXKinect1DepthOps.vfx_free = &vfx_kinect1_depth_free;
+    
+    g_apvfx[VFX_KINECT1_DEPTH] = &g_tVFXKinect1DepthOps;
+    
+    return 0;
+}
 
 int vfx_kinect1_depth_init()
 {
-  return 0;
+    return 0;
 }
 
 void vfx_kinect1_depth_free()
@@ -151,7 +128,7 @@ void vfx_kinect1_depth_free()
 
 void vfx_kinect1_depth_draw()
 {
-  vfx_kinect1_depth_DrawGLScene();
+    vfx_kinect1_depth_DrawGLScene();
 }
 
 #ifdef MAIN_VFX_TEST
