@@ -1,11 +1,9 @@
+/* Include standard headers */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-
-#include "kinect1.h"
-
-#include <pthread.h>
 
 #if defined(__APPLE__)
 #include <GLUT/glut.h>
@@ -16,25 +14,10 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include "kinect1.h"
 #include "vfx.h"
-
-/* Include standard headers */
-#include <stdio.h>
-#include <stdlib.h>
-
-/* Include GLEW */
-//#include <GL/glew.h>
-
-
-//pthread_t freenect_thread;
-//volatile int die = 0;
-
-//int g_argc;
-//char **g_argv;
-
-//int window;
-
-//pthread_mutex_t gl_backbuf_mutex = PTHREAD_MUTEX_INITIALIZER;
+#include "OpenISSPipeline.h"
+#include "vfx/Kinect1RGB.h"
 
 // back: owned by libfreenect (implicit for depth)
 // mid: owned by callbacks, "latest frame ready"
@@ -42,33 +25,12 @@
 //uint8_t *depth_mid, *depth_front;
 extern uint8_t *rgb_back, *rgb_mid, *rgb_front;
 
-//GLuint gl_depth_tex;
 extern GLuint gl_rgb_tex;
-//GLfloat camera_angle = 0.0;
 extern GLfloat camera_angle;
-
-//int camera_rotate = 0;
-//int tilt_changed = 0;
-
-//freenect_context *f_ctx;
 extern freenect_device *f_dev;
-//int freenect_angle = 0;
-//int freenect_led;
-
-//freenect_video_format requested_format = FREENECT_VIDEO_RGB;
-//extern freenect_video_format current_format = FREENECT_VIDEO_RGB;
 extern freenect_video_format current_format;
 
-//pthread_cond_t gl_frame_cond = PTHREAD_COND_INITIALIZER;
-//int got_rgb = 0;
-//int got_depth = 0;
-
 t_iss_vfx_ops g_tVFXKinect1RGBOps;
-
-int vfx_kinect1_rgb_init(void);
-void vfx_kinect1_rgb_draw(void);
-void vfx_kinect1_rgb_free(void);
-
 
 void vfx_kinect1_rgb_DrawGLScene()
 {
@@ -143,14 +105,26 @@ void vfx_kinect1_rgb_keyPressed(unsigned char key, int x, int y)
 {
 }
 
+int vfx_kinect1_rgb_module_init()
+{
+    g_tVFXKinect1RGBOps.vfx_init = &vfx_kinect1_rgb_init;
+    g_tVFXKinect1RGBOps.vfx_draw = &vfx_kinect1_rgb_draw;
+    g_tVFXKinect1RGBOps.vfx_free = &vfx_kinect1_rgb_free;
+    
+    g_apvfx[VFX_KINECT1_RGB] = &g_tVFXKinect1RGBOps;
+    
+    return 0;
+}
 
 int vfx_kinect1_rgb_init()
 {
-  return 0;
+    printf("vfx_kinect1_rgb_init()\n");
+    return 0;
 }
 
 void vfx_kinect1_rgb_free()
 {
+    printf("vfx_kinect1_rgb_free()\n");
 }
 
 void vfx_kinect1_rgb_draw()
