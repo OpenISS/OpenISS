@@ -28,6 +28,9 @@ GFXLIBS=\
 	-lXxf86vm -lXcursor -lpthread -lrt -lX11 -lXrandr -lXi -lXinerama -lm -ldl \
 	-lGL -lGLU -lGLEW -lglut
 
+LIBFREENECT=../../../libfreenect/build/lib/libfreenect.so.0.6
+LIBFREENECTPATH=../../../libfreenect/build/lib
+
 FREENECTLIBS=-lfreenect -lfreenect_sync
 
 # Default target
@@ -38,7 +41,7 @@ all: $(EXE)
 
 # Other subtargets to make it happen
 $(EXE): $(OBJ) Makefile
-	$(CC) $(VFXLIBS) $(OBJ) $(VFX) $(GFXLIBS) $(FREENECTLIBS) -o $(EXE)
+	$(CC) $(VFXLIBS) $(OBJ) $(VFX) $(GFXLIBS) $(FREENECTLIBS) $(LIBFREENECT) -o $(EXE)
 
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $<
@@ -62,6 +65,15 @@ kinect1.o: kinect1.c include/kinect1.h include/vfx.h
 issimgdrv:
 	make -C issimagedrv all
 
+PRELOAD="../../../libfreenect/build/lib/fakenect/libfakenect.so"
+RECORDING_PATH="./test-recording"
+
+run: $(EXE)
+# 	LD_PRELOAD=$(PRELOAD) FAKENECT_PATH=$(RECORDING_PATH) ./$(EXE) --gl2
+	export LD_LIBRARY_PATH=../../../libfreenect/build/lib
+#	LD_PRELOAD=$(PRELOAD) LD_LIBRARY_PATH=$(LIBFREENECTPATH) FAKENECT_PATH=$(RECORDING_PATH) ./$(EXE) --gl2
+	LD_PRELOAD=$(PRELOAD) FAKENECT_PATH=$(RECORDING_PATH) ./$(EXE) --gl2
+	@echo "Run successful"
 
 # Cleaning up afterwards
 clean:
