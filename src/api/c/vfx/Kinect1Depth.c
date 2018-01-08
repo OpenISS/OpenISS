@@ -119,11 +119,13 @@ int vfx_kinect1_depth_module_init()
 
 int vfx_kinect1_depth_init()
 {
+    printf("vfx_kinect1_depth_init()\n");
     return 0;
 }
 
 void vfx_kinect1_depth_free()
 {
+    printf("vfx_kinect1_depth_free()\n");
 }
 
 void vfx_kinect1_depth_draw()
