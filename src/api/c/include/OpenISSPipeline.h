@@ -16,6 +16,9 @@ typedef enum
 typedef struct
 {
     e_vfx_enum m_eCurrentEffect;
+    
+    // In frames
+    int m_iTime;
 }
 t_iss_state;
 

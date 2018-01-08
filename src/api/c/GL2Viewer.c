@@ -3,9 +3,6 @@
 #include <string.h>
 #include <assert.h>
 
-/*#include "libfreenect.h"*/
-#include "kinect1.h"
-
 #include <pthread.h>
 
 #if defined(__APPLE__)
@@ -16,6 +13,9 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+
+#include "kinect1.h"
+#include "OpenISSPipeline.h"
 
 //pthread_t freenect_thread;
 //volatile int die = 0;
@@ -56,6 +56,7 @@ GLuint gl_rgb_tex;
 void DrawGLScene()
 {
 	/* TODO call draw functions of the VFXs */
+	iss_draw();
 	
 	/*
 	kinect1_receive_rgb_depth_frames();
@@ -205,14 +206,13 @@ void initGLUT()
 	//return NULL;
 }
 
-
-
-int viewer_main(int argc, char **argv)
+int viewer_init(int argc, char **argv)
 {
-	g_argc = argc;
-	g_argv = argv;
+	//g_argc = argc;
+	//g_argv = argv;
 
-	int res = kinect1_init(argc, argv);
+	//int res = kinect1_init(argc, argv);
+	int res = kinect1_init(g_argc, g_argv);
 
 	if(res)
 	{
