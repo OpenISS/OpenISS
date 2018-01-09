@@ -5,6 +5,7 @@
 
 #include "vfx/Kinect1Depth.h"
 #include "vfx/Kinect1RGB.h"
+#include "vfx/Kinect1PCL.h"
 
 t_iss_state g_tISSStage;
 
@@ -22,6 +23,11 @@ int iss_init()
     if(vfx_kinect1_rgb_module_init() != 0)
     {
         fprintf(stderr, "pipeline: vfx_kinect1_rgb_module_init() failed\n");
+    }
+
+    if(vfx_kinect1_pcl_module_init() != 0)
+    {
+        fprintf(stderr, "pipeline: vfx_kinect1_pcl_module_init() failed\n");
     }
 
     g_tISSStage.m_eCurrentEffect = VFX_TEST_START;

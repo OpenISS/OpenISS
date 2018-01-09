@@ -144,12 +144,42 @@ void keyPressed(unsigned char key, int x, int y)
 	}
 }
 
+void mouseMoved(int x, int y)
+{
+    // PCL
+    /*
+    if (mx>=0 && my>=0) {
+        rotangles[0] += y-my;
+        rotangles[1] += x-mx;
+    }
+    mx = x;
+    my = y;
+    */
+}
+
+void mousePress(int button, int state, int x, int y)
+{
+    /*
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+        mx = x;
+        my = y;
+    }
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
+        mx = -1;
+        my = -1;
+    }
+   */
+}
+
 void ReSizeGLScene(int Width, int Height)
 {
 	glViewport(0,0,Width,Height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	// RGB/DEPTH
 	glOrtho(0, 1280, 0, 480, -5.0f, 5.0f);
+	// TODO: PCL
+	//gluPerspective(60, 4/3., 0.3, 200);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
@@ -199,12 +229,16 @@ void initGLUT()
 	glutReshapeFunc(&ReSizeGLScene);
 	glutKeyboardFunc(&keyPressed);
 
+	glutMotionFunc(&mouseMoved);
+	glutMouseFunc(&mousePress);
+
 	InitGL(1280, 480);
 
 	glutMainLoop();
 
 	//return NULL;
 }
+
 
 int viewer_init(int argc, char **argv)
 {

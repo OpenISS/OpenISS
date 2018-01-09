@@ -16,7 +16,7 @@ CFLAGS=\
 # A list of executable, object, and library files
 EXE=OpenISS
 OBJ=$(EXE).o pipeline.o vfx.o GL2Viewer.o kinect1.o
-VFX=vfx/Kinect1Depth.o vfx/Kinect1RGB.o
+VFX=vfx/Kinect1Depth.o vfx/Kinect1RGB.o vfx/Kinect1PCL.o
 
 VFXLIBS=\
 	-L ../../../ogl/build/external/glfw-3.1.2/src \
@@ -101,4 +101,3 @@ epel:
 cmake3: epel
 	yum -y --enablerepo=epel install cmake3
 	touch cmake3
-

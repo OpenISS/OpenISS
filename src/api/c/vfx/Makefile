@@ -15,7 +15,7 @@ CFLAGS=\
 
 # A list of executable, object, and library files
 EXE=
-OBJ=Kinect1Depth.o Kinect1RGB.o
+OBJ=Kinect1Depth.o Kinect1RGB.o Kinect1PCL.o
 
 VFXLIBS=\
 	-L ../../../../ogl/build/external/glfw-3.1.2/src \
@@ -45,6 +45,9 @@ Kinect1Depth.o: Kinect1Depth.c ../include/kinect1.h ../include/vfx.h
 
 Kinect1RGB.o: Kinect1RGB.c ../include/kinect1.h ../include/vfx.h
 	$(CC) $(CFLAGS) -c Kinect1RGB.c
+
+Kinect1PCL.o: Kinect1PCL.c ../include/kinect1.h ../include/vfx.h
+	$(CC) $(CFLAGS) -c Kinect1PCL.c
 
 # Cleaning up afterwards
 clean:
