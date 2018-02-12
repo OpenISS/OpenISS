@@ -48,6 +48,8 @@ fi
 echo -ne "------\nEND OpenISS TESTS\n"
 
 if [ "$DEBUG" -eq "1" ]; then
+	pwd
+	ls -al
 	date
 fi
 
