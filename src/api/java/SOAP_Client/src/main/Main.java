@@ -5,7 +5,12 @@ public class Main {
 
 	public static void main(String[] args) {
 		try {
-			//To DO
+			SOAPServiceImplService soapService = new SOAPServiceImplServiceLocator();
+			SOAPService soap = soapService.getSOAPServiceImplPort();
+
+
+			byte[] imageBytes = soap.getBytes("src/image_example.jpg");
+			soap.fromByteToJpg(imageBytes);
 		}
 		catch(Exception e) {
 			System.out.println("Error");

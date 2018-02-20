@@ -17,16 +17,16 @@ public class SOAPServiceImpl implements SOAPService {
     public byte[] getBytes(String imageName) {
         byte[] imageInByte = new byte[0];
 
-        BufferedImage originalImage = null;
+        BufferedImage sourceImage = null;
         try {
-            originalImage = ImageIO.read(new File(
+        	sourceImage = ImageIO.read(new File(
                     imageName));
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(originalImage, "jpg", baos);
-            baos.flush();
-            imageInByte = baos.toByteArray();
-            baos.close();
+            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            ImageIO.write(sourceImage, "jpg", byteStream);
+            byteStream.flush();
+            imageInByte = byteStream.toByteArray();
+            byteStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
