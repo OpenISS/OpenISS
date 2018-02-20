@@ -9,11 +9,11 @@ public class SOAPServiceImpl implements SOAPService {
 
 	@Override
 	public byte[] getFrame() {
+	
         return null;
 
     }
 	
-	// helper for getting bytes of an image
     public byte[] getBytes(String imageName) {
         byte[] imageInByte = new byte[0];
 
@@ -21,7 +21,7 @@ public class SOAPServiceImpl implements SOAPService {
         try {
             originalImage = ImageIO.read(new File(
                     imageName));
-            // convert BufferedImage to byte array
+
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(originalImage, "jpg", baos);
             baos.flush();
@@ -39,8 +39,17 @@ public class SOAPServiceImpl implements SOAPService {
     public void fromByteToJpg(byte[] imageBytes) {
         InputStream in = new ByteArrayInputStream(imageBytes);
 
-        //Implementation
-       
+        //added implementation
+        try {
+            BufferedImage bImageFromConvert = ImageIO.read(in);
+            File outputfile = new File("src/new-image.jpg");
+            
+
+            ImageIO.write(bImageFromConvert, "jpg", outputfile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
     }
 
 }
