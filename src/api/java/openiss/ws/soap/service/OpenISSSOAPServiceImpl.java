@@ -15,7 +15,9 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
         // convert to byte
         // return byte array
 
-        return null;
+        return "koko lala".getBytes();
+
+//        return null;
 
     }
 
