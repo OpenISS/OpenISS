@@ -1,6 +1,7 @@
 const soap = require('soap');
+
 const url = 'http://localhost:9090/openiss?wsdl';
-const args = {};
+let args = {type: 'color'};
 
 soap.createClient(url, function(err, client) {
     client.getFrame(args, function(err, result) {
@@ -9,8 +10,9 @@ soap.createClient(url, function(err, client) {
             console.log(err);
         }
         else {
-            console.log('got result');
-            console.log(result);
+            var img = new Buffer(result.return, 'base64');
+            console.log(result.return);
+            console.log(img.toString());
         }
     });
 });

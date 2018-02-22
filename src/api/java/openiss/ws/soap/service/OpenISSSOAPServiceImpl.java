@@ -8,14 +8,15 @@ import java.io.*;
 @WebService(endpointInterface="api.java.openiss.ws.soap.service.OpenISSSOAPService")
 public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
-    public byte[] getFrame() {
+    public byte[] getFrame(String type) {
 
         // todo:
         // get frame from API
         // convert to byte
         // return byte array
+        System.out.println("Requested type = " + type);
 
-        return "koko lala".getBytes();
+        return ("koko lala: " + type).getBytes();
 
 //        return null;
 

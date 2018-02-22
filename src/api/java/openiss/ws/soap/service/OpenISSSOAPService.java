@@ -6,5 +6,5 @@ import javax.jws.WebService;
 public interface OpenISSSOAPService {
 
     @WebMethod
-    byte[] getFrame();
+    byte[] getFrame(String type);
 }
