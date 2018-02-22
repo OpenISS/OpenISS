@@ -53,6 +53,3 @@ public class SOAPServiceImpl implements SOAPService {
     }
 
 }
-
-
-
