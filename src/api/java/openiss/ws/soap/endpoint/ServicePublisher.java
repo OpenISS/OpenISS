@@ -7,7 +7,10 @@ import javax.xml.ws.Endpoint;
 
 public class ServicePublisher {
 
+    static String url = "http://localhost:9090/openiss";
+
     public static void main(String[] args) {
-        Endpoint.publish("http://localhost:9090/openiss", new OpenISSSOAPServiceImpl());
+        System.out.println("SOAP Service listening on " + url + "?wsdl");
+        Endpoint.publish(url, new OpenISSSOAPServiceImpl());
     }
 }

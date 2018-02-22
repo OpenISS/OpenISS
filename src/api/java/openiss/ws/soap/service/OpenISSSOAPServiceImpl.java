@@ -10,15 +10,26 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
     public byte[] getFrame(String type) {
 
-        // todo:
-        // get frame from API
-        // convert to byte
-        // return byte array
-        System.out.println("Requested type = " + type);
+        System.out.println("getFrame: " + type);
 
-        return ("koko lala: " + type).getBytes();
+        byte[] imageInByte = new byte[0];
 
-//        return null;
+        BufferedImage originalImage = null;
+        try {
+            originalImage = ImageIO.read(new File(
+                    "src/api/java/openiss/ws/soap/service/image_example.jpg"));
+            // convert BufferedImage to byte array
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(originalImage, "jpg", baos);
+            baos.flush();
+            imageInByte = baos.toByteArray();
+            baos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return imageInByte;
 
     }
 
