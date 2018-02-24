@@ -40,6 +40,29 @@ app.get('/getFrame/:type', function(req, res, next) {
 
 });
 
+app.get('/getFileName', function(req, res, next) {
+
+    soap.createClient(url, function(err, client) {
+
+        client.getFileName("", function(err, result) {
+            if(err) {
+                console.log("got error");
+                console.log(err);
+                res.send(err);
+                next();
+            }
+            else {
+                console.log(result);
+                res.end(result.return);
+                next();
+            }
+        });
+    });
+
+
+
+});
+
 app.get('/', (req, res) => {
 
     res.send('Hello World ');
