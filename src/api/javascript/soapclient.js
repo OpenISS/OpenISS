@@ -11,10 +11,10 @@ const url = 'http://localhost:9090/openiss?wsdl';
 // App
 const app = express();
 
-app.get('/getFrame/:type', function(req, res) {
+app.get('/getFrame/:type', function(req, res, next) {
     if (req.params.type != 'color' && req.params.type != 'depth') {
         res.send("Invalid frame request");
-        return;
+        next();
     }
 
     soap.createClient(url, function(err, client) {
@@ -24,12 +24,14 @@ app.get('/getFrame/:type', function(req, res) {
                 console.log("got error");
                 console.log(err);
                 res.send(err);
+                next();
             }
             else {
                 var img = new Buffer(result.return, 'base64');
 //                console.log(img.toString());
                 res.contentType('image/jpeg');
                 res.end(img);
+                next();
             }
         });
     });

@@ -7,7 +7,9 @@ import javax.xml.ws.Endpoint;
 
 public class ServicePublisher {
 
-    static String url = "http://localhost:9090/openiss";
+    static int port = 9090;
+    static String service = "openiss";
+    static String url = "http://0.0.0.0:" + port + "/" + service;
 
     public static void main(String[] args) {
         System.out.println("SOAP Service listening on " + url + "?wsdl");
