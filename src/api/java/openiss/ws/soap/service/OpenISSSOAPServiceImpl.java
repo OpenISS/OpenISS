@@ -9,7 +9,8 @@ import java.nio.file.Files;
 @WebService(endpointInterface="api.java.openiss.ws.soap.service.OpenISSSOAPService")
 public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
-    private static String fileName = "default_image";
+    private static String fileName = "src/api/java/openiss/ws/soap/service/image_example.jpg";
+    static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
     public String getFileName(String type) {
         return fileName;
@@ -29,16 +30,13 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
         BufferedImage originalImage = null;
         try {
 
-            String src = "/Users/yasmine/session/" + getFileName("color");
+            String src = FAKENECT_PATH + getFileName("color");
 
             File initialFile = new File(src);
 
             ppmImageInByte = Files.readAllBytes(initialFile.toPath());
 
             BufferedImage image = ppm(640, 480, 255, ppmImageInByte);
-
-            ImageIO.write(image, "jpg", new File("/Users/yasmine/foo.jpg"));
-
 
             // convert BufferedImage to byte array
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -142,7 +140,7 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
     // demo of the functions
     public static void main(String[] args) {
         OpenISSSOAPServiceImpl o = new OpenISSSOAPServiceImpl();
-        byte[] imageBytes = o.getBytes("src/api/java/openiss/ws/soap/service/image_example.jpg");
+        byte[] imageBytes = o.getBytes(fileName);
         o.fromByteToJpg(imageBytes);
     }
 

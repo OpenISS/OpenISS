@@ -13,6 +13,7 @@ public class ServicePublisher {
     static int port = 9090;
     static String service = "openiss";
     static String url = "http://localhost:" + port + "/" + service;
+    static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
     public static void main(String[] args) throws Exception {
         System.out.println("SOAP Service listening on " + url + "?wsdl");
@@ -21,7 +22,7 @@ public class ServicePublisher {
 
         OpenISSSOAPServiceImpl object = new OpenISSSOAPServiceImpl();
 
-        File dir = new File("/Users/yasmine/session/");
+        File dir = new File(FAKENECT_PATH);
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
             while(true){
