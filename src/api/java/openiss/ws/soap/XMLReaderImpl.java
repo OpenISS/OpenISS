@@ -1,4 +1,4 @@
-package soen487.web.service;
+package api.java.openiss.ws.soap;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -24,7 +24,7 @@ import org.opencv.imgproc.Imgproc;
  *
  * @author zephi
  */
-@WebService(endpointInterface = "soen487.web.service.XMLReader")
+@WebService(endpointInterface = "api.java.openiss.ws.soap.XMLReader")
 public class XMLReaderImpl implements XMLReader {
 
     @Override

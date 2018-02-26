@@ -1,4 +1,4 @@
-package soen487.servlets;
+package api.java.openiss.ws.soap;
 
 import java.io.IOException;
 import java.net.URL;
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import soen487.web.service.XMLReader;
 
 @WebServlet(name = "OpenISSSOAPClient", urlPatterns = {"/OpenISSSOAPClient"})
 public class OpenISSSOAPClient extends HttpServlet {

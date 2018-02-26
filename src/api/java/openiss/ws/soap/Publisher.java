@@ -1,4 +1,4 @@
-package soen487.web.service;
+package api.java.openiss.ws.soap;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
