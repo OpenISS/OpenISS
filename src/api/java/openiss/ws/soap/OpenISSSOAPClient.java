@@ -11,8 +11,8 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import soen487.web.service.XMLReader;
 
-@WebServlet(name = "XMLReaderClient", urlPatterns = {"/XMLReaderClient"})
-public class XMLReaderClient extends HttpServlet {
+@WebServlet(name = "OpenISSSOAPClient", urlPatterns = {"/OpenISSSOAPClient"})
+public class OpenISSSOAPClient extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
