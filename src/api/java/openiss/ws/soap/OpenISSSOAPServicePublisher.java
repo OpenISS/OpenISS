@@ -10,11 +10,11 @@ import javax.xml.ws.Endpoint;
  *
  * @author zephi
  */
-public class Publisher extends HttpServlet{  
+public class OpenISSSOAPServicePublisher extends HttpServlet{
     public void init(ServletConfig config) throws ServletException {
-        Endpoint.publish("http://localhost:7779/ws/xmlread", new XMLReaderImpl());  
+        Endpoint.publish("http://localhost:7779/ws/xmlread", new OpenISSSOAPServiceImpl());
    }
 //    public static void main(String[] args) {  
-//       Endpoint.publish("http://localhost:7779/ws/xmlread", new XMLReaderImpl());  
+//       Endpoint.publish("http://localhost:7779/ws/xmlread", new OpenISSSOAPServiceImpl());
 //    }  
 }  

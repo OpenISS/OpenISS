@@ -26,7 +26,7 @@ public class OpenISSSOAPClient extends HttpServlet {
 
         QName qname = new QName("http://service.web.soen487/", "XMLReaderImplService");
         Service service = Service.create(url, qname);
-        XMLReader xmlRead = service.getPort(XMLReader.class);
+        OpenISSSOAPService xmlRead = service.getPort(OpenISSSOAPService.class);
         if(!fileIn.isEmpty() && !fileIn.equals("")){
             xmlRead.doCanny(fileIn);
         }

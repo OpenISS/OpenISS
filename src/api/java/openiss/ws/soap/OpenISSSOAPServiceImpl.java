@@ -14,8 +14,6 @@ import javax.jws.WebService;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.highgui.Highgui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
@@ -24,8 +22,8 @@ import org.opencv.imgproc.Imgproc;
  *
  * @author zephi
  */
-@WebService(endpointInterface = "api.java.openiss.ws.soap.XMLReader")
-public class XMLReaderImpl implements XMLReader {
+@WebService(endpointInterface = "api.java.openiss.ws.soap.OpenISSSOAPService")
+public class OpenISSSOAPServiceImpl implements OpenISSSOAPService {
 
     @Override
     public String fetchXML(String uri, String reqType) {
@@ -61,15 +59,15 @@ public class XMLReaderImpl implements XMLReader {
             return result.toString("UTF-8");
 
         } catch (MalformedURLException ex) {
-            Logger.getLogger(XMLReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OpenISSSOAPService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ProtocolException ex) {
-            Logger.getLogger(XMLReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OpenISSSOAPService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(XMLReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OpenISSSOAPService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(XMLReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OpenISSSOAPService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception e) {
-            Logger.getLogger(XMLReader.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(OpenISSSOAPService.class.getName()).log(Level.SEVERE, null, e);
         }
         return "Exception encountered.";
     }
