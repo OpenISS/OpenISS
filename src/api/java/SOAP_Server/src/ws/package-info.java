@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * @author IGT
- *
- */
-package ws;
