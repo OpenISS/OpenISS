@@ -1,4 +1,4 @@
-package api.java.openiss.ws.soap;
+package api.java.openiss.ws.soap.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import org.opencv.imgproc.Imgproc;
  *
  * @author zephi
  */
-@WebService(endpointInterface = "api.java.openiss.ws.soap.OpenISSSOAPService")
+@WebService(endpointInterface = "api.java.openiss.ws.soap.service.OpenISSSOAPService")
 public class OpenISSSOAPServiceImpl implements OpenISSSOAPService {
 
     @Override

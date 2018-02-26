@@ -1,4 +1,6 @@
-package api.java.openiss.ws.soap;
+package api.java.openiss.ws.soap.client;
+
+import api.java.openiss.ws.soap.service.OpenISSSOAPService;
 
 import java.io.IOException;
 import java.net.URL;
