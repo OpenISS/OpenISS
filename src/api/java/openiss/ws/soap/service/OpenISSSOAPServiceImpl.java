@@ -30,7 +30,7 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
         BufferedImage originalImage = null;
         try {
 
-            String src = FAKENECT_PATH + getFileName("color");
+            String src = FAKENECT_PATH + "/" + getFileName("color");
 
             File initialFile = new File(src);
 
