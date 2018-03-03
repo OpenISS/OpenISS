@@ -1,4 +1,4 @@
-package api.java.openiss.ws.soap.service;
+package openiss.ws.soap.service;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
