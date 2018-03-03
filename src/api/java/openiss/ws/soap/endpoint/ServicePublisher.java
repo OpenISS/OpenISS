@@ -1,7 +1,7 @@
-package api.java.openiss.ws.soap.endpoint;
+package openiss.ws.soap.endpoint;
 
-import api.java.openiss.ws.soap.service.OpenISSSOAPService;
-import api.java.openiss.ws.soap.service.OpenISSSOAPServiceImpl;
+import openiss.ws.soap.service.OpenISSSOAPService;
+import openiss.ws.soap.service.OpenISSSOAPServiceImpl;
 
 import javax.xml.ws.Endpoint;
 import java.io.File;
@@ -26,17 +26,16 @@ public class ServicePublisher {
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
             while(true){
-            for (File child : directoryListing) {
+                for (File child : directoryListing) {
 
-                if(child.getName().endsWith(".ppm")){
-                    TimeUnit.SECONDS.sleep(1);
-                    object.setFileName(child.getName());
+                    if(child.getName().endsWith(".ppm")){
+                        TimeUnit.SECONDS.sleep(1);
+                        object.setFileName(child.getName());
+                    }
                 }
             }
-
-        }}else {
+        } else {
             System.out.println("Error: no such directory");
         }
-
     }
 }

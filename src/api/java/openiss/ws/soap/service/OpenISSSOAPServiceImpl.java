@@ -1,4 +1,4 @@
-package api.java.openiss.ws.soap.service;
+package openiss.ws.soap.service;
 
 import javax.imageio.ImageIO;
 import javax.jws.WebService;
@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 
-@WebService(endpointInterface="api.java.openiss.ws.soap.service.OpenISSSOAPService")
+@WebService(endpointInterface="openiss.ws.soap.service.OpenISSSOAPService")
 public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
     private static String fileName = "src/api/java/openiss/ws/soap/service/image_example.jpg";
@@ -36,7 +36,7 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
             ppmImageInByte = Files.readAllBytes(initialFile.toPath());
 
-            BufferedImage image = ppm(640, 480, 255, ppmImageInByte);
+            BufferedImage image = processPPMImage(640, 480, ppmImageInByte);
 
             // convert BufferedImage to byte array
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -44,61 +44,25 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
             baos.flush();
             jpgImageInByte = baos.toByteArray();
             baos.close();
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         return jpgImageInByte;
-
     }
 
-    static private BufferedImage ppm(int width, int height, int maxcolval, byte[] data){
-        if(maxcolval<256){
-            BufferedImage image=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
-            int r,g,b,k=0,pixel;
-            if(maxcolval==255){                                      // don't scale
-                for(int y=0;y<height;y++){
-                    for(int x=0;(x<width)&&((k+3)<data.length);x++){
-                        r=data[k++] & 0xFF;
-                        g=data[k++] & 0xFF;
-                        b=data[k++] & 0xFF;
-                        pixel=0xFF000000+(r<<16)+(g<<8)+b;
-                        image.setRGB(x,y,pixel);
-                    }
-                }
+    static private BufferedImage processPPMImage(int width, int height, byte[] data){
+        BufferedImage image=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+        int red,green,blue,k=0,pixel;
+        for(int y=0;y<height;y++){
+            for(int x=0;(x<width)&&((k+3)<data.length);x++){
+                red=data[k++] & 0xFF;
+                green=data[k++] & 0xFF;
+                blue=data[k++] & 0xFF;
+                pixel=0xFF000000+(red<<16)+(green<<8)+blue;
+                image.setRGB(x,y,pixel);
             }
-            else{
-                for(int y=0;y<height;y++){
-                    for(int x=0;(x<width)&&((k+3)<data.length);x++){
-                        r=data[k++] & 0xFF;r=((r*255)+(maxcolval>>1))/maxcolval;  // scale to 0..255 range
-                        g=data[k++] & 0xFF;g=((g*255)+(maxcolval>>1))/maxcolval;
-                        b=data[k++] & 0xFF;b=((b*255)+(maxcolval>>1))/maxcolval;
-                        pixel=0xFF000000+(r<<16)+(g<<8)+b;
-                        image.setRGB(x,y,pixel);
-                    }
-                }
-            }
-            return image;
         }
-        else{
-
-
-            BufferedImage image=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
-            int r,g,b,k=0,pixel;
-            for(int y=0;y<height;y++){
-                for(int x=0;(x<width)&&((k+6)<data.length);x++){
-                    r=(data[k++] & 0xFF)|((data[k++] & 0xFF)<<8);r=((r*255)+(maxcolval>>1))/maxcolval;  // scale to 0..255 range
-                    g=(data[k++] & 0xFF)|((data[k++] & 0xFF)<<8);g=((g*255)+(maxcolval>>1))/maxcolval;
-                    b=(data[k++] & 0xFF)|((data[k++] & 0xFF)<<8);b=((b*255)+(maxcolval>>1))/maxcolval;
-                    pixel=0xFF000000+(r<<16)+(g<<8)+b;
-                    image.setRGB(x,y,pixel);
-                }
-            }
-            return image;
-        }
+        return image;
     }
 
     // helper for getting bytes of an image
@@ -118,8 +82,6 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         return imageInByte;
     }
 
