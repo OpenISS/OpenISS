@@ -16,7 +16,7 @@ public class ServicePublisher {
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
     public static boolean USE_FAKENECT = true;
-    public static boolean USE_FILESYSTEM = true;
+    public static boolean USE_FILESYSTEM = false;
     public static Kinect kinect;
 
     static {
