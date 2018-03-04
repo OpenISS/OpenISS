@@ -11,11 +11,10 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="GlassFish 5.0.0" level="application_server_libraries" />
-    <orderEntry type="library" name="jars" level="project" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../freenect-1.0.jar!/" />
+          <root url="jar://$USER_HOME$/freenect-1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -23,5 +22,6 @@
     </orderEntry>
     <orderEntry type="library" name="freenect-1.0" level="project" />
     <orderEntry type="library" name="jna-4.5.1" level="project" />
+    <orderEntry type="library" name="java" level="project" />
   </component>
 </module>

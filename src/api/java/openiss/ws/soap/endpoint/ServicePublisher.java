@@ -1,8 +1,8 @@
 package openiss.ws.soap.endpoint;
 
+import openiss.Kinect;
 import openiss.ws.soap.service.OpenISSSOAPService;
 import openiss.ws.soap.service.OpenISSSOAPServiceImpl;
-
 import javax.xml.ws.Endpoint;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -15,27 +15,37 @@ public class ServicePublisher {
     static String url = "http://localhost:" + port + "/" + service;
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
+    public static boolean USE_FAKENECT = true;
+    public static boolean USE_FILESYSTEM = false;
+    public static Kinect kinect = new Kinect();
+
     public static void main(String[] args) throws Exception {
         System.out.println("SOAP Service listening on " + url + "?wsdl");
 
         Endpoint.publish(url, new OpenISSSOAPServiceImpl());
 
-        OpenISSSOAPServiceImpl object = new OpenISSSOAPServiceImpl();
+        if (USE_FILESYSTEM) {
+            OpenISSSOAPServiceImpl object = new OpenISSSOAPServiceImpl();
 
-        File dir = new File(FAKENECT_PATH);
-        File[] directoryListing = dir.listFiles();
-        if (directoryListing != null) {
-            while(true){
-                for (File child : directoryListing) {
+            File dir = new File(FAKENECT_PATH);
+            File[] directoryListing = dir.listFiles();
+            if (directoryListing != null) {
+                while(true){
+                    for (File child : directoryListing) {
 
-                    if(child.getName().endsWith(".ppm")){
-                        TimeUnit.SECONDS.sleep(1);
-                        object.setFileName(child.getName());
+                        if(child.getName().endsWith(".ppm")){
+                            TimeUnit.SECONDS.sleep(1);
+                            object.setFileName(child.getName());
+                        }
                     }
                 }
+            } else {
+                System.out.println("Error: no such directory");
             }
-        } else {
-            System.out.println("Error: no such directory");
+        }
+        else {
+            kinect.initVideo();
+            kinect.initDepth();
         }
     }
 }

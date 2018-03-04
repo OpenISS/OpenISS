@@ -1,10 +1,15 @@
 package openiss.ws.soap.service;
 
+import openiss.Kinect;
+import openiss.ws.soap.endpoint.ServicePublisher;
+
 import javax.imageio.ImageIO;
 import javax.jws.WebService;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
+
+import static openiss.ws.soap.endpoint.ServicePublisher.kinect;
 
 @WebService(endpointInterface="openiss.ws.soap.service.OpenISSSOAPService")
 public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
@@ -22,8 +27,6 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
     public byte[] getFrame(String type) {
 
-        System.out.println("getFrame: " + type);
-
         byte[] ppmImageInByte = new byte[0];
         byte[] jpgImageInByte = new byte[0];
 
@@ -31,15 +34,30 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
         try {
 
             String src = FAKENECT_PATH + "/" + getFileName("color");
-
-            File initialFile = new File(src);
-
-            ppmImageInByte = Files.readAllBytes(initialFile.toPath());
-
-            BufferedImage image = processPPMImage(640, 480, ppmImageInByte);
-
+            BufferedImage image;
             // convert BufferedImage to byte array
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            //Kinect kinect = new Kinect();
+
+            if (!type.equals("color") && !type.equals("depth")) {
+                throw new IllegalArgumentException("Bad type for getFrame: " + type);
+            }
+
+            if (ServicePublisher.USE_FILESYSTEM) {
+                File initialFile = new File(src);
+                ppmImageInByte = Files.readAllBytes(initialFile.toPath());
+                image = Kinect.processPPMImage(640, 480, ppmImageInByte);
+            }
+            else {
+                if (type.equals("color")) {
+                    image = kinect.getVideoImage();
+                }
+                else {
+                    image = kinect.getDepthImage();
+                }
+            }
+
             ImageIO.write(image, "jpg", baos);
             baos.flush();
             jpgImageInByte = baos.toByteArray();
@@ -48,21 +66,6 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
             e.printStackTrace();
         }
         return jpgImageInByte;
-    }
-
-    static private BufferedImage processPPMImage(int width, int height, byte[] data){
-        BufferedImage image=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
-        int red,green,blue,k=0,pixel;
-        for(int y=0;y<height;y++){
-            for(int x=0;(x<width)&&((k+3)<data.length);x++){
-                red=data[k++] & 0xFF;
-                green=data[k++] & 0xFF;
-                blue=data[k++] & 0xFF;
-                pixel=0xFF000000+(red<<16)+(green<<8)+blue;
-                image.setRGB(x,y,pixel);
-            }
-        }
-        return image;
     }
 
     // helper for getting bytes of an image
@@ -97,13 +100,6 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    // demo of the functions
-    public static void main(String[] args) {
-        OpenISSSOAPServiceImpl o = new OpenISSSOAPServiceImpl();
-        byte[] imageBytes = o.getBytes(fileName);
-        o.fromByteToJpg(imageBytes);
     }
 
 }
