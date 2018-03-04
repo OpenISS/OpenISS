@@ -59,7 +59,7 @@ public class ServicePublisher {
                 }
 
                 // offset for this recording
-                int offset = (ppmCount < pgmCount) ? ppmCount : pgmCount;
+                int offset = (ppmCount > pgmCount) ? ppmCount : pgmCount;
                 System.out.println("Reading from filesystem..");
                 System.out.println("ppm="+ppmCount);
                 System.out.println("pgm="+pgmCount);
@@ -73,7 +73,7 @@ public class ServicePublisher {
                     for(int i = 0; i < pgmCount; i++) {
                         service.setDepthFileName(fileNames.get(i));
                         service.setColorFileName(fileNames.get(i + offset));
-                        TimeUnit.MILLISECONDS.sleep(40);
+                        TimeUnit.MILLISECONDS.sleep(150);
                     }
                     System.out.println("Looping..");
                 }
