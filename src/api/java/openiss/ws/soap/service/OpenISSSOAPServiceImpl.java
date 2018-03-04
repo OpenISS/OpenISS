@@ -5,6 +5,7 @@ import openiss.ws.soap.endpoint.ServicePublisher;
 
 import javax.imageio.ImageIO;
 import javax.jws.WebService;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
@@ -67,6 +68,90 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
         }
         return jpgImageInByte;
     }
+
+    public byte[] mixFrame(byte[] image, String type, String op)
+    {
+        double weight = 0.5;
+
+        System.out.println("Mixing frame, type=" + type + ", op="+op);
+        byte[] ppmImageInByte = new byte[0];
+
+        // convert client image to BufferedImage image_1
+        InputStream bain = new ByteArrayInputStream(image);
+        BufferedImage image_1 = null;
+        try {
+            // LOCAL FILE FOR NOW
+            //image_1 = ImageIO.read(new File(
+            //"penguin.jpg"));
+            image_1 = ImageIO.read(bain);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String src = FAKENECT_PATH + "/" + getFileName("color");
+        BufferedImage image_2 = null;
+        // convert BufferedImage to byte array
+
+
+        if (!type.equals("color") && !type.equals("depth")) {
+            throw new IllegalArgumentException("Bad type for getFrame: " + type);
+        }
+        try {
+            if (ServicePublisher.USE_FILESYSTEM) {
+                File initialFile = new File(src);
+                ppmImageInByte = Files.readAllBytes(initialFile.toPath());
+                image_2 = Kinect.processPPMImage(640, 480, ppmImageInByte);
+            } else {
+                if (type.equals("color")) {
+                    image_2 = kinect.getVideoImage();
+                } else {
+                    image_2 = kinect.getDepthImage();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        // check height and width
+        int width = image_1.getWidth();
+        int height = image_2.getHeight();
+
+        if(width != image_2.getWidth() || height != image_2.getHeight()) {
+            throw new IllegalArgumentException("dimensions are not equal.");
+        }
+
+        // create new mixed image and alpha weight
+        BufferedImage mixed_image = new BufferedImage (width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = mixed_image.createGraphics();
+        float alpha = (float)(1.0 - weight);
+
+        // mix both images into a third one
+        g.drawImage (image_1, null, 0, 0);
+        g.setComposite (AlphaComposite.getInstance (AlphaComposite.SRC_OVER, alpha));
+        g.drawImage (image_2, null, 0, 0);
+        g.dispose();
+
+        // transform mixed image in jpeg byte array
+        byte[] imageInByte = new byte[0];
+        try {
+            // convert BufferedImage to byte array
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(mixed_image, "jpg", baos);
+            baos.flush();
+            imageInByte = baos.toByteArray();
+            baos.close();
+
+            // fromByteToJpg(imageInByte);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Frame mixed. Sending jpg result to client");
+
+        return imageInByte;
+    }
+
 
     // helper for getting bytes of an image
     public byte[] getBytes(String imageName) {
