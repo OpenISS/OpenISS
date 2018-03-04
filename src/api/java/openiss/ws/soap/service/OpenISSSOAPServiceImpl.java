@@ -123,6 +123,8 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
         // init images
         byte[] ppmImageInByte;
+        byte[] pgmImageInByte = new byte[0];
+
         BufferedImage image_1 = null;
         BufferedImage image_2 = null;
 
@@ -137,10 +139,26 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
         // convert kinect/fakenect image to BufferedImage image_2
         try {
+
+
             if (ServicePublisher.USE_FILESYSTEM) {
-                File initialFile = new File(src);
-                ppmImageInByte = Files.readAllBytes(initialFile.toPath());
-                image_2 = Kinect.processPPMImage(640, 480, ppmImageInByte);
+
+                String colorSrc = FAKENECT_PATH + "/" + getFileName("color");
+                String depthSrc = FAKENECT_PATH + "/" + getFileName("depth");
+
+                File colorInitialFile = new File(colorSrc);
+                File depthInitialFile = new File(depthSrc);
+                ppmImageInByte = Files.readAllBytes(colorInitialFile.toPath());
+                pgmImageInByte = Files.readAllBytes(depthInitialFile.toPath());
+
+                if(type.equals("color")){
+                    image_2 = Kinect.processPPMImage(640, 480, ppmImageInByte);
+
+                }else{
+                    image_2 = Kinect.processPPMImage(640, 480, pgmImageInByte);
+
+                }
+
             } else {
                 if (type.equals("color")) {
                     image_2 = kinect.getVideoImage();
