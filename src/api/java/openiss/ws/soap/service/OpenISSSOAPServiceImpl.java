@@ -17,6 +17,8 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
     private static String fileName = "src/api/java/openiss/ws/soap/service/image_example.jpg";
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
+    private String src = FAKENECT_PATH + "/" + getFileName("color");
+
 
     public String getFileName(String type) {
         return fileName;
@@ -34,7 +36,6 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
         BufferedImage originalImage = null;
         try {
 
-            String src = FAKENECT_PATH + "/" + getFileName("color");
             BufferedImage image;
             // convert BufferedImage to byte array
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -69,33 +70,40 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
         return jpgImageInByte;
     }
 
+    /**
+     * Mixes a jpg image with one from the kinect/fakenect
+     * @param image jpg byte array from the client
+     * @param type color or depth
+     * @param op operand (only single operand handled as of now)
+     * @return jpg byte array
+     */
     public byte[] mixFrame(byte[] image, String type, String op)
     {
+        System.out.println("Mixing frame, type=" + type + ", op="+op);
+
+        // check validity
+        if (!type.equals("color") && !type.equals("depth")) {
+            throw new IllegalArgumentException("Bad type for getFrame: " + type);
+        }
+
+        // weight for bleding, 0.5 = 50% of both images
         double weight = 0.5;
 
-        System.out.println("Mixing frame, type=" + type + ", op="+op);
-        byte[] ppmImageInByte = new byte[0];
+        // init images
+        byte[] ppmImageInByte;
+        BufferedImage image_1 = null;
+        BufferedImage image_2 = null;
+
+        InputStream bain = new ByteArrayInputStream(image);
 
         // convert client image to BufferedImage image_1
-        InputStream bain = new ByteArrayInputStream(image);
-        BufferedImage image_1 = null;
         try {
-            // LOCAL FILE FOR NOW
-            //image_1 = ImageIO.read(new File(
-            //"penguin.jpg"));
             image_1 = ImageIO.read(bain);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        String src = FAKENECT_PATH + "/" + getFileName("color");
-        BufferedImage image_2 = null;
-        // convert BufferedImage to byte array
-
-
-        if (!type.equals("color") && !type.equals("depth")) {
-            throw new IllegalArgumentException("Bad type for getFrame: " + type);
-        }
+        // convert kinect/fakenect image to BufferedImage image_2
         try {
             if (ServicePublisher.USE_FILESYSTEM) {
                 File initialFile = new File(src);
@@ -112,11 +120,11 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
             e.printStackTrace();
         }
 
-
         // check height and width
         int width = image_1.getWidth();
         int height = image_2.getHeight();
 
+        // check equal size
         if(width != image_2.getWidth() || height != image_2.getHeight()) {
             throw new IllegalArgumentException("dimensions are not equal.");
         }
