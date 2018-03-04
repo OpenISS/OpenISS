@@ -25,7 +25,8 @@ public class ServicePublisher {
         Endpoint.publish(url, new OpenISSSOAPServiceImpl());
 
         if (USE_FILESYSTEM) {
-            OpenISSSOAPServiceImpl object = new OpenISSSOAPServiceImpl();
+            OpenISSSOAPServiceImpl colorObject = new OpenISSSOAPServiceImpl();
+            OpenISSSOAPServiceImpl depthObject = new OpenISSSOAPServiceImpl();
 
             File dir = new File(FAKENECT_PATH);
             File[] directoryListing = dir.listFiles();
@@ -35,7 +36,11 @@ public class ServicePublisher {
 
                         if(child.getName().endsWith(".ppm")){
                             TimeUnit.SECONDS.sleep(1);
-                            object.setFileName(child.getName());
+                            colorObject.setColorFileName(child.getName());
+                        }
+                        if(child.getName().endsWith(".pgm")){
+                            TimeUnit.SECONDS.sleep(1);
+                            depthObject.setDepthFileName(child.getName());
                         }
                     }
                 }

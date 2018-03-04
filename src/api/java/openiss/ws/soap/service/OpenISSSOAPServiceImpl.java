@@ -5,6 +5,7 @@ import openiss.ws.soap.endpoint.ServicePublisher;
 
 import javax.imageio.ImageIO;
 import javax.jws.WebService;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
@@ -14,26 +15,50 @@ import static openiss.ws.soap.endpoint.ServicePublisher.kinect;
 @WebService(endpointInterface="openiss.ws.soap.service.OpenISSSOAPService")
 public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
-    private static String fileName = "src/api/java/openiss/ws/soap/service/image_example.jpg";
+
+    private static String colorFileName = "src/api/java/openiss/ws/soap/service/image_example.jpg";
+    private static String depthFileName = "src/api/java/openiss/ws/soap/service/image_example.jpg";
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
     public String getFileName(String type) {
-        return fileName;
+
+        if(type.equalsIgnoreCase("color")){
+            return colorFileName;
+        }
+        else{
+            return depthFileName;
+
+        }
+
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setColorFileName(String fileName) {
+
+        this.colorFileName = fileName;
+
     }
+
+    public void setDepthFileName(String fileName) {
+
+        this.depthFileName = fileName;
+
+    }
+
+
 
     public byte[] getFrame(String type) {
 
         byte[] ppmImageInByte = new byte[0];
+        byte[] pgmImageInByte = new byte[0];
         byte[] jpgImageInByte = new byte[0];
 
         BufferedImage originalImage = null;
+
         try {
 
-            String src = FAKENECT_PATH + "/" + getFileName("color");
+            String colorSrc = FAKENECT_PATH + "/" + getFileName("color");
+            String depthSrc = FAKENECT_PATH + "/" + getFileName("depth");
+
             BufferedImage image;
             // convert BufferedImage to byte array
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -45,9 +70,18 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
             }
 
             if (ServicePublisher.USE_FILESYSTEM) {
-                File initialFile = new File(src);
-                ppmImageInByte = Files.readAllBytes(initialFile.toPath());
-                image = Kinect.processPPMImage(640, 480, ppmImageInByte);
+                File colorInitialFile = new File(colorSrc);
+                File depthInitialFile = new File(depthSrc);
+                ppmImageInByte = Files.readAllBytes(colorInitialFile.toPath());
+                pgmImageInByte = Files.readAllBytes(depthInitialFile.toPath());
+
+                if(type.equals("color")){
+                    image = Kinect.processPPMImage(640, 480, ppmImageInByte);
+
+                }else{
+                    image = Kinect.processPPMImage(640, 480, pgmImageInByte);
+
+                }
             }
             else {
                 if (type.equals("color")) {
