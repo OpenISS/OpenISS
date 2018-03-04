@@ -6,6 +6,8 @@ import openiss.ws.soap.service.OpenISSSOAPServiceImpl;
 import javax.xml.ws.Endpoint;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 
@@ -16,7 +18,7 @@ public class ServicePublisher {
     static String url = "http://localhost:" + port + "/" + service;
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
-    public static boolean USE_FAKENECT = false;
+    public static boolean USE_FAKENECT = true;
     public static boolean USE_FILESYSTEM = true;
     public static Kinect kinect;
 
@@ -58,6 +60,10 @@ public class ServicePublisher {
                     }
                 }
 
+                // sort array of names
+                Collections.sort(fileNames);
+
+
                 // offset for this recording
                 int offset = (ppmCount > pgmCount) ? ppmCount : pgmCount;
                 System.out.println("Reading from filesystem..");
@@ -73,6 +79,7 @@ public class ServicePublisher {
                     for(int i = 0; i < pgmCount; i++) {
                         service.setDepthFileName(fileNames.get(i));
                         service.setColorFileName(fileNames.get(i + offset));
+
                         TimeUnit.MILLISECONDS.sleep(150);
                     }
                     System.out.println("Looping..");
