@@ -8,6 +8,7 @@ const HOST = '0.0.0.0';
 const soap = require('soap');
 const url = 'http://localhost:9090/openiss?wsdl';
 const fs = require('fs');
+const views = __dirname + '/views/';
 
 
 // App
@@ -98,7 +99,7 @@ app.get('/getFileName', function(req, res, next) {
 
 app.get('/', (req, res) => {
 
-    res.send('Hello World ');
+    res.sendFile(views + "index.html");
 
 });
 
