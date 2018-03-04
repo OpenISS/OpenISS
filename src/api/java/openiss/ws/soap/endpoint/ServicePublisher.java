@@ -16,8 +16,14 @@ public class ServicePublisher {
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
     public static boolean USE_FAKENECT = true;
-    public static boolean USE_FILESYSTEM = false;
-    public static Kinect kinect = new Kinect();
+    public static boolean USE_FILESYSTEM = true;
+    public static Kinect kinect;
+
+    static {
+        if(!USE_FILESYSTEM) {
+            kinect = new Kinect();
+        }
+    }
 
     public static void main(String[] args) throws Exception {
         System.out.println("SOAP Service listening on " + url + "?wsdl");

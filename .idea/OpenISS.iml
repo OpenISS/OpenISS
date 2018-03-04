@@ -23,5 +23,6 @@
     <orderEntry type="library" name="freenect-1.0" level="project" />
     <orderEntry type="library" name="jna-4.5.1" level="project" />
     <orderEntry type="library" name="java" level="project" />
+    <orderEntry type="library" name="jna" level="project" />
   </component>
 </module>

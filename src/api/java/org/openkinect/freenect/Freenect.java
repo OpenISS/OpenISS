@@ -46,14 +46,14 @@ public class Freenect implements Library {
 		String osName = System.getProperty("os.name").toLowerCase();
 		
 		if(osName.indexOf("win") >= 0) {
-			System.out.println(arch + " windows");
-			System.loadLibrary("v1/msvc/pthreadVC2");
-			System.loadLibrary("v1/msvc/libusb-1.0");
-			System.loadLibrary("v1/msvc/freenect");
+//			System.out.println(arch + " windows");
+//			System.loadLibrary("v1/msvc/pthreadVC2");
+//			System.loadLibrary("v1/msvc/libusb-1.0");
+//			System.loadLibrary("v1/msvc/freenect");
 			
-			NativeLibrary instance = NativeLibrary.getInstance("freenect");
-			//System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath());
-			Native.register(instance);
+//			NativeLibrary instance = NativeLibrary.getInstance("freenect");
+//			//System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath());
+//			Native.register(instance);
 		}
 		else if(osName.indexOf("mac") >= 0){
 			try {
