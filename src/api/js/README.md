@@ -4,11 +4,9 @@ This is a javascript SOAP Client for OpenISS Webservices
 
 Two methods currently supported:
 
-* getFrame(String type)
- - Returns the current frame from a kinect device or a recorded session in JPEG blob format
+* getFrame(String type) - Returns the current frame from a kinect device or a recorded session in JPEG blob format
 
-* MixFrame(String type)
- - Reads a JPEG as input and returns a mixed frame from a kinect device or a recorded session
+* MixFrame(String type) - Reads a JPEG as input and returns a mixed frame from a kinect device or a recorded session
 
 ## Contributors ##
 
