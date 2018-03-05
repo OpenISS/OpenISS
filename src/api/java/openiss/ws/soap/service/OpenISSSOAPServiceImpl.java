@@ -17,8 +17,8 @@ import static openiss.ws.soap.endpoint.ServicePublisher.kinect;
 @WebService(endpointInterface="openiss.ws.soap.service.OpenISSSOAPService")
 public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
-    private static String colorFileName = "src/api/java/openiss/ws/soap/service/image_example.jpg";
-    private static String depthFileName = "src/api/java/openiss/ws/soap/service/image_example.jpg";
+    private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_example.jpg";
+    private static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_example.jpg";
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
     public byte[] getFrame(String type) {
@@ -54,12 +54,20 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
                 imageInBytes = Files.readAllBytes(frame.toPath());
                 image = Kinect.processPPMImage(640, 480, imageInBytes);
             }
-            else {
+            else if (ServicePublisher.USE_FREENECT) {
                 if (type.equals("color")) {
                     image = kinect.getVideoImage();
                 }
                 else {
                     image = kinect.getDepthImage();
+                }
+            }
+            else {
+                if (type.equals("color")) {
+                    image = ImageIO.read(new File(colorFileName));
+                }
+                else {
+                    image = ImageIO.read(new File(depthFileName));
                 }
             }
 
@@ -126,12 +134,20 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
                 imageInBytes = Files.readAllBytes(frame.toPath());
                 image_2 = Kinect.processPPMImage(640, 480, imageInBytes);
             }
-            else {
+            else if (ServicePublisher.USE_FREENECT) {
                 if (type.equals("color")) {
                     image_2 = kinect.getVideoImage();
                 }
                 else {
                     image_2 = kinect.getDepthImage();
+                }
+            }
+            else {
+                if (type.equals("color")) {
+                    image_2 = ImageIO.read(new File(colorFileName));
+                }
+                else {
+                    image_2 = ImageIO.read(new File(depthFileName));
                 }
             }
         } catch (IOException e) {

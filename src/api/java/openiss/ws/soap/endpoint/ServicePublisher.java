@@ -18,12 +18,13 @@ public class ServicePublisher {
     static String url = "http://localhost:" + port + "/" + service;
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
-    public static boolean USE_FAKENECT = true;
-    public static boolean USE_FILESYSTEM = true;
+    public static boolean USE_FREENECT = false; // Freenect library
+    public static boolean USE_FAKENECT = false; // Requires FAKENECT_SESSION path
+    public static boolean USE_FILESYSTEM = false; // Requires FAKENECT_SESSION path
     public static Kinect kinect;
 
     static {
-        if(!USE_FILESYSTEM) {
+        if(USE_FREENECT) {
             kinect = new Kinect();
         }
     }
@@ -87,8 +88,10 @@ public class ServicePublisher {
             }
         }
         else {
-            kinect.initVideo();
-            kinect.initDepth();
+            if (USE_FREENECT) {
+                kinect.initVideo();
+                kinect.initDepth();
+            }
         }
     }
 }
