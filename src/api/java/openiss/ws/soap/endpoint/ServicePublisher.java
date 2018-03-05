@@ -19,8 +19,8 @@ public class ServicePublisher {
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
     public static boolean USE_FREENECT = false; // Freenect library
-    public static boolean USE_FAKENECT = false; // Requires FAKENECT_SESSION path
-    public static boolean USE_FILESYSTEM = false; // Requires FAKENECT_SESSION path
+    public static boolean USE_FAKENECT = false; // Requires FAKENECT_PATH with recorded session
+    public static boolean USE_FILESYSTEM = false; // Requires FAKENECT_PATH with recorded session
     public static Kinect kinect;
 
     static {
