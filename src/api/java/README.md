@@ -2,6 +2,13 @@
 
 This api is for for using the Microsoft Kinect sensor with Web Services. It uses the open source drivers and libraries from the [libfreenect](https://github.com/OpenKinect/libfreenect) and [OpenKinect-for-Processing](https://github.com/shiffman/OpenKinect-for-Processing) projects. 
 
+Our SOAP Service currently works in 4 different ways: 
+
+- Without any libraries and without fakenect recorded session using sample images (Default behavior since the other ways require to download a fakenect recorded session)
+- Without any libraries using a FAKENECT_PATH from the file system
+- With fakenect library using a FAKENECT_PATH
+- With freenect library using the real Kinect device
+
 Two methods currently supported:
 
 * getFrame(String type) - Returns the current frame from a kinect device or a recorded session in JPEG blob format
