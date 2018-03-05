@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ServicePublisher {
 
-    static int port = 9090;
+    static int port = Config.portNumber;
     static String service = "openiss";
     static String url = "http://localhost:" + port + "/" + service;
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");

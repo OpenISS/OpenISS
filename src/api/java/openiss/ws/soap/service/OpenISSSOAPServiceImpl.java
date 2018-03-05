@@ -274,7 +274,7 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
                 System.out.println("edge is detected .......");
             }
         } catch (Exception e) {
-
+        	e.printStackTrace();
         }
     }
 
