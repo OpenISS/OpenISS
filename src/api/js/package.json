@@ -1,0 +1,15 @@
+{
+  "name": "openiss_soap_client",
+  "version": "0.0.1",
+  "description": "OpenISS Soap Client",
+  "author": "Konstantinis Psimoulis <kosta@noima.com>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node soapclient.js",
+    "debug": "nodemon --inspect soapclient.js"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "soap": "^0.23.0"
+  }
+}
