@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Url input</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              rel="stylesheet">
+    </head>
+    <body>
+        <form action="XMLReaderClient" method="post">
+            URL: <input type="text" name="url" /> 
+            <input type="submit" value="Send Request"><br><br>
+            
+            <input type="radio" name="requestType" value="RSS"> RSS<br>
+            <input type="radio" name="requestType" value="NN"> NN<br>
+            <input type="radio" name="requestType" value="MARFCAT-IN"> MARFCAT-IN<br>
+            <input type="radio" name="requestType" value="MARFCAT-OUT"> MARFCAT-OUT<br>
+            <input type="radio" name="requestType" value="WSDL"> WSDL<br>
+            
+            File directory: <input type="text" name="fileIn" /> 
+        </form>
+    </body>
+</html>
