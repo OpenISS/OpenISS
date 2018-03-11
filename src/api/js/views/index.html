@@ -75,7 +75,21 @@
         var method = $( "#selectMethod option:selected" ).text();
         var type = $( "#selectType option:selected" ).text();
 
-        showImage('/' + method + '/' + type);
+
+
+        if (method == "getFrame")
+            showImage('/' + method + '/' + type);
+
+
+        if(method == "mixFrame") {
+            var op = $("#selectOp option:selected").text();
+            showImage('/'+method+'/example&' + type + '&' + op)
+        }
+
+
+
+
+
 
         event.preventDefault();
     });
