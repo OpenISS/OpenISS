@@ -8,10 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>$Title$</title>
+    <title>SOEN487 Rest API</title>
   </head>
   <body>
-  <p><a href="rest/myresource">Jersey resource</a>
-  $END$
+  <p><a href="rest/openiss">Jersey resource</a>
   </body>
 </html>
