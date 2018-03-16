@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="OpenISS:war exploded">
+    <output-path>$PROJECT_DIR$/src/api/java/target/artifacts/OpenISS_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="OpenISS/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="OpenISS" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
