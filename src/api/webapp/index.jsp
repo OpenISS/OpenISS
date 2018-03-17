@@ -11,6 +11,8 @@
     <title>SOEN487 Rest API</title>
   </head>
   <body>
-  <p><a href="rest/openiss">Jersey resource</a>
+  <p><a href="rest/openiss/hello">Jersey Hello World</a></p>
+  <p><a href="rest/openiss/getImage/color">Color Image</a></p>
+  <p><a href="rest/openiss/getImage/depth">Depth Image</a></p>
   </body>
 </html>
