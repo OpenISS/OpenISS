@@ -13,7 +13,6 @@
         <sourceRoots>
           <root url="file://$MODULE_DIR$/src/api/java" />
           <root url="file://$MODULE_DIR$/src/api/resources" />
-          <root url="file://$MODULE_DIR$/src/api/webapp" />
         </sourceRoots>
       </configuration>
     </facet>
