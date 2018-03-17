@@ -24,16 +24,16 @@ Two methods currently supported:
     Run:		
         node soapclient.js
     
-    Browse to http://localhost:8080
+    Browse to http://localhost:3000
     
     Example to get a color frame:    
-        http://localhost:8080/getFrame/color
+        http://localhost:3000/getFrame/color
     
     Example to get a depth frame:
-        http://localhost:8080/getFrame/depth
+        http://localhost:3000/getFrame/depth
     
     Example to get a mix frame of type color with example.jpg using operand +
-        http://localhost:8080/mixFrame/example&color&+
+        http://localhost:3000/mixFrame/example&color&+
 
     Clean:
         Delete directory node_modules:

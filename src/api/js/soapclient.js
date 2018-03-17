@@ -3,7 +3,7 @@
 const express = require('express');
 
 // Constants
-const PORT = 8080;
+const PORT = 3000;
 const HOST = '0.0.0.0';
 const soap = require('soap');
 const url = 'http://localhost:9090/openiss?wsdl';
