@@ -23,7 +23,7 @@ Two methods currently supported:
 * Amjrali Shirkhodaei
 * Paul Palmieri
 
-## Using Filesystem fakenect recorded stream ##
+## Using Filesystem fakenect recorded stream (SOAP Only) ##
 
 Edit src/api/java/openiss/ws/soap/endpoint/ServicePublisher.java and set the following:
 
@@ -31,7 +31,7 @@ Edit src/api/java/openiss/ws/soap/endpoint/ServicePublisher.java and set the fol
 * USE_FILESYSTEM = true (If you want to use a fakenect recorded stream without using libfakenect library)
 * USE_FAKENECT = true (If you want to use a fakenect recorded stream using libfakenect library)
 
-## Build Instructions ##
+## SOAP Build Instructions ##
 
     Compile:
         mkdir build	
@@ -48,8 +48,26 @@ Edit src/api/java/openiss/ws/soap/endpoint/ServicePublisher.java and set the fol
             rm -fr build
 
 
-### Build Support ###
+### SOAP Build Support ###
 
 * Windows (Using Filesystem fakenect recorded stream)
 * OS X (Using Real Kinect Device, Fakenect library or Filesystem fakenect recorded stream)
 * Linux (Not yet tested)
+
+## REST Requirements ##
+* Maven
+
+## REST Build Instructions ##
+
+    Compile:
+        mvn install
+
+    Run (Local Glassfish):
+        mvn embedded-glassfish:run
+        
+    Run (Using Docker with Tomcat7 image):
+        cd tools/docker/rest-webserver
+        docker-compose up
+
+    Clean:
+        mvn clean
