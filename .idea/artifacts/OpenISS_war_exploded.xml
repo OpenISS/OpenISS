@@ -7,6 +7,12 @@
         <element id="directory" name="classes">
           <element id="module-output" name="OpenISS" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="java" />
+          <element id="library" level="project" name="Maven: javax.validation:validation-api:1.1.0.Final" />
+          <element id="library" level="project" name="Maven: javax.annotation:javax.annotation-api:1.2" />
+          <element id="library" level="project" name="Maven: org.glassfish.hk2:osgi-resource-locator:1.0.1" />
+        </element>
       </element>
     </root>
   </artifact>
