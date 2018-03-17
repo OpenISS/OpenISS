@@ -6,8 +6,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.awt.image.BufferedImage;
-import org.openkinect.freenect.*;
 
 @Path("/openiss")
 public class OpenISSRestService {
@@ -21,8 +19,8 @@ public class OpenISSRestService {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
-        Kinect kinect = new Kinect();
-        kinect.initVideo();
+//        Kinect kinect = new Kinect();
+//        kinect.initVideo();
 //        BufferedImage someimage = kinect.getVideoImage();
         return "Got it!";
     }
