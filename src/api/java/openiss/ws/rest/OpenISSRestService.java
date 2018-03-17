@@ -2,6 +2,7 @@ package openiss.ws.rest;
 
 import openiss.Kinect;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -9,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.MediaType;
+import java.awt.datatransfer.MimeTypeParseException;
 import java.io.File;
 
 @Path("/openiss")
@@ -51,7 +53,8 @@ public class OpenISSRestService {
             src = new File(depthFileName);
         }
 
-        ResponseBuilder response = Response.ok(src);
+        String mt = new MimetypesFileTypeMap().getContentType(src);
+        ResponseBuilder response = Response.ok(src, mt);
         return response.build();
 
     }
