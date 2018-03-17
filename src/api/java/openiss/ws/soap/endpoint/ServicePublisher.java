@@ -18,8 +18,8 @@ public class ServicePublisher {
     static String url = "http://localhost:" + port + "/" + service;
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
-    public static boolean USE_FREENECT = false; // Freenect library
-    public static boolean USE_FAKENECT = false; // Requires FAKENECT_PATH with recorded session
+    public static boolean USE_FREENECT = true; // Freenect library
+    public static boolean USE_FAKENECT = true; // Requires FAKENECT_PATH with recorded session
     public static boolean USE_FILESYSTEM = false; // Requires FAKENECT_PATH with recorded session
     public static Kinect kinect;
 
