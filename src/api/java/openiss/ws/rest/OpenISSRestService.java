@@ -1,6 +1,6 @@
 package openiss.ws.rest;
 
-//import openiss.utils.OpenISSImageDriver;
+import openiss.utils.OpenISSImageDriver;
 import openiss.utils.PATCH;
 import openiss.ws.soap.endpoint.ServicePublisher;
 
@@ -18,11 +18,13 @@ public class OpenISSRestService {
     static String mixFlag = "default";
     static boolean cannyFlag = false;
     static boolean contourFlag = false;
-//    static OpenISSImageDriver driver;
+    static OpenISSImageDriver driver;
 
-//    static {
-//        driver = new OpenISSImageDriver();
-//    }
+    static {
+        if (ServicePublisher.USE_FREENECT) {
+            driver = new OpenISSImageDriver();
+        }
+    }
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
@@ -61,13 +63,12 @@ public class OpenISSRestService {
 
 
         if (ServicePublisher.USE_FREENECT) {
-//            if (type.equals("color")) {
-//                image = driver.getFrame("color");
-//            } else {
-//                image = driver.getFrame("depth");
-//            }
-//            response = Response.ok(pipelineImage(image), "image/jpeg");
-            response = Response.noContent();
+            if (type.equals("color")) {
+                image = driver.getFrame("color");
+            } else {
+                image = driver.getFrame("depth");
+            }
+            response = Response.ok(pipelineImage(image), "image/jpeg");
         } else {
             if (type.equals("color")) {
                 src = new File(classLoader.getResource("color_example.jpg").getFile());
@@ -150,6 +151,7 @@ public class OpenISSRestService {
         byte[] processedImage = image;
 
         if (mixFlag.equals("depth")) {
+            //@TODO this needs to be fixed conditionally to work with static image and driver
 //            processedImage = driver.mixFrame(image, "depth", "+");
         } else if (mixFlag.equals("color")) {
 //            processedImage = driver.mixFrame(image, "color", "+");
