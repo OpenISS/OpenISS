@@ -63,54 +63,62 @@ public class OpenISSRestService {
 
     @PATCH
     @Path("/mix")
-    public Response enableMix() {
+    @Produces("text/plain")
+    public String enableMix() {
         mixFlag = true;
         System.out.println("Mix enabled");
-        return Response.accepted().build();
+        return "mix enabled";
     }
 
 
     @DELETE
     @Path("/mix")
-    public Response disableMix() {
+    @Produces("text/plain")
+    public String disableMix() {
         mixFlag = false;
-        return Response.accepted().build();
+        return "mix disabled";
     }
 
     @PATCH
     @Path("/opencv/{type}")
-    public Response enableOpenCV(@PathParam(value = "type") String type) {
+    @Produces("text/plain")
+    public String enableOpenCV(@PathParam(value = "type") String type) {
 
         // validity checks
         if (!type.equals("canny") && !type.equals("contour")) {
-            return Response.noContent().build();
+            return "Service not supported";
         }
 
+        String response = "";
         if (type.equals("canny")) {
             cannyFlag = true;
+            response = "canny enabled";
         } else if(type.equals("contour")) {
             contourFlag = true;
+            response = "countour enabled";
         }
-
-        return Response.accepted().build();
+        return response;
     }
 
 
     @DELETE
     @Path("/opencv/{type}")
-    public Response disableOpenCV(@PathParam(value = "type") String type) {
+    @Produces("text/plain")
+    public String disableOpenCV(@PathParam(value = "type") String type) {
 
         // validity checks
         if (!type.equals("canny") && !type.equals("contour")) {
-            return Response.noContent().build();
+            return "Service not supported.";
         }
-
+        String response = "";
         if (type.equals("canny")) {
             cannyFlag = false;
+            response = "canny disabled";
         } else if(type.equals("contour")) {
             contourFlag = false;
+            response = "countour disabled";
         }
-        return Response.accepted().build();
+        return response;
     }
 
 
