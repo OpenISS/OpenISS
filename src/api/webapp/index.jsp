@@ -12,7 +12,7 @@
   </head>
   <body>
   <p><a href="rest/openiss/hello">Jersey Hello World</a></p>
-  <p><a href="rest/openiss/getImage/color">Color Image</a></p>
-  <p><a href="rest/openiss/getImage/depth">Depth Image</a></p>
+  <p><a href="rest/openiss/color">Color Image</a></p>
+  <p><a href="rest/openiss/depth">Depth Image</a></p>
   </body>
 </html>
