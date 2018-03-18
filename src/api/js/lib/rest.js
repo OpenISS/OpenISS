@@ -6,7 +6,7 @@ const baseUrl = 'http://localhost:8080';
 exports.getFrame = function(args, cb) {
 
     var requestSettings = {
-        url: baseUrl + '/rest/openiss/getImage/' + args.type,
+        url: baseUrl + '/rest/openiss/' + args.type,
         method: 'GET',
         encoding: null
     };
@@ -19,7 +19,7 @@ exports.getFrame = function(args, cb) {
 exports.mixFrame = function(args, cb) {
     //@TODO not implemented yet
     var requestSettings = {
-        url: baseUrl + '/rest/openiss/getImage/' + args.type,
+        url: baseUrl + '/rest/openiss/' + args.type,
         method: 'GET',
         encoding: null
     };

@@ -23,6 +23,7 @@ app.get('/getFrame/:type', function(req, res, next) {
     let args = {type: req.params.type};
     service.getFrame(args, (function (error, response, body) {
 
+
         if(error) {
             console.log("got error");
             console.log(error);

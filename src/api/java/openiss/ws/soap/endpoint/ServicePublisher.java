@@ -21,13 +21,13 @@ public class ServicePublisher {
     public static boolean USE_FREENECT = false; // Freenect library
     public static boolean USE_FAKENECT = false; // Requires FAKENECT_PATH with recorded session
     public static boolean USE_FILESYSTEM = false; // Requires FAKENECT_PATH with recorded session
-    public static Kinect kinect;
+    //public static Kinect kinect;
 
-    static {
-        if(USE_FREENECT) {
-            kinect = new Kinect();
-        }
-    }
+//    static {
+//        if(USE_FREENECT) {
+//            kinect = new Kinect();
+//        }
+//    }
 
     public static void main(String[] args) throws Exception {
         System.out.println("SOAP Service listening on " + url + "?wsdl");
@@ -89,8 +89,8 @@ public class ServicePublisher {
         }
         else {
             if (USE_FREENECT) {
-                kinect.initVideo();
-                kinect.initDepth();
+//                kinect.initVideo();
+//                kinect.initDepth();
             }
         }
     }
