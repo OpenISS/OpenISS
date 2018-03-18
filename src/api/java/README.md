@@ -57,6 +57,12 @@ Edit src/api/java/openiss/ws/soap/endpoint/ServicePublisher.java and set the fol
 ## REST Requirements ##
 * Maven
 
+### Using HTTP PATCH with JAX-RS
+The @PATCH annotation is not supported by jax-rs, as a workaround we create our own annotation
+having `@HttpMethod("PATCH")` as its own annotation. We can use it in the same way as the other 
+provided jax-rs annotations.
+
+
 ## REST Build Instructions ##
 
     Compile:
