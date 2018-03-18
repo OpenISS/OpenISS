@@ -77,6 +77,42 @@ public class OpenISSRestService {
         return Response.accepted().build();
     }
 
+    @PATCH
+    @Path("/opencv/{type}")
+    public Response enableOpenCV(@PathParam(value = "type") String type) {
+
+        // validity checks
+        if (!type.equals("canny") && !type.equals("contour")) {
+            return Response.noContent().build();
+        }
+
+        if (type.equals("canny")) {
+            cannyFlag = true;
+        } else if(type.equals("contour")) {
+            contourFlag = true;
+        }
+
+        return Response.accepted().build();
+    }
+
+
+    @DELETE
+    @Path("/opencv/{type}")
+    public Response disableOpenCV(@PathParam(value = "type") String type) {
+
+        // validity checks
+        if (!type.equals("canny") && !type.equals("contour")) {
+            return Response.noContent().build();
+        }
+
+        if (type.equals("canny")) {
+            cannyFlag = false;
+        } else if(type.equals("contour")) {
+            contourFlag = false;
+        }
+        return Response.accepted().build();
+    }
+
 
 
 }
