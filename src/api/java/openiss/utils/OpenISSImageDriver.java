@@ -1,33 +1,28 @@
-package openiss.ws.soap.service;
+package openiss.utils;
 
-import com.sun.javafx.runtime.SystemProperties;
 import openiss.Kinect;
 import openiss.ws.soap.endpoint.ServicePublisher;
 
 import javax.imageio.ImageIO;
-import javax.jws.WebService;
-
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
+// to be removed
 import static openiss.ws.soap.endpoint.ServicePublisher.kinect;
 
-@WebService(endpointInterface="openiss.ws.soap.service.OpenISSSOAPService")
-public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
+public class OpenISSImageDriver {
 
     private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_example.jpg";
     private static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_example.jpg";
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
+    /**
+     * Retrives a frame from either a real Kinect or fakenect
+     * @param type
+     * @return jpeg image as a byte array
+     */
     public byte[] getFrame(String type) {
 
         byte[] imageInBytes = new byte[0];
@@ -94,7 +89,7 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
      * @param image jpg byte array from the client
      * @param type color or depth
      * @param op operand (only single operand handled as of now)
-     * @return jpg byte array
+     * @return jpg image as a byte array
      */
     public byte[] mixFrame(byte[] image, String type, String op)
     {
@@ -215,32 +210,6 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
     public void setDepthFileName(String fileName) {
         depthFileName = fileName;
-    }
-    
-    /**
-     * 
-     * @param filename
-     */
-    @Override
-    public void doCanny(String filename) {
-        try {
-            System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-            Mat color = Imgcodecs.imread(filename);
-
-            Mat gray = new Mat();
-            Mat draw = new Mat();
-            Mat wide = new Mat();
-
-            Imgproc.cvtColor(color, gray, Imgproc.COLOR_BGR2GRAY);
-            Imgproc.Canny(gray, wide, 50, 150, 3, false);
-            wide.convertTo(draw, CvType.CV_8U);
-
-            if (Imgcodecs.imwrite(filename, draw)) {
-                System.out.println("edge is detected .......");
-            }
-        } catch (Exception e) {
-        	e.printStackTrace();
-        }
     }
 
 }

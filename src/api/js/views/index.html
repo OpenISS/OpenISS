@@ -29,6 +29,17 @@
                     <option class="">depth</option>
                 </select>
             </div>
+
+            <div class="form-group" id="mixFrameOptions">
+                <label for="inputFile" style="float:left;padding: 6px 12px 2px 12px;">File:</label>
+                <input id="inputFile" type="file">
+
+                <label for="selectOp" style="float:left;padding: 6px 12px 2px 12px;">Op:</label>
+                <select id="selectOp" style="width:auto;" class="form-control selectWidth">
+                    <option class="">+</option>
+                </select>
+            </div>
+
             <button class="btn btn-primary" type="submit">SOAP Request</button>
 
         </form>
@@ -46,15 +57,44 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <script>
+
+    $(function() {
+        $('#mixFrameOptions').hide();
+        $('#selectMethod').change(function(){
+            if($('#selectMethod').val() == 'mixFrame') {
+                $('#mixFrameOptions').show();
+            } else {
+                $('#mixFrameOptions').hide();
+            }
+        });
+    });
+
+
     $( "form" ).submit(function( event ) {
 
         var method = $( "#selectMethod option:selected" ).text();
         var type = $( "#selectType option:selected" ).text();
 
-        showImage('/' + method + '/' + type);
+
+
+        if (method == "getFrame")
+            showImage('/' + method + '/' + type);
+
+
+        if(method == "mixFrame") {
+            var op = $("#selectOp option:selected").text();
+            showImage('/'+method+'/example&' + type + '&' + op)
+        }
+
+
+
+
+
 
         event.preventDefault();
     });
+
+
 
     function showImage(url)
     {

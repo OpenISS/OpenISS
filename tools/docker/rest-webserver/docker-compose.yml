@@ -1,0 +1,19 @@
+version: "2"
+
+services:
+
+  webserver:
+    build: 
+      context: .
+    image: rest-webserver
+    # mount point for application in tomcat
+    volumes:
+      - ../../../target/OpenISS:/usr/local/tomcat/webapps/OpenISS
+      - ../../../src:/usr/local/tomcat/src
+      - ../../../lib/v1:/usr/local/tomcat/lib/v1
+    # open ports for tomcat and remote debugging
+    ports:
+      - "8080:8080" 
+      - "8000:8000"
+
+ 
