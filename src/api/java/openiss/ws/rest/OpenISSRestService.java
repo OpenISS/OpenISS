@@ -150,7 +150,7 @@ public class OpenISSRestService {
 
         if(cannyFlag) {
             // todo
-            // put image through canny
+            // put image through canny        	processedImage = driver.doCanny(image);
         }
 
         if(contourFlag) {

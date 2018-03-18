@@ -2,6 +2,12 @@ package openiss.utils;
 
 import openiss.Kinect;
 import openiss.ws.soap.endpoint.ServicePublisher;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.imgproc.Imgproc;
+ 
+import org.opencv.core.Mat; 
+import org.opencv.imgcodecs.Imgcodecs; 
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -166,6 +172,38 @@ public class OpenISSImageDriver {
         System.out.println("Frame mixed. Sending jpg result to client");
 
         return imageInByte;
+    }
+    
+    //TODO change function to take byte[] as input parameter and return variable
+    public byte[] doCanny(byte[] image) {
+    	try { 
+    		InputStream bain = new ByteArrayInputStream(image);
+    		BufferedImage image_1;
+    		
+    		// convert client image to BufferedImage image_1
+            try {
+                image_1 = ImageIO.read(bain);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    		
+            System.loadLibrary(Core.NATIVE_LIBRARY_NAME); 
+            Mat color = Imgcodecs.imread(filename); 
+ 
+            Mat gray = new Mat(); 
+            Mat draw = new Mat(); 
+            Mat wide = new Mat(); 
+ 
+            Imgproc.cvtColor(color, gray, Imgproc.COLOR_BGR2GRAY); 
+            Imgproc.Canny(gray, wide, 50, 150, 3, false); 
+            wide.convertTo(draw, CvType.CV_8U); 
+ 
+            if (Imgcodecs.imwrite(filename, draw)) { 
+                System.out.println("edge is detected ......."); 
+            } 
+        } catch (Exception e) { 
+        	e.printStackTrace();
+        } 
     }
 
     public String getFileName(String type) {
