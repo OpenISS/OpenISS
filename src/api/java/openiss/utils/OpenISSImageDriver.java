@@ -9,14 +9,19 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 
-// to be removed
-import static openiss.ws.soap.endpoint.ServicePublisher.kinect;
 
 public class OpenISSImageDriver {
 
     private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_example.jpg";
     private static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_example.jpg";
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
+    static Kinect kinect;
+
+    static {
+        kinect = new Kinect();
+        kinect.initVideo();
+        kinect.initDepth();
+    }
 
     /**
      * Retrives a frame from either a real Kinect or fakenect
@@ -38,25 +43,7 @@ public class OpenISSImageDriver {
                 throw new IllegalArgumentException("Bad type for getFrame: " + type);
             }
 
-            // file system routine
-            if (ServicePublisher.USE_FILESYSTEM) {
-                String colorSrc = FAKENECT_PATH + "/" + getFileName("color");
-                String depthSrc = FAKENECT_PATH + "/" + getFileName("depth");
-                String source;
-
-                // set source for file
-                if(type.equals("color")) {
-                    source = colorSrc;
-                } else {
-                    source = depthSrc;
-                }
-
-                // read bytes at the current path
-                File frame = new File(source);
-                imageInBytes = Files.readAllBytes(frame.toPath());
-                image = Kinect.processPPMImage(640, 480, imageInBytes);
-            }
-            else if (ServicePublisher.USE_FREENECT) {
+            if (ServicePublisher.USE_FREENECT) {
                 if (type.equals("color")) {
                     image = kinect.getVideoImage();
                 }
@@ -121,22 +108,7 @@ public class OpenISSImageDriver {
         // convert kinect/fakenect image to BufferedImage image_2
         try {
 
-
-            if (ServicePublisher.USE_FILESYSTEM) {
-                String colorSrc = FAKENECT_PATH + "/" + getFileName("color");
-                String depthSrc = FAKENECT_PATH + "/" + getFileName("depth");
-                String source;
-                if(type.equals("color")) {
-                    source = colorSrc;
-                } else {
-                    source = depthSrc;
-                }
-
-                File frame = new File(source);
-                imageInBytes = Files.readAllBytes(frame.toPath());
-                image_2 = Kinect.processPPMImage(640, 480, imageInBytes);
-            }
-            else if (ServicePublisher.USE_FREENECT) {
+            if (ServicePublisher.USE_FREENECT) {
                 if (type.equals("color")) {
                     image_2 = kinect.getVideoImage();
                 }
