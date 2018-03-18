@@ -46,11 +46,11 @@ public class OpenISSRestService {
         File src;
 
         // validity checks
-        if (!type.equals("color") && !type.equals("depth")) {
+        if (!type.equals("rgb") && !type.equals("depth")) {
             return Response.noContent().build();
         }
 
-        if(type.equals("color")) {
+        if(type.equals("rgb")) {
             src = new File(colorFileName);
         } else {
             src = new File(depthFileName);
@@ -67,7 +67,7 @@ public class OpenISSRestService {
     public String enableMix() {
         mixFlag = true;
         System.out.println("Mix enabled");
-        return "mix enabled";
+        return getFlags();
     }
 
 
@@ -76,7 +76,7 @@ public class OpenISSRestService {
     @Produces("text/plain")
     public String disableMix() {
         mixFlag = false;
-        return "mix disabled";
+        return getFlags();
     }
 
     @PATCH
@@ -89,15 +89,12 @@ public class OpenISSRestService {
             return "Service not supported";
         }
 
-        String response = "";
         if (type.equals("canny")) {
             cannyFlag = true;
-            response = "canny enabled";
         } else if(type.equals("contour")) {
             contourFlag = true;
-            response = "countour enabled";
         }
-        return response;
+        return getFlags();
     }
 
 
@@ -106,19 +103,23 @@ public class OpenISSRestService {
     @Produces("text/plain")
     public String disableOpenCV(@PathParam(value = "type") String type) {
 
-        // validity checks
+        // validity checksX
         if (!type.equals("canny") && !type.equals("contour")) {
             return "Service not supported.";
         }
-        String response = "";
         if (type.equals("canny")) {
             cannyFlag = false;
-            response = "canny disabled";
         } else if(type.equals("contour")) {
             contourFlag = false;
-            response = "countour disabled";
         }
-        return response;
+        return getFlags();
+    }
+
+    private String getFlags() {
+        String flags = "Mix: " + String.valueOf(mixFlag) +
+                "\nCanny: " + String.valueOf(cannyFlag) +
+                "\nContour: " + String.valueOf(contourFlag);
+        return flags;
     }
 
 
