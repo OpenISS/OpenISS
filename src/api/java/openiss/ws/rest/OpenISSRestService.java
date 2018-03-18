@@ -1,6 +1,6 @@
 package openiss.ws.rest;
 
-import openiss.utils.OpenISSImageDriver;
+//import openiss.utils.OpenISSImageDriver;
 import openiss.utils.PATCH;
 import openiss.ws.soap.endpoint.ServicePublisher;
 
@@ -18,11 +18,11 @@ public class OpenISSRestService {
     static String mixFlag = "default";
     static boolean cannyFlag = false;
     static boolean contourFlag = false;
-    static OpenISSImageDriver driver;
+//    static OpenISSImageDriver driver;
 
-    static {
-        driver = new OpenISSImageDriver();
-    }
+//    static {
+//        driver = new OpenISSImageDriver();
+//    }
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
@@ -37,22 +37,20 @@ public class OpenISSRestService {
         return "Hello World from Jersey API!";
     }
 
-    @GET
-    @Path("/test")
-    @Produces("image/*")
-    public Response getTest() {
-        byte[] image = driver.getFrame("depth");
-        return Response.ok(pipelineImage(image)).build();
-    }
-
-    private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_example.jpg";
-    private static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_example.jpg";
+//    @GET
+//    @Path("/test")
+//    @Produces("image/*")
+//    public Response getTest() {
+//        byte[] image = driver.getFrame("depth");
+//        return Response.ok(pipelineImage(image)).build();
+//    }
 
     @GET
     @Path("/{type}")
     @Produces("image/*")
     public Response getImage(@PathParam(value = "type") String type) {
 
+        ClassLoader classLoader = getClass().getClassLoader();
         File src;
         ResponseBuilder response;
         byte[] image = new byte[0];
@@ -63,17 +61,18 @@ public class OpenISSRestService {
 
 
         if (ServicePublisher.USE_FREENECT) {
-            if (type.equals("color")) {
-                image = driver.getFrame("color");
-            } else {
-                image = driver.getFrame("depth");
-            }
-            response = Response.ok(pipelineImage(image), "image/jpeg");
+//            if (type.equals("color")) {
+//                image = driver.getFrame("color");
+//            } else {
+//                image = driver.getFrame("depth");
+//            }
+//            response = Response.ok(pipelineImage(image), "image/jpeg");
+            response = Response.noContent();
         } else {
             if (type.equals("color")) {
-                src = new File(colorFileName);
+                src = new File(classLoader.getResource("color_example.jpg").getFile());
             } else {
-                src = new File(depthFileName);
+                src = new File(classLoader.getResource("depth_example.jpg").getFile());
             }
             response = Response.ok(src, new MimetypesFileTypeMap().getContentType(src));
         }
@@ -151,9 +150,9 @@ public class OpenISSRestService {
         byte[] processedImage = image;
 
         if (mixFlag.equals("depth")) {
-            processedImage = driver.mixFrame(image, "depth", "+");
+//            processedImage = driver.mixFrame(image, "depth", "+");
         } else if (mixFlag.equals("color")) {
-            processedImage = driver.mixFrame(image, "color", "+");
+//            processedImage = driver.mixFrame(image, "color", "+");
         } else if (mixFlag.equals("canny")) {
             // todo: add docanny support
             // mix with do canny
