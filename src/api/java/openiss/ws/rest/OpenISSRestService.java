@@ -6,18 +6,23 @@ import openiss.utils.PATCH;
 import javax.activation.MimetypesFileTypeMap;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.MediaType;
-import java.awt.datatransfer.MimeTypeParseException;
-import java.io.File;
+
+
+import openiss.utils.OpenISSImageDriver;
 
 @Path("/openiss")
 public class OpenISSRestService {
 
 
-    static boolean mixFlag = false;
+    static String mixFlag = "default";
     static boolean cannyFlag = false;
     static boolean contourFlag = false;
+    static OpenISSImageDriver driver;
+
+    static {
+        driver = new OpenISSImageDriver();
+    }
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
@@ -29,10 +34,15 @@ public class OpenISSRestService {
     @Path("hello")
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
-//        Kinect kinect = new Kinect();
-//        kinect.initVideo();
-//        BufferedImage someimage = kinect.getVideoImage();
         return "Hello World from Jersey API!";
+    }
+
+    @GET
+    @Path("/test")
+    @Produces("image/*")
+    public Response getTest() {
+        byte[] image = driver.getFrame("depth");
+        return Response.ok(pipelineImage(image)).build();
     }
 
     private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_example.jpg";
@@ -43,30 +53,32 @@ public class OpenISSRestService {
     @Produces("image/*")
     public Response getImage(@PathParam(value = "type") String type) {
 
-        File src;
-
+        byte[] image = new byte[0];
         // validity checks
         if (!type.equals("rgb") && !type.equals("depth")) {
             return Response.noContent().build();
         }
 
         if(type.equals("rgb")) {
-            src = new File(colorFileName);
+            image = driver.getFrame("color");
         } else {
-            src = new File(depthFileName);
+            image = driver.getFrame("depth");
         }
 
-        String mt = new MimetypesFileTypeMap().getContentType(src);
-        ResponseBuilder response = Response.ok(src, mt);
-        return response.build();
+
+        return Response.ok(pipelineImage(image)).build();
     }
 
     @PATCH
-    @Path("/mix")
+    @Path("/mix/{action}")
     @Produces("text/plain")
-    public String enableMix() {
-        mixFlag = true;
-        System.out.println("Mix enabled");
+    /**
+     * the GET images will be mixed with depth, rgb or canny
+     */
+    public String enableMix(@PathParam(value = "action") String action) {
+        if(action.equals("depth") || action.equals("rgb") || action.equals("canny")) {
+            mixFlag = action;
+        }
         return getFlags();
     }
 
@@ -75,7 +87,7 @@ public class OpenISSRestService {
     @Path("/mix")
     @Produces("text/plain")
     public String disableMix() {
-        mixFlag = false;
+        mixFlag = "default";
         return getFlags();
     }
 
@@ -122,6 +134,35 @@ public class OpenISSRestService {
         return flags;
     }
 
+    private byte[] pipelineImage(byte[] image) {
+
+        byte[] processedImage = image;
+
+        if(mixFlag.equals("depth")) {
+            processedImage = driver.mixFrame(image, "depth", "+");
+        } else if(mixFlag.equals("rgb")) {
+            processedImage = driver.mixFrame(image, "color", "+");
+        } else if(mixFlag.equals("canny")) {
+            // todo: add docanny support
+            // mix with do canny
+        }
+
+
+        if(cannyFlag) {
+            // todo
+            // put image through canny
+        }
+
+        if(contourFlag) {
+            // todo
+            // put image through
+        }
+
+        return processedImage;
+
+
+
+    }
 
 
 }
