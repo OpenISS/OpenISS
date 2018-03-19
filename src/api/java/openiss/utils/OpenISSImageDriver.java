@@ -8,18 +8,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
+import static openiss.ws.soap.endpoint.ServicePublisher.kinect;
+
 public class OpenISSImageDriver {
 
-    static Kinect kinect;
     private ClassLoader classLoader = getClass().getClassLoader();
-
-    static {
-        if (ServicePublisher.USE_FREENECT) {
-            kinect = new Kinect();
-            kinect.initVideo();
-            kinect.initDepth();
-        }
-    }
 
     /**
      * Retrives a frame from either a real Kinect or fakenect
