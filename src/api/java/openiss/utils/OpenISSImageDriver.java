@@ -7,20 +7,18 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.Files;
-
 
 public class OpenISSImageDriver {
 
-    private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_example.jpg";
-    private static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_example.jpg";
-    static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
     static Kinect kinect;
+    private ClassLoader classLoader = getClass().getClassLoader();
 
     static {
-        kinect = new Kinect();
-        kinect.initVideo();
-        kinect.initDepth();
+        if (ServicePublisher.USE_FREENECT) {
+            kinect = new Kinect();
+            kinect.initVideo();
+            kinect.initDepth();
+        }
     }
 
     /**
@@ -53,10 +51,10 @@ public class OpenISSImageDriver {
             }
             else {
                 if (type.equals("color")) {
-                    image = ImageIO.read(new File(colorFileName));
+                    image = ImageIO.read(new File(classLoader.getResource("color_example.jpg").getFile()));
                 }
                 else {
-                    image = ImageIO.read(new File(depthFileName));
+                    image = ImageIO.read(new File(classLoader.getResource("depth_example.jpg").getFile()));
                 }
             }
 
@@ -118,10 +116,10 @@ public class OpenISSImageDriver {
             }
             else {
                 if (type.equals("color")) {
-                    image_2 = ImageIO.read(new File(colorFileName));
+                    image_2 = ImageIO.read(new File(classLoader.getResource("color_example.jpg").getFile()));
                 }
                 else {
-                    image_2 = ImageIO.read(new File(depthFileName));
+                    image_2 = ImageIO.read(new File(classLoader.getResource("depth_example.jpg").getFile()));
                 }
             }
         } catch (IOException e) {
@@ -166,22 +164,6 @@ public class OpenISSImageDriver {
         System.out.println("Frame mixed. Sending jpg result to client");
 
         return imageInByte;
-    }
-
-    public String getFileName(String type) {
-        if(type.equalsIgnoreCase("color")){
-            return colorFileName;
-        } else {
-            return depthFileName;
-        }
-    }
-
-    public void setColorFileName(String fileName) {
-        colorFileName = fileName;
-    }
-
-    public void setDepthFileName(String fileName) {
-        depthFileName = fileName;
     }
 
 }
