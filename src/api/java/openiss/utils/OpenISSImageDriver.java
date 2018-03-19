@@ -201,9 +201,6 @@ public class OpenISSImageDriver {
             Imgproc.Canny(gray, wide, 50, 150, 3, false); 
             wide.convertTo(draw, CvType.CV_8U);
             mat.get(0, 0, image);
-            
-            return image;
-            
  
 //            if (Imgcodecs.imwrite(filename, draw)) { 
 //                System.out.println("edge is detected ......."); 
@@ -211,6 +208,7 @@ public class OpenISSImageDriver {
         } catch (Exception e) { 
         	e.printStackTrace();
         } 
+    	return image;
     }
 
     public String getFileName(String type) {
