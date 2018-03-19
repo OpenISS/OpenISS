@@ -6,7 +6,8 @@ import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.imgproc.Imgproc;
  
-import org.opencv.core.Mat; 
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
 import org.opencv.imgcodecs.Imgcodecs; 
 
 import javax.imageio.ImageIO;
@@ -177,30 +178,36 @@ public class OpenISSImageDriver {
     //TODO change function to take byte[] as input parameter and return variable
     public byte[] doCanny(byte[] image) {
     	try { 
-    		InputStream bain = new ByteArrayInputStream(image);
-    		BufferedImage image_1;
     		
-    		// convert client image to BufferedImage image_1
-            try {
-                image_1 = ImageIO.read(bain);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    		Mat mat = Imgcodecs.imdecode(new MatOfByte(image), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
+    		
+//    		InputStream bain = new ByteArrayInputStream(image);
+//    		BufferedImage image_1;
+//    		
+//    		// convert client image to BufferedImage image_1
+//            try {
+//                image_1 = ImageIO.read(bain);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
     		
             System.loadLibrary(Core.NATIVE_LIBRARY_NAME); 
-            Mat color = Imgcodecs.imread(filename); 
  
             Mat gray = new Mat(); 
             Mat draw = new Mat(); 
             Mat wide = new Mat(); 
  
-            Imgproc.cvtColor(color, gray, Imgproc.COLOR_BGR2GRAY); 
+            Imgproc.cvtColor(mat, gray, Imgproc.COLOR_BGR2GRAY); 
             Imgproc.Canny(gray, wide, 50, 150, 3, false); 
-            wide.convertTo(draw, CvType.CV_8U); 
+            wide.convertTo(draw, CvType.CV_8U);
+            mat.get(0, 0, image);
+            
+            return image;
+            
  
-            if (Imgcodecs.imwrite(filename, draw)) { 
-                System.out.println("edge is detected ......."); 
-            } 
+//            if (Imgcodecs.imwrite(filename, draw)) { 
+//                System.out.println("edge is detected ......."); 
+//            } 
         } catch (Exception e) { 
         	e.printStackTrace();
         } 
