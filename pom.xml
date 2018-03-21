@@ -31,6 +31,13 @@
             <artifactId>jna</artifactId>
             <version>4.5.1</version>
         </dependency>
+        <dependency>
+            <groupId>ca.concordia</groupId>
+            <artifactId>opencv</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/java/opencv-340.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <properties>
