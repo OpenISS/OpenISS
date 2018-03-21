@@ -168,7 +168,9 @@ public class OpenISSRestService {
 
         if (contourFlag) {
             // todo
-            // put image through
+            // put image through contour
+        	processedImage = driver.contour(image);
+        	
         }
 
         return processedImage;
