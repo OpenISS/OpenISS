@@ -12,6 +12,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static openiss.ws.soap.endpoint.ServicePublisher.kinect;
 
 @WebService(endpointInterface="openiss.ws.soap.service.OpenISSSOAPService")
 public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
@@ -19,7 +20,6 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
     private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_example.jpg";
     private static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_example.jpg";
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
-    static Kinect kinect = new Kinect();
 
     public byte[] getFrame(String type) {
 
