@@ -5,17 +5,17 @@ import openiss.ws.soap.endpoint.ServicePublisher;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.imgproc.Imgproc;
-
+ 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
-import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgcodecs.Imgcodecs; 
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
 
-import static openiss.ws.soap.endpoint.ServicePublisher.kinect;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -41,7 +41,16 @@ import javax.swing.JLabel;
 
 public class OpenISSImageDriver {
 
-    private ClassLoader classLoader = getClass().getClassLoader();
+    private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_example.jpg";
+    private static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_example.jpg";
+    static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
+    static Kinect kinect;
+
+    static {
+        kinect = new Kinect();
+        kinect.initVideo();
+        kinect.initDepth();
+    }
 
     /**
      * Retrives a frame from either a real Kinect or fakenect
@@ -73,10 +82,10 @@ public class OpenISSImageDriver {
             }
             else {
                 if (type.equals("color")) {
-                    image = ImageIO.read(new File(classLoader.getResource("color_example.jpg").getFile()));
+                    image = ImageIO.read(new File(colorFileName));
                 }
                 else {
-                    image = ImageIO.read(new File(classLoader.getResource("depth_example.jpg").getFile()));
+                    image = ImageIO.read(new File(depthFileName));
                 }
             }
 
@@ -138,10 +147,10 @@ public class OpenISSImageDriver {
             }
             else {
                 if (type.equals("color")) {
-                    image_2 = ImageIO.read(new File(classLoader.getResource("color_example.jpg").getFile()));
+                    image_2 = ImageIO.read(new File(colorFileName));
                 }
                 else {
-                    image_2 = ImageIO.read(new File(classLoader.getResource("depth_example.jpg").getFile()));
+                    image_2 = ImageIO.read(new File(depthFileName));
                 }
             }
         } catch (IOException e) {
@@ -187,50 +196,50 @@ public class OpenISSImageDriver {
 
         return imageInByte;
     }
-
+    
     //TODO change function to take byte[] as input parameter and return variable
     public byte[] doCanny(byte[] image) {
-    	try {
-
+    	try { 
+    		
     		Mat mat = Imgcodecs.imdecode(new MatOfByte(image), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
-
+    		
 //    		InputStream bain = new ByteArrayInputStream(image);
 //    		BufferedImage image_1;
-//
+//    		
 //    		// convert client image to BufferedImage image_1
 //            try {
 //                image_1 = ImageIO.read(bain);
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
-
-            System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-
-            Mat gray = new Mat();
-            Mat draw = new Mat();
-            Mat wide = new Mat();
-
-            Imgproc.cvtColor(mat, gray, Imgproc.COLOR_BGR2GRAY);
-            Imgproc.Canny(gray, wide, 50, 150, 3, false);
+    		
+            System.loadLibrary(Core.NATIVE_LIBRARY_NAME); 
+ 
+            Mat gray = new Mat(); 
+            Mat draw = new Mat(); 
+            Mat wide = new Mat(); 
+ 
+            Imgproc.cvtColor(mat, gray, Imgproc.COLOR_BGR2GRAY); 
+            Imgproc.Canny(gray, wide, 50, 150, 3, false); 
             wide.convertTo(draw, CvType.CV_8U);
             mat.get(0, 0, image);
-
-//            if (Imgcodecs.imwrite(filename, draw)) {
-//                System.out.println("edge is detected .......");
-//            }
-        } catch (Exception e) {
+ 
+//            if (Imgcodecs.imwrite(filename, draw)) { 
+//                System.out.println("edge is detected ......."); 
+//            } 
+        } catch (Exception e) { 
         	e.printStackTrace();
-        }
+        } 
     	return image;
     }
-
+    
     public byte[] contour(byte[] image) {
     	try {
     		Mat color = Imgcodecs.imdecode(new MatOfByte(image), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
-    		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+    		System.loadLibrary(Core.NATIVE_LIBRARY_NAME); 
     		Mat gray = new Mat();
     		Mat binarized = new Mat();
-            Mat draw = new Mat();
+            Mat draw = new Mat(); 
             Imgproc.cvtColor(color, gray, Imgproc.COLOR_BGR2GRAY);
             Imgproc.threshold(gray, binarized, 100, 255, Imgproc.THRESH_BINARY);
             final List<MatOfPoint> points = new ArrayList<>();
@@ -239,11 +248,27 @@ public class OpenISSImageDriver {
             binarized.convertTo(draw, CvType.CV_8U);
             color.get(0,0,image); // get all the pixels
     	}
-    	catch (Exception e) {
+    	catch (Exception e) { 
     		e.printStackTrace();
-    	}
-
+    	} 
+    	
     	return image;
+    }
+
+    public String getFileName(String type) {
+        if(type.equalsIgnoreCase("color")){
+            return colorFileName;
+        } else {
+            return depthFileName;
+        }
+    }
+
+    public void setColorFileName(String fileName) {
+        colorFileName = fileName;
+    }
+
+    public void setDepthFileName(String fileName) {
+        depthFileName = fileName;
     }
 
 }
