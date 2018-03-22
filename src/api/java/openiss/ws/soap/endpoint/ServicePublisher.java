@@ -1,6 +1,7 @@
 package openiss.ws.soap.endpoint;
 
 import openiss.Kinect;
+import openiss.utils.OpenISSConfig;
 import openiss.ws.soap.service.OpenISSSOAPService;
 import openiss.ws.soap.service.OpenISSSOAPServiceImpl;
 import javax.xml.ws.Endpoint;
@@ -18,16 +19,23 @@ public class ServicePublisher {
     static String url = "http://localhost:" + port + "/" + service;
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
-    public static boolean USE_FREENECT = false; // Freenect library
-    public static boolean USE_FAKENECT = false; // Requires FAKENECT_PATH with recorded session
-    public static boolean USE_FILESYSTEM = false; // Requires FAKENECT_PATH with recorded session
+    private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_example.jpg";
+    private  static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_example.jpg";
     public static Kinect kinect;
 
     static {
-        if(USE_FREENECT) {
+        if(OpenISSConfig.USE_FREENECT) {
             kinect = new Kinect();
-            kinect.initVideo();
-            kinect.initDepth();
+            try {
+                kinect.initVideo();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            try {
+                kinect.initDepth();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -37,7 +45,7 @@ public class ServicePublisher {
         OpenISSSOAPServiceImpl service = new OpenISSSOAPServiceImpl();
         Endpoint.publish(url, service);
 
-        if (USE_FILESYSTEM) {
+        if (OpenISSConfig.USE_FAKENECT) {
 
             // get files in fake recording directory
             File dir = new File(FAKENECT_PATH);
@@ -88,6 +96,12 @@ public class ServicePublisher {
                     System.out.println("Looping..");
                 }
             }
+        }
+
+        else {
+//        else if (OpenISSConfig.USE_STATIC_IMAGES) {
+            service.setDepthFileName(depthFileName);
+            service.setColorFileName(colorFileName);
         }
     }
 }

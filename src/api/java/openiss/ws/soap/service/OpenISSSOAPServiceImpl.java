@@ -2,6 +2,7 @@ package openiss.ws.soap.service;
 
 import com.sun.javafx.runtime.SystemProperties;
 import openiss.Kinect;
+import openiss.utils.OpenISSConfig;
 import openiss.ws.soap.endpoint.ServicePublisher;
 
 import javax.imageio.ImageIO;
@@ -17,8 +18,9 @@ import static openiss.ws.soap.endpoint.ServicePublisher.kinect;
 @WebService(endpointInterface="openiss.ws.soap.service.OpenISSSOAPService")
 public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
-    private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_example.jpg";
-    private static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_example.jpg";
+
+    private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_fail.jpg";
+    private static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_fail.jpg";
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
     public byte[] getFrame(String type) {
@@ -37,7 +39,7 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
             }
 
             // file system routine
-            if (ServicePublisher.USE_FILESYSTEM) {
+            if (OpenISSConfig.USE_FAKENECT) {
                 String colorSrc = FAKENECT_PATH + "/" + getFileName("color");
                 String depthSrc = FAKENECT_PATH + "/" + getFileName("depth");
                 String source;
@@ -54,7 +56,7 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
                 imageInBytes = Files.readAllBytes(frame.toPath());
                 image = Kinect.processPPMImage(640, 480, imageInBytes);
             }
-            else if (ServicePublisher.USE_FREENECT) {
+            else if (OpenISSConfig.USE_FREENECT) {
                 if (type.equals("color")) {
                     image = kinect.getVideoImage();
                 }
@@ -62,12 +64,13 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
                     image = kinect.getDepthImage();
                 }
             }
-            else {
+            //Default Case: STATIC IMAGES
+            else  {
                 if (type.equals("color")) {
-                    image = ImageIO.read(new File(colorFileName));
+                    image = ImageIO.read(new File(getFileName("color")));
                 }
                 else {
-                    image = ImageIO.read(new File(depthFileName));
+                    image = ImageIO.read(new File(getFileName("depth")));
                 }
             }
 
@@ -118,9 +121,8 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
         // convert kinect/fakenect image to BufferedImage image_2
         try {
-
-
-            if (ServicePublisher.USE_FILESYSTEM) {
+            // file system routine
+            if (OpenISSConfig.USE_FAKENECT) {
                 String colorSrc = FAKENECT_PATH + "/" + getFileName("color");
                 String depthSrc = FAKENECT_PATH + "/" + getFileName("depth");
                 String source;
@@ -134,20 +136,22 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
                 imageInBytes = Files.readAllBytes(frame.toPath());
                 image_2 = Kinect.processPPMImage(640, 480, imageInBytes);
             }
-            else if (ServicePublisher.USE_FREENECT) {
+            else if (OpenISSConfig.USE_FREENECT) {
                 if (type.equals("color")) {
+
                     image_2 = kinect.getVideoImage();
                 }
                 else {
                     image_2 = kinect.getDepthImage();
                 }
             }
+            //Default Case: STATIC IMAGES
             else {
                 if (type.equals("color")) {
-                    image_2 = ImageIO.read(new File(colorFileName));
+                    image_2 = ImageIO.read(new File(getFileName("color")));
                 }
                 else {
-                    image_2 = ImageIO.read(new File(depthFileName));
+                    image_2 = ImageIO.read(new File(getFileName("depth")));
                 }
             }
         } catch (IOException e) {

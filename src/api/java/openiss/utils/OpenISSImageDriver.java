@@ -34,7 +34,7 @@ public class OpenISSImageDriver {
                 throw new IllegalArgumentException("Bad type for getFrame: " + type);
             }
 
-            if (ServicePublisher.USE_FREENECT) {
+            if (OpenISSConfig.USE_FREENECT) {
                 if (type.equals("color")) {
                     image = kinect.getVideoImage();
                 }
@@ -78,7 +78,7 @@ public class OpenISSImageDriver {
             throw new IllegalArgumentException("Bad type for getFrame: " + type);
         }
 
-        // weight for bleding, 0.5 = 50% of both images
+        // weight for blending, 0.5 = 50% of both images
         double weight = 0.5;
 
         // init images
@@ -99,7 +99,7 @@ public class OpenISSImageDriver {
         // convert kinect/fakenect image to BufferedImage image_2
         try {
 
-            if (ServicePublisher.USE_FREENECT) {
+            if (OpenISSConfig.USE_FREENECT) {
                 if (type.equals("color")) {
                     image_2 = kinect.getVideoImage();
                 }

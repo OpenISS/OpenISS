@@ -29,11 +29,17 @@
 package openiss;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
+import openiss.utils.OpenISSConfig;
+import openiss.ws.soap.service.OpenISSSOAPServiceImpl;
 import org.openkinect.freenect.Context;
 import org.openkinect.freenect.DepthFormat;
 import org.openkinect.freenect.DepthHandler;
@@ -43,10 +49,15 @@ import org.openkinect.freenect.Freenect;
 import org.openkinect.freenect.VideoFormat;
 import org.openkinect.freenect.VideoHandler;
 
+import javax.imageio.ImageIO;
+
 public class Kinect {
 
 	static byte[] color;
 	static ShortBuffer depth;
+
+	private static String colorFileName = "";
+	private static String depthFileName = "";
 
 	Method depthEventMethod;
 	Method videoEventMethod;
@@ -81,8 +92,12 @@ public class Kinect {
 	// We'll use a lookup table so that we don't have to repeat the math over and over
 	float[] depthLookUp = new float[2048];
 
+	//operating_system holds the name of the operating system
+	private static String operating_system = System.getProperty("os.name").toLowerCase();
 
+	static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
+	private ClassLoader classLoader = getClass().getClassLoader();
 	
 	/**
 	 * Kinect constructor, usually called in the setup() method in your sketch to
@@ -91,6 +106,10 @@ public class Kinect {
 	 */
 	
 	public Kinect() {
+		if (operating_system.indexOf("win") >= 0) {
+			System.err.println("Kinect is not supported on Windows Operating System.");
+			return;
+		}
 
 		depthImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
 		videoImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
@@ -187,7 +206,12 @@ public class Kinect {
 	 * Start getting depth from Kinect (available as raw array or mapped to image)
 	 * 
 	 */
-	public void initDepth() {
+	public void initDepth() throws InterruptedException {
+
+		if (operating_system.indexOf("win") >= 0) {
+			System.out.println("Using FILESYSTEM on Windows...");
+			useFileSystem();
+		}
 
 		if (!started) {
 			start();
@@ -209,7 +233,17 @@ public class Kinect {
 	 * Start getting RGB video from Kinect.
 	 * 
 	 */
-	public void initVideo() {
+	public void initVideo() throws InterruptedException {
+
+		if (OpenISSConfig.USE_STATIC_IMAGES == true) {
+			return;
+		}
+
+		if (operating_system.indexOf("win") >= 0) {
+			System.out.println("Using FILESYSTEM on Windows...");
+			useFileSystem();
+		}
+
 		if (!started) {
 			start();
 		}
@@ -270,7 +304,7 @@ public class Kinect {
 	 * 
 	 * @param b true to turn it on, false to turn it off
 	 */
-	public void enableIR(boolean b) {
+	public void enableIR(boolean b) throws InterruptedException {
 		// If nothing has changed let's not do anything
 		if (irMode == b) {
 			return;
@@ -309,10 +343,24 @@ public class Kinect {
 	 * 
 	 * @return reference to depth image 
 	 */	
-	public BufferedImage getDepthImage() {
+	public BufferedImage getDepthImage(){
 
-		return processPGMImage(640, 480, depth);
+		try {
+			if (operating_system.indexOf("win") >= 0) {
+				return ImageIO.read(new File(getFileName("color")));
+			}
+			else if (OpenISSConfig.USE_STATIC_IMAGES == true) {
+				return ImageIO.read(new File(classLoader.getResource("depth_example.jpg").getFile()));
+			}
+			else {
+				return processPGMImage(640, 480, depth);
+			}
+		}
+		catch (Exception e){
+			System.out.println(e.getMessage());
+			return processPGMImage(640, 480, depth);
 
+		}
 	}
 	
 	/**
@@ -322,7 +370,18 @@ public class Kinect {
 	 */		
 	public BufferedImage getVideoImage() {
 
-		return processPPMImage(640, 480, color);
+		try {
+			if (operating_system.indexOf("win") >= 0) {
+				return ImageIO.read(new File(getFileName("color")));
+			} else if (OpenISSConfig.USE_STATIC_IMAGES == true) {
+				return ImageIO.read(new File(classLoader.getResource("color_example.jpg").getFile()));
+			} else {
+				return processPPMImage(640, 480, color);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return processPPMImage(640, 480, color);
+		}
 
 	}
 	
@@ -433,9 +492,75 @@ public class Kinect {
 	}
 
 
+	static void useFileSystem() throws InterruptedException {
+		OpenISSSOAPServiceImpl service = new OpenISSSOAPServiceImpl();
+
+		// get files in fake recording directory
+		File dir = new File(FAKENECT_PATH);
+		File[] directoryFiles = dir.listFiles();
+
+		// store file names in here (both ppm and pgm)
+		// they are accessed using an offset
+		ArrayList<String> fileNames = new ArrayList<>(770);
+
+		int ppmCount = 0;
+		int pgmCount = 0;
+
+		if(directoryFiles != null) {
+
+			// loop, count and populate arraylist of file names
+			for (int i = 0; i < directoryFiles.length; i++) {
+				if(directoryFiles[i].getName().endsWith(".ppm")) {
+					fileNames.add(directoryFiles[i].getName());
+					ppmCount++;
+				} else if (directoryFiles[i].getName().endsWith(".pgm")) {
+					fileNames.add(directoryFiles[i].getName());
+					pgmCount++;
+				}
+			}
+
+			// sort array of names
+			Collections.sort(fileNames);
 
 
+			// offset for this recording
+			int offset = (ppmCount > pgmCount) ? ppmCount : pgmCount;
+			System.out.println("Reading from filesystem..");
+			System.out.println("ppm="+ppmCount);
+			System.out.println("pgm="+pgmCount);
+			System.out.println("total="+(ppmCount+pgmCount));
+			System.out.println("offset=" + offset);
+			System.out.println("Starting loop...");
 
+
+			// loop forever
+			while(true) {
+				for(int i = 0; i < pgmCount; i++) {
+					setDepthFileName(fileNames.get(i));
+					setColorFileName(fileNames.get(i + offset));
+
+					TimeUnit.MILLISECONDS.sleep(150);
+				}
+				System.out.println("Looping..");
+			}
+		}
+	}
+
+	public String getFileName(String type) {
+		if(type.equalsIgnoreCase("color")){
+			return colorFileName;
+		} else {
+			return depthFileName;
+		}
+	}
+
+	public static void setColorFileName(String fileName) {
+		colorFileName = fileName;
+	}
+
+	public static void setDepthFileName(String fileName) {
+		depthFileName = fileName;
+	}
 
 
 }

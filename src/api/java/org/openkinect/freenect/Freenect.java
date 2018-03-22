@@ -26,6 +26,7 @@ package org.openkinect.freenect;
 
 import com.sun.jna.*;
 import com.sun.jna.ptr.PointerByReference;
+import openiss.utils.OpenISSConfig;
 import openiss.ws.soap.endpoint.ServicePublisher;
 
 import java.io.IOException;
@@ -66,7 +67,7 @@ public class Freenect implements Library {
 
 			    System.load(path+"libusb-1.0.0.dylib");
 				NativeLibrary instance;
-				if (ServicePublisher.USE_FAKENECT) {
+				if (OpenISSConfig.USE_FAKENECT) {
 					NativeLibrary.addSearchPath("fakenect", path);
 					instance = NativeLibrary.getInstance("fakenect");
 				}
