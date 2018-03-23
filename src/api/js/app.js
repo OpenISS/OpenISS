@@ -109,6 +109,85 @@ app.get('/', (req, res) => {
 
 });
 
+app.patch("/:type", function (req, res, next) {
+    if (req.params.type != 'mix_color' && req.params.type != 'mix_depth'
+        && req.params.type != 'mix_canny' && req.params.type != 'canny'
+        && req.params.type != 'contour') {
+        res.send("Invalid frame request");
+        next();
+    }
+    let uri = "";
+    console.log(req.params.type);
+    if(req.params.type == "mix_color") {
+        uri = "/mix/color";
+    } else if (req.params.type == "mix_depth") {
+        uri = "/mix/depth";
+    } else if (req.params.type == "mix_canny") {
+        uri = "/mix/canny";
+    } else if (req.params.type == "canny") {
+        uri = "/opencv/canny";
+    } else if (req.params.type == "contour") {
+        uri = "/opencv/contour";
+    } else {
+        console.log("invalid argument for flag setting")
+    }
+
+
+    let args = {flag: uri};
+    service.enableFlag(args, (function (error, response, body) {
+
+        if(error) {
+            console.log("got error");
+            console.log(error);
+            res.send(error);
+            next();
+        }
+        else {
+            res.sendFile(views + "index.html");
+        }
+
+    }));
+});
+
+app.delete("/:type", function (req, res, next) {
+
+    if (req.params.type != 'mix_color' && req.params.type != 'mix_depth'
+        && req.params.type != 'mix_canny' && req.params.type != 'canny'
+        && req.params.type != 'contour') {
+        res.send("Invalid frame request");
+        next();
+    }
+    let uri = "";
+    console.log(req.params.type);
+    if(req.params.type == "mix_color" || req.params.type == "mix_depth"
+    || req.params.type == "mix_canny") {
+        uri = "/mix";
+    } else if (req.params.type == "canny") {
+        uri = "/opencv/canny";
+    } else if (req.params.type == "contour") {
+        uri = "/opencv/contour";
+    } else {
+        console.log("invalid argument for flag setting")
+    }
+
+
+    let args = {flag: uri};
+    service.disableFlag(args, (function (error, response, body) {
+
+        if(error) {
+            console.log("got error");
+            console.log(error);
+            res.send(error);
+            next();
+        }
+        else {
+            res.sendFile(views + "index.html");
+        }
+
+    }));
+    
+});
+
 app.listen(PORT, HOST);
 console.log(`SOAP Client HTTP Service Running on http://${HOST}:${PORT}`);
 
