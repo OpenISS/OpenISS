@@ -7,11 +7,15 @@ import openiss.utils.PATCH;
 import openiss.ws.soap.endpoint.ServicePublisher;
 
 import javax.activation.MimetypesFileTypeMap;
+import javax.imageio.ImageIO;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 
 @Path("/openiss")
 public class OpenISSRestService {
@@ -39,6 +43,7 @@ public class OpenISSRestService {
             System.load(PROJECT_HOME+"/lib/opencv/win/x64/opencv_java341.dll");
         }
         else if(osName.indexOf("mac") >= 0){
+            System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
             System.load(PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
         }
     }
@@ -92,7 +97,22 @@ public class OpenISSRestService {
             } else {
                 src = new File(classLoader.getResource("depth_example.jpg").getFile());
             }
-            response = Response.ok(src, new MimetypesFileTypeMap().getContentType(src));
+
+            try {
+                BufferedImage originalImage = ImageIO.read(src);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write( originalImage, "jpg", baos );
+                baos.flush();
+                byte[] imageInByte = baos.toByteArray();
+                baos.close();
+                response = Response.ok(pipelineImage(imageInByte), "image/jpeg");
+            }
+            catch(IOException e){
+                System.out.println(e.getMessage());
+                response = Response.noContent();
+        }
+
+//            response = Response.ok(src, new MimetypesFileTypeMap().getContentType(src));
         }
 
         return response.build();

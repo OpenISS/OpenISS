@@ -51,9 +51,11 @@ public class OpenISSImageDriver {
     static String PROJECT_HOME = System.getProperty("user.dir");
 
     static {
-        kinect = new Kinect();
-        kinect.initVideo();
-        kinect.initDepth();
+        if (ServicePublisher.USE_FREENECT) {
+            kinect = new Kinect();
+            kinect.initVideo();
+            kinect.initDepth();
+        }
 //        System.out.println(System.getProperty("java.library.path"));
 //        System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
 
