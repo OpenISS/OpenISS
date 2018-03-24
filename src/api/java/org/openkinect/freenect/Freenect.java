@@ -41,6 +41,8 @@ public class Freenect implements Library {
 	static int FREENECT_DEVICE_CAMERA = 0x02;
 	static String PROJECT_HOME = System.getProperty("user.dir");
 
+	public static boolean LIB_IS_LOADED = false;
+
 	static {
 		
 		int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
@@ -53,8 +55,10 @@ public class Freenect implements Library {
 //			System.loadLibrary("v1/msvc/freenect");
 			
 //			NativeLibrary instance = NativeLibrary.getInstance("freenect");
-//			//System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath());
+//			System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath())
+//			LIB_IS_LOADED = true;
 //			Native.register(instance);
+
 		}
 		else if(osName.indexOf("mac") >= 0){
 			try {
@@ -76,6 +80,7 @@ public class Freenect implements Library {
 					instance = NativeLibrary.getInstance("freenect");
 				}
 				System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath());
+				LIB_IS_LOADED = true;
 				Native.register(instance);
 			} catch (IOException e) {
 				throw new AssertionError(e);
@@ -96,6 +101,7 @@ public class Freenect implements Library {
 			
 				NativeLibrary instance = NativeLibrary.getInstance("freenect");
 				System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath());
+				LIB_IS_LOADED = true;
 				Native.register(instance);
 			} catch (IOException e) {
 				throw new AssertionError(e);

@@ -2,6 +2,7 @@ package openiss.ws.soap.endpoint;
 
 import openiss.Kinect;
 import openiss.utils.OpenISSConfig;
+import openiss.utils.OpenISSImageDriver;
 import openiss.ws.soap.service.OpenISSSOAPService;
 import openiss.ws.soap.service.OpenISSSOAPServiceImpl;
 import javax.xml.ws.Endpoint;
@@ -22,6 +23,14 @@ public class ServicePublisher {
     private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_example.jpg";
     private  static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_example.jpg";
     public static Kinect kinect;
+
+
+    static OpenISSImageDriver driver;
+
+    static {
+        driver = new OpenISSImageDriver();
+
+    }
 
     static {
         if(OpenISSConfig.USE_FREENECT) {

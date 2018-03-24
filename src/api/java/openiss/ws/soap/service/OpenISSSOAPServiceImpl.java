@@ -101,7 +101,7 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
             throw new IllegalArgumentException("Bad type for getFrame: " + type);
         }
 
-        // weight for bleding, 0.5 = 50% of both images
+        // weight for bleeding, 0.5 = 50% of both images
         double weight = 0.5;
 
         // init images
