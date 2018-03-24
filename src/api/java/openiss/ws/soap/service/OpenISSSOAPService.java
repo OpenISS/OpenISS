@@ -17,4 +17,8 @@ public interface OpenISSSOAPService {
     byte[] mixFrame(@WebParam(name = "image") byte[] image,
                     @WebParam(name = "type") String type,
                     @WebParam(name = "op") String op);
+
+	@WebMethod
+    void doCanny(@WebParam(name = "fileName") String filename);
+    
 }
