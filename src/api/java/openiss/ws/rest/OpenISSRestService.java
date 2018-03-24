@@ -40,7 +40,8 @@ public class OpenISSRestService {
 
         if(osName.indexOf("win") >= 0) {
 			System.out.println(arch + " windows");
-            System.load(PROJECT_HOME+"/lib/opencv/win/x64/opencv_java341.dll");
+//			System.loadLibrary("opencv_java341");
+            System.load(PROJECT_HOME+"\\lib\\opencv\\win\\x64\\opencv_java341.dll");
         }
         else if(osName.indexOf("mac") >= 0){
             System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
