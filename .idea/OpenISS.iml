@@ -47,14 +47,6 @@
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.1.0.Final" level="project" />
     <orderEntry type="library" name="Maven: javax.ws.rs:javax.ws.rs-api:2.0.1" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna:4.5.1" level="project" />
-    <orderEntry type="module-library">
-      <library name="Maven: ca.concordia:opencv:1.0">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/java/opencv-340.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="Maven: openiss:opencv:3.4.1" level="project" />
   </component>
 </module>

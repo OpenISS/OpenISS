@@ -9,6 +9,13 @@
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
 
+    <repositories>
+        <repository>
+            <id>file.repo</id>
+            <url>file://${project.basedir}/lib/java</url>
+        </repository>
+    </repositories>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -32,11 +39,23 @@
             <version>4.5.1</version>
         </dependency>
         <dependency>
-            <groupId>ca.concordia</groupId>
+            <groupId>openiss</groupId>
             <artifactId>opencv</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/java/opencv-340.jar</systemPath>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>openiss</groupId>
+            <artifactId>opencv-win-x64</artifactId>
+            <version>3.4.1</version>
+            <scope>runtime</scope>
+            <type>dll</type>
+        </dependency>
+        <dependency>
+            <groupId>openiss</groupId>
+            <artifactId>opencv-mac</artifactId>
+            <version>3.4.1</version>
+            <scope>runtime</scope>
+            <type>dylib</type>
         </dependency>
     </dependencies>
 

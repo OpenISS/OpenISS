@@ -1,9 +1,12 @@
 package openiss.utils;
 
+import com.sun.jna.Native;
+import com.sun.jna.NativeLibrary;
 import openiss.Kinect;
 import openiss.ws.soap.endpoint.ServicePublisher;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
+import org.opencv.highgui.HighGui;
 import org.opencv.imgproc.Imgproc;
  
 import org.opencv.core.Mat;
@@ -22,7 +25,7 @@ import java.util.List;
 
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
-import org.opencv.highgui.Highgui;
+//import org.opencv.highgui.Highgui;
 import org.opencv.core.Rect;
 import org.opencv.core.MatOfInt;
 import org.opencv.core.Point;
@@ -45,11 +48,25 @@ public class OpenISSImageDriver {
     private static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_example.jpg";
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
     static Kinect kinect;
+    static String PROJECT_HOME = System.getProperty("user.dir");
 
     static {
         kinect = new Kinect();
         kinect.initVideo();
         kinect.initDepth();
+//        System.out.println(System.getProperty("java.library.path"));
+//        System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
+
+            // Added by Daniel Shiffman
+            // For loading libfreenect.dylib
+//            String path = PROJECT_HOME + "/lib/java/";
+//            System.out.println("Found path: " + path);
+//        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
+//        String opencvpath = System.getProperty("user.dir") + "/lib/java/";
+//        System.load(opencvpath + "libopencv_java341.dylib");
+//        System.load(opencvpath+"opencv-341.jar");
+
     }
 
     /**
@@ -199,30 +216,27 @@ public class OpenISSImageDriver {
     
     //TODO change function to take byte[] as input parameter and return variable
     public byte[] doCanny(byte[] image) {
-    	try { 
-    		
-    		Mat mat = Imgcodecs.imdecode(new MatOfByte(image), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
-    		
-//    		InputStream bain = new ByteArrayInputStream(image);
-//    		BufferedImage image_1;
-//    		
-//    		// convert client image to BufferedImage image_1
-//            try {
-//                image_1 = ImageIO.read(bain);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-    		
-            System.loadLibrary(Core.NATIVE_LIBRARY_NAME); 
- 
-            Mat gray = new Mat(); 
+        byte[] buff;
+
+    	try {
+
+
+            Mat mat = Imgcodecs.imdecode(new MatOfByte(image), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
+            Mat gray = new Mat();
             Mat draw = new Mat(); 
-            Mat wide = new Mat(); 
- 
-            Imgproc.cvtColor(mat, gray, Imgproc.COLOR_BGR2GRAY); 
-            Imgproc.Canny(gray, wide, 50, 150, 3, false); 
+            Mat wide = new Mat();
+
+            Imgproc.cvtColor(mat, gray, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.Canny(gray, wide, 50, 150, 3, false);
             wide.convertTo(draw, CvType.CV_8U);
-            mat.get(0, 0, image);
+
+            int size = (int) draw.total() * draw.channels();
+            buff = new byte[size];
+
+            draw.put(0, 0, buff);
+            System.out.println("Should return image");
+
+            return buff;
  
 //            if (Imgcodecs.imwrite(filename, draw)) { 
 //                System.out.println("edge is detected ......."); 

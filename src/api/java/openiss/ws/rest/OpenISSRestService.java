@@ -1,5 +1,7 @@
 package openiss.ws.rest;
 
+import com.sun.jna.NativeLibrary;
+import openiss.Kinect;
 import openiss.utils.OpenISSImageDriver;
 import openiss.utils.PATCH;
 import openiss.ws.soap.endpoint.ServicePublisher;
@@ -21,8 +23,23 @@ public class OpenISSRestService {
     static OpenISSImageDriver driver;
 
     static {
-        if (ServicePublisher.USE_FREENECT) {
-            driver = new OpenISSImageDriver();
+        driver = new OpenISSImageDriver();
+        System.out.println(System.getProperty("java.library.path"));
+        String PROJECT_HOME = System.getProperty("user.dir");
+        System.out.println("userdir="+PROJECT_HOME);
+
+        int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
+        String osName = System.getProperty("os.name").toLowerCase();
+
+        System.out.println(System.getProperty("java.library.path"));
+
+
+        if(osName.indexOf("win") >= 0) {
+			System.out.println(arch + " windows");
+            System.load(PROJECT_HOME+"/lib/opencv/win/x64/opencv_java341.dll");
+        }
+        else if(osName.indexOf("mac") >= 0){
+            System.load(PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
         }
     }
 
@@ -152,18 +169,21 @@ public class OpenISSRestService {
 
         if (mixFlag.equals("depth")) {
             //@TODO this needs to be fixed conditionally to work with static image and driver
-//            processedImage = driver.mixFrame(image, "depth", "+");
+            processedImage = driver.mixFrame(image, "depth", "+");
         } else if (mixFlag.equals("color")) {
-//            processedImage = driver.mixFrame(image, "color", "+");
+            processedImage = driver.mixFrame(image, "color", "+");
         } else if (mixFlag.equals("canny")) {
             // todo: add docanny support
             // mix with do canny
+            processedImage = driver.getFrame("color");
         }
 
 
         if (cannyFlag) {
             // todo
-            // put image through canny        	processedImage = driver.doCanny(image);
+            // put image through canny
+            System.out.println("Running driver.doCanny");
+        	processedImage = driver.doCanny(processedImage);
         }
 
         if (contourFlag) {
