@@ -19,9 +19,6 @@ public class ServicePublisher {
     static String service = "openiss";
     static String url = "http://localhost:" + port + "/" + service;
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
-
-    private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_example.jpg";
-    private  static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_example.jpg";
     public static Kinect kinect;
 
 

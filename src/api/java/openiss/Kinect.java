@@ -56,8 +56,10 @@ public class Kinect {
 	static byte[] color;
 	static ShortBuffer depth;
 
-	private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_example.jpg";
-	private  static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_example.jpg";
+	private static String colorFileName = "color_example.jpg";
+	private  static String depthFileName = "depth_example.jpg";
+	private static String colorFailFileName = "color_fail.jpg";
+	private  static String depthFailFileName = "depth_fail.jpg";
 
 	Method depthEventMethod;
 	Method videoEventMethod;
@@ -210,9 +212,12 @@ public class Kinect {
 	 */
 	public void initDepth() throws InterruptedException {
 
-		if (operating_system.indexOf("win") >= 0) {
-			System.out.println("Using FILESYSTEM on Windows...");
+		if(OpenISSConfig.USE_FAKENECT && !Freenect.LIB_IS_LOADED ){
 			useFileSystemDepth();
+		}
+
+		if(!Freenect.LIB_IS_LOADED) {
+			return;
 		}
 
 		if (!started) {
@@ -236,14 +241,12 @@ public class Kinect {
 	 * 
 	 */
 	public void initVideo() throws InterruptedException {
-
-		if (OpenISSConfig.USE_STATIC_IMAGES == true) {
-			return;
+		if(OpenISSConfig.USE_FAKENECT && !Freenect.LIB_IS_LOADED ){
+			useFileSystemColor();
 		}
 
-		if (operating_system.indexOf("win") >= 0) {
-			System.out.println("Using FILESYSTEM on Windows...");
-			useFileSystemColor();
+		if(!Freenect.LIB_IS_LOADED) {
+			return;
 		}
 
 		if (!started) {
@@ -295,7 +298,7 @@ public class Kinect {
 	
 	/**
 	 * Enable mirror mode for all frames
-	 * @param boolean mirror
+	 * @param mirror
 	 */
 	public void enableMirror(boolean mirror){
 		mirrorMode = mirror;
@@ -350,7 +353,7 @@ public class Kinect {
 
 		try {
 			if (OpenISSConfig.USE_STATIC_IMAGES) {
-				return  ImageIO.read(new File(classLoader.getResource("depth_example.jpg").getFile()));
+				return  ImageIO.read(new File(classLoader.getResource(depthFileName).getFile()));
 
 			} else if (OpenISSConfig.USE_FAKENECT == true && Freenect.LIB_IS_LOADED == false) {
 				return ImageIO.read(new File(getFileName("depth")));
@@ -358,7 +361,7 @@ public class Kinect {
 				return processPGMImage(640, 480, depth);
 			} else {
 				System.err.println("Falling back to static images as last resort since no Kinect libraries are loaded");
-				return  ImageIO.read(new File(classLoader.getResource("depth_fail.jpg").getFile()));
+				return  ImageIO.read(new File(classLoader.getResource(depthFailFileName).getFile()));
 			}
 
 		}
@@ -378,7 +381,7 @@ public class Kinect {
 
 		try {
 			if (OpenISSConfig.USE_STATIC_IMAGES) {
-				return  ImageIO.read(new File(classLoader.getResource("color_example.jpg").getFile()));
+				return  ImageIO.read(new File(classLoader.getResource(colorFileName).getFile()));
 
 			} else if (OpenISSConfig.USE_FAKENECT == true && Freenect.LIB_IS_LOADED == false) {
 				return ImageIO.read(new File(getFileName("color")));
@@ -386,7 +389,7 @@ public class Kinect {
 				return processPPMImage(640, 480, color);
 			} else {
 				System.err.println("Falling back to static images as last resort since no Kinect libraries are loaded");
-				return  ImageIO.read(new File(classLoader.getResource("color_fail.jpg").getFile()));
+				return  ImageIO.read(new File(classLoader.getResource(colorFailFileName).getFile()));
 			}
 
 		}
@@ -507,7 +510,6 @@ public class Kinect {
 	static void useFileSystemDepth() throws InterruptedException {
 		OpenISSSOAPServiceImpl service = new OpenISSSOAPServiceImpl();
 
-
 		// get files in fake recording directory
 		File dir = new File(FAKENECT_PATH);
 		File[] directoryFiles = dir.listFiles();
@@ -516,17 +518,13 @@ public class Kinect {
 		// they are accessed using an offset
 		ArrayList<String> fileNames = new ArrayList<>(770);
 
-		int ppmCount = 0;
 		int pgmCount = 0;
 
 		if(directoryFiles != null) {
 
 			// loop, count and populate arraylist of file names
 			for (int i = 0; i < directoryFiles.length; i++) {
-				if(directoryFiles[i].getName().endsWith(".ppm")) {
-					fileNames.add(directoryFiles[i].getName());
-					ppmCount++;
-				} else if (directoryFiles[i].getName().endsWith(".pgm")) {
+				 if (directoryFiles[i].getName().endsWith(".pgm")) {
 					fileNames.add(directoryFiles[i].getName());
 					pgmCount++;
 				}
@@ -537,12 +535,9 @@ public class Kinect {
 
 
 			// offset for this recording
-			int offset = (ppmCount > pgmCount) ? ppmCount : pgmCount;
+
 			System.out.println("Reading from filesystem..");
-			System.out.println("ppm="+ppmCount);
 			System.out.println("pgm="+pgmCount);
-			System.out.println("total="+(ppmCount+pgmCount));
-			System.out.println("offset=" + offset);
 			System.out.println("Starting loop...");
 
 
@@ -570,7 +565,6 @@ public class Kinect {
 		ArrayList<String> fileNames = new ArrayList<>(770);
 
 		int ppmCount = 0;
-		int pgmCount = 0;
 
 		if(directoryFiles != null) {
 
@@ -579,9 +573,6 @@ public class Kinect {
 				if(directoryFiles[i].getName().endsWith(".ppm")) {
 					fileNames.add(directoryFiles[i].getName());
 					ppmCount++;
-				} else if (directoryFiles[i].getName().endsWith(".pgm")) {
-					fileNames.add(directoryFiles[i].getName());
-					pgmCount++;
 				}
 			}
 
@@ -590,19 +581,15 @@ public class Kinect {
 
 
 			// offset for this recording
-			int offset = (ppmCount > pgmCount) ? ppmCount : pgmCount;
 			System.out.println("Reading from filesystem..");
 			System.out.println("ppm="+ppmCount);
-			System.out.println("pgm="+pgmCount);
-			System.out.println("total="+(ppmCount+pgmCount));
-			System.out.println("offset=" + offset);
 			System.out.println("Starting loop...");
 
 
 			// loop forever
 			while(true) {
-				for(int i = 0; i < pgmCount; i++) {
-					setColorFileName(fileNames.get(i + offset));
+				for(int i = 0; i < ppmCount; i++) {
+					setColorFileName(fileNames.get(i));
 					TimeUnit.MILLISECONDS.sleep(150);
 				}
 				System.out.println("Looping..");

@@ -34,21 +34,11 @@ public class OpenISSImageDriver {
                 throw new IllegalArgumentException("Bad type for getFrame: " + type);
             }
 
-            if (OpenISSConfig.USE_FREENECT) {
-                if (type.equals("color")) {
-                    image = kinect.getVideoImage();
-                }
-                else {
-                    image = kinect.getDepthImage();
-                }
+            if (type.equals("color")) {
+                image = kinect.getVideoImage();
             }
             else {
-                if (type.equals("color")) {
-                    image = ImageIO.read(new File(classLoader.getResource("color_example.jpg").getFile()));
-                }
-                else {
-                    image = ImageIO.read(new File(classLoader.getResource("depth_example.jpg").getFile()));
-                }
+                image = kinect.getDepthImage();
             }
 
             ImageIO.write(image, "jpg", baos);
@@ -97,26 +87,11 @@ public class OpenISSImageDriver {
         }
 
         // convert kinect/fakenect image to BufferedImage image_2
-        try {
-
-            if (OpenISSConfig.USE_FREENECT) {
-                if (type.equals("color")) {
-                    image_2 = kinect.getVideoImage();
-                }
-                else {
-                    image_2 = kinect.getDepthImage();
-                }
-            }
-            else {
-                if (type.equals("color")) {
-                    image_2 = ImageIO.read(new File(classLoader.getResource("color_example.jpg").getFile()));
-                }
-                else {
-                    image_2 = ImageIO.read(new File(classLoader.getResource("depth_example.jpg").getFile()));
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (type.equals("color")) {
+            image_2 = kinect.getVideoImage();
+        }
+        else {
+            image_2 = kinect.getDepthImage();
         }
 
         // check height and width
