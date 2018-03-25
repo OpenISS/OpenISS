@@ -31,14 +31,13 @@ package openiss;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.lang.reflect.Method;
-import java.nio.ByteBuffer;
-import java.nio.ShortBuffer;
-import java.nio.FloatBuffer;
+import java.nio.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
+import javassist.bytecode.ByteArray;
 import openiss.utils.OpenISSConfig;
 import openiss.ws.soap.service.OpenISSSOAPServiceImpl;
 import org.openkinect.freenect.Context;
@@ -359,16 +358,16 @@ public class Kinect {
 	 * @return reference to depth image 
 	 */	
 	public BufferedImage getDepthImage(){
-		byte[] imageInBytes = new byte[0];
+		byte[] imageInBytes;
+
 		try {
 			if (OpenISSConfig.USE_STATIC_IMAGES) {
-
-
 				return  ImageIO.read(new File(classLoader.getResource(depthFileName).getFile()));
-
 			} else if (OpenISSConfig.USE_FAKENECT == true && Freenect.LIB_IS_LOADED == false) {
 				imageInBytes = Files.readAllBytes(new File(getFileName("depth")).toPath());
-				return processPPMImage(640, 480, imageInBytes);
+				ByteBuffer buf = ByteBuffer.wrap(imageInBytes);
+
+				return processPGMImage(640, 480, buf.asShortBuffer());
 			} else if(Freenect.LIB_IS_LOADED && OpenISSConfig.USE_FREENECT) {
 				return processPGMImage(640, 480, depth);
 			} else {
@@ -456,7 +455,26 @@ public class Kinect {
 		return image;
 	}
 
-	static int depth2rgb(short depth) {
+    static public BufferedImage processPGMImage(int width, int height, byte[] data) {
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        int red, green, blue, pixel;
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                int offset = x + y*width;
+//                short depth = data.get(offset);
+                short depth = Kinect.bytesToShort(data);
+                image.setRGB(x, y, depth2rgb(depth));
+            }
+        }
+
+        return image;
+    }
+
+    public static short bytesToShort(byte[] bytes) {
+        return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getShort();
+    }
+
+    static int depth2rgb(short depth) {
 		int r,g,b;
 
 		float v = depth / 2047f;

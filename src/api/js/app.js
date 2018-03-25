@@ -26,7 +26,7 @@ app.get('/getFrame/:type', function(req, res, next) {
 
         if(error) {
             console.log("got error");
-//            console.log(error);
+            console.log(error);
             if (args.type == 'color') {
                 return res.sendFile(images + "color_fail.jpg");
 
