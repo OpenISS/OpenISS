@@ -25,6 +25,7 @@ public class ServicePublisher {
     public static Kinect kinect;
 
 
+
     static OpenISSImageDriver driver;
 
     static {
