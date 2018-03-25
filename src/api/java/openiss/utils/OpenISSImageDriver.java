@@ -1,8 +1,6 @@
 package openiss.utils;
 
 import openiss.Kinect;
-import openiss.ws.soap.endpoint.ServicePublisher;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,7 +14,7 @@ public class OpenISSImageDriver {
     static {
         kinect = new Kinect();
         kinect.initVideo();
-//        kinect.initDepth();
+        kinect.initDepth();
     }
 
     /**
@@ -27,7 +25,6 @@ public class OpenISSImageDriver {
     public byte[] getFrame(String type) {
         System.out.println("Inside Driver getFrame....");
         System.out.println("Type is..." + type);
-        byte[] imageInBytes = new byte[0];
         byte[] jpgImageInByte = new byte[0];
 
         try {

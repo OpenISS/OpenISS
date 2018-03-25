@@ -34,6 +34,7 @@ import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.nio.FloatBuffer;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
@@ -358,12 +359,16 @@ public class Kinect {
 	 * @return reference to depth image 
 	 */	
 	public BufferedImage getDepthImage(){
+		byte[] imageInBytes = new byte[0];
 		try {
 			if (OpenISSConfig.USE_STATIC_IMAGES) {
+
+
 				return  ImageIO.read(new File(classLoader.getResource(depthFileName).getFile()));
 
 			} else if (OpenISSConfig.USE_FAKENECT == true && Freenect.LIB_IS_LOADED == false) {
-				return ImageIO.read(new File(getFileName("depth")));
+				imageInBytes = Files.readAllBytes(new File(getFileName("depth")).toPath());
+				return processPPMImage(640, 480, imageInBytes);
 			} else if(Freenect.LIB_IS_LOADED && OpenISSConfig.USE_FREENECT) {
 				return processPGMImage(640, 480, depth);
 			} else {
@@ -384,24 +389,20 @@ public class Kinect {
 	 * @return reference to video image 
 	 */		
 	public BufferedImage getVideoImage() {
+		byte[] imageInBytes = new byte[0];
 		try {
 			if (OpenISSConfig.USE_STATIC_IMAGES) {
-				System.out.println("case 1");
 				return  ImageIO.read(new File(classLoader.getResource(colorFileName).getFile()));
 
-			} else if (OpenISSConfig.USE_FAKENECT == true && Freenect.LIB_IS_LOADED == false) {
-				System.out.println("case 2");
-				System.out.println(getFileName("color"));
-				BufferedImage image = ImageIO.read(new File(getFileName("color")));
-//				BufferedImage image = ImageIO.read(new File("/Users/kosta/session/r-1513096836.352194-2389048349.ppm"));
-				if (image == null) {
-					System.out.println("image is null");
-				}
-				return image;
-			} else if(Freenect.LIB_IS_LOADED && OpenISSConfig.USE_FREENECT) {
-				System.out.println("case 3");
+			}
+			else if (OpenISSConfig.USE_FAKENECT == true && Freenect.LIB_IS_LOADED == false) {
+				imageInBytes = Files.readAllBytes(new File(getFileName("color")).toPath());
+				return processPPMImage(640, 480, imageInBytes);
+			}
+			else if(Freenect.LIB_IS_LOADED && OpenISSConfig.USE_FREENECT) {
 				return processPPMImage(640, 480, color);
-			} else {
+			}
+			else {
 				System.err.println("Falling back to static images as last resort since no Kinect libraries are loaded");
 				return  ImageIO.read(new File(classLoader.getResource(colorFailFileName).getFile()));
 			}
@@ -575,24 +576,6 @@ public class Kinect {
 						System.out.println("Looping useFileSystemDepth..");
 					}
 
-					// Do something
-//					loaded = true;
-
-				}
-			}).start();
-
-
-
-
-
-			new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-
-					// Do something
-//					loaded = true;
-
 				}
 			}).start();
 
@@ -652,9 +635,6 @@ public class Kinect {
 						}
 						System.out.println("Looping.. useFileSystemColor");
 					}
-
-					// Do something
-//					loaded = true;
 
 				}
 			}).start();
