@@ -20,11 +20,6 @@ public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
     static openiss.utils.OpenISSImageDriver driver;
 
-    static {
-        driver = new openiss.utils.OpenISSImageDriver();
-    }
-
-
     private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_fail.jpg";
     private static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_fail.jpg";
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
