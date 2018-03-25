@@ -14,13 +14,24 @@ public class OpenISSImageDriver {
 
     private ClassLoader classLoader = getClass().getClassLoader();
 
+    static {
+        kinect = new Kinect();
+        try {
+            kinect.initVideo();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        kinect.initDepth();
+    }
+
     /**
      * Retrives a frame from either a real Kinect or fakenect
      * @param type
      * @return jpeg image as a byte array
      */
     public byte[] getFrame(String type) {
-
+        System.out.println("Inside Driver getFrame....");
+        System.out.println("Type is..." + type);
         byte[] imageInBytes = new byte[0];
         byte[] jpgImageInByte = new byte[0];
 

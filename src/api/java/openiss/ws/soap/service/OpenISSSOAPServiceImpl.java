@@ -3,6 +3,7 @@ package openiss.ws.soap.service;
 import com.sun.javafx.runtime.SystemProperties;
 import openiss.Kinect;
 import openiss.utils.OpenISSConfig;
+import openiss.utils.OpenISSImageDriver;
 import openiss.ws.soap.endpoint.ServicePublisher;
 
 import javax.imageio.ImageIO;
@@ -14,19 +15,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static openiss.ws.soap.endpoint.ServicePublisher.kinect;
+import static openiss.ws.soap.endpoint.ServicePublisher.driver;
 
 @WebService(endpointInterface="openiss.ws.soap.service.OpenISSSOAPService")
 public class OpenISSSOAPServiceImpl implements OpenISSSOAPService{
 
-    static openiss.utils.OpenISSImageDriver driver;
+    //static openiss.utils.OpenISSImageDriver driver;
 
     private static String colorFileName = "src/api/java/openiss/ws/soap/service/color_fail.jpg";
     private static String depthFileName = "src/api/java/openiss/ws/soap/service/depth_fail.jpg";
     static String FAKENECT_PATH = System.getenv("FAKENECT_PATH");
 
     public byte[] getFrame(String type) {
-
-       return driver.getFrame(type);
+        return driver.getFrame(type);
     }
 
     /**

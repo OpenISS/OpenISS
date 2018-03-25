@@ -210,10 +210,15 @@ public class Kinect {
 	 * Start getting depth from Kinect (available as raw array or mapped to image)
 	 * 
 	 */
-	public void initDepth() throws InterruptedException {
+	public void initDepth() {
 
 		if(OpenISSConfig.USE_FAKENECT && !Freenect.LIB_IS_LOADED ){
-			useFileSystemDepth();
+			try {
+				useFileSystemDepth();
+			}
+			 catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 
 		if(!Freenect.LIB_IS_LOADED) {
@@ -242,7 +247,12 @@ public class Kinect {
 	 */
 	public void initVideo() throws InterruptedException {
 		if(OpenISSConfig.USE_FAKENECT && !Freenect.LIB_IS_LOADED ){
-			useFileSystemColor();
+			try {
+				useFileSystemColor();
+			}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 
 		if(!Freenect.LIB_IS_LOADED) {
@@ -349,8 +359,6 @@ public class Kinect {
 	 * @return reference to depth image 
 	 */	
 	public BufferedImage getDepthImage(){
-
-
 		try {
 			if (OpenISSConfig.USE_STATIC_IMAGES) {
 				return  ImageIO.read(new File(classLoader.getResource(depthFileName).getFile()));
@@ -363,7 +371,6 @@ public class Kinect {
 				System.err.println("Falling back to static images as last resort since no Kinect libraries are loaded");
 				return  ImageIO.read(new File(classLoader.getResource(depthFailFileName).getFile()));
 			}
-
 		}
 		catch (Exception e){
 			System.out.println(e.getMessage());
@@ -378,7 +385,6 @@ public class Kinect {
 	 * @return reference to video image 
 	 */		
 	public BufferedImage getVideoImage() {
-
 		try {
 			if (OpenISSConfig.USE_STATIC_IMAGES) {
 				return  ImageIO.read(new File(classLoader.getResource(colorFileName).getFile()));

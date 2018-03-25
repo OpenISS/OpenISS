@@ -23,10 +23,11 @@ public class ServicePublisher {
 
 
 
-    static OpenISSImageDriver driver;
+    public static OpenISSImageDriver driver;
 
     static {
         driver = new OpenISSImageDriver();
+        kinect = new Kinect();
     }
 
 
