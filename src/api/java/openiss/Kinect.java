@@ -109,8 +109,6 @@ public class Kinect {
 	
 	public Kinect() {
 
-		//if(OpenISSConfig.)
-
 		if (operating_system.indexOf("win") >= 0) {
 			System.err.println("Kinect is not currently supported on Windows Operating System.");
 			return;
@@ -245,13 +243,14 @@ public class Kinect {
 	 * Start getting RGB video from Kinect.
 	 * 
 	 */
-	public void initVideo() throws InterruptedException {
+	public void initVideo() {
 		if(OpenISSConfig.USE_FAKENECT && !Freenect.LIB_IS_LOADED ){
 			try {
 				useFileSystemColor();
 			}
 			catch (InterruptedException e) {
 				e.printStackTrace();
+				return;
 			}
 		}
 
@@ -387,11 +386,20 @@ public class Kinect {
 	public BufferedImage getVideoImage() {
 		try {
 			if (OpenISSConfig.USE_STATIC_IMAGES) {
+				System.out.println("case 1");
 				return  ImageIO.read(new File(classLoader.getResource(colorFileName).getFile()));
 
 			} else if (OpenISSConfig.USE_FAKENECT == true && Freenect.LIB_IS_LOADED == false) {
-				return ImageIO.read(new File(getFileName("color")));
+				System.out.println("case 2");
+				System.out.println(getFileName("color"));
+				BufferedImage image = ImageIO.read(new File(getFileName("color")));
+//				BufferedImage image = ImageIO.read(new File("/Users/kosta/session/r-1513096836.352194-2389048349.ppm"));
+				if (image == null) {
+					System.out.println("image is null");
+				}
+				return image;
 			} else if(Freenect.LIB_IS_LOADED && OpenISSConfig.USE_FREENECT) {
+				System.out.println("case 3");
 				return processPPMImage(640, 480, color);
 			} else {
 				System.err.println("Falling back to static images as last resort since no Kinect libraries are loaded");
@@ -524,37 +532,70 @@ public class Kinect {
 		// they are accessed using an offset
 		ArrayList<String> fileNames = new ArrayList<>(770);
 
-		int pgmCount = 0;
 
 		if(directoryFiles != null) {
 
-			// loop, count and populate arraylist of file names
-			for (int i = 0; i < directoryFiles.length; i++) {
-				 if (directoryFiles[i].getName().endsWith(".pgm")) {
-					fileNames.add(directoryFiles[i].getName());
-					pgmCount++;
+
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+
+					int pgmCount = 0;
+
+					// loop, count and populate arraylist of file names
+					for (int i = 0; i < directoryFiles.length; i++) {
+						if (directoryFiles[i].getName().endsWith(".pgm")) {
+							fileNames.add(directoryFiles[i].getName());
+							pgmCount++;
+						}
+					}
+
+					// sort array of names
+					Collections.sort(fileNames);
+
+
+					// offset for this recording
+
+					System.out.println("Reading from filesystem..");
+					System.out.println("pgm="+pgmCount);
+					System.out.println("Starting loop...");
+
+					// loop forever
+					while(true) {
+						for(int i = 0; i < pgmCount; i++) {
+							setDepthFileName(FAKENECT_PATH + "/" + fileNames.get(i));
+							try {
+								TimeUnit.MILLISECONDS.sleep(150);
+							}
+							catch (Exception e) {
+								System.out.println(e.getMessage());
+							}
+						}
+						System.out.println("Looping useFileSystemDepth..");
+					}
+
+					// Do something
+//					loaded = true;
+
 				}
-			}
-
-			// sort array of names
-			Collections.sort(fileNames);
+			}).start();
 
 
-			// offset for this recording
-
-			System.out.println("Reading from filesystem..");
-			System.out.println("pgm="+pgmCount);
-			System.out.println("Starting loop...");
 
 
-			// loop forever
-			while(true) {
-				for(int i = 0; i < pgmCount; i++) {
-					setDepthFileName(fileNames.get(i));
-					TimeUnit.MILLISECONDS.sleep(150);
+
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+
+					// Do something
+//					loaded = true;
+
 				}
-				System.out.println("Looping..");
-			}
+			}).start();
+
 		}
 	}
 
@@ -570,36 +611,55 @@ public class Kinect {
 		// they are accessed using an offset
 		ArrayList<String> fileNames = new ArrayList<>(770);
 
-		int ppmCount = 0;
 
 		if(directoryFiles != null) {
 
-			// loop, count and populate arraylist of file names
-			for (int i = 0; i < directoryFiles.length; i++) {
-				if(directoryFiles[i].getName().endsWith(".ppm")) {
-					fileNames.add(directoryFiles[i].getName());
-					ppmCount++;
+
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+
+					int ppmCount = 0;
+
+					// loop, count and populate arraylist of file names
+					for (int i = 0; i < directoryFiles.length; i++) {
+						if(directoryFiles[i].getName().endsWith(".ppm")) {
+							fileNames.add(directoryFiles[i].getName());
+							ppmCount++;
+						}
+					}
+
+					// sort array of names
+					Collections.sort(fileNames);
+
+
+					// offset for this recording
+					System.out.println("Reading from filesystem..");
+					System.out.println("ppm="+ppmCount);
+					System.out.println("Starting loop...");
+
+					while(true) {
+						for(int i = 0; i < ppmCount; i++) {
+							setColorFileName(FAKENECT_PATH + "/" + fileNames.get(i));
+							try {
+								TimeUnit.MILLISECONDS.sleep(150);
+
+							}
+							catch (Exception e){
+								System.out.println(e.getMessage());
+							}
+						}
+						System.out.println("Looping.. useFileSystemColor");
+					}
+
+					// Do something
+//					loaded = true;
+
 				}
-			}
-
-			// sort array of names
-			Collections.sort(fileNames);
-
-
-			// offset for this recording
-			System.out.println("Reading from filesystem..");
-			System.out.println("ppm="+ppmCount);
-			System.out.println("Starting loop...");
-
+			}).start();
 
 			// loop forever
-			while(true) {
-				for(int i = 0; i < ppmCount; i++) {
-					setColorFileName(fileNames.get(i));
-					TimeUnit.MILLISECONDS.sleep(150);
-				}
-				System.out.println("Looping..");
-			}
 		}
 	}
 

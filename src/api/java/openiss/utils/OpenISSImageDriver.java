@@ -8,20 +8,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
-import static openiss.ws.soap.endpoint.ServicePublisher.kinect;
-
 public class OpenISSImageDriver {
 
     private ClassLoader classLoader = getClass().getClassLoader();
+    static Kinect kinect;
 
     static {
         kinect = new Kinect();
-        try {
-            kinect.initVideo();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        kinect.initDepth();
+        kinect.initVideo();
+//        kinect.initDepth();
     }
 
     /**
