@@ -113,6 +113,30 @@ app.get('/api/:apiCall', function(req, res, next) {
 
 });
 
+app.get('/doCanny/:filename', function(req, res, next) {
+
+    soap.createClient(url, function(err, client) {
+    	let args = {filename: req.params.filename};
+        client.doCanny(args, function(err, result) {
+            if(err) {
+                console.log("got error");
+                console.log(err);
+                res.send(err);
+                next();
+            }
+            else {
+            	var img = new Buffer(result.return, 'base64');
+                res.contentType('image/jpeg');
+                res.end(img);
+                next();
+            }
+        });
+    });
+
+
+
+});
+
 app.get('/', (req, res) => {
 
     res.sendFile(views + "index.html");

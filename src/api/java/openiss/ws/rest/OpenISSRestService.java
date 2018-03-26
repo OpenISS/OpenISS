@@ -1,11 +1,21 @@
 package openiss.ws.rest;
 
+import com.sun.jna.NativeLibrary;
+import openiss.Kinect;
 import openiss.utils.OpenISSImageDriver;
 import openiss.utils.PATCH;
+import openiss.ws.soap.endpoint.ServicePublisher;
+
+import javax.activation.MimetypesFileTypeMap;
+import javax.imageio.ImageIO;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 
 @Path("/openiss")
 public class OpenISSRestService {
@@ -18,6 +28,25 @@ public class OpenISSRestService {
 
     static {
         driver = new OpenISSImageDriver();
+        System.out.println(System.getProperty("java.library.path"));
+        String PROJECT_HOME = System.getProperty("user.dir");
+        System.out.println("userdir="+PROJECT_HOME);
+
+        int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
+        String osName = System.getProperty("os.name").toLowerCase();
+
+        System.out.println(System.getProperty("java.library.path"));
+
+
+        if(osName.indexOf("win") >= 0) {
+			System.out.println(arch + " windows");
+//			System.loadLibrary("opencv_java341");
+            System.load(PROJECT_HOME+"\\lib\\opencv\\win\\x64\\opencv_java341.dll");
+        }
+        else if(osName.indexOf("mac") >= 0){
+            System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
+            System.load(PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
+        }
     }
 
     /**
@@ -33,19 +62,21 @@ public class OpenISSRestService {
         return "Hello World from Jersey API!";
     }
 
-    @GET
-    @Path("/test")
-    @Produces("image/*")
-    public Response getTest() {
-        byte[] image = driver.getFrame("depth");
-        return Response.ok(pipelineImage(image)).build();
-    }
+//    @GET
+//    @Path("/test")
+//    @Produces("image/*")
+//    public Response getTest() {
+//        byte[] image = driver.getFrame("depth");
+//        return Response.ok(pipelineImage(image)).build();
+//    }
 
     @GET
     @Path("/{type}")
     @Produces("image/*")
     public Response getImage(@PathParam(value = "type") String type) {
 
+        ClassLoader classLoader = getClass().getClassLoader();
+        File src;
         ResponseBuilder response;
         byte[] image = new byte[0];
         // validity checks
@@ -53,12 +84,37 @@ public class OpenISSRestService {
             return Response.noContent().build();
         }
 
-        if (type.equals("color")) {
-            image = driver.getFrame("color");
+
+        if (ServicePublisher.USE_FREENECT) {
+            if (type.equals("color")) {
+                image = driver.getFrame("color");
+            } else {
+                image = driver.getFrame("depth");
+            }
+            response = Response.ok(pipelineImage(image), "image/jpeg");
         } else {
-            image = driver.getFrame("depth");
+            if (type.equals("color")) {
+                src = new File(classLoader.getResource("color_example.jpg").getFile());
+            } else {
+                src = new File(classLoader.getResource("depth_example.jpg").getFile());
+            }
+
+            try {
+                BufferedImage originalImage = ImageIO.read(src);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write( originalImage, "jpg", baos );
+                baos.flush();
+                byte[] imageInByte = baos.toByteArray();
+                baos.close();
+                response = Response.ok(pipelineImage(imageInByte), "image/jpeg");
+            }
+            catch(IOException e){
+                System.out.println(e.getMessage());
+                response = Response.noContent();
         }
-        response = Response.ok(pipelineImage(image), "image/jpeg");
+
+//            response = Response.ok(src, new MimetypesFileTypeMap().getContentType(src));
+        }
 
         return response.build();
     }
@@ -140,17 +196,22 @@ public class OpenISSRestService {
         } else if (mixFlag.equals("canny")) {
             // todo: add docanny support
             // mix with do canny
+            processedImage = driver.getFrame("color");
         }
 
 
         if (cannyFlag) {
             // todo
             // put image through canny
+            System.out.println("Running driver.doCanny");
+        	processedImage = driver.doCanny(processedImage);
         }
 
         if (contourFlag) {
             // todo
-            // put image through
+            // put image through contour
+        	processedImage = driver.contour(image);
+        	
         }
 
         return processedImage;
