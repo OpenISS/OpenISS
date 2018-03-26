@@ -9,7 +9,7 @@ const PORT = 3000;
 const HOST = '0.0.0.0';
 const fs = require('fs');
 const views = __dirname + '/views/';
-
+const images = __dirname + '/images/';
 
 // App
 const app = express();
@@ -27,16 +27,20 @@ app.get('/getFrame/:type', function(req, res, next) {
         if(error) {
             console.log("got error");
             console.log(error);
-            res.send(error);
-            next();
+            if (args.type == 'color') {
+                return res.sendFile(images + "color_fail.jpg");
+
+            }
+            else {
+                return res.sendFile(images + "depth_fail.jpg");
+            }
         }
         else {
             var img = new Buffer(body, 'base64');
             res.contentType('image/jpeg');
-            res.end(img);
-            next();
+//            res.end(img);
+            return res.send(img);
         }
-
     }));
 
 });
@@ -59,15 +63,21 @@ app.get('/mixFrame/:image&:type&:op', function(req, res, next) {
     service.mixFrame(args, (function (error, response, body) {
         if(error) {
             console.log("got error");
-            console.log(error);
-            res.send(error);
-            next();
+//            console.log(error);
+            if (args.type == 'color') {
+                return res.sendFile(images + "color_fail.jpg");
+
+            }
+            else {
+                return res.sendFile(images + "depth_fail.jpg");
+            }
         }
         else {
             // convert response to jpg
             var img = new Buffer(body, 'base64');
             res.contentType('image/jpeg');
-            res.end(img);
+//            res.end(img);
+            return res.send(img);
             next();
         }
     }));
@@ -103,6 +113,30 @@ app.get('/api/:apiCall', function(req, res, next) {
 
 });
 
+app.get('/doCanny/:filename', function(req, res, next) {
+
+    soap.createClient(url, function(err, client) {
+    	let args = {filename: req.params.filename};
+        client.doCanny(args, function(err, result) {
+            if(err) {
+                console.log("got error");
+                console.log(err);
+                res.send(err);
+                next();
+            }
+            else {
+            	var img = new Buffer(result.return, 'base64');
+                res.contentType('image/jpeg');
+                res.end(img);
+                next();
+            }
+        });
+    });
+
+
+
+});
+
 app.get('/', (req, res) => {
 
     res.sendFile(views + "index.html");
@@ -110,6 +144,6 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, HOST);
-console.log(`SOAP Client HTTP Service Running on http://${HOST}:${PORT}`);
+console.log((process.env.NODE_WEB_SERVICE || 'soap') + ` client HTTP Service Running on http://${HOST}:${PORT}`);
 
 

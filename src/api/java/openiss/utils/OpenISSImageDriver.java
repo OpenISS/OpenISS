@@ -1,18 +1,58 @@
 package openiss.utils;
 
+import com.sun.jna.Native;
+import com.sun.jna.NativeLibrary;
 import openiss.Kinect;
 import openiss.ws.soap.endpoint.ServicePublisher;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.highgui.HighGui;
+import org.opencv.imgproc.Imgproc;
+
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.imgcodecs.Imgcodecs;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
 
-import static openiss.ws.soap.endpoint.ServicePublisher.kinect;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
+//import org.opencv.highgui.Highgui;
+import org.opencv.core.Rect;
+import org.opencv.core.MatOfInt;
+import org.opencv.core.Point;
+import org.opencv.core.RotatedRect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.image.DataBufferByte;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class OpenISSImageDriver {
 
     private ClassLoader classLoader = getClass().getClassLoader();
+    static Kinect kinect;
+
+    static {
+        kinect = new Kinect();
+        System.out.println("initVideo");
+        kinect.initVideo();
+        kinect.initDepth();
+    }
 
     /**
      * Retrives a frame from either a real Kinect or fakenect
@@ -34,21 +74,11 @@ public class OpenISSImageDriver {
                 throw new IllegalArgumentException("Bad type for getFrame: " + type);
             }
 
-            if (ServicePublisher.USE_FREENECT) {
-                if (type.equals("color")) {
-                    image = kinect.getVideoImage();
-                }
-                else {
-                    image = kinect.getDepthImage();
-                }
+            if (type.equals("color")) {
+                image = kinect.getVideoImage();
             }
             else {
-                if (type.equals("color")) {
-                    image = ImageIO.read(new File(classLoader.getResource("color_example.jpg").getFile()));
-                }
-                else {
-                    image = ImageIO.read(new File(classLoader.getResource("depth_example.jpg").getFile()));
-                }
+                image = kinect.getDepthImage();
             }
 
             ImageIO.write(image, "jpg", baos);
@@ -97,26 +127,11 @@ public class OpenISSImageDriver {
         }
 
         // convert kinect/fakenect image to BufferedImage image_2
-        try {
-
-            if (ServicePublisher.USE_FREENECT) {
-                if (type.equals("color")) {
-                    image_2 = kinect.getVideoImage();
-                }
-                else {
-                    image_2 = kinect.getDepthImage();
-                }
-            }
-            else {
-                if (type.equals("color")) {
-                    image_2 = ImageIO.read(new File(classLoader.getResource("color_example.jpg").getFile()));
-                }
-                else {
-                    image_2 = ImageIO.read(new File(classLoader.getResource("depth_example.jpg").getFile()));
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (type.equals("color")) {
+            image_2 = kinect.getVideoImage();
+        }
+        else {
+            image_2 = kinect.getDepthImage();
         }
 
         // check height and width
@@ -157,6 +172,61 @@ public class OpenISSImageDriver {
         System.out.println("Frame mixed. Sending jpg result to client");
 
         return imageInByte;
+    }
+
+    //TODO change function to take byte[] as input parameter and return variable
+    public byte[] doCanny(byte[] image) {
+        byte[] buff;
+
+    	try {
+
+
+            Mat mat = Imgcodecs.imdecode(new MatOfByte(image), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
+            Mat gray = new Mat();
+            Mat draw = new Mat();
+            Mat wide = new Mat();
+
+            Imgproc.cvtColor(mat, gray, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.Canny(gray, wide, 50, 150, 3, false);
+            wide.convertTo(draw, CvType.CV_8U);
+
+            int size = (int) draw.total() * draw.channels();
+            buff = new byte[size];
+
+            draw.put(0, 0, buff);
+            System.out.println("Should return image");
+
+            return buff;
+
+//            if (Imgcodecs.imwrite(filename, draw)) {
+//                System.out.println("edge is detected .......");
+//            }
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+    	return image;
+    }
+
+    public byte[] contour(byte[] image) {
+    	try {
+    		Mat color = Imgcodecs.imdecode(new MatOfByte(image), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
+    		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+    		Mat gray = new Mat();
+    		Mat binarized = new Mat();
+            Mat draw = new Mat();
+            Imgproc.cvtColor(color, gray, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.threshold(gray, binarized, 100, 255, Imgproc.THRESH_BINARY);
+            final List<MatOfPoint> points = new ArrayList<>();
+            final Mat hierarchy = new Mat();
+            Imgproc.findContours(binarized, points, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+            binarized.convertTo(draw, CvType.CV_8U);
+            color.get(0,0,image); // get all the pixels
+    	}
+    	catch (Exception e) {
+    		e.printStackTrace();
+    	}
+
+    	return image;
     }
 
 }

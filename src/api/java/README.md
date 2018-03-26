@@ -28,7 +28,7 @@ Two methods currently supported:
 Edit src/api/java/openiss/ws/soap/endpoint/ServicePublisher.java and set the following:
 
 * USE_FREENECT = true (To enable using libfreenect libraries)
-* USE_FILESYSTEM = true (If you want to use a fakenect recorded stream without using libfakenect library)
+* USE_STATIC_IMAGES = true (Uses two static images color_example.jpg and depth_example.jpg)
 * USE_FAKENECT = true (If you want to use a fakenect recorded stream using libfakenect library)
 
 ## SOAP Build Instructions ##
