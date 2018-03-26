@@ -109,6 +109,10 @@ public class Kinect {
 	
 	public Kinect() {
 
+		if(!OpenISSConfig.USE_FREENECT) {
+			return;
+		}
+
 		if (operating_system.indexOf("win") >= 0) {
 			System.err.println("Kinect is not currently supported on Windows Operating System.");
 			return;
@@ -131,6 +135,9 @@ public class Kinect {
 		if(numDevices() < 1) {
 			System.err.println("No Kinect devices found.");
 		}
+		else {
+            System.out.println("Kinect device loaded");
+        }
 		//start(0);
 	}
 	
@@ -213,9 +220,11 @@ public class Kinect {
 		if(OpenISSConfig.USE_FAKENECT && !Freenect.LIB_IS_LOADED ){
 			try {
 				useFileSystemDepth();
+				return;
 			}
 			 catch (InterruptedException e) {
 				e.printStackTrace();
+				return;
 			}
 		}
 
@@ -244,18 +253,18 @@ public class Kinect {
 	 * 
 	 */
 	public void initVideo() {
+
+		System.out.println("USE_FAKENECT" + OpenISSConfig.USE_FAKENECT);
+		System.out.println("LIB_IS_LOADED" + Freenect.LIB_IS_LOADED);
 		if(OpenISSConfig.USE_FAKENECT && !Freenect.LIB_IS_LOADED ){
 			try {
 				useFileSystemColor();
+				return;
 			}
 			catch (InterruptedException e) {
 				e.printStackTrace();
 				return;
 			}
-		}
-
-		if(!Freenect.LIB_IS_LOADED) {
-			return;
 		}
 
 		if (!started) {
@@ -395,6 +404,7 @@ public class Kinect {
 
 			}
 			else if (OpenISSConfig.USE_FAKENECT == true && Freenect.LIB_IS_LOADED == false) {
+				System.out.println("case2" + getFileName("color"));
 				imageInBytes = Files.readAllBytes(new File(getFileName("color")).toPath());
 				return processPPMImage(640, 480, imageInBytes);
 			}
@@ -402,6 +412,8 @@ public class Kinect {
 				return processPPMImage(640, 480, color);
 			}
 			else {
+				System.out.println("USE_FAKENECT" + OpenISSConfig.USE_FAKENECT);
+				System.out.println("LIB_IS_LOADED" + Freenect.LIB_IS_LOADED);
 				System.err.println("Falling back to static images as last resort since no Kinect libraries are loaded");
 				return  ImageIO.read(new File(classLoader.getResource(colorFailFileName).getFile()));
 			}
@@ -642,6 +654,7 @@ public class Kinect {
 
 					while(true) {
 						for(int i = 0; i < ppmCount; i++) {
+							//System.out.println("Setting color file name: " + FAKENECT_PATH + "/" + fileNames.get(i));
 							setColorFileName(FAKENECT_PATH + "/" + fileNames.get(i));
 							try {
 								TimeUnit.MILLISECONDS.sleep(150);
@@ -670,6 +683,7 @@ public class Kinect {
 	}
 
 	public static void setColorFileName(String fileName) {
+//		System.out.println("setting colorfile to " + fileName);
 		colorFileName = fileName;
 	}
 

@@ -49,13 +49,17 @@ public class Freenect implements Library {
 		String osName = System.getProperty("os.name").toLowerCase();
 		
 		if(osName.indexOf("win") >= 0) {
-//			System.out.println(arch + " windows");
-//			System.loadLibrary("v1/msvc/pthreadVC2");
-//			System.loadLibrary("v1/msvc/libusb-1.0");
-//			System.loadLibrary("v1/msvc/freenect");
-			
+			String path = PROJECT_HOME + "/lib/v1/msvc/";
+			//System.out.println(arch + " windows");
+//			System.loadLibrary("pthreadVC2");
+//			System.loadLibrary("libusb-1.0");
+//			System.loadLibrary("freenect");
+
+//			System.load(path + "pthreadVC2.dll");
+//			System.load(path + "libusb-1.0.dll");
+//			System.load(path + "freenect.dll");
 //			NativeLibrary instance = NativeLibrary.getInstance("freenect");
-//			System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath())
+////			System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath())
 //			LIB_IS_LOADED = true;
 //			Native.register(instance);
 
@@ -172,6 +176,7 @@ public class Freenect implements Library {
 			int rval = freenect_open_device(this, devicePtr, index);
 			if (rval != 0) {
 				System.err.println("There are no kinects, returning null");
+				System.err.println("freenect_open_device() returned " + rval);
 				return null;
 				// throw new IllegalStateException("freenect_open_device() returned " + rval);
 			}

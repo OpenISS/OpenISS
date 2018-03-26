@@ -13,6 +13,7 @@ public class OpenISSImageDriver {
 
     static {
         kinect = new Kinect();
+        System.out.println("initVideo");
         kinect.initVideo();
         kinect.initDepth();
     }

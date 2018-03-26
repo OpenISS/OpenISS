@@ -76,7 +76,8 @@ app.get('/mixFrame/:image&:type&:op', function(req, res, next) {
             // convert response to jpg
             var img = new Buffer(body, 'base64');
             res.contentType('image/jpeg');
-            res.end(img);
+//            res.end(img);
+            return res.send(img);
             next();
         }
     }));
@@ -119,6 +120,6 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, HOST);
-console.log(`SOAP Client HTTP Service Running on http://${HOST}:${PORT}`);
+console.log((process.env.NODE_WEB_SERVICE || 'soap') + ` client HTTP Service Running on http://${HOST}:${PORT}`);
 
 
