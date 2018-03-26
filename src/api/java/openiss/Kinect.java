@@ -116,6 +116,13 @@ public class Kinect {
 			return;
 		}
 
+        /**
+         * Both Freenect and Fakenect are disabled
+         */
+        if (!OpenISSConfig.USE_FREENECT && !OpenISSConfig.USE_FAKENECT) {
+            return;
+        }
+
 		depthImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
 		videoImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
 		

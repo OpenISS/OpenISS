@@ -229,20 +229,4 @@ public class OpenISSImageDriver {
     	return image;
     }
 
-    public String getFileName(String type) {
-        if(type.equalsIgnoreCase("color")){
-            return colorFileName;
-        } else {
-            return depthFileName;
-        }
-    }
-
-    public void setColorFileName(String fileName) {
-        colorFileName = fileName;
-    }
-
-    public void setDepthFileName(String fileName) {
-        depthFileName = fileName;
-    }
-
 }

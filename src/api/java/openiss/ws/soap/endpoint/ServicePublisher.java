@@ -7,7 +7,6 @@ import javax.xml.ws.Endpoint;
 public class ServicePublisher {
 
     static int port = Config.portNumber;
-//    static int port2 = 9090;
     static String service = "openiss";
     static String url = "http://localhost:" + port + "/" + service;
     public static OpenISSImageDriver driver;
