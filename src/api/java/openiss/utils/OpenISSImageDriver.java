@@ -176,31 +176,25 @@ public class OpenISSImageDriver {
 
     //TODO change function to take byte[] as input parameter and return variable
     public byte[] doCanny(byte[] image) {
-        byte[] buff;
 
     	try {
 
+            Mat color = Imgcodecs.imdecode(new MatOfByte(image), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
 
-            Mat mat = Imgcodecs.imdecode(new MatOfByte(image), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
             Mat gray = new Mat();
             Mat draw = new Mat();
             Mat wide = new Mat();
 
-            Imgproc.cvtColor(mat, gray, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.cvtColor(color, gray, Imgproc.COLOR_BGR2GRAY);
             Imgproc.Canny(gray, wide, 50, 150, 3, false);
             wide.convertTo(draw, CvType.CV_8U);
 
-            int size = (int) draw.total() * draw.channels();
-            buff = new byte[size];
+            // Encoding the image
+            MatOfByte matOfByte = new MatOfByte();
+            Imgcodecs.imencode(".jpg", draw, matOfByte);
 
-            draw.put(0, 0, buff);
-            System.out.println("Should return image");
+            return matOfByte.toArray();
 
-            return buff;
-
-//            if (Imgcodecs.imwrite(filename, draw)) {
-//                System.out.println("edge is detected .......");
-//            }
         } catch (Exception e) {
         	e.printStackTrace();
         }
