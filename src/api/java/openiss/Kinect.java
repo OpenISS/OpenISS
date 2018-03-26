@@ -109,10 +109,8 @@ public class Kinect {
 	
 	public Kinect() {
 
-//		if(!OpenISSConfig.USE_FREENECT) {
-//			return;
-//		}
 
+		// Skip windows until the driver is working
 		if (operating_system.indexOf("win") >= 0) {
 			System.err.println("Kinect is not currently supported on Windows Operating System.");
 			return;
@@ -217,6 +215,10 @@ public class Kinect {
 	 */
 	public void initDepth() {
 
+		/**
+		 * Clients who have configured Fakenect but do not support the library
+		 * Currently only Windows
+		 */
 		if(OpenISSConfig.USE_FAKENECT && !Freenect.LIB_IS_LOADED ){
 			try {
 				useFileSystemDepth();
@@ -228,6 +230,9 @@ public class Kinect {
 			}
 		}
 
+		/**
+		 * Both Freenect and Fakenect are disabled
+		 */
 		if (!OpenISSConfig.USE_FREENECT && !OpenISSConfig.USE_FAKENECT) {
 			return;
 		}
@@ -254,6 +259,10 @@ public class Kinect {
 	 */
 	public void initVideo() {
 
+		/**
+		 * Clients who have configured Fakenect but do not support the library
+		 * Currently only Windows
+		 */
 		if(OpenISSConfig.USE_FAKENECT && !Freenect.LIB_IS_LOADED ){
 			try {
 				useFileSystemColor();
@@ -265,6 +274,9 @@ public class Kinect {
 			}
 		}
 
+		/**
+		 * Both Freenect and Fakenect are disabled
+		 */
 		if (!OpenISSConfig.USE_FREENECT && !OpenISSConfig.USE_FAKENECT) {
 			return;
 		}
@@ -372,25 +384,51 @@ public class Kinect {
 		byte[] imageInBytes;
 
 		try {
+
+			/**
+			 * Clients who do not have Kinect and have not configured Fakenect
+			 * @return depth_example.jpg from resources
+			 */
 			if (OpenISSConfig.USE_STATIC_IMAGES) {
 				return  ImageIO.read(new File(classLoader.getResource(depthFileName).getFile()));
-			} else if (OpenISSConfig.USE_FAKENECT == true && Freenect.LIB_IS_LOADED == false) {
+			}
+
+			/**
+			 * Clients who have configured Fakenect but do not support the library
+			 * Currently only Windows
+			 * @return current image from FAKENECT_PATH recorded session
+			 */
+			else if (!Freenect.LIB_IS_LOADED && OpenISSConfig.USE_FAKENECT) {
 				imageInBytes = Files.readAllBytes(new File(getFileName("depth")).toPath());
 				ByteBuffer buf = ByteBuffer.wrap(imageInBytes);
-
 				return processPGMImage(640, 480, buf.asShortBuffer());
 			}
+
+			/**
+			 * Clients who support the library and use Kinect or Fakenect
+			 * @return current image from Kinect Live Stream or FAKENECT_PATH recorded session
+			 */
 			else if( Freenect.LIB_IS_LOADED && (OpenISSConfig.USE_FREENECT || OpenISSConfig.USE_FAKENECT)) {
 				return processPGMImage(640, 480, depth);
-			} else {
+			}
+
+			/**
+			 * Everything is false in your OpenISSConfig
+			 * @return depth_fail.jpg from resources
+			 */
+			else {
 				System.err.println("Falling back to static images as last resort since no Kinect libraries are loaded");
 				return  ImageIO.read(new File(classLoader.getResource(depthFailFileName).getFile()));
 			}
 		}
+
+		/**
+		 * Image not found (404)
+		 * @return empty image
+		 */
 		catch (Exception e){
 			System.out.println(e.getMessage());
-			return processPGMImage(640, 480, depth);
-
+			return processPGMImage(640, 480, new byte[0]);
 		}
 	}
 	
@@ -402,29 +440,50 @@ public class Kinect {
 	public BufferedImage getVideoImage() {
 		byte[] imageInBytes = new byte[0];
 		try {
+
+			/**
+			 * Clients who do not have Kinect and have not configured Fakenect
+			 * @return color_example.jpg from resources
+			 */
 			if (OpenISSConfig.USE_STATIC_IMAGES) {
 				return  ImageIO.read(new File(classLoader.getResource(colorFileName).getFile()));
-
 			}
-			else if (OpenISSConfig.USE_FAKENECT == true && Freenect.LIB_IS_LOADED == false) {
-				System.out.println("case2" + getFileName("color"));
+
+			/**
+			 * Clients who have configured Fakenect but do not support the library. Currently only Windows
+			 * @return current image from FAKENECT_PATH recorded session
+			 */
+			else if (!Freenect.LIB_IS_LOADED && OpenISSConfig.USE_FAKENECT ) {
 				imageInBytes = Files.readAllBytes(new File(getFileName("color")).toPath());
 				return processPPMImage(640, 480, imageInBytes);
 			}
+
+			/**
+			 * Clients who support the library and use Kinect or Fakenect
+			 * @return current image from Kinect Live Stream or FAKENECT_PATH recorded session
+			 */
 			else if( Freenect.LIB_IS_LOADED && (OpenISSConfig.USE_FREENECT || OpenISSConfig.USE_FAKENECT)) {
 				return processPPMImage(640, 480, color);
 			}
+
+			/**
+			 * Everything is false in your OpenISSConfig
+			 * @return color_fail.jpg from resources
+			 */
 			else {
-				System.out.println("USE_FAKENECT" + OpenISSConfig.USE_FAKENECT);
-				System.out.println("LIB_IS_LOADED" + Freenect.LIB_IS_LOADED);
 				System.err.println("Falling back to static images as last resort since no Kinect libraries are loaded");
 				return  ImageIO.read(new File(classLoader.getResource(colorFailFileName).getFile()));
 			}
 
 		}
+
+		/**
+		 * Image not found (404)
+		 * @return empty image
+		 */
 		catch (Exception e){
 			System.out.println(e.getMessage());
-			return processPPMImage(640, 480, color);
+			return processPPMImage(640, 480, new byte[0]);
 
 		}
 	}
@@ -591,9 +650,9 @@ public class Kinect {
 
 					// offset for this recording
 
-					System.out.println("Reading from filesystem..");
+					System.out.println("useFileSystemDepth Reading from filesystem..");
 					System.out.println("pgm="+pgmCount);
-					System.out.println("Starting loop...");
+					System.out.println("useFileSystemDepth Starting loop...");
 
 					// loop forever
 					while(true) {
@@ -606,7 +665,7 @@ public class Kinect {
 								System.out.println(e.getMessage());
 							}
 						}
-						System.out.println("Looping useFileSystemDepth..");
+						System.out.println("useFileSystemDepth Re-Looping...");
 					}
 
 				}
@@ -649,15 +708,13 @@ public class Kinect {
 					// sort array of names
 					Collections.sort(fileNames);
 
-
 					// offset for this recording
-					System.out.println("Reading from filesystem..");
+					System.out.println("useFileSystemColor Reading from filesystem..");
 					System.out.println("ppm="+ppmCount);
-					System.out.println("Starting loop...");
+					System.out.println("useFileSystemColor Starting loop...");
 
 					while(true) {
 						for(int i = 0; i < ppmCount; i++) {
-							//System.out.println("Setting color file name: " + FAKENECT_PATH + "/" + fileNames.get(i));
 							setColorFileName(FAKENECT_PATH + "/" + fileNames.get(i));
 							try {
 								TimeUnit.MILLISECONDS.sleep(150);
@@ -667,13 +724,11 @@ public class Kinect {
 								System.out.println(e.getMessage());
 							}
 						}
-						System.out.println("Looping.. useFileSystemColor");
+						System.out.println("useFileSystemColor Re-Looping...");
 					}
 
 				}
 			}).start();
-
-			// loop forever
 		}
 	}
 
@@ -686,7 +741,6 @@ public class Kinect {
 	}
 
 	public static void setColorFileName(String fileName) {
-//		System.out.println("setting colorfile to " + fileName);
 		colorFileName = fileName;
 	}
 
