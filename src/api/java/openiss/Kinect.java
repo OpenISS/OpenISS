@@ -109,9 +109,9 @@ public class Kinect {
 	
 	public Kinect() {
 
-		if(!OpenISSConfig.USE_FREENECT) {
-			return;
-		}
+//		if(!OpenISSConfig.USE_FREENECT) {
+//			return;
+//		}
 
 		if (operating_system.indexOf("win") >= 0) {
 			System.err.println("Kinect is not currently supported on Windows Operating System.");
@@ -228,7 +228,7 @@ public class Kinect {
 			}
 		}
 
-		if(!Freenect.LIB_IS_LOADED) {
+		if (!OpenISSConfig.USE_FREENECT && !OpenISSConfig.USE_FAKENECT) {
 			return;
 		}
 
@@ -254,8 +254,6 @@ public class Kinect {
 	 */
 	public void initVideo() {
 
-		System.out.println("USE_FAKENECT" + OpenISSConfig.USE_FAKENECT);
-		System.out.println("LIB_IS_LOADED" + Freenect.LIB_IS_LOADED);
 		if(OpenISSConfig.USE_FAKENECT && !Freenect.LIB_IS_LOADED ){
 			try {
 				useFileSystemColor();
@@ -265,6 +263,10 @@ public class Kinect {
 				e.printStackTrace();
 				return;
 			}
+		}
+
+		if (!OpenISSConfig.USE_FREENECT && !OpenISSConfig.USE_FAKENECT) {
+			return;
 		}
 
 		if (!started) {
@@ -377,7 +379,8 @@ public class Kinect {
 				ByteBuffer buf = ByteBuffer.wrap(imageInBytes);
 
 				return processPGMImage(640, 480, buf.asShortBuffer());
-			} else if(Freenect.LIB_IS_LOADED && OpenISSConfig.USE_FREENECT) {
+			}
+			else if( Freenect.LIB_IS_LOADED && (OpenISSConfig.USE_FREENECT || OpenISSConfig.USE_FAKENECT)) {
 				return processPGMImage(640, 480, depth);
 			} else {
 				System.err.println("Falling back to static images as last resort since no Kinect libraries are loaded");
@@ -408,7 +411,7 @@ public class Kinect {
 				imageInBytes = Files.readAllBytes(new File(getFileName("color")).toPath());
 				return processPPMImage(640, 480, imageInBytes);
 			}
-			else if(Freenect.LIB_IS_LOADED && OpenISSConfig.USE_FREENECT) {
+			else if( Freenect.LIB_IS_LOADED && (OpenISSConfig.USE_FREENECT || OpenISSConfig.USE_FAKENECT)) {
 				return processPPMImage(640, 480, color);
 			}
 			else {
