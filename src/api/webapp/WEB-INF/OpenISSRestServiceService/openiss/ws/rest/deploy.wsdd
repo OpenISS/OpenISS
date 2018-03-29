@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from OpenISSRestServiceService WSDL service -->
+
+  <service name="OpenISSRestService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://rest.ws.openiss"/>
+      <parameter name="wsdlServiceElement" value="OpenISSRestServiceService"/>
+      <parameter name="schemaQualified" value="http://rest.ws.openiss"/>
+      <parameter name="wsdlServicePort" value="OpenISSRestService"/>
+      <parameter name="className" value="openiss.ws.rest.OpenISSRestService"/>
+      <parameter name="wsdlPortType" value="OpenISSRestService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://rest.ws.openiss" xmlns:retNS="http://rest.ws.openiss" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getImage" qname="operNS:getImage" returnQName="retNS:getImageReturn" returnType="rtns:anyType" soapAction="">
+        <parameter xmlns:pns="http://rest.ws.openiss" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:type" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://rest.ws.openiss" xmlns:retNS="http://rest.ws.openiss" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getIt" qname="operNS:getIt" returnQName="retNS:getItReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://rest.ws.openiss" xmlns:retNS="http://rest.ws.openiss" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="enableMix" qname="operNS:enableMix" returnQName="retNS:enableMixReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://rest.ws.openiss" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:action" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://rest.ws.openiss" xmlns:retNS="http://rest.ws.openiss" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="disableMix" qname="operNS:disableMix" returnQName="retNS:disableMixReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://rest.ws.openiss" xmlns:retNS="http://rest.ws.openiss" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="disableOpenCV" qname="operNS:disableOpenCV" returnQName="retNS:disableOpenCVReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://rest.ws.openiss" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:type" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://rest.ws.openiss" xmlns:retNS="http://rest.ws.openiss" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="enableOpenCV" qname="operNS:enableOpenCV" returnQName="retNS:enableOpenCVReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://rest.ws.openiss" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:type" type="tns:string"/>
+      </operation>
+      <parameter name="allowedMethods" value="enableMix disableMix getIt getImage disableOpenCV enableOpenCV"/>
+
+      <typeMapping xmlns:ns="http://rest.ws.openiss" qname="ns:&gt;getItResponse" type="java:openiss.ws.rest.GetItResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://rest.ws.openiss" qname="ns:&gt;enableMixResponse" type="java:openiss.ws.rest.EnableMixResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://rest.ws.openiss" qname="ns:&gt;getIt" type="java:openiss.ws.rest.GetIt" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://rest.ws.openiss" qname="ns:&gt;disableOpenCV" type="java:openiss.ws.rest.DisableOpenCV" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://rest.ws.openiss" qname="ns:&gt;enableOpenCV" type="java:openiss.ws.rest.EnableOpenCV" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://rest.ws.openiss" qname="ns:&gt;enableMix" type="java:openiss.ws.rest.EnableMix" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://rest.ws.openiss" qname="ns:&gt;disableMixResponse" type="java:openiss.ws.rest.DisableMixResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://rest.ws.openiss" qname="ns:&gt;disableOpenCVResponse" type="java:openiss.ws.rest.DisableOpenCVResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://rest.ws.openiss" qname="ns:&gt;disableMix" type="java:openiss.ws.rest.DisableMix" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://rest.ws.openiss" qname="ns:&gt;enableOpenCVResponse" type="java:openiss.ws.rest.EnableOpenCVResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+  </service>
+</deployment>
