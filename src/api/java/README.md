@@ -15,13 +15,25 @@ Two methods currently supported:
 
 * MixFrame(String type) - Reads a JPEG as input and returns a mixed frame from a kinect device or a recorded session
 
+* doCanny(String type) - Reads a JPEG as input and returns bright lines representing the edges on a black background
+
+* contour(String type) - Reads a JPEG as input and etrieves contours from the image
+
 ## Contributors ##
 
+team10:
 * Project Lead: Konstantinos Psimoulis
 * Yasmine Chiter
 * Inna Taushanova-Atanasova
 * Amjrali Shirkhodaei
 * Paul Palmieri
+
+team11:
+* Project Lead: Navid Golabian
+* Mohammad-Ali Eghtesadi
+* Behrooz Hedayati
+* Piratheeban Annamalai
+* Andrew Laramee
 
 ## Using Filesystem fakenect recorded stream (SOAP Only) ##
 
