@@ -17,7 +17,7 @@ Two methods currently supported:
 
 * doCanny(String type) - Reads a JPEG as input and returns bright lines representing the edges on a black background
 
-* contour(String type) - Reads a JPEG as input and etrieves contours from the image
+* contour(String type) - Reads a JPEG as input and retrieves contours from the image
 
 ## Contributors ##
 
