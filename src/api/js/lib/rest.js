@@ -37,3 +37,29 @@ exports.apiCall = function(args, cb) {
         cb(error, response, body);
     });
 }
+
+
+// PATCH call for enabling flags on the server
+exports.enableFlag = function(args, cb) {
+    console.log("Enabling flag: " + args.flag)
+    var requestSettings = {
+        url: baseUrl + '/rest/openiss' + args.flag,
+        method: 'PATCH'
+    };
+    request(requestSettings, function (error, response, body) {
+        cb(error, response, body);
+    });
+}
+
+// DELETE call for disabling flags on the server
+exports.disableFlag = function(args, cb) {
+    console.log("Disabling flag: " + args.flag)
+
+    var requestSettings = {
+        url: baseUrl + '/rest/openiss' + args.flag,
+        method: 'DELETE'
+    };
+    request(requestSettings, function (error, response, body) {
+        cb(error, response, body);
+    });
+}
