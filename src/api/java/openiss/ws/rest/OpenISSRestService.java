@@ -168,6 +168,7 @@ public class OpenISSRestService {
         if (contourFlag) {
             // todo
             // put image through contour
+            System.out.println("Running driver.contour");
         	processedImage = driver.contour(image);
         	
         }
