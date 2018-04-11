@@ -154,7 +154,9 @@ public class OpenISSRestService {
         } else if (mixFlag.equals("canny")) {
             // todo: add docanny support
             // mix with do canny
-            processedImage = driver.getFrame("color");
+
+
+            processedImage = driver.mixFrame(driver.doCanny(image), "depth", "+");
         }
 
 
