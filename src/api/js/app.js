@@ -3,6 +3,7 @@
 const express = require('express');
 let serviceLibrary = process.env.NODE_WEB_SERVICE || 'soap.js';
 const service = require('./lib/'+serviceLibrary);
+var morgan = require('morgan');
 
 // Constants
 const PORT = 3000;
@@ -13,6 +14,9 @@ const images = __dirname + '/images/';
 
 // App
 const app = express();
+//app.use(morgan('combined'));
+
+var reqc = 1;
 
 app.get('/getFrame/:type', function(req, res, next) {
     if (req.params.type != 'color' && req.params.type != 'depth') {
@@ -21,6 +25,7 @@ app.get('/getFrame/:type', function(req, res, next) {
     }
 
     let args = {type: req.params.type};
+//    console.log("req" + reqc++);
     service.getFrame(args, (function (error, response, body) {
 
 
@@ -138,10 +143,17 @@ app.get('/doCanny/:filename', function(req, res, next) {
 });
 
 app.get('/', (req, res) => {
-
     res.sendFile(views + "index.html");
-
 });
+
+app.get('/color', (req, res) => {
+    res.sendFile(views + "color.html");
+});
+
+app.get('/depth', (req, res) => {
+    res.sendFile(views + "depth.html");
+});
+
 
 app.patch("/:type", function (req, res, next) {
     if (req.params.type != 'mix_color' && req.params.type != 'mix_depth'
