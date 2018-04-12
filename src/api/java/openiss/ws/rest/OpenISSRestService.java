@@ -72,7 +72,7 @@ public class OpenISSRestService {
         } else {
             image = driver.getFrame("depth");
         }
-        response = Response.ok(pipelineImage(image), "image/jpeg");
+        response = Response.ok(pipelineImage(image, type), "image/jpeg");
 
         return response.build();
     }
@@ -142,7 +142,7 @@ public class OpenISSRestService {
         return flags;
     }
 
-    private byte[] pipelineImage(byte[] image) {
+    private byte[] pipelineImage(byte[] image, String baseImage) {
 
         byte[] processedImage = image;
 
@@ -154,7 +154,12 @@ public class OpenISSRestService {
         } else if (mixFlag.equals("canny")) {
             // todo: add docanny support
             // mix with do canny
-            processedImage = driver.getFrame("color");
+
+            if(baseImage.equals("depth")) {
+                processedImage = driver.mixFrame(driver.doCanny(image), "depth", "+");
+            } else {
+                processedImage = driver.mixFrame(driver.doCanny(image), "color", "+");
+            }
         }
 
 
