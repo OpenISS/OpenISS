@@ -6,10 +6,11 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "soap": "NODE_WEB_SERVICE=rest node app.js",
-    "rest": "NODE_WEB_SERVICE=rest node app.js",
-    "debug-soap": "nodemon --inspect app.js",
-    "debug-rest": "NODE_WEB_SERVICE=rest nodemon --inspect app.js"
+    "soap": "NODE_WEB_SERVICE=soap node app.js",
+    "rest": "node app.js",
+    "demo": "NODE_ENV=demo node app.js",
+    "debug-soap": "NODE_WEB_SERVICE=soap nodemon --inspect app.js",
+    "debug-rest": "nodemon --inspect app.js"
   },
   "dependencies": {
     "express": "^4.16.2",

@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-let serviceLibrary = process.env.NODE_WEB_SERVICE || 'soap.js';
+let serviceLibrary = process.env.NODE_WEB_SERVICE || 'rest.js';
 const service = require('./lib/'+serviceLibrary);
 var morgan = require('morgan');
 
@@ -143,7 +143,12 @@ app.get('/doCanny/:filename', function(req, res, next) {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(views + "index.html");
+    if (process.env.NODE_ENV === 'demo') {
+        res.sendFile(views + "demo.html");
+    }
+    else {
+        res.sendFile(views + "index.html");
+    }
 });
 
 app.get('/color', (req, res) => {
