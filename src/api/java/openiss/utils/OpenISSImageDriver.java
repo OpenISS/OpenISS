@@ -204,7 +204,7 @@ public class OpenISSImageDriver {
     public byte[] contour(byte[] image) {
     	try {
     		Mat color = Imgcodecs.imdecode(new MatOfByte(image), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
-    		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+//    		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     		Mat gray = new Mat();
     		Mat binarized = new Mat();
             Mat draw = new Mat();

@@ -2,6 +2,7 @@ package openiss.ws.rest;
 
 import com.sun.jna.NativeLibrary;
 import openiss.Kinect;
+import openiss.utils.OpenISSConfig;
 import openiss.utils.OpenISSImageDriver;
 import openiss.utils.PATCH;
 import openiss.ws.soap.endpoint.ServicePublisher;
@@ -32,14 +33,17 @@ public class OpenISSRestService {
         int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
         String osName = System.getProperty("os.name").toLowerCase();
 
-        if(osName.indexOf("win") >= 0) {
-			System.out.println(arch + " windows");
-            System.load(PROJECT_HOME+"\\lib\\opencv\\win\\x64\\opencv_java341.dll");
+        if (OpenISSConfig.USE_OPENCV) {
+            if(osName.indexOf("win") >= 0) {
+                System.out.println(arch + " windows");
+                System.load(PROJECT_HOME+"\\lib\\opencv\\win\\x64\\opencv_java341.dll");
+            }
+            else if(osName.indexOf("mac") >= 0){
+                System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
+                System.load(PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
+            }
         }
-        else if(osName.indexOf("mac") >= 0){
-            System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
-            System.load(PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
-        }
+
     }
 
     /**
@@ -105,7 +109,7 @@ public class OpenISSRestService {
     public String enableOpenCV(@PathParam(value = "type") String type) {
 
         // validity checks
-        if (!type.equals("canny") && !type.equals("contour")) {
+        if (!OpenISSConfig.USE_OPENCV || (!type.equals("canny") && !type.equals("contour"))) {
             return "Service not supported";
         }
 
@@ -124,7 +128,7 @@ public class OpenISSRestService {
     public String disableOpenCV(@PathParam(value = "type") String type) {
 
         // validity checksX
-        if (!type.equals("canny") && !type.equals("contour")) {
+        if (!OpenISSConfig.USE_OPENCV || (!type.equals("canny") && !type.equals("contour"))) {
             return "Service not supported.";
         }
         if (type.equals("canny")) {
@@ -164,17 +168,12 @@ public class OpenISSRestService {
 
 
         if (cannyFlag) {
-            // todo
-            // put image through canny
             System.out.println("Running driver.doCanny");
         	processedImage = driver.doCanny(processedImage);
         }
 
         if (contourFlag) {
-            // todo
-            // put image through contour
         	processedImage = driver.contour(image);
-        	
         }
 
         return processedImage;
