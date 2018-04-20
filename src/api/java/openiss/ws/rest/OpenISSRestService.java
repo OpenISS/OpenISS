@@ -173,6 +173,7 @@ public class OpenISSRestService {
         }
 
         if (contourFlag) {
+            System.out.println("Running driver.contour");
         	processedImage = driver.contour(image);
         }
 
