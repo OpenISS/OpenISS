@@ -204,18 +204,20 @@ public class OpenISSImageDriver {
     public byte[] contour(byte[] image) {
     	try {
     		Mat color = Imgcodecs.imdecode(new MatOfByte(image), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
-    		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     		Mat gray = new Mat();
     		Mat binarized = new Mat();
-            Mat draw = new Mat();
-            Imgproc.cvtColor(color, gray, Imgproc.COLOR_BGR2GRAY);
-            Imgproc.threshold(gray, binarized, 100, 255, Imgproc.THRESH_BINARY);
-            final List<MatOfPoint> points = new ArrayList<>();
-            final Mat hierarchy = new Mat();
-            Imgproc.findContours(binarized, points, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
-            binarized.convertTo(draw, CvType.CV_8U);
-            color.get(0,0,image); // get all the pixels
-    	}
+                Mat draw = new Mat();
+                Imgproc.cvtColor(color, gray, Imgproc.COLOR_BGR2GRAY);
+                Imgproc.threshold(gray, binarized, 100, 255, Imgproc.THRESH_BINARY);
+                final List<MatOfPoint> points = new ArrayList<>();
+                final Mat hierarchy = new Mat();
+                Imgproc.findContours(binarized, points, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+                binarized.convertTo(draw, CvType.CV_8U);
+                MatOfByte matOfByte = new MatOfByte();
+                Imgcodecs.imencode(".jpg", draw, matOfByte);
+                
+                return matOfByte.toArray();
+        }
     	catch (Exception e) {
     		e.printStackTrace();
     	}
