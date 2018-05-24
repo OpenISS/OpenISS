@@ -15,23 +15,35 @@ Two methods currently supported:
 
 * MixFrame(String type) - Reads a JPEG as input and returns a mixed frame from a kinect device or a recorded session
 
+* doCanny(String type) - Reads a JPEG as input and returns bright lines representing the edges on a black background
+
+* contour(String type) - Reads a JPEG as input and retrieves contours from the image
+
 ## Contributors ##
 
+team10:
 * Project Lead: Konstantinos Psimoulis
 * Yasmine Chiter
 * Inna Taushanova-Atanasova
 * Amjrali Shirkhodaei
 * Paul Palmieri
 
-## Using Filesystem fakenect recorded stream ##
+team11:
+* Project Lead: Navid Golabian
+* Mohammad-Ali Eghtesadi
+* Behrooz Hedayati
+* Piratheeban Annamalai
+* Andrew Laramee
+
+## Using Filesystem fakenect recorded stream (SOAP Only) ##
 
 Edit src/api/java/openiss/ws/soap/endpoint/ServicePublisher.java and set the following:
 
 * USE_FREENECT = true (To enable using libfreenect libraries)
-* USE_FILESYSTEM = true (If you want to use a fakenect recorded stream without using libfakenect library)
+* USE_STATIC_IMAGES = true (Uses two static images color_example.jpg and depth_example.jpg)
 * USE_FAKENECT = true (If you want to use a fakenect recorded stream using libfakenect library)
 
-## Build Instructions ##
+## SOAP Build Instructions ##
 
     Compile:
         mkdir build	
@@ -48,8 +60,32 @@ Edit src/api/java/openiss/ws/soap/endpoint/ServicePublisher.java and set the fol
             rm -fr build
 
 
-### Build Support ###
+### SOAP Build Support ###
 
 * Windows (Using Filesystem fakenect recorded stream)
 * OS X (Using Real Kinect Device, Fakenect library or Filesystem fakenect recorded stream)
 * Linux (Not yet tested)
+
+## REST Requirements ##
+* Maven
+
+### Using HTTP PATCH with JAX-RS
+The @PATCH annotation is not supported by jax-rs, as a workaround we create our own annotation
+having `@HttpMethod("PATCH")` as its own annotation. We can use it in the same way as the other 
+provided jax-rs annotations.
+
+
+## REST Build Instructions ##
+
+    Compile:
+        mvn install
+
+    Run (Local Glassfish):
+        mvn embedded-glassfish:run
+        
+    Run (Using Docker with Tomcat7 image):
+        cd tools/docker/rest-webserver
+        docker-compose up
+
+    Clean:
+        mvn clean
