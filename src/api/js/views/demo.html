@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>OpenISS Demo</title>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="jumbotron-heading">OpenISS Demo</h1>
+    <p class="lead text-muted">OpenISS Demo for SOEN487 Winter 2018 from Team10 and Team11</p>
+    <p>
+        <a href="/color" class="btn btn-primary my-2">COLOR</a>
+        <a href="/depth" class="btn btn-primary my-2">DEPTH</a>
+    </p>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script>
+
+
+    $(function() {
+        $('#selectMethod').change(function(){
+            if($('#selectMethod').val() == 'mixFrame') {
+                $('#mixFrameOptions').show();
+            } else {
+                $('#mixFrameOptions').hide();
+            }
+        });
+    });
+
+    $("#enableFlag").click(function (event) {
+        var opt = $("#selectPatch option:selected").text();
+        console.log("Enabling: " + opt);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("PATCH", opt, true);
+        xhr.send();
+    });
+
+    $("#disableFlag").click(function (event) {
+        var opt = $("#selectPatch option:selected").text();
+        console.log("Disabling: " + opt);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("DELETE", opt, true);
+        xhr.send();
+    });
+
+    $( "form" ).submit(function( event ) {
+
+        var method = $( "#selectMethod option:selected" ).text();
+        var type = $( "#selectType option:selected" ).text();
+
+
+
+        if (method == "getFrame")
+            showImage('/' + method + '/' + type);
+
+
+        if(method == "mixFrame") {
+            var op = $("#selectOp option:selected").text();
+            showImage('/'+method+'/example&' + type + '&' + op)
+        }
+
+
+
+
+
+
+        event.preventDefault();
+    });
+
+
+
+    function showImage(url)
+    {
+
+        jQuery.ajax({
+            url: url,
+            cache:false,
+            xhr:function(){// Seems like the only way to get access to the xhr object
+                var xhr = new XMLHttpRequest();
+                xhr.responseType= 'blob'
+                return xhr;
+            },
+            success: function(data){
+                var img = document.getElementById('img');
+                var url = window.URL || window.webkitURL;
+                img.src = url.createObjectURL(data);
+            },
+            error:function(){
+
+            }
+        });
+
+    }
+
+</script>
+
+</body>
+</html>

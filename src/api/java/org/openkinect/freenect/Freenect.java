@@ -26,6 +26,7 @@ package org.openkinect.freenect;
 
 import com.sun.jna.*;
 import com.sun.jna.ptr.PointerByReference;
+import openiss.utils.OpenISSConfig;
 import openiss.ws.soap.endpoint.ServicePublisher;
 
 import java.io.IOException;
@@ -40,20 +41,28 @@ public class Freenect implements Library {
 	static int FREENECT_DEVICE_CAMERA = 0x02;
 	static String PROJECT_HOME = System.getProperty("user.dir");
 
+	public static boolean LIB_IS_LOADED = false;
+
 	static {
 		
 		int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
 		String osName = System.getProperty("os.name").toLowerCase();
 		
 		if(osName.indexOf("win") >= 0) {
-//			System.out.println(arch + " windows");
-//			System.loadLibrary("v1/msvc/pthreadVC2");
-//			System.loadLibrary("v1/msvc/libusb-1.0");
-//			System.loadLibrary("v1/msvc/freenect");
-			
+			String path = PROJECT_HOME + "/lib/v1/msvc/";
+			//System.out.println(arch + " windows");
+//			System.loadLibrary("pthreadVC2");
+//			System.loadLibrary("libusb-1.0");
+//			System.loadLibrary("freenect");
+
+//			System.load(path + "pthreadVC2.dll");
+//			System.load(path + "libusb-1.0.dll");
+//			System.load(path + "freenect.dll");
 //			NativeLibrary instance = NativeLibrary.getInstance("freenect");
-//			//System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath());
+////			System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath())
+//			LIB_IS_LOADED = true;
 //			Native.register(instance);
+
 		}
 		else if(osName.indexOf("mac") >= 0){
 			try {
@@ -66,7 +75,7 @@ public class Freenect implements Library {
 
 			    System.load(path+"libusb-1.0.0.dylib");
 				NativeLibrary instance;
-				if (ServicePublisher.USE_FAKENECT) {
+				if (OpenISSConfig.USE_FAKENECT) {
 					NativeLibrary.addSearchPath("fakenect", path);
 					instance = NativeLibrary.getInstance("fakenect");
 				}
@@ -75,6 +84,7 @@ public class Freenect implements Library {
 					instance = NativeLibrary.getInstance("freenect");
 				}
 				System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath());
+				LIB_IS_LOADED = true;
 				Native.register(instance);
 			} catch (IOException e) {
 				throw new AssertionError(e);
@@ -95,6 +105,7 @@ public class Freenect implements Library {
 			
 				NativeLibrary instance = NativeLibrary.getInstance("freenect");
 				System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath());
+				LIB_IS_LOADED = true;
 				Native.register(instance);
 			} catch (IOException e) {
 				throw new AssertionError(e);
@@ -165,6 +176,7 @@ public class Freenect implements Library {
 			int rval = freenect_open_device(this, devicePtr, index);
 			if (rval != 0) {
 				System.err.println("There are no kinects, returning null");
+				System.err.println("freenect_open_device() returned " + rval);
 				return null;
 				// throw new IllegalStateException("freenect_open_device() returned " + rval);
 			}

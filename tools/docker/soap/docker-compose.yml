@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  freenect-openjdk:
+    image: kpsimoulis/freenect:oraclejdk8
+#    image: kpsimoulis/freenect:openjdk
+    environment:
+      # Adjust to your screen size
+      - DISPLAY_WIDTH=1600
+      - DISPLAY_HEIGHT=948
+      - VNC_PASSWORD=${VNC_PASSWORD}
+    volumes:
+      - ./session:/session
+      - ./target/production/OpenISS:/usr/src/app
+      - ./etc/supervisor/conf.d/soap.conf:/etc/supervisor/conf.d/soap.conf
+    ports:
+      - "6080:6081"
+      - "5900:5900"
+      - "9090:9090"
