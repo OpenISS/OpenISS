@@ -1,11 +1,15 @@
 package openiss.ws.rest;
 
+
 import com.sun.jna.NativeLibrary;
 import openiss.Kinect;
 import openiss.utils.OpenISSConfig;
 import openiss.utils.OpenISSImageDriver;
 import openiss.utils.PATCH;
 import openiss.ws.soap.endpoint.ServicePublisher;
+import org.glassfish.jersey.media.multipart.ContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
@@ -14,9 +18,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 
 @Path("/openiss")
 public class OpenISSRestService {
@@ -139,6 +142,53 @@ public class OpenISSRestService {
         return getFlags();
     }
 
+    boolean canMix = false;
+    String mixImgName;
+
+    @POST
+    @Path("/upload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadFile(FormDataMultiPart form) throws IOException {
+        System.out.println("receive something ...");
+
+        FormDataBodyPart filePart = form.getField("file");
+        ContentDisposition headerOfFilePart =  filePart.getContentDisposition();
+        InputStream fileInputStream = filePart.getValueAs(InputStream.class);
+        mixImgName = headerOfFilePart.getFileName();
+
+        writeToFile(fileInputStream, mixImgName);
+
+        byte[] image = Files.readAllBytes(new File(mixImgName).toPath());
+        ResponseBuilder response = Response.ok(pipelineImage(image, "usermix"), "image/jpeg");
+        return response.build();
+
+
+//        // save the file to the server
+//        writeToFile(fileInputStream, mixImgName);
+//        String output = "File saved to server location using FormDataMultiPart : " + mixImgName;
+//        return Response.status(200).entity(output).build();
+
+    }
+
+    // save uploaded file to new location
+    private void writeToFile(InputStream uploadedInputStream, String uploadedFileLocation) {
+        try {
+            OutputStream out;
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            out = new FileOutputStream(new File(uploadedFileLocation));
+            while ((read = uploadedInputStream.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
+
     private String getFlags() {
         String flags = "Mix: " + String.valueOf(mixFlag) +
                 "\nCanny: " + String.valueOf(cannyFlag) +
@@ -177,9 +227,11 @@ public class OpenISSRestService {
         	processedImage = driver.contour(image);
         }
 
+        if ("usermix".equals(baseImage)) {
+            processedImage = driver.mixFrame(image, "color", "+");
+        }
+
         return processedImage;
-
-
     }
 
 

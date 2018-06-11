@@ -57,6 +57,17 @@
             <scope>runtime</scope>
             <type>dylib</type>
         </dependency>
+
+      <dependency>
+        <groupId>org.jvnet</groupId>
+        <artifactId>mimepull</artifactId>
+        <version>1.6</version>
+      </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>2.12</version>
+        </dependency>
     </dependencies>
 
     <properties>
