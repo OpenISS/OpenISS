@@ -2,18 +2,23 @@ package openiss.ws.rest;
 
 
 import com.sun.jna.NativeLibrary;
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import openiss.Kinect;
 import openiss.utils.OpenISSConfig;
 import openiss.utils.OpenISSImageDriver;
 import openiss.utils.PATCH;
 import openiss.ws.soap.endpoint.ServicePublisher;
-import org.glassfish.jersey.media.multipart.ContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.*;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
 import javax.ws.rs.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -142,6 +147,36 @@ public class OpenISSRestService {
         return getFlags();
     }
 
+
+    @GET
+    @Path("reqmix/{addr}{port}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String requestMix(
+            @PathParam(value = "addr") String addr, @PathParam(value = "port") String port) {
+        byte[] image = driver.getFrame("color");
+
+        String serverURL = "http://" + addr + ":" + port + "/rest/openiss/upload";
+        System.out.println("Server URL: " + serverURL);
+
+        String result = "http://" + addr + ":" + port + "/rest/openiss/mix/result";
+
+        Client client = ClientBuilder.newBuilder().
+                register(MultiPartFeature.class).build();
+        WebTarget server = client.target(serverURL);
+
+        MultiPart multiPart = new MultiPart();
+        StreamDataBodyPart body = new StreamDataBodyPart("file", new ByteInputStream(image, image.length));
+        multiPart.bodyPart(body);
+
+        Response response = server.request(MediaType.TEXT_PLAIN)
+                .post(Entity.entity(multiPart, "image/jpeg"));
+        if (response.getStatus() == 200) {
+            return response.readEntity(String.class);
+        } else {
+            return ("Response is not ok");
+        }
+    }
+
     boolean canMix = false;
     String mixImgName;
 
@@ -154,8 +189,9 @@ public class OpenISSRestService {
         FormDataBodyPart filePart = form.getField("file");
         ContentDisposition headerOfFilePart =  filePart.getContentDisposition();
         InputStream fileInputStream = filePart.getValueAs(InputStream.class);
-        mixImgName = headerOfFilePart.getFileName();
+//        mixImgName = headerOfFilePart.getFileName();
 
+        mixImgName = "wait_for_mix.jpg";
         writeToFile(fileInputStream, mixImgName);
 
         byte[] image = Files.readAllBytes(new File(mixImgName).toPath());
