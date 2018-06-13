@@ -149,13 +149,14 @@ public class OpenISSRestService {
 
 
     @GET
-    @Path("reqmix/{addr}{port}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String requestMix(
-            @PathParam(value = "addr") String addr, @PathParam(value = "port") String port) {
-        byte[] image = driver.getFrame("color");
+    @Path("/reqmix")
+    public Response requestMix(
+            @QueryParam("addr") String addr, @QueryParam("port") String port) {
+        byte[] image = driver.getFrame("depth");
 
-        String serverURL = "http://" + addr + ":" + port + "/rest/openiss/upload";
+//        String serverURL = "http://" + addr + ":" + port + "/rest/openiss/upload";
+        String serverURL = "http://" + addr + "/rest/openiss/upload";
+
         System.out.println("Server URL: " + serverURL);
 
         String result = "http://" + addr + ":" + port + "/rest/openiss/mix/result";
@@ -168,12 +169,17 @@ public class OpenISSRestService {
         StreamDataBodyPart body = new StreamDataBodyPart("file", new ByteArrayInputStream(image));
         multiPart.bodyPart(body);
 
-        Response response = server.request(MediaType.TEXT_PLAIN)
-                .post(Entity.entity(multiPart, "image/jpeg"));
+        Response response = server.request()
+                .post(Entity.entity(multiPart, "multipart/form-data"));
+        ResponseBuilder builder = Response.ok(response.getEntity(), "image/jpeg");
+
+
         if (response.getStatus() == 200) {
-            return response.readEntity(String.class);
+            return builder.build();
+//            return response.readEntity(String.class);
         } else {
-            return ("Response is not ok");
+            return Response.noContent().build();
+//            return ("Response is not ok");
         }
     }
 
@@ -196,6 +202,7 @@ public class OpenISSRestService {
 
         byte[] image = Files.readAllBytes(new File(mixImgName).toPath());
         ResponseBuilder response = Response.ok(pipelineImage(image, "usermix"), "image/jpeg");
+        response.header("Content-Disposition", "inline");
         return response.build();
 
 
