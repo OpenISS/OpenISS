@@ -2,7 +2,7 @@ package openiss.ws.rest;
 
 
 import com.sun.jna.NativeLibrary;
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
+
 import openiss.Kinect;
 import openiss.utils.OpenISSConfig;
 import openiss.utils.OpenISSImageDriver;
@@ -165,7 +165,7 @@ public class OpenISSRestService {
         WebTarget server = client.target(serverURL);
 
         MultiPart multiPart = new MultiPart();
-        StreamDataBodyPart body = new StreamDataBodyPart("file", new ByteInputStream(image, image.length));
+        StreamDataBodyPart body = new StreamDataBodyPart("file", new ByteArrayInputStream(image));
         multiPart.bodyPart(body);
 
         Response response = server.request(MediaType.TEXT_PLAIN)
