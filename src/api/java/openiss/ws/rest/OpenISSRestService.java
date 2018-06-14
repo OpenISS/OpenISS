@@ -171,15 +171,16 @@ public class OpenISSRestService {
 
         Response response = server.request()
                 .post(Entity.entity(multiPart, "multipart/form-data"));
-        ResponseBuilder builder = Response.ok(response.getEntity(), "image/jpeg");
-
+        ResponseBuilder builder = Response.ok(response.getEntity(), "image/jpeg")
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Headers", "*")
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .allow("OPTIONS");
 
         if (response.getStatus() == 200) {
             return builder.build();
-//            return response.readEntity(String.class);
         } else {
             return Response.noContent().build();
-//            return ("Response is not ok");
         }
     }
 
@@ -202,7 +203,11 @@ public class OpenISSRestService {
 
         byte[] image = Files.readAllBytes(new File(mixImgName).toPath());
         ResponseBuilder response = Response.ok(pipelineImage(image, "usermix"), "image/jpeg");
-        response.header("Content-Disposition", "inline");
+        response.header("Content-Disposition", "inline")
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Headers", "*")
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .allow("OPTIONS");
         return response.build();
 
 

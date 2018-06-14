@@ -134,7 +134,7 @@
             cache:false,
             xhr:function(){// Seems like the only way to get access to the xhr object
                 var xhr = new XMLHttpRequest();
-                xhr.responseType= 'blob'
+                xhr.responseType= 'blob';
                 return xhr;
             },
             success: function(data){
