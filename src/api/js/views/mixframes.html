@@ -14,15 +14,15 @@
 
 <div class="container">
 
-    <form action="http://localhost:8080/rest/openiss/reqmix" method="get">
+    <!-- <form action="http://localhost:8080/rest/openiss/reqmix" method="get" id="myform"> -->
         <!--<div class="row">-->
             <label for="addr">IP address</label><input id="addr" type="text" name="addr">
             <label for="port">Port Number</label><input id="port" type="text" name="port" >
             <input type="submit" id="mixframe" value="Start mix frame">
 
-            <!--<img id="img" name="img" width=100%>-->
+            <img id="img" name="img" width=100%>
         <!--</div>-->
-    </form>
+    <!-- </form> -->
 
 </div> <!-- End Container -->
 
@@ -35,43 +35,63 @@
 
 <script>
 
-    // $('#mixframe').click(function() {
-    //     let addr = $("targetAddress").text();
-    //     let port = $("targetPort").text();
-    //     // $.get('http://localhost:3000/rest/openiss/upload', function(data) {
-    //     $.post('/upload', function(data) {
-    //
-    //     })
-    // });
-
-    var interval = 50;  // 1000 = 1 second, 3000 = 3 seconds
-    function doAjax() {
-        $.ajax({
-            url: '/getFrame/color',
-            cache:false,
-            xhr:function(){// Seems like the only way to get access to the xhr object
-                var xhr = new XMLHttpRequest();
-                xhr.responseType= 'blob';
-                return xhr;
-            },
-            success: function(data){
-                var img = document.getElementById('img');
-                var url = window.URL || window.webkitURL;
-                img.src = url.createObjectURL(data);
-            },
-            complete: function (data) {
-                // Schedule the next
-                setTimeout(doAjax, interval);
-            },
-            error:function(){
-
-            }
-        });
-
+    function getTime() {
+        return Date.now();
     }
-    // setTimeout(doAjax, interval);
 
+    $('#mixframe').click(function() {
+        var interval = 50;  // 1000 = 1 second, 3000 = 3 seconds
+        function doAjax() {
+            var curTime = getTime();
+            console.log("request begin: " + curTime);
+            var a = document.getElementById('addr').value;
+            var p = document.getElementById('port').value
 
+            // console.log(a);
+            // console.log(p);
+
+            // $.get('http://localhost:8080/rest/openiss/reqmix?' + 'addr=' + a + '&port=' + p, 
+                
+            // function (data) {    
+                // function (err, data) {
+                //     if(err) {
+                //         console.log(err)
+                //     }
+                    // setTimeout(doAjax, interval);
+            // });
+
+            $.ajax({
+                url: 'http://localhost:8080/rest/openiss/reqmix?' + 'addr=' + a + '&port=' + p,
+                cache:false,
+                xhr:function(){// Seems like the only way to get access to the xhr object
+                    var xhr = new XMLHttpRequest();
+                    xhr.responseType= 'blob';
+                    return xhr;
+                },
+                success: function(data){
+                    var img = document.getElementById('img');
+                    var url = window.URL || window.webkitURL;
+                    img.src = url.createObjectURL(data);
+                },
+                complete: function (data) {
+                    // Schedule the next
+                    var time = getTime();
+                    console.log("request end: " + time);
+                    console.log("round trip time: " + (time - curTime));
+                    setTimeout(doAjax, interval);
+                },
+                error:function(){
+
+                }
+            });
+        
+        }
+        setTimeout(doAjax, interval);
+    });
+    
+
+    
+    
 
 </script>
 
