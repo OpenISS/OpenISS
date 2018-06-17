@@ -1,9 +1,8 @@
 package org.openkinect.freenect2;
 
+import java.awt.image.BufferedImage;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-
-import org.openkinect.processing.LibraryPath;
 
 /*
 openKinect2 library for Processing
@@ -40,31 +39,37 @@ import com.sun.jna.NativeLibrary;
 
 public class Device {
 
+    static String PROJECT_HOME = System.getProperty("user.dir");
+
     static {
         //load OS an arch difference
         int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
         String osName = System.getProperty("os.name").toLowerCase();
 
         if (osName.contains("win")) {
-            System.out.println(arch + " windows");
-            System.loadLibrary("v2/msvc/turbojpeg");
-            System.loadLibrary("v2/msvc/libusb-1.0");
-            System.loadLibrary("v2/msvc/libJNILibfreenect2");
+//            System.out.println(arch + " windows");
+//            System.loadLibrary("v2/msvc/turbojpeg");
+//            System.loadLibrary("v2/msvc/libusb-1.0");
+//            System.loadLibrary("v2/msvc/libJNILibfreenect2");
         } else if (osName.contains("mac")) {
             System.out.println(arch + " mac");
 
-            LibraryPath libPath = new LibraryPath();
-            String path = libPath.getDir() + "/v2/mac/";
+//            LibraryPath libPath = new LibraryPath();
+//            String path = libPath.getDir() + "/v2/mac/";
             // System.out.println(System.getProperty("java.library.path"));
+
+            String path = PROJECT_HOME + "/lib/v2/mac/";
             System.out.println("Found path v2: " + path);
 
             System.load(path + "libturbojpeg.dylib");
             System.load(path + "libJNILibfreenect2.dylib");
         } else if (osName.contains("linux")) {
             System.out.println(arch + " linux");
-            LibraryPath libPath = new LibraryPath();
-            String path = libPath.getDir() + "/v2/linux/";
+//            LibraryPath libPath = new LibraryPath();
+//            String path = libPath.getDir() + "/v2/linux/";
             // System.out.println(System.getProperty("java.library.path"));
+
+            String path = PROJECT_HOME + "/lib/v2/linux/";
             System.out.println("Found path v2: " + path);
 
             System.load(path + "libfreenect2.so");
@@ -92,6 +97,12 @@ public class Device {
     PImage undistortedImg;
     PImage registeredImg;
 
+//    BufferedImage depthImg;
+//    BufferedImage irImg;
+//    BufferedImage colorImg;
+//    BufferedImage undistortedImg;
+//    BufferedImage registeredImg;
+
     FloatBuffer depthPositions;
 
     IntBuffer depthColorBuffer;
@@ -101,7 +112,7 @@ public class Device {
     /**
      * Constructor for openKinect 2
      *
-     * // @param _p PApplet parent
+     * // @param _p  parent
      */
 //    public Device(PApplet _p) {
 //        parent = _p;
@@ -114,6 +125,12 @@ public class Device {
         colorImg = new PImage(colorWidth, colorHeight, PImage.ARGB);
         undistortedImg = new PImage(depthWidth, depthHeight, PImage.ALPHA);
         registeredImg = new PImage(depthWidth, depthHeight, PImage.ARGB);
+
+//        depthImg = new BufferedImage(depthWidth, depthHeight, BufferedImage.TYPE_3BYTE_BGR);
+//        irImg = new BufferedImage(depthWidth, depthHeight, BufferedImage.TYPE_3BYTE_BGR);
+//        colorImg = new BufferedImage(colorWidth, colorHeight, BufferedImage.TYPE_3BYTE_BGR);
+//        undistortedImg = new BufferedImage(depthWidth, depthHeight, BufferedImage.TYPE_3BYTE_BGR);
+//        registeredImg = new BufferedImage(depthWidth, depthHeight, BufferedImage.TYPE_3BYTE_BGR);
 
         //Buffers for openGL calls
         depthPositions = FloatBuffer.allocate(depthWidth * depthHeight * 3);
@@ -198,13 +215,13 @@ public class Device {
      *
      * @return PImage
      */
-    public PImage getDepthImage() {
+    public BufferedImage getDepthImage() {
         int[] depthRawData = jniGetDepthData();
         arrayCopy(depthRawData, 0, depthImg.pixels, 0, depthImg.width * depthImg.height);
         depthColorBuffer.put(depthRawData, 0, depthWidth * depthHeight);
         depthColorBuffer.rewind();
         depthImg.updatePixels();
-        return depthImg;
+        return (BufferedImage) depthImg.getNative();
     }
 
     /**
@@ -212,13 +229,13 @@ public class Device {
      *
      * @return PImage
      */
-    public PImage getIrImage() {
+    public BufferedImage getIrImage() {
         int[] irRawData = jniGetIrData();
         arrayCopy(irRawData, 0, irImg.pixels, 0, irImg.width * irImg.height);
         irColorBuffer.put(irRawData, 0, depthWidth * depthHeight);
         irColorBuffer.rewind();
         irImg.updatePixels();
-        return irImg;
+        return (BufferedImage) irImg.getNative();
     }
 
 
@@ -227,11 +244,11 @@ public class Device {
      *
      * @return PImage
      */
-    public PImage getVideoImage() {
+    public BufferedImage getVideoImage() {
         int[] colorRawData = jniGetColorData();
         arrayCopy(colorRawData, 0, colorImg.pixels, 0, colorImg.width * colorImg.height);
         colorImg.updatePixels();
-        return colorImg;
+        return (BufferedImage) colorImg.getNative();
     }
 
     /**

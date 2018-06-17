@@ -21,7 +21,7 @@
   Boston, MA  02111-1307  USA
 */
 
-package org.openkinect.processing;
+package org.openkinect.freenect2;
 
 import java.io.File;
 import java.net.URISyntaxException;

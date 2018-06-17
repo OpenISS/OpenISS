@@ -1,6 +1,7 @@
 package openiss.utils;
 
 import openiss.Kinect1;
+import openiss.Kinect2;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -22,13 +23,18 @@ import java.util.List;
 
 public class OpenISSImageDriver {
 
-    static Kinect1 kinect1;
+//    static Kinect1 kinect;
+    static Kinect2 kinect;
 
     static {
-        kinect1 = new Kinect1();
+        kinect = new Kinect2();
+//        kinect = new Kinect1();
         System.out.println("initVideo");
-        kinect1.initVideo();
-        kinect1.initDepth();
+
+        kinect.initVideo();
+        kinect.initDepth();
+
+        kinect.initDevice();
     }
 
     /**
@@ -52,10 +58,10 @@ public class OpenISSImageDriver {
             }
 
             if (type.equals("color")) {
-                image = kinect1.getVideoImage();
+                image = kinect.getVideoImage();
             }
             else {
-                image = kinect1.getDepthImage();
+                image = kinect.getDepthImage();
             }
 
             ImageIO.write(image, "jpg", baos);
@@ -70,7 +76,7 @@ public class OpenISSImageDriver {
     }
 
     /**
-     * Mixes a jpg image with one from the kinect1/fakenect
+     * Mixes a jpg image with one from the kinect/fakenect
      * @param image jpg byte array from the client
      * @param type color or depth
      * @param op operand (only single operand handled as of now)
@@ -103,12 +109,12 @@ public class OpenISSImageDriver {
             e.printStackTrace();
         }
 
-        // convert kinect1/fakenect image to BufferedImage image_2
+        // convert kinect/fakenect image to BufferedImage image_2
         if (type.equals("color")) {
-            image_2 = kinect1.getVideoImage();
+            image_2 = kinect.getVideoImage();
         }
         else {
-            image_2 = kinect1.getDepthImage();
+            image_2 = kinect.getDepthImage();
         }
 
         // check height and width

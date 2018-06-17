@@ -2,6 +2,10 @@ package openiss;
 
 import org.openkinect.freenect2.Device;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 /*
 openKinect2 library for Processing
 Copyright (c) 2014 Thomas Sanchez Lengeling
@@ -49,6 +53,55 @@ public class Kinect2 extends Device {
     public void dispose() {
         System.out.println("EXIT");
         stopDevice();
+    }
+
+    public static void main(String[] args) {
+        Kinect2 kinect2 = new Kinect2();
+        kinect2.init();
+        kinect2.initDevice();
+
+        JFrame frame = new JFrame();
+        Test test = new Test(kinect2);
+        frame.getContentPane().add(test);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 800);
+        frame.setVisible(true);
+
+        while (true) {
+
+            try {
+                Thread.sleep(1000);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            test.display();
+        }
+    }
+
+    public static class Test extends JPanel {
+
+        Kinect2 kinect2;
+        int count = 0;
+
+        public Test(Kinect2 kinect2) {
+            this.kinect2 = kinect2;
+        }
+
+        public void display() {
+            this.repaint();
+        }
+
+
+        public void paint(Graphics g) {
+            super.paint(g);
+//            Image img = kinect2.getVideoImage();
+            Image img = kinect2.getDepthImage();
+            g.drawImage(img, 0, 0, this);
+//            g.drawString("hello world" + count++, 20, 20);
+        }
     }
 
 }
