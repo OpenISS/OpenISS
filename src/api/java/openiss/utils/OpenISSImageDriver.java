@@ -1,61 +1,38 @@
 package openiss.utils;
 
-import com.sun.jna.Native;
-import com.sun.jna.NativeLibrary;
-import openiss.Kinect;
-import openiss.ws.soap.endpoint.ServicePublisher;
-import org.opencv.core.Core;
+import openiss.Kinect1;
 import org.opencv.core.CvType;
-import org.opencv.highgui.HighGui;
-import org.opencv.imgproc.Imgproc;
-
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
+import org.opencv.core.MatOfPoint;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.nio.file.Files;
-
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.MatOfPoint2f;
 //import org.opencv.highgui.Highgui;
-import org.opencv.core.Rect;
-import org.opencv.core.MatOfInt;
-import org.opencv.core.Point;
-import org.opencv.core.RotatedRect;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
-
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.image.DataBufferByte;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class OpenISSImageDriver {
 
-    private ClassLoader classLoader = getClass().getClassLoader();
-    static Kinect kinect;
+    static Kinect1 kinect1;
 
     static {
-        kinect = new Kinect();
+        kinect1 = new Kinect1();
         System.out.println("initVideo");
-        kinect.initVideo();
-        kinect.initDepth();
+        kinect1.initVideo();
+        kinect1.initDepth();
     }
 
     /**
-     * Retrives a frame from either a real Kinect or fakenect
+     * Retrives a frame from either a real Kinect1 or fakenect
      * @param type
      * @return jpeg image as a byte array
      */
@@ -75,10 +52,10 @@ public class OpenISSImageDriver {
             }
 
             if (type.equals("color")) {
-                image = kinect.getVideoImage();
+                image = kinect1.getVideoImage();
             }
             else {
-                image = kinect.getDepthImage();
+                image = kinect1.getDepthImage();
             }
 
             ImageIO.write(image, "jpg", baos);
@@ -93,7 +70,7 @@ public class OpenISSImageDriver {
     }
 
     /**
-     * Mixes a jpg image with one from the kinect/fakenect
+     * Mixes a jpg image with one from the kinect1/fakenect
      * @param image jpg byte array from the client
      * @param type color or depth
      * @param op operand (only single operand handled as of now)
@@ -126,12 +103,12 @@ public class OpenISSImageDriver {
             e.printStackTrace();
         }
 
-        // convert kinect/fakenect image to BufferedImage image_2
+        // convert kinect1/fakenect image to BufferedImage image_2
         if (type.equals("color")) {
-            image_2 = kinect.getVideoImage();
+            image_2 = kinect1.getVideoImage();
         }
         else {
-            image_2 = kinect.getDepthImage();
+            image_2 = kinect1.getDepthImage();
         }
 
         // check height and width

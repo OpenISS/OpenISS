@@ -27,11 +27,10 @@ package org.openkinect.freenect;
 import com.sun.jna.*;
 import com.sun.jna.ptr.PointerByReference;
 import openiss.utils.OpenISSConfig;
-import openiss.ws.soap.endpoint.ServicePublisher;
 
 import java.io.IOException;
-import java.nio.ByteOrder;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.DoubleBuffer;
 
 public class Freenect implements Library {
