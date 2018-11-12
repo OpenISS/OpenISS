@@ -36,9 +36,7 @@ elif [ "$el_version" -eq "7" ]; then
 	cd $DOCKERPATH/src
 
 	bash -n scripts/build.sh
-	bash -n scripts/dependencies/el6.sh
-
-	cp scripts/dependencies/el6.sh scripts/dependencies/el7.sh
+	bash -n scripts/dependencies/el7.sh
 
 	make deps7
 	make all
