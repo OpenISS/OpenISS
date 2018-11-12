@@ -2,7 +2,7 @@ SHELL:=/bin/bash
 
 EXE=build.sh
 SCRIPTSDIR=./scripts
-OPTIONS=el6
+OPTIONS=el7
 INSTALL_OPTION=--install
 UNINSTALL_OPTION=--cleanup
 
