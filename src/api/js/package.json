@@ -2,7 +2,7 @@
   "name": "openiss_webservice_client",
   "version": "0.0.1",
   "description": "OpenISS Web Service Client",
-  "author": "Konstantinis Psimoulis <kosta@noima.com>",
+  "author": "Konstantinos Psimoulis <kosta@noima.com>",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -13,9 +13,9 @@
     "debug-rest": "nodemon --inspect app.js"
   },
   "dependencies": {
-    "express": "^4.16.2",
-    "morgan": "^1.9.0",
-    "npm": "^5.8.0",
-    "soap": "^0.23.0"
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "npm": "^6.4.1",
+    "soap": "^0.25.0"
   }
 }
