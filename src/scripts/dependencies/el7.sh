@@ -58,7 +58,7 @@ function install_dev_dependencies()
 		yum install -y epel-release
 		# From elrepo.org
 		rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
-		rpm -Uvh http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm
+		rpm -Uvh https://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
 	fi
 
 	# basic install/compile requirements
@@ -66,6 +66,7 @@ function install_dev_dependencies()
 	yum install -y gcc
 	yum install -y make cmake
 	yum install -y patch wget
+	yum install -y libtool
 
 	# recent kernel install for the latest USB3 drivers
 	#yum --enablerepo=elrepo-kernel install -y kernel-ml-devel-4.8.7-1.el6.elrepo.x86_64
