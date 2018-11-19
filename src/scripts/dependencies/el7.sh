@@ -1,7 +1,7 @@
 #!/bin/bash -x
 
 # el7.sh
-#
+#testin
 # Script to install requirements:
 #	libraries
 #	compilers
