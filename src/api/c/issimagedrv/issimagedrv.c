@@ -37,7 +37,7 @@ int init_module(void)
 
 	printk
 	(
-		"Registeration is a success. The major device number is %d.\n",
+		"Registration is a success. The major device number is %d.\n",
 		Major
 	);
 
@@ -137,7 +137,7 @@ static ssize_t device_read(struct file *file, char *buffer, size_t length, loff_
 
 		if (dataSize != 0)
 		{
-			char* temp[dataSize];
+			unsigned char temp[dataSize];
 			for (i = dataSize; i < oldSize; i++)
 			{
 				temp[i - dataSize] = data[i];
