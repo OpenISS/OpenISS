@@ -31,14 +31,20 @@ GL_OBJ=$(GL_EXE).o
 GLPCL_EXE=freenect-glpclview
 GLPCL_OBJ=$(GLPCL_EXE).o
 
-CAMTST_EXE=camtest
-CAMTST_OBJ=$(CAMTST_EXE).o
+CAMTEST_EXE=freenect-camtest
+CAMTEST_OBJ=$(CAMTEST_EXE).o
+
+CHUNK_VIEW_EXE=freenect-chunkview
+CHUNK_VIEW_OBJ=$(CHUNK_VIEW_EXE).o
+
+HI_VIEW_EXE=freenect-hiview
+HI_VIEW_OBJ=$(HI_VIEW_EXE).o
 
 PRELOAD="../../../../../libfreenect/lib/fakenect/libfakenect.so"
 RECORDING_PATH="./test-recording"
 
 # Default target
-all: $(GL_EXE) $(GLPCL_EXE) $(CAMTST_EXE)
+all: $(GL_EXE) $(GLPCL_EXE) $(CAMTEST_EXE) $(CHUNK_VIEW_EXE)
 	@echo "All is perfectly done!"
 
 rungl: $(GL_EXE)
@@ -48,15 +54,15 @@ rungl: $(GL_EXE)
 runglpcl: $(GLPCL_EXE)
 	LD_PRELOAD=$(PRELOAD) FAKENECT_PATH=$(RECORDING_PATH) ./$(GLPCL_EXE)
 
-runcamtest: $(CAMTST_EXE)
-	LD_PRELOAD=$(PRELOAD) FAKENECT_PATH=$(RECORDING_PATH) ./$(CAMTST_EXE)
+runcamtest: $(CAMTEST_EXE)
+	LD_PRELOAD=$(PRELOAD) FAKENECT_PATH=$(RECORDING_PATH) ./$(CAMTEST_EXE)
 
-chunkview:
-	./chunkview.c
-glpclview:
-	./glpclview.c
-hiview:
-	./hiview.c
+runchunkview: $(CHUNK_VIEW_EXE)
+	LD_PRELOAD=$(PRELOAD) FAKENECT_PATH=$(RECORDING_PATH) ./$(CHUNK_VIEW_EXE)
+
+runhiview:$(HI_VIEW_EXE)
+	LD_PRELOAD=$(PRELOAD) FAKENECT_PATH=$(RECORDING_PATH) ./$(HI_VIEW_EXE)
+
 micview:
 	./micview.c
 regtest:
@@ -81,13 +87,26 @@ $(GLPCL_OBJ): glpclview.c
 	$(CC) $(CFLAGS) -c glpclview.c -o $(GLPCL_OBJ)
 	 export LD_LIBRARY_PATH=../../../../../libfreenect/lib/
 
-$(CAMTST_EXE): $(GLPCL_OBJ)
-	$(CC) $(VFXLIBS) $(GLPCL_OBJ) -lfreenect -lfreenect_sync -lGL -lglut -lGLU -lm -lpthread -o $(CAMTST_EXE)
+$(CAMTEST_EXE): $(CAMTEST_OBJ)
+	$(CC) $(VFXLIBS) $(CAMTEST_OBJ) -lfreenect -lfreenect_sync -lGL -lglut -lGLU -lm -lpthread -o $(CAMTEST_EXE)
 
-$(CAMTST_OBJ): glpclview.c
-	$(CC) $(CFLAGS) -c camtest.c -o $(GLPCL_OBJ)
+$(CAMTEST_OBJ): camtest.c
+	$(CC) $(CFLAGS) -c camtest.c -o $(CAMTEST_OBJ)
 	export LD_LIBRARY_PATH=../../../../../libfreenect/lib/
 
+$(CHUNK_VIEW_EXE): $(CHUNK_VIEW_OBJ)
+	$(CC) $(VFXLIBS) $(CHUNK_VIEW_OBJ) -lfreenect -lfreenect_sync -lGL -lglut -lGLU -lm -lpthread -o $(CHUNK_VIEW_EXE)
+
+$(CHUNK_VIEW_OBJ): chunkview.c
+	$(CC) $(CFLAGS) -c chunkview.c -o $(CHUNK_VIEW_OBJ)
+	export LD_LIBRARY_PATH=../../../../../libfreenect/lib/
+
+$(HI_VIEW_EXE): $(HI_VIEW_OBJ)
+	$(CC) $(VFXLIBS) $(HI_VIEW_OBJ) -lfreenect -lfreenect_sync -lGL -lglut -lGLU -lm -lpthread -o $(HI_VIEW_EXE)
+
+$(HI_VIEW_OBJ): hiview.c
+	$(CC) $(CFLAGS) -c hiview.c -o $(HI_VIEW_OBJ)
+	export LD_LIBRARY_PATH=../../../../../libfreenect/lib/
 
 cmakeFreenect:
 	cd ../../../../../libfreenect
@@ -99,3 +118,9 @@ clean:
 	rm -f $(GL_EXE)
 	rm -f $(GLPCL_OBJ)
 	rm -f $(GLPCL_EXE)
+	rm -f $(CAMTEST_OBJ)
+	rm -f $(CAMTEST_EXE)
+	rm -f $(CHUNK_VIEW_OBJ)
+	rm -f $(CHUNK_VIEW_EXE)
+	rm -f $(HI_VIEW_OBJ)
+	rm -f $(HI_VIEW_EXE)
