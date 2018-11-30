@@ -66,14 +66,15 @@ function install_dev_dependencies()
 	yum install -y gcc
 	yum install -y make cmake
 	yum install -y patch wget
-	yum install -y libtool
+	yum install -y libtool systemd-devel
 
 	# recent kernel install for the latest USB3 drivers
 	#yum --enablerepo=elrepo-kernel install -y kernel-ml-devel-4.8.7-1.el6.elrepo.x86_64
 	yum --enablerepo=elrepo-kernel install -y kernel-ml kernel-ml-devel
 
 	# packages for OpenGL and libusb
-	yum install -y libXmu-devel glut-devel libudev-devel libtool
+	yum install -y libXmu-devel glut-devel libudev-devel
+	yum install -y libusbx-devel libusb-devel
 
 	# install python 34 from epel
 	yum --enablerepo=epel install -y python34.x86_64
@@ -192,16 +193,16 @@ function install_ogl()
 	# TODO: refactor somehow; to select dynamically from lspci,
 	#       then download or dpkg-nvidia from elrepo
 	# TODO: this will need to be installed when booted
-	#VIDEODRIVERSCRIPT=NVIDIA-Linux-x86_64-384.98.run
-	#VIDEODRIVERPATH=XFree86/Linux-x86_64/384.98/$VIDEODRIVERSCRIPT
+
 	VIDEODRIVERSCRIPT=NVIDIA-Linux-x86_64-410.78.run
 	VIDEODRIVERPATH=XFree86/Linux-x86_64/410.78/$VIDEODRIVERSCRIPT
+
 	#VIDEODRIVER=XFree86/Linux-x86_64/340.104/NVIDIA-Linux-x86_64-340.104.run
 	wget us.download.nvidia.com/$VIDEODRIVERPATH
 
 	# Suppress non-zero exist code if fails, may need to resolve manually
-	#sh $VIDEODRIVERSCRIPT --silent || echo 0 > /dev/null
-
+	sh $VIDEODRIVERSCRIPT --silent || echo 0 > /dev/null
+	#https://us.download.nvidia.com/XFree86/Linux-x86/390.87/NVIDIA-Linux-x86-390.87.run
 	echo "============================="
 	echo "OpenGL dependencies installed"
 	echo "============================="
