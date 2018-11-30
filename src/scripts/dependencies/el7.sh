@@ -192,12 +192,15 @@ function install_ogl()
 	# TODO: refactor somehow; to select dynamically from lspci,
 	#       then download or dpkg-nvidia from elrepo
 	# TODO: this will need to be installed when booted
-	VIDEODRIVERSCRIPT=NVIDIA-Linux-x86_64-384.98.run
-	VIDEODRIVERPATH=XFree86/Linux-x86_64/384.98/$VIDEODRIVERSCRIPT
+	#VIDEODRIVERSCRIPT=NVIDIA-Linux-x86_64-384.98.run
+	#VIDEODRIVERPATH=XFree86/Linux-x86_64/384.98/$VIDEODRIVERSCRIPT
+	VIDEODRIVERSCRIPT=NVIDIA-Linux-x86_64-410.78.run
+	VIDEODRIVERPATH=XFree86/Linux-x86_64/410.78/$VIDEODRIVERSCRIPT
 	#VIDEODRIVER=XFree86/Linux-x86_64/340.104/NVIDIA-Linux-x86_64-340.104.run
 	wget us.download.nvidia.com/$VIDEODRIVERPATH
+
 	# Suppress non-zero exist code if fails, may need to resolve manually
-	sh $VIDEODRIVERSCRIPT --silent || echo 0 > /dev/null
+	#sh $VIDEODRIVERSCRIPT --silent || echo 0 > /dev/null
 
 	echo "============================="
 	echo "OpenGL dependencies installed"
