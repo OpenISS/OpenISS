@@ -2,10 +2,17 @@
 
 *Open Illimitable Space System*
 
-OpenISS is inspired by its counterparts of ISS and ISSv2, but being built
-from scratch using C and C++ and open-source libraries and toolkits for
-sensors and creative coding. Various wrappers are being developed.
-See background on the original ISS below.
+OpenISS is inspired by the development of ISSv1, ISSv2, and MultiCamTk++, but is being built
+from scratch using C and C++ and similar or same open-source libraries and toolkits for
+sensors and creative coding. Various wrappers are being developed. See background on the inspirational ISS below.
+OpenISS API is likewise for the first time made it possble to access Kinect 1 and 2
+as well as OpenCV as REST and SOAP services for creative near-realtime online broadcasting.
+OpenISS is poised to be the core replacement for ISSv2's pipeline. It also serves as
+an educational tool for graduate and undergraduate students in computer vision, computation
+arts, pattern recognition, AI, machine learning, and game development. It is designed
+to be portable.
+
+OpenISS component development began in 2016 in C.
 
 ## Contributors ##
 
@@ -23,7 +30,15 @@ See background on the original ISS below.
 
 ## Build Instructions ##
 
+### EL7 ###
+
+EL7 (RHEL, CentOS, Scientific Linux) are as of September 2018 default and
+preferred build, so the development effort focuses around this platform,
+but it is known to run on macOS and Ubuntu.
+
 ### EL6 ###
+
+EL6 is now considered legacy.
 
 Notice, EL6 requires a newer kernel for
 proper USB3 and NVIDIA support. If you prefer
@@ -71,11 +86,12 @@ relevant steps one by one.
 * Python
 * ...
 
-## Background on the original ISS ##
+## Background on the ISSv1, ISSv2, ISSv3 ##
 
 OpenISS’s core goals are to enable achieving something akin
 to the original ISS below in an open educational setting. Then,
-to build custom applications based on it.
+to build custom applications based on it, using OpenISS API
+as a core.
 
 ### Academic Publications ###
 
@@ -121,6 +137,6 @@ to build custom applications based on it.
 
 ## References and Acknowledgements ##
 
-* TravisCI EL6 and EL7 builds on Github:
+* TravisCI EL6 and EL7 builds on GitHub:
   Derek Weitzel, Building CentOS packages on Travis-CI,
   https://djw8605.github.io/2016/05/03/building-centos-packages-on-travisci/
