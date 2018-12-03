@@ -77,7 +77,8 @@ OpenISS’s core goals are to enable achieving something akin
 to the original ISS below in an open educational setting. Then,
 to build custom applications based on it.
 
-### Academic Publications ###
+### Academic Publications ### #calls libfreenect cleanup in build.sh'
+#struct OpenISS_Openfjdfdskjf and function pointers. changes from cpp to c face,frame,skeleton, gesture. move to api/c
 
 * Origins are in Dr. Miao Song’s thesis:
   * http://arxiv.org/abs/1212.6250
