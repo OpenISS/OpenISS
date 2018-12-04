@@ -5,6 +5,7 @@
 #include <signal.h>
 
 /// [headers]
+/*Working on changing these headers*/
 #include <libfreenect2/libfreenect2.hpp>
 #include <libfreenect2/frame_listener_impl.h>
 #include <libfreenect2/registration.h>
