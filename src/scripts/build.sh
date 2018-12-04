@@ -241,6 +241,8 @@ function cleanup_libfreenect()
 		popd
 
 		echo "libfreenect uninstalled"
+		# remove the line from build.cache
+		sed -i '/libfreenect_/d' build.cache
 	else
 		echo "libfreenect is not installed"
 	fi
@@ -267,7 +269,7 @@ do
 	# find out whether or not we're running install or cleanup
 	if [ "$current_option" == "$install_option" ]; then
 		mode=$install_option
-	elif [ "$var" == "$cleanup_option" ]; then
+	elif [ "$current_option" == "$cleanup_option" ]; then
 		mode=$cleanup_option
 
 	#system inputs
