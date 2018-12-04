@@ -21,8 +21,8 @@ using std::unordered_map;
 using std::shared_ptr;
 using std::vector;
 
-namespace openiss
-{
+typedef struct openissStruct { 
+/*attempt to create namespace in c */
 
 struct OITracker;
 
@@ -47,7 +47,7 @@ public:
 struct OISkeleton
 {
 public:
-    shared_ptr<openiss::OISkeletonJoint> getJointByType(JointType type);
+    openiss::OISkeletonJoint* getJointByType(JointType type);
     void addJointByType(JointType type, shared_ptr<OISkeletonJoint> jointPtr);
     void drawToFrame(OIFrame *displayFrame, vector<JointType> &supportedJoints);
     void mapWorld2Image(OITracker* tracker);
@@ -59,5 +59,5 @@ private:
     bool mIsSkeletonAvailable;
 };
 
-} // end of namespace
+} openiss; // end of namespace
 #endif //OPENISS_OISKELETON_H

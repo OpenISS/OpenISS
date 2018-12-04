@@ -8,38 +8,38 @@
 
 struct OpenISS_OIEnum
 {
-enum StreamType {
-    COLOR_STREAM,
-    DEPTH_STREAM,
-    IR_STREAM,
-    REGISTERED_STREAM
-};
+	enum StreamType {
+	    COLOR_STREAM,
+	    DEPTH_STREAM,
+	    IR_STREAM,
+	    REGISTERED_STREAM
+	};
 
 
-enum JointType {
-    JOINT_HEAD,
-    JOINT_NECK,
+	enum JointType {
+	    JOINT_HEAD,
+	    JOINT_NECK,
 
-    JOINT_LEFT_SHOULDER,
-    JOINT_RIGHT_SHOULDER,
-    JOINT_LEFT_ELBOW,
-    JOINT_RIGHT_ELBOW,
-    JOINT_LEFT_HAND,
-    JOINT_RIGHT_HAND,
+	    JOINT_LEFT_SHOULDER,
+	    JOINT_RIGHT_SHOULDER,
+	    JOINT_LEFT_ELBOW,
+	    JOINT_RIGHT_ELBOW,
+	    JOINT_LEFT_HAND,
+	    JOINT_RIGHT_HAND,
 
-    JOINT_TORSO,
+	    JOINT_TORSO,
 
-    JOINT_LEFT_HIP,
-    JOINT_RIGHT_HIP,
-    JOINT_LEFT_KNEE,
-    JOINT_RIGHT_KNEE,
-    JOINT_LEFT_FOOT,
-    JOINT_RIGHT_FOOT,
-};
+	    JOINT_LEFT_HIP,
+	    JOINT_RIGHT_HIP,
+	    JOINT_LEFT_KNEE,
+	    JOINT_RIGHT_KNEE,
+	    JOINT_LEFT_FOOT,
+	    JOINT_RIGHT_FOOT,
+	};
 
-enum FrameType {
-    DEPTH_FRAME, COLOR_FRAME, IR_FRAME
-};
+	enum FrameType {
+	    DEPTH_FRAME, COLOR_FRAME, IR_FRAME
+	};
 
 }; // end of struct
 
