@@ -5,19 +5,19 @@
 // Created by Haotao Lai on 2018-08-08.
 // Created by Jashanjot Singh on 2018-07-22.
 //
-// made into c header by Cameron Belcher
+// made into c header by Cameron Belcher and Jacob Biederman
 
 #ifndef OPENISS_OISKELETON_H
 #define OPENISS_OISKELETON_H
 
-#include <unordered_map>
-#include <memory>
-#include <vector>
+#include <unordered_map>/*The hash is probably just an identity function, so this could possibly be converted to a vector and accessed by index rather than key*/
+#include <memory> /*This includes shared_ptr. Hopefully this can be replaced by a regular pointer, but garbage collection will have to be accounted for. */
+#include <vector> /*This might be able to be wrapped or a custom (slow) implementation could be made*/
 #include "OIEnum.h"
 #include "OITracker.h"
 #include "OIFrame.h"
 
-using std::unordered_map;
+using std::unordered_map; 
 using std::shared_ptr;
 using std::vector;
 
