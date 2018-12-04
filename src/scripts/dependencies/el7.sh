@@ -415,26 +415,32 @@ elif [ "$mode" == "$cleanup_option" ]; then
 
 	if [ "$ofx_option" == "1" ]; then
 		time cleanup_open_frameworks
+		sed -i '/ofx/d' $0.cache 
 	fi
 
 	if [ "$opencv_option" == "1" ]; then
 		time cleanup_opencv
+		sed -i '/opencv/d' $0.cache 
 	fi
 
 	if [ "$tinyosc_option" == "1" ]; then
 		time cleanup_tinyosc
+		sed -i '/tinyosc/d' $0.cache 
 	fi
 
 	if [ "$libfreenect_option" == "1" ]; then
 		time cleanup_libfreenect
+		sed -i '/libfreenect_/d' $0.cache 
 	fi
 
 	if [ "$libfreenect2_option" == "1" ]; then
 		time cleanup_libfreenect2
+		sed -i '/libfreenect2/d' $0.cache 
 	fi
 
 	if [ "$ogl_option" == "1" ]; then
 		time cleanup_ogl
+		sed -i '/ogl/d' $0.cache 
 	fi
 
 else
