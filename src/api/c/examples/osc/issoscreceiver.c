@@ -4,6 +4,7 @@
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include "tinyosc.h"
@@ -17,7 +18,17 @@ static void sigintHandler(int x) {
 
 int main(int argc, char *argv[])
 {
- char buffer[2048]; // declare a 2Kb buffer to read packet data into
+ char buffer[2048]; // declare a 2Kb buffer to read packet data int
+	//open the file to write the log to
+	FILE * fp;
+	char *str1 = "HEllo";
+	fp = fopen("Log.txt","w+");
+	if(fp == NULL)
+	{
+		printf("Error!");
+		exit(1);
+	}
+
 
  // open a socket to listen for datagrams (i.e. UDP packets) on port 9000
   const int fd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -28,8 +39,8 @@ int main(int argc, char *argv[])
   sin.sin_addr.s_addr = INADDR_ANY;
   bind(fd, (struct sockaddr *) &sin, sizeof(struct sockaddr_in));
   printf("tinyosc is now listening on port 9000.\n");
+  fprintf(fp, "%s", "HelloWorld");
   printf("Press Ctrl+C to stop.\n");
-
   while (keepRunning) {
     fd_set readSet;
     FD_ZERO(&readSet);
@@ -47,17 +58,20 @@ int main(int argc, char *argv[])
           tosc_message osc;
           while (tosc_getNextMessage(&bundle, &osc)) {
             tosc_printMessage(&osc);
+	    fprintf(fp, "%s\n", &osc);
           }
         } else {
           tosc_message osc;
           tosc_parseMessage(&osc, buffer, len);
           tosc_printMessage(&osc);
+ 	  fprintf(fp, "%s\n", &osc);
         }
       }
     }
   }
 
   // close the UDP socket
+  fclose(fp);
   close(fd);
   return 0; 
 }
