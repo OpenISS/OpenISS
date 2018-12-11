@@ -1,3 +1,12 @@
+/*
+* Attempt to wrap OISkeleton for use in C code
+* By Jacob Biederman 12-2018
+* 
+* Following http://blog.eikke.com/index.php/ikke/2005/11/03/using_c_classes_in_c.html
+* Does not compile b/c of missing dependecy NiTE.h in OITracker.hpp.
+* may have other errors.
+*/
+
 #include "../include/OISkeletonWrapper.h"
 #include "../OISkeleton.hpp"
 
