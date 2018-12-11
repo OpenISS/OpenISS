@@ -273,6 +273,7 @@ void tosc_printOscBuffer(char *buffer, const int len) {
   // a return value of 0 indicates no error
   tosc_message m;
   const int err = tosc_parseMessage(&m, buffer, len);
+  printf("%i \n", len);
   if (err == 0) tosc_printMessage(&m);
   else printf("Error while reading OSC buffer: %i\n", err);
 }
