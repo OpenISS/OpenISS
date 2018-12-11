@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
   len = tosc_writeMessage(buffer, sizeof(buffer), "anythingelse", "/error",
       1.0f, 2.0f, 3.0f); 
 
+  fprintf(stdout, "%s\n", "Sender: ");
   tosc_printOscBuffer(buffer, len);
 
   printf("done.\n");
