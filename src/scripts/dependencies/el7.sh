@@ -63,7 +63,7 @@ function install_dev_dependencies()
 	# Making sure gcc is installed
 	# basic install/compile requirements
 	yum install -y git
-	yum install -y gcc
+	yum install -y gcc gcc-c++
 	yum install -y make cmake
 	yum install -y patch wget
 	yum install -y libtool systemd-devel
