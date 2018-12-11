@@ -182,7 +182,7 @@ function install_ogl()
 	yum install -y \
 		cmake3 make \
 		gcc-c++ \
-		libX11-devel libXi-devel \
+		libX11-devel \
 		mesa-libGL mesa-libGL-devel mesa-libGLU \
 		libXrandr-devel libXext-devel libXcursor-devel \
 		libXinerama-devel libXi-devel
@@ -295,6 +295,9 @@ function install_libfreenect()
 # 	pushd ../../libfreenect2/depends
 # 		./install_libusb.sh
 # 	popd
+
+	# Make sure OpenGL dependencies are installed
+	install_ogl	
 
 	# TODO: OpenNI2 will require cmake3 and gcc 4.8+ from devtoolset-2
 	yum install -y cmake3
