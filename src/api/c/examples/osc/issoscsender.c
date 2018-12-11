@@ -20,25 +20,28 @@ static void sigintHandler(int x) {
   */
 int main(int argc, char *argv[])
 {
+  stdout = fopen("log.txt", "w"); //redirect stdout to a file
 
   char buffer[2048]; // declare a 2Kb buffer to read packet data into
   printf("Starting write tests:\n");
   int len = 0;
 
 /* Currently, send a hard coded message to the reciever */
-  len = tosc_writeMessage(buffer, sizeof(buffer), "/player 1", "/left-hand",
+  len = tosc_writeMessage(buffer, sizeof(buffer), "anythingelse", "/error",
       1.0f, 2.0f, 3.0f); 
+
   tosc_printOscBuffer(buffer, len);
+
   printf("done.\n");
 
 /**
   * While the program is running, the program will be sending the message continuously to port 9000
   */
 
-  while (keepRunning) {
- printf("Sending message\n");
-    tosc_printOscBuffer(buffer, len);
-  }
+  //while (keepRunning) {
+   // printf("Sending message\n");
+   // tosc_printOscBuffer(buffer, len);
+  //}
 
   return 0; 
 

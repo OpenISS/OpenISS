@@ -14,8 +14,7 @@ GLFWwindow* window;
 #include "tutorial03Wrapper.h"
 
 /*Include GLM*/
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+
 //using namespace glm;
 
 //#include <common/shader.hpp>
@@ -29,6 +28,7 @@ GLuint vertexbuffer;
 GLuint VertexArrayID;
 GLuint programID;
 
+GLuint MatrixID;
 int three_init()
 {
 	// Initialise GLFW
@@ -75,12 +75,15 @@ int three_init()
 	glBindVertexArray(VertexArrayID);
 
 	// Create and compile our GLSL program from the shaders
-	GLuint programID = LoadShaders( "SimpleTransform.vertexshader", "SingleColor.fragmentshader" );
+	GLuint programID = CLoadShaders( "SimpleTransform.vertexshader", "SingleColor.fragmentshader" );
 
 
 	// Get a handle for our "MVP" uniform
-	GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+	MatrixID = glGetUniformLocation(programID, "MVP");
 
+	//Delegated to cpp wrapper
+	ComputeMVP();
+/*
 	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
 	// Or, for an ortho camera :
@@ -96,12 +99,13 @@ int three_init()
 	glm::mat4 Model      = glm::mat4(1.0f);
 	// Our ModelViewProjection : multiplication of our 3 matrices
 	glm::mat4 MVP        = Projection * View * Model; // Remember, matrix multiplication is the other way around
-
+*/
 	static const GLfloat g_vertex_buffer_data[] = { 
 		-1.0f, -1.0f, 0.0f,
 		 1.0f, -1.0f, 0.0f,
 		 0.0f,  1.0f, 0.0f,
 	};
+
 
 	GLuint vertexbuffer;
 	glGenBuffers(1, &vertexbuffer);
@@ -135,7 +139,8 @@ void three_draw()
 
 		// Send our transformation to the currently bound shader, 
 		// in the "MVP" uniform
-		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+		//glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, GetMVP(0,0));
 
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
@@ -174,9 +179,9 @@ int iRetVal = 0;
 	p_oVFXEmptyOpenGLTest.vfx_draw = &three_draw;
 	p_oVFXEmptyOpenGLTest.vfx_free = &three_free;
 
-	iRetVal = two_init();
-	two_draw();
-	two_free();
+	iRetVal = three_init();
+	three_draw();
+	three_free();
 
 	return iRetVal;
 }

@@ -8,6 +8,10 @@
 
 #ifdef __cplusplus
 
+
+
+
+
 extern "C" {
 #else
 
@@ -15,7 +19,8 @@ extern "C" {
 
 /*extern "C" */
 GLuint CLoadShaders();
-
+void ComputeMVP();
+GLfloat* GetMVP(int x, int y);
 #ifdef __cplusplus
 }
 #endif
