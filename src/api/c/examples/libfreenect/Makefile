@@ -53,10 +53,10 @@ WAVE_RECORD_EXE=freenect-waverecord
 WAVE_RECORD_OBJ=$(WAVE_RECORD_EXE).o
 
 PRELOAD="../../../../../libfreenect/lib/fakenect/libfakenect.so"
-RECORDING_PATH="./test-recording"
+RECORDING_PATH="./sessions"
 
-# Default target
-all: $(GL_EXE) $(GLPCL_EXE) $(CAMTEST_EXE) $(CHUNK_VIEW_EXE)
+# Default target $(GL_EXE) $(CAMTEST_EXE) $(CHUNK_VIEW_EXE) do not work
+all: $(GLPCL_EXE) $(HI_VIEW_EXE) $(MIC_VIEW_EXE) $(REG_TEST_EXE) $(REG_VIEW_EXE) $(WAVE_RECORD_EXE) 
 	@echo "All is perfectly done!"
 
 rungl: $(GL_EXE)
@@ -86,6 +86,11 @@ runregview:$(REG_VIEW_EXE)
 
 runwaverecord:$(WAVE_RECORD_EXE)
 	LD_PRELOAD=$(PRELOAD) FAKENECT_PATH=$(RECORDING_PATH) ./$(WAVE_RECORD_EXE)
+
+runfakenect:
+	rm -rf sessions
+	mkdir sessions
+	cd ../../../../../libfreenect/bin && ./fakenect-record ../../src/api/c/examples/libfreenect/sessions
 
 # Other subtargets to make it happen
 $(GL_EXE): $(GL_OBJ)
@@ -150,8 +155,8 @@ $(REG_VIEW_OBJ): tiltdemo.c
 $(WAVE_RECORD_EXE): $(WAVE_RECORD_OBJ)
 	$(CC) $(VFXLIBS) $(WAVE_RECORD_OBJ) -lfreenect -lfreenect_sync -lGL -lglut -lGLU -lm -lpthread -o $(WAVE_RECORD_EXE)
 
-$(WAVE_RECORD_OBJ): waverecord.c
-	$(CC) $(CFLAGS) -c waverecord.c -o $(WAVE_RECORD_OBJ)
+$(WAVE_RECORD_OBJ): wavrecord.c
+	$(CC) $(CFLAGS) -c wavrecord.c -o $(WAVE_RECORD_OBJ)
 	export LD_LIBRARY_PATH=../../../../../libfreenect/lib/
 
 cmakeFreenect:

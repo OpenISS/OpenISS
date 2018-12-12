@@ -30,7 +30,7 @@ GLPCL_EXE=freenect-glpclview
 GLPCL_OBJ=$(GLPCL_EXE).o
 
 PRELOAD="../../../../../libfreenect/lib/fakenect/libfakenect.so"
-RECORDING_PATH="./test-recording"
+RECORDING_PATH="./sessions"
 
 # Default target
 all: $(GL_EXE) $(GLPCL_EXE)
