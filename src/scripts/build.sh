@@ -110,7 +110,7 @@ function install_libfreenect2()
 			cmake -L ..
 			make install
 		popd
-
+		
 		echo "libfreenect2" >> build.cache
 	else
 		echo "libfreenect2 already installed"
@@ -230,7 +230,7 @@ function cleanup_libfreenect()
 	then
 		./dependencies/$system.sh --cleanup --freenect
 		#uninstall libfreenect
-		pushd ../../../libfreenect/build
+		pushd ../../libfreenect/build
 			make uninstall
 			cd ../
 			rm -rf build
@@ -241,6 +241,7 @@ function cleanup_libfreenect()
 		popd
 
 		echo "libfreenect uninstalled"
+		sed -i '/libfreenect_/d' build.cache
 	else
 		echo "libfreenect is not installed"
 	fi
@@ -267,7 +268,7 @@ do
 	# find out whether or not we're running install or cleanup
 	if [ "$current_option" == "$install_option" ]; then
 		mode=$install_option
-	elif [ "$var" == "$cleanup_option" ]; then
+	elif [ "$current_option" == "$cleanup_option" ]; then
 		mode=$cleanup_option
 
 	#system inputs
