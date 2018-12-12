@@ -257,6 +257,7 @@ function install_libfreenect2()
 	time install_freenect_depends	
 
 	# turbojpeg (libfreenect2)
+	yum install -y turbojpeg
 	yum install -y turbojpeg-devel
 
 	echo "==========================="
@@ -310,7 +311,7 @@ function cleanup_libfreenect()
 function cleanup_freenect_depends()
 {
 
-	if [ "$(grep "freenect_deps" build.cache)" == "freenect_deps" ];
+	if [ "$(grep "freenect_deps" $0.cache)" == "freenect_deps" ];
 	then
 		pushd ../../../libfreenect2/depends/libusb_src
 			make distclean
@@ -318,9 +319,9 @@ function cleanup_freenect_depends()
 			rm -rf libusb
 			rm -rf libusb_src
 		popd
-		
+		pwd
 		echo "freenect depends cleaned"
-		sed -i '/freenect_deps/d' build.cache
+		sed -i '/freenect_deps/d' $0.cache 
 	else
 		echo "freenect depends are not installed"
 	fi
@@ -329,7 +330,7 @@ function cleanup_freenect_depends()
 
 function install_freenect_depends()
 {
-	if [ "$(grep "freenect_deps" build.cache)" != "freenect_deps" ];
+	if [ "$(grep "freenect_deps" $0.cache)" != "freenect_deps" ];
 	then
 		pushd ../../../libfreenect2/depends
 			./install_libusb.sh
@@ -337,7 +338,7 @@ function install_freenect_depends()
 		popd
 
 		echo "freenect depends installed"
-		echo "freenect_deps" >> build.cache
+		echo "freenect_deps" >> $0.cache 
 	else
 		echo "freenect depends already installed"
 	fi
@@ -351,7 +352,7 @@ do
 	if [ "$current_option" == "$install_option" ]; then
 		mode=$install_option
 	elif [ "$current_option" == "$cleanup_option" ]; then
-		mode=$cleanup_option
+		mode=$cleanup_optionadd
 
 	# according to mode, do something with the inputted program
 	elif [ "$current_option" == "$libfreenect2_option" ]; then
@@ -402,6 +403,7 @@ if [ "$mode" == "$install_option" ]; then
 	fi
 
 	if [ "$libfreenect_option" == "1" ]; then
+		echo "*******************"
 		if [ "$(grep "libfreenect_" $0.cache)" != "libfreenect_" ]; then
 			time install_libfreenect
 			echo "libfreenect_" >> $0.cache 
