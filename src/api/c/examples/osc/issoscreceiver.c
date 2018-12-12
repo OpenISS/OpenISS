@@ -5,32 +5,53 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>
-
+#include <string.h>
 #include "tinyosc.h"
 
+
+//need to get client address as well
 static volatile bool keepRunning = true;
 
-// handle Ctrl+C
+// handle Ctrl+C 
 static void sigintHandler(int x) {
   keepRunning = false;
 }
 
 int main(int argc, char *argv[])
 {
- char buffer[2048]; // declare a 2Kb buffer to read packet data into
+  char buffer[2048]; // declare a 2Kb buffer to read packet data into
+
 
  // open a socket to listen for datagrams (i.e. UDP packets) on port 9000
-  const int fd = socket(AF_INET, SOCK_DGRAM, 0);
+  int fd;
+  if((fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+  {
+	  printf("\n Error : Could not create socket \n");
+        return 1;
+  }
   fcntl(fd, F_SETFL, O_NONBLOCK); // set the socket to non-blocking
   struct sockaddr_in sin;
+
+    memset(&sin, '0', sizeof(sin));
+    memset(buffer, '0', sizeof(buffer)); 
+
   sin.sin_family = AF_INET;
   sin.sin_port = htons(9000);
-  sin.sin_addr.s_addr = INADDR_ANY;
-  bind(fd, (struct sockaddr *) &sin, sizeof(struct sockaddr_in));
+  sin.sin_addr.s_addr = htonl(INADDR_ANY);
+  bind(fd, (struct sockaddr *) &sin, sizeof(struct sockaddr_in)); //sockaddr_in to sin
   printf("tinyosc is now listening on port 9000.\n");
-  printf("Press Ctrl+C to stop.\n");
+printf("Press Ctrl+C to stops.\n");
 
-  while (keepRunning) {
+ if(listen(fd, 32) < 0)
+ {
+  printf("Failed to Listen \n");
+ } 
+
+ while (keepRunning) {
+    int connfd = accept(fd, (struct sockaddr*)NULL, NULL); 
+    printf("%i \n",connfd);
+
+
     fd_set readSet;
     FD_ZERO(&readSet);
     FD_SET(fd, &readSet);
@@ -40,7 +61,10 @@ int main(int argc, char *argv[])
       socklen_t sa_len = sizeof(struct sockaddr_in);
       int len = 0;
       while ((len = (int) recvfrom(fd, buffer, sizeof(buffer), 0, &sa, &sa_len)) > 0) {
+
+
         if (tosc_isBundle(buffer)) {
+	 printf("ifbundle \n");
           tosc_bundle bundle;
           tosc_parseBundle(&bundle, buffer, len);
           const uint64_t timetag = tosc_getTimetag(&bundle);
@@ -49,13 +73,14 @@ int main(int argc, char *argv[])
             tosc_printMessage(&osc);
           }
         } else {
+	 printf("notbundle \n");
           tosc_message osc;
           tosc_parseMessage(&osc, buffer, len);
           tosc_printMessage(&osc);
         }
       }
     }
-  }
+}
 
   // close the UDP socket
   close(fd);
