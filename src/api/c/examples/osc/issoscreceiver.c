@@ -64,6 +64,7 @@ printf("Press Ctrl+C to stops.\n");
 
 
         if (tosc_isBundle(buffer)) {
+	 printf("ifbundle \n");
           tosc_bundle bundle;
           tosc_parseBundle(&bundle, buffer, len);
           const uint64_t timetag = tosc_getTimetag(&bundle);
@@ -72,6 +73,7 @@ printf("Press Ctrl+C to stops.\n");
             tosc_printMessage(&osc);
           }
         } else {
+	 printf("notbundle \n");
           tosc_message osc;
           tosc_parseMessage(&osc, buffer, len);
           tosc_printMessage(&osc);
