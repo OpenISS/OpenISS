@@ -251,12 +251,10 @@ function cleanup_opencv()
 
 function install_libfreenect2()
 {
+	echo "**************************"
 	# libfreenect2 dependencies
 	# libusb, requires libudev-devel, libtool from above
-	pushd ../../libfreenect2/depends
-		./install_libusb.sh
-		./install_glfw.sh
-	popd
+	time install_freenect_depends	
 
 	# turbojpeg (libfreenect2)
 	yum install -y turbojpeg-devel
@@ -268,18 +266,14 @@ function install_libfreenect2()
 
 function cleanup_libfreenect2()
 {
+	
 	#turbojpeg
 	yum remove -y turbojpeg
 	yum remove -y turbojpeg-devel
 
 	#libusb
 	# TODO: ignores the fact that libfreenect may still be using it
-	pushd ../../libfreenect2/depends/libusb_src
-		make distclean
-		cd ..
-		rm -rf libusb
-		rm -rf libusb_src
-	popd
+	time cleanup_freenect_depends
 
 	echo "========================="
 	echo "libfreenect2 deps cleaned"
@@ -295,6 +289,7 @@ function install_libfreenect()
 # 	pushd ../../libfreenect2/depends
 # 		./install_libusb.sh
 # 	popd
+	time install_freenect_depends
 
 	# TODO: OpenNI2 will require cmake3 and gcc 4.8+ from devtoolset-2
 	yum install -y cmake3
@@ -306,9 +301,47 @@ function install_libfreenect()
 
 function cleanup_libfreenect()
 {
+	time cleanup_freenect_depends
 	echo "=============================="
-	echo "NOOP: libfreenect deps cleaned"
+	echo "libfreenect deps cleaned"
 	echo "=============================="
+}
+
+function cleanup_freenect_depends()
+{
+
+	if [ "$(grep "freenect_deps" build.cache)" == "freenect_deps" ];
+	then
+		pushd ../../../libfreenect2/depends/libusb_src
+			make distclean
+			cd ..
+			rm -rf libusb
+			rm -rf libusb_src
+		popd
+		
+		echo "freenect depends cleaned"
+		sed -i '/freenect_deps/d' build.cache
+	else
+		echo "freenect depends are not installed"
+	fi
+
+}
+
+function install_freenect_depends()
+{
+	if [ "$(grep "freenect_deps" build.cache)" != "freenect_deps" ];
+	then
+		pushd ../../../libfreenect2/depends
+			./install_libusb.sh
+			./install_glfw.sh
+		popd
+
+		echo "freenect depends installed"
+		echo "freenect_deps" >> build.cache
+	else
+		echo "freenect depends already installed"
+	fi
+
 }
 
 # figure out what we're doing
@@ -412,26 +445,32 @@ elif [ "$mode" == "$cleanup_option" ]; then
 
 	if [ "$ofx_option" == "1" ]; then
 		time cleanup_open_frameworks
+		sed -i '/ofx/d' $0.cache
 	fi
 
 	if [ "$opencv_option" == "1" ]; then
 		time cleanup_opencv
+		sed -i '/opencv/d' $0.cache
 	fi
 
 	if [ "$tinyosc_option" == "1" ]; then
 		time cleanup_tinyosc
+		sed -i '/tinyosc/d' $0.cache
 	fi
 
 	if [ "$libfreenect_option" == "1" ]; then
 		time cleanup_libfreenect
+		sed -i '/libfreenect_/d' $0.cache
 	fi
 
 	if [ "$libfreenect2_option" == "1" ]; then
 		time cleanup_libfreenect2
+		sed -i '/libfreenect2/d' $0.cache
 	fi
 
 	if [ "$ogl_option" == "1" ]; then
 		time cleanup_ogl
+		sed -i '/ogl/d' $0.cache
 	fi
 
 else
