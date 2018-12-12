@@ -132,7 +132,7 @@ Following https://openframeworks.cc/setup/linux-install/ does not work either
     + command not found
 
 Manual compilation may still be possible.
-
+```
 [root@203-5-L issimagedrv]# make
 make -C /lib/modules/3.10.0-862.14.4.el7.x86_64/build M=/home/student/Assignment3/OpenISS/src/api/c/issimagedrv modules
 make[1]: Entering directory `/usr/src/kernels/3.10.0-862.14.4.el7.x86_64'
@@ -146,13 +146,11 @@ insmod: ERROR: could not insert module ./issimagedrv.ko: File exists
 make[1]: *** [register] Error 1
 make[1]: Leaving directory `/home/student/Assignment3/OpenISS/src/api/c/issimagedrv'
 make: *** [all] Error 2
-
-
-
-
+```
 
 ISS Image Driver
 -----------------
+```
 [root@203-5-L issimagedrv]# ./driver-test
 open(/dev/ISSIMAGEDRV) failed: No such file or directory
 
@@ -195,7 +193,7 @@ collect2: error: ld returned 1 exit status
 make[2]: *** [lib/OpenNI2-FreenectDriver/libFreenectDriver.so.SOVERSION] Error 1
 make[1]: *** [CMakeFiles/FreenectDriver.dir/all] Error 2
 make: *** [all] Error 2
-
+```
 While trying to build the freenect error inside the This error was after I included multiple directories in the flags.make file
 
 OSC ERROR
