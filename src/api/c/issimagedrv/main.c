@@ -16,6 +16,8 @@
 #define FILE_NAME_1 "/boot/initramfs-4.14.0-1.el6.elrepo.x86_64.img"
 #define FILE_NAME_2 "/bin/vi"
 
+void hex_to_image(char outputf[], int hexSize, char hexdump[]);
+
 void hex_to_image(char outputf[], int hexSize, char hexdump[])
 {
 	int fd;
