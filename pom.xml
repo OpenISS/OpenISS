@@ -41,7 +41,7 @@
         <dependency>
             <groupId>openiss</groupId>
             <artifactId>opencv</artifactId>
-            <version>3.4.1</version>
+            <version>3.4.12</version>
         </dependency>
         <dependency>
             <groupId>openiss</groupId>
@@ -53,7 +53,7 @@
         <dependency>
             <groupId>openiss</groupId>
             <artifactId>opencv-mac</artifactId>
-            <version>3.4.1</version>
+            <version>3.4.12</version>
             <scope>runtime</scope>
             <type>dylib</type>
         </dependency>

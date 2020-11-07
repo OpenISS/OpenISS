@@ -74,6 +74,8 @@ The @PATCH annotation is not supported by jax-rs, as a workaround we create our 
 having `@HttpMethod("PATCH")` as its own annotation. We can use it in the same way as the other 
 provided jax-rs annotations.
 
+## OpenCV 3.4.12 (Mac)
+    brew install opencv@3
 
 ## REST Build Instructions ##
 
