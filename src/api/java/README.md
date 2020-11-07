@@ -91,3 +91,11 @@ provided jax-rs annotations.
 
     Clean:
         mvn clean
+
+## Test Rest API with Static Images
+
+    Color (resources/color_example.jpg):
+        http://localhost:8080/rest/openiss/color
+     
+    Depth (resources/depth_example.jpg):
+        http://localhost:8080/rest/openiss/depth
