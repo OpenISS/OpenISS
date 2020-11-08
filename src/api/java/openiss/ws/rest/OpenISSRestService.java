@@ -139,6 +139,24 @@ public class OpenISSRestService {
         return getFlags();
     }
 
+    @GET
+    @Path("/hsplit/{parts}/{part}")
+    @Produces("image/*")
+    public Response hSplitJPG(@PathParam(value = "parts") Integer parts, @PathParam(value = "part") Integer part) {
+        ResponseBuilder response;
+        byte[] image = new byte[0];
+        try {
+            image = driver.horizontalJPGsplit("color", parts, part);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        response = Response.ok(pipelineImage(image, "color"), "image/jpeg");
+        return response.build();
+    }
+
+
+
+
     private String getFlags() {
         String flags = "Mix: " + String.valueOf(mixFlag) +
                 "\nCanny: " + String.valueOf(cannyFlag) +
@@ -178,7 +196,6 @@ public class OpenISSRestService {
         }
 
         return processedImage;
-
 
     }
 

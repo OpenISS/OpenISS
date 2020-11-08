@@ -225,4 +225,36 @@ public class OpenISSImageDriver {
         return image;
     }
 
+    /**
+     * Splits the image into n rows returns the ith selected part
+     * @param jpgByteArray jpg byte array from the client
+     * @param rows the number of horizontal parts
+     * @param part the nth part that is returned
+     * @return jpg image as a byte array
+     */
+    public byte[] horizontalJPGsplit(String type, int rows, int part) throws IOException {
+        byte[] jpgByteArray = getFrame(type);
+        ByteArrayInputStream bais = new ByteArrayInputStream(jpgByteArray);
+        BufferedImage image = ImageIO.read(bais);
+        bais.close();
+
+        int chunkWidth = image.getWidth();
+        int chunkHeight = image.getHeight()/rows;
+
+        BufferedImage nthImagePart = new BufferedImage(chunkWidth, chunkHeight, image.getType());
+
+        // draws the image chunk
+        Graphics2D gr = nthImagePart.createGraphics();
+        gr.drawImage(nthImagePart, 0, 0, chunkWidth, chunkHeight, chunkWidth, chunkHeight * part, chunkWidth + chunkWidth, chunkHeight * part + chunkHeight, null);
+        gr.dispose();
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write( nthImagePart, "jpg", baos );
+//        baos.flush();
+        byte[] jpgPartInByte = baos.toByteArray();
+        baos.close();
+
+        return jpgPartInByte;
+    }
+
 }
