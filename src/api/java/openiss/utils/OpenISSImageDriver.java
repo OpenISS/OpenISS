@@ -1,12 +1,7 @@
 package openiss.utils;
 
-import com.sun.jna.Native;
-import com.sun.jna.NativeLibrary;
 import openiss.Kinect;
-import openiss.ws.soap.endpoint.ServicePublisher;
-import org.opencv.core.Core;
 import org.opencv.core.CvType;
-import org.opencv.highgui.HighGui;
 import org.opencv.imgproc.Imgproc;
 
 import org.opencv.core.Mat;
@@ -17,30 +12,13 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.Files;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.opencv.core.MatOfPoint;
-import org.opencv.core.MatOfPoint2f;
 //import org.opencv.highgui.Highgui;
-import org.opencv.core.Rect;
-import org.opencv.core.MatOfInt;
-import org.opencv.core.Point;
-import org.opencv.core.RotatedRect;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.image.DataBufferByte;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class OpenISSImageDriver {
 
@@ -232,7 +210,7 @@ public class OpenISSImageDriver {
      * @param part the nth part that is returned
      * @return jpg image as a byte array
      */
-    public byte[] horizontalJPGsplit(String type, int rows, int part) throws IOException {
+    public BufferedImage horizontalJPGsplit(String type, int rows, int part) throws IOException {
         byte[] jpgByteArray = getFrame(type);
         ByteArrayInputStream bais = new ByteArrayInputStream(jpgByteArray);
         BufferedImage image = ImageIO.read(bais);
@@ -248,13 +226,13 @@ public class OpenISSImageDriver {
         gr.drawImage(nthImagePart, 0, 0, chunkWidth, chunkHeight, chunkWidth, chunkHeight * part, chunkWidth + chunkWidth, chunkHeight * part + chunkHeight, null);
         gr.dispose();
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write( nthImagePart, "jpg", baos );
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        ImageIO.write( nthImagePart, "jpg", baos );
 //        baos.flush();
-        byte[] jpgPartInByte = baos.toByteArray();
-        baos.close();
+//        byte[] jpgPartInByte = baos.toByteArray();
+//        baos.close();
 
-        return jpgPartInByte;
+        return nthImagePart;
     }
 
 }

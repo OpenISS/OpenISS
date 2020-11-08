@@ -142,15 +142,11 @@ public class OpenISSRestService {
     @GET
     @Path("/hsplit/{parts}/{part}")
     @Produces("image/*")
-    public Response hSplitJPG(@PathParam(value = "parts") Integer parts, @PathParam(value = "part") Integer part) {
+    public Response hSplitJPG(@PathParam(value = "parts") Integer parts, @PathParam(value = "part") Integer part) throws IOException {
         ResponseBuilder response;
-        byte[] image = new byte[0];
-        try {
-            image = driver.horizontalJPGsplit("color", parts, part);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        response = Response.ok(pipelineImage(image, "color"), "image/jpeg");
+        BufferedImage image;
+        image = driver.horizontalJPGsplit("color", parts, part);
+        response = Response.ok(image, "image/jpeg");
         return response.build();
     }
 
