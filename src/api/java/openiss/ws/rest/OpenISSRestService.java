@@ -49,9 +49,9 @@ public class OpenISSRestService {
     @Path("setCanny")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
-    public static String setCanny() {
+    public static Response setCanny() {
         OpenISSRestService.cannyFlag = true;
-        return "Canny set to true";
+        return Response.status(200).entity("CannyFlag is true").build();
     }
 
     @POST
