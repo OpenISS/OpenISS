@@ -1,21 +1,14 @@
 package openiss.ws.rest;
 
-import com.sun.jna.NativeLibrary;
-import openiss.Kinect;
 import openiss.utils.OpenISSConfig;
 import openiss.utils.OpenISSImageDriver;
 import openiss.utils.PATCH;
-import openiss.ws.soap.endpoint.ServicePublisher;
 
-import javax.activation.MimetypesFileTypeMap;
-import javax.imageio.ImageIO;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 
 @Path("/openiss")
@@ -52,6 +45,24 @@ public class OpenISSRestService {
      *
      * @return String that will be returned as a text/plain response.
      */
+    @POST
+    @Path("setCanny")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public static String setCanny() {
+        OpenISSRestService.cannyFlag = true;
+        return "Canny set to true";
+    }
+
+    @POST
+    @Path("unsetCanny")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public static String unsetCanny() {
+        OpenISSRestService.cannyFlag = false;
+        return "Canny set to false";
+    }
+
     @GET
     @Path("hello")
     @Produces(MediaType.TEXT_PLAIN)
