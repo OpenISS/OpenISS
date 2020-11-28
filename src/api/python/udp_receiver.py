@@ -13,6 +13,7 @@ timeout = 3
 buf = 2048
 app = flask.Flask(__name__)
 requests_awaiting = {}
+requests_finished = []
 # TODO : Figure out how to synchronize sequence count between sequencer and implementation
 seq_count = 1
 
@@ -33,9 +34,12 @@ def checkRequestsAwaiting():
     while seq_count in requests_awaiting:
         if requests_awaiting[seq_count] == "canny":
             doCanny()
-        else:
+        elif requests_awaiting[seq_count] == "contour":
             doContour()
+        else:
+            print("Method called does not exist on web service! Skipping...")
         requests_awaiting.pop(seq_count, None)
+        requests_finished.append(seq_count)
         seq_count += 1
 
 def doCanny():
@@ -43,11 +47,11 @@ def doCanny():
     result = response.content
     x = np.frombuffer(result, dtype=np.uint8)
     img = cv.imdecode(x, cv.IMREAD_UNCHANGED)
-    img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    edges = cv.Canny(img_gray, 50, 150, 3, L2gradient=False)
     if img is None:
         print("Error loading image")
-        exit(-1)
+        return
+    img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    edges = cv.Canny(img_gray, 50, 150, 3, L2gradient=False)
     print("Saving canny...")
     cv.imwrite("canny.jpg", edges)
     cv.imwrite("result.jpg", edges)
@@ -57,11 +61,11 @@ def doContour():
     result = response.content
     x = np.frombuffer(result, dtype=np.uint8)
     img = cv.imdecode(x, cv.IMREAD_UNCHANGED)
-    img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    _, img_thresh = cv.threshold(img_gray ,100, 255, cv.THRESH_BINARY)
     if img is None:
         print("Error loading image")
-        exit(-1)
+        return
+    img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    _, img_thresh = cv.threshold(img_gray ,100, 255, cv.THRESH_BINARY)
     print("Saving contour...")
     cv.imwrite("contour.jpg", img_thresh)
     cv.imwrite("result.jpg", img_thresh)
@@ -94,19 +98,12 @@ class UDPServer():
                     strings = data.decode('utf-8')
                     method = strings.split(',')[0]
                     seq_num = int(strings.split(',')[1])
-
                     print("Message:", method, seq_num, "Address: ", address)
-                    if seq_num > seq_count:
+                    if(seq_num > seq_count and seq_num not in requests_finished and seq_num not in requests_awaiting):
                         requests_awaiting[seq_num] = method
-                    else:
-                        if method == "contour":
-                            doContour()
-                        elif method == "canny":
-                            doCanny()
-                        else:
-                            print("Method called does not exist on web service! Skipping...")
-                        seq_count += 1
                         checkRequestsAwaiting()
+                    else:
+                        print("Packet with sequence number ", seq_num, " already received!")
                     sys.stdout.flush()
             except socket_error:
                 self.sock.close()

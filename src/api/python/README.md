@@ -20,7 +20,7 @@ pip install -r requirements.txt
 python udp_receiver.py
 ```
 
-3) In another window send_udp with the function you want, with a hardcoded sequence number
+3) In another window  run send_udp with the function you want, with a hardcoded sequence number
 
 ```
 python send_udp.py contour 1
@@ -32,3 +32,11 @@ python send_udp.py canny 2
 
 ### Note:
 The implementation currently holds a hardcoded counter and implements it by 1 on every request. If you send a sequence number under that, it will not be processed.
+
+To test the diff of the images, do the following:
+
+```
+pip install diffimg
+python -m diffimg canny_java.jpg canny.jpg -r -d
+```
+More info on the module here: https://github.com/nicolashahn/diffimg
