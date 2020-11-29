@@ -1,7 +1,5 @@
 package openiss.ws.JavaReplica.udpServer;
 
-//import openiss.ws.rest.OpenISSRestService;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -18,23 +16,25 @@ import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class javaReplica {
-    private Client client;
+//    private Client client;
     static private final String replicaID = "java";
-
-    public javaReplica(){
-        client = ClientBuilder.newClient();
-    }
-
-    public Response post(){
-        WebTarget target = client.target("http://localhost:8080/rest/openiss/");
-        return target.path("setCanny")
-                .request(MediaType.TEXT_PLAIN)
-                .post(Entity.entity(Response.class, MediaType.TEXT_PLAIN));
-    }
+//
+//    public javaReplica() {
+//        client = ClientBuilder.newClient();
+//    }
+//
+//    public Response post() {
+//        WebTarget target = client.target("http://localhost:8080/rest/openiss/");
+//        return target.path("setCanny")
+//                .request(MediaType.TEXT_PLAIN)
+//                .post(Entity.entity(Response.class, MediaType.TEXT_PLAIN));
+//    }
 
     public static void main(String[] args) {
         // need holdback queue
         // need execution queue
+
+        //images temp
         AtomicBoolean UDPnotLaunched = new AtomicBoolean(true);
         Runnable UDPstart = () -> {
             UDPnotLaunched.set(false);
@@ -43,7 +43,9 @@ public class javaReplica {
 
         Thread UDPlauncher = new Thread(UDPstart);
         UDPlauncher.start();
-        while (UDPnotLaunched.get()) { ;/*do nothing*/ }
+        while (UDPnotLaunched.get()) {
+            ;/*do nothing*/
+        }
 
         //Command line menu
         Scanner scanner = new Scanner(System.in);
@@ -54,26 +56,32 @@ public class javaReplica {
             System.out.println("2 to unset canny");
             Choice = scanner.nextLine();
             runChoice("noClientYet", Choice);
+            continue;
         } while (!Choice.equals("3") && !Choice.equals("end"));
     }
 
     private static void runChoice(String clientID, String choice) {
-        switch (choice){
+        switch (choice) {
             case "1":
-                util.logInterServerReq(replicaID, "RestAPI", clientID,"setCanny");
-                String setCannyReply = requestReplyUDP(8081, replicaID, "RestAPI", clientID,"setCanny")[0];
+                util.logInterServerReq(replicaID, "RestAPI", clientID, "setCanny");
+                String setCannyReply = requestReplyUDP(8081, replicaID, "RestAPI", clientID, "setCanny")[0];
                 util.logInterServerReply("RestAPI", replicaID, clientID, "setCanny", setCannyReply);
         }
     }
+
     public static String[] requestReplyUDP(Integer storePort, String... clientRequest) {
         try (DatagramSocket sendUDP_store = new DatagramSocket()) {
-            if(storePort == -1 ) return new String[]{"Wrong store address"};
+            if (storePort == -1) return new String[]{"Wrong store address"};
             //reference of the original socket
             String serialRequest = String.join(":", clientRequest);
             byte[] message = serialRequest.getBytes(); //message to be passed is stored in byte array
             InetAddress aHost = InetAddress.getByName("localhost");
             DatagramPacket request = new DatagramPacket(message, serialRequest.length(), aHost, storePort);
-            sendUDP_store.send(request);//request sent out
+            try{
+                sendUDP_store.send(request);//request sent out
+            } catch (Exception e){
+                return new String[]{"Sorry UDP server momentarly non-responsive"};
+            }
 
             byte[] buffer = new byte[1000];//it will be populated by what receive method returns
             DatagramPacket reply = new DatagramPacket(buffer, buffer.length);//reply packet ready but not populated.

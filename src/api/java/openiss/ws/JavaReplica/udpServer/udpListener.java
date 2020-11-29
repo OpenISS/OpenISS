@@ -1,9 +1,12 @@
 package openiss.ws.JavaReplica.udpServer;
 
+import org.glassfish.jersey.client.ClientProperties;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -12,18 +15,46 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 public class udpListener {
-    //not required for UDP listener to delete
-    private static Client client = ClientBuilder.newClient();
+    private static WebTarget target;
+    private static Client client;
 
-    public static Response post(){
-        WebTarget target = client.target("http://localhost:8080/rest/");
-        Response response =  target.path("openiss/setCanny")
-                .request(MediaType.TEXT_PLAIN)
-                .post(Entity.text("sending"));
+    public static Response post() {
+        Response response;
+        try {
+            response = target.path("openiss/setCanny")
+                    .request(MediaType.TEXT_PLAIN)
+                    .post(Entity.text("sending"));
+        } catch (Exception e) {
+            Response.StatusType status = new Response.StatusType () {
+
+                private int code = 666;
+                private String msg = "API unresponsive";
+
+                public Response.Status.Family getFamily () {
+                    return Response.Status.Family.INFORMATIONAL;
+                }
+
+                public String getReasonPhrase () {
+                    return msg;
+                }
+
+                public int getStatusCode () {
+                    return code;
+                }
+
+            };
+            return Response.status(status).build();
+        }
         return response;
     }
 
     public static void main() {
+        //not required for UDP listener to delete
+        client = ClientBuilder.newClient();
+        target = client.target("http://localhost:8080/rest/");
+        client.property(ClientProperties.CONNECT_TIMEOUT, 100);
+        client.property(ClientProperties.READ_TIMEOUT, 100);
+
         Integer storePort = 8081;
         try (DatagramSocket aSocket = new DatagramSocket(storePort)) {
             while (true) {// non-terminating loop as the server is always in listening mode.
@@ -42,25 +73,28 @@ public class udpListener {
                 switch (method) {
                     case "setCanny":
                         Response setCannyResponse = post();
-                        System.out.println(setCannyResponse);
-                        aSocket.send(replyUDPpacket(request, setCannyResponse.toString()));
+                        String setCannyMsg = setCannyResponse.getStatus() == 666 ?
+                                                                        setCannyResponse.getStatusInfo().getReasonPhrase() :
+                                                                        setCannyResponse.readEntity(String.class);
+                        aSocket.send(replyUDPpacket(request, setCannyMsg));
                         break;
                     default:
                         break;
                 }
             }
         } catch (SocketException e) {
-            System.out.println(String.join(",","null", "null", "null", "SocketException", e.getMessage()));
+            System.out.println(String.join(",", "null", "null", "null", "SocketException", e.getMessage()));
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println(String.join(",","null", "null", "null", "IOException", e.getMessage()));
+            System.out.println(String.join(",", "null", "null", "null", "IOException", e.getMessage()));
             e.printStackTrace();
         } catch (Exception e) {
-            System.out.println(String.join(",","null", "null", "null", "Exception", e.getMessage()));
+            System.out.println(String.join(",", "null", "null", "null", "Exception", e.getMessage()));
             e.printStackTrace();
         }
     }
-    public static DatagramPacket replyUDPpacket(DatagramPacket request, String... UDPresponse){
+
+    public static DatagramPacket replyUDPpacket(DatagramPacket request, String... UDPresponse) {
         byte[] replyBuff;
         String serialResp = String.join(":", UDPresponse);
         replyBuff = serialResp.getBytes();
