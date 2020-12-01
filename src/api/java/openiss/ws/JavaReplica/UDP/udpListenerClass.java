@@ -1,4 +1,4 @@
-package openiss.ws.JavaReplica.udpServer;
+package openiss.ws.JavaReplica.UDP;
 
 import org.glassfish.jersey.client.ClientProperties;
 
@@ -14,46 +14,11 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-public class udpListener {
-    private static WebTarget target;
-    private static Client client;
-
-    public static Response post() {
-        Response response;
-        try {
-            response = target.path("openiss/setCanny")
-                    .request(MediaType.TEXT_PLAIN)
-                    .post(Entity.text("sending"));
-        } catch (Exception e) {
-            Response.StatusType status = new Response.StatusType () {
-
-                private int code = 666;
-                private String msg = "API unresponsive";
-
-                public Response.Status.Family getFamily () {
-                    return Response.Status.Family.INFORMATIONAL;
-                }
-
-                public String getReasonPhrase () {
-                    return msg;
-                }
-
-                public int getStatusCode () {
-                    return code;
-                }
-
-            };
-            return Response.status(status).build();
-        }
-        return response;
-    }
+public class udpListenerClass {
 
     public static void main() {
         //not required for UDP listener to delete
-        client = ClientBuilder.newClient();
-        target = client.target("http://localhost:8080/rest/");
-        client.property(ClientProperties.CONNECT_TIMEOUT, 100);
-        client.property(ClientProperties.READ_TIMEOUT, 100);
+
 
         Integer storePort = 8081;
         try (DatagramSocket aSocket = new DatagramSocket(storePort)) {
@@ -72,11 +37,11 @@ public class udpListener {
                 method = Req[3];
                 switch (method) {
                     case "setCanny":
-                        Response setCannyResponse = post();
-                        String setCannyMsg = setCannyResponse.getStatus() == 666 ?
-                                                                        setCannyResponse.getStatusInfo().getReasonPhrase() :
-                                                                        setCannyResponse.readEntity(String.class);
-                        aSocket.send(replyUDPpacket(request, setCannyMsg));
+//                        Response setCannyResponse = postSetCanny();
+//                        String setCannyMsg = setCannyResponse.getStatus() == 666 ?
+//                                                                        setCannyResponse.getStatusInfo().getReasonPhrase() :
+//                                                                        setCannyResponse.readEntity(String.class);
+//                        aSocket.send(replyUDPpacket(request, setCannyMsg));
                         break;
                     default:
                         break;
