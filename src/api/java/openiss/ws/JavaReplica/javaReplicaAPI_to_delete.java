@@ -1,4 +1,4 @@
-package openiss.ws.rest;
+package openiss.ws.JavaReplica;
 
 import openiss.utils.OpenISSConfig;
 import openiss.utils.OpenISSImageDriver;
@@ -10,10 +10,36 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.ServerSocket;
+import java.net.*;
+import java.util.Arrays;
 
-@Path("/openiss")
-public class OpenISSRestService {
+@Path("/openissJava")
+public class javaReplicaAPI_to_delete {
+    static private final String replicaID = "java";
+    // group member p implementation from slide 16 of group communication lecture having fixed group g =1
+    // on initialisation received = 0
+    int received = 0;
+    boolean isMainReplica = false;
+    // multcast message m to group b
+    static void castSequencer(String m, String forClient){
+        int sequencerPort = 7002;
+        util.logInterServerUnicast(replicaID, "sequencerUDP", forClient, "multicast_TO_Message", m);
+    }
+//    static void multicast_TO_Message(String m, String forClient) {
+//        int sequencerPort = 7002;
+//        int pythonPort = 8002;
+//        int nodejsPort = 9002;
+//
+//        HashMap<Integer, String> toMulticastTargets = new HashMap<>();
+//        toMulticastTargets.put(sequencerPort, "sequencer");
+//        toMulticastTargets.put(pythonPort, "pyhtonUDP");
+//        toMulticastTargets.put(nodejsPort, "nodejsUDP");
+//        for (int port : toMulticastTargets.keySet()) {
+//            String destinationUDP = toMulticastTargets.get(port);
+//            util.logInterServerUnicast(replicaID, destinationUDP, forClient, "multicast_TO_Message", m);
+//            requestReplyUDP(port, replicaID, destinationUDP, forClient, "multicast_TO_Message", m);
+//        }
+//    }
 
 
     static String mixFlag = "default";
@@ -37,7 +63,36 @@ public class OpenISSRestService {
                 System.load(PROJECT_HOME+"/lib/opencv/mac/libopencv_java3412.dylib");
             }
         }
+    }
 
+    static class util {
+        static void logClientSideRequest(String fct, String... req) {
+            System.out.println("Client Side request: " + fct + Arrays.toString(req));
+        }
+
+        static String logReturnClientSideResponse(String resp, String clientId) {
+            System.out.println("Response to " + clientId + ": " + resp);
+            return resp;
+        }
+
+        static void logInterServerReq(String fromServer, String toServer, String forClient, String method,
+                                      String... params) {
+            System.out.println("from " + fromServer + " to server " + toServer + " request for " + forClient +
+                    ": " + method + Arrays.toString(params));
+        }
+
+        static String[] logInterServerReply(String fromServer, String toServer, String forClient, String method,
+                                            String... params) {
+            System.out.println("from " + fromServer + " to server " + toServer + " reply for " + forClient +
+                    ": " + method + Arrays.toString(params));
+            return params;
+        }
+
+        public static void logInterServerUnicast(String fromServer, String toServer, String forClient, String method,
+                                                 String... params) {
+            System.out.println("from " + fromServer + " to server " + toServer + " UNICAST for " + forClient +
+                    ": " + method + Arrays.toString(params));
+        }
     }
 
     /**
@@ -51,7 +106,7 @@ public class OpenISSRestService {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     public static String setCanny() {
-        OpenISSRestService.cannyFlag = true;
+        javaReplicaAPI_to_delete.cannyFlag = true;
         return "Canny set to true";
     }
 
@@ -60,7 +115,7 @@ public class OpenISSRestService {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     public static String unsetCanny() {
-        OpenISSRestService.cannyFlag = false;
+        javaReplicaAPI_to_delete.cannyFlag = false;
         return "Canny set to false";
     }
 
@@ -224,5 +279,34 @@ public class OpenISSRestService {
 
     }
 
+    public static String[] requestReplyUDP(Integer storePort, String... clientRequest) {
+        try (DatagramSocket sendUDP_store = new DatagramSocket()) {
+            if (storePort == -1) return new String[]{"Wrong store address"};
+            //reference of the original socket
+            String serialRequest = String.join(":", clientRequest);
+            byte[] message = serialRequest.getBytes(); //message to be passed is stored in byte array
+            InetAddress aHost = InetAddress.getByName("localhost");
+            DatagramPacket request = new DatagramPacket(message, serialRequest.length(), aHost, storePort);
+            try {
+                sendUDP_store.send(request);//request sent out
+            } catch (Exception e) {
+                return new String[]{"Sorry UDP server momentarly non-responsive"};
+            }
 
+            byte[] buffer = new byte[1000];//it will be populated by what receive method returns
+            DatagramPacket reply = new DatagramPacket(buffer, buffer.length);//reply packet ready but not populated.
+            //Client waits until the reply is received-----------------------------------------------------------------------
+            sendUDP_store.receive(reply);//reply received and will populate reply packet now.
+            String serialReply = new String(reply.getData()).trim();
+            String[] replyMsg = serialReply.split(":");
+            //print reply message after converting it to a string from bytes
+            sendUDP_store.close();
+            return replyMsg;
+        } catch (SocketException e) {
+            return new String[]{"Socket: " + e.getMessage()};
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new String[]{"IO: " + e.getMessage()};
+        }
+    }
 }
