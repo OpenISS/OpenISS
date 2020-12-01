@@ -45,7 +45,7 @@ More info on the module here: https://github.com/nicolashahn/diffimg
 
 1) Run udp_receiver.py twice on two separate windows 
 
-2) Run the script app.js and check if the udp receivers are gettings
+2) Run the script app.js and check if the udp receivers are getting the message
 ```
 node app.js
 ```

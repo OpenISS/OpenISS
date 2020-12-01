@@ -1,5 +1,5 @@
 const PORT = 20000;
-const REPLICA_PORT = 20001;
+const REPLICA_PORT = 20000;
 const MULTICAST_ADDR = "230.255.255.255";
 
 const dgram = require("dgram");
@@ -21,7 +21,7 @@ socket.on("listening", function() {
 });
 
 function sendMessage() {
-    const message = Buffer.from(`canny,1`);
+    const message = Buffer.from(`1,canny`);
     socket.send(message, 0, message.length, REPLICA_PORT, MULTICAST_ADDR, function() {
         console.info(`Sending message "${message}"`);
     });
