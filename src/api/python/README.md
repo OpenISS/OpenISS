@@ -40,3 +40,12 @@ pip install diffimg
 python -m diffimg canny_java.jpg canny.jpg -r -d
 ```
 More info on the module here: https://github.com/nicolashahn/diffimg
+
+### To test with node js script:
+
+1) Run udp_receiver.py twice on two separate windows 
+
+2) Run the script app.js and check if the udp receivers are gettings
+```
+node app.js
+```

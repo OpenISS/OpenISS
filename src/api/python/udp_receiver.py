@@ -4,13 +4,16 @@ import os
 import requests
 import sys
 from cv2 import cv2 as cv
-from socket import AF_INET, SOCK_DGRAM, socket, error as socket_error
+from socket import AF_INET, SOCK_DGRAM, INADDR_ANY, IPPROTO_IP, IP_ADD_MEMBERSHIP, SOL_SOCKET, SO_REUSEADDR, socket, inet_aton, error as socket_error
+import struct
 from threading import Thread
 
 img_url = "http://localhost:8080/rest/openiss/color"
 host = "localhost"
+multicast_group = "230.255.255.255"
+multicast_port = 20001
 timeout = 3
-buf = 2048
+buf = 1024
 app = flask.Flask(__name__)
 requests_awaiting = {}
 requests_finished = []
@@ -74,9 +77,13 @@ class UDPServer():
     def __init__(self):
         self._running = True
         self.sock = socket(AF_INET, SOCK_DGRAM)
-        self.sock.bind((host, 0))
         self.buf = buf
         self.timeout = timeout
+        self.group = inet_aton(multicast_group) + inet_aton("0.0.0.0")
+        #self.mreq = struct.pack('4sL', self.group, INADDR_ANY)
+        self.sock.setsockopt(IPPROTO_IP, IP_ADD_MEMBERSHIP, self.group)
+        self.sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+        self.sock.bind(("", multicast_port))
         
     def terminate(self):
         self._running = False
@@ -93,13 +100,15 @@ class UDPServer():
         global seq_count
         while True:
             try:
+                print("Waiting to receive data...")
+                sys.stdout.flush()
                 data,address = self.sock.recvfrom(self.buf)
                 if data:
                     strings = data.decode('utf-8')
                     method = strings.split(',')[0]
                     seq_num = int(strings.split(',')[1])
                     print("Message:", method, seq_num, "Address: ", address)
-                    if(seq_num > seq_count and seq_num not in requests_finished and seq_num not in requests_awaiting):
+                    if(seq_num >= seq_count and seq_num not in requests_finished and seq_num not in requests_awaiting):
                         requests_awaiting[seq_num] = method
                         checkRequestsAwaiting()
                     else:
