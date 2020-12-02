@@ -1,20 +1,17 @@
 package openiss.ws.JavaReplica;
 
-import jersey.repackaged.com.google.common.io.ByteStreams;
 import openiss.utils.OpenISSConfig;
 import openiss.utils.OpenISSImageDriver;
-import sun.misc.IOUtils;
 
+import javax.imageio.ImageIO;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
@@ -96,39 +93,32 @@ public class javaReplica { // receving client request
                 String responseText = response.getStatusInfo().getReasonPhrase();
                 System.out.println(responseText);
 
-                InputStream colorImgStream = response.readEntity(InputStream.class);
+                byte[] processedImgByteArray = toByteArray(response.readEntity(InputStream.class));
                 OpenISSImageDriver driver = new OpenISSImageDriver();
                 String PROJECT_HOME = System.getProperty("user.dir");
                 int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
                 String osName = System.getProperty("os.name").toLowerCase();
                 if (OpenISSConfig.USE_OPENCV) {
                     if (osName.indexOf("win") >= 0) {
-                        System.out.println(arch + " windows");
+                        /*System.out.println(arch + " windows");*/
                         System.load(PROJECT_HOME + "\\lib\\opencv\\win\\x64\\opencv_java341.dll");
                     } else if (osName.indexOf("mac") >= 0) {
-                        System.out.println("Loading Native library" + PROJECT_HOME + "/lib/opencv/mac/libopencv_java3412.dylib");
+                        /*System.out.println("Loading Native library" + PROJECT_HOME + "/lib/opencv/mac/libopencv_java3412.dylib");*/
                         System.load(PROJECT_HOME + "/lib/opencv/mac/libopencv_java3412.dylib");
                     }
                 }
 
                 // Process according to instructions
-                byte[] processedImage = new byte[1024];
-                colorImgStream.read(processedImage);
-                if (transformationOperation == "Canny") driver.doCanny(processedImage);
-                colorImgStream = new ByteArrayInputStream(processedImage);
-                OutputStream outputStream = new FileOutputStream(PROJECT_HOME + "/src/api/resources/Java/" +
-                        responseText.replace(',', Character.MIN_VALUE) + ".png");
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = colorImgStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
+                if (transformationOperation == "Canny") driver.doCanny(processedImgByteArray);
+                InputStream processedImgInputStream = new ByteArrayInputStream(processedImgByteArray);
+                BufferedImage processedImgBuff = ImageIO.read(processedImgInputStream);
+                File imgFile = new File(PROJECT_HOME + "/src/api/resources/Java/" +
+                        frameNumber + "_" + transformationOperation + ".jpg");
+                ImageIO.write(processedImgBuff, "jpg", imgFile);
 
                 // set download SUCCES message to return
                 System.out.println("downloaded processed image successfully at " + PROJECT_HOME + "/src/api/resources/Java/" +
                         responseText.replace(',', '_') + ".png");
-                // release resources, if any
-                outputStream.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,5 +126,19 @@ public class javaReplica { // receving client request
             response.close();
             client.close();
         }
+    }
+
+    public static byte[] toByteArray(InputStream in) throws IOException {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024*5];
+        int len;
+
+        // read bytes from the input stream and store them in buffer
+        while ((len = in.read(buffer)) != -1) {
+            // write bytes from the buffer into output stream
+            os.write(buffer, 0, len);
+        }
+
+        return os.toByteArray();
     }
 }
