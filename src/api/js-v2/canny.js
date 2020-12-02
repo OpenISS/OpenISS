@@ -28,7 +28,7 @@ function loadOpenCV() {
     global.Module = {
       onRuntimeInitialized: resolve
     };
-    global.cv = require('./opencv340.js');
+    global.cv = require('./opencv.js');
   });
 }
 // Using jsdom and node-canvas we define some global variables to emulate HTML DOM.
