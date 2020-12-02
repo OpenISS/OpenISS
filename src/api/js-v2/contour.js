@@ -23,7 +23,7 @@ const { writeFileSync, existsSync, mkdirSync } = require("fs");
   // }
   const canvas = createCanvas(image.width, image.height);
   cv.imshow(canvas, src);
-  writeFileSync('contour.jpg', canvas.toBuffer('image/jpeg'));
+  writeFileSync('contour.jpg', canvas.toBuffer('image/jpeg', { quality: 0.95 } ));
   src.delete();
   dst.delete();
   // contours.delete();

@@ -162,14 +162,15 @@ public class OpenISSImageDriver {
             Mat gray = new Mat();
             Mat draw = new Mat();
             Mat wide = new Mat();
+            Mat res = new Mat();
 
             Imgproc.cvtColor(color, gray, Imgproc.COLOR_BGR2GRAY);
             Imgproc.Canny(gray, wide, 50, 150, 3, false);
             wide.convertTo(draw, CvType.CV_8U);
-
+            Imgproc.cvtColor(wide, res, Imgproc.COLOR_GRAY2BGR);
             // Encoding the image
             MatOfByte matOfByte = new MatOfByte();
-            Imgcodecs.imencode(".jpg", draw, matOfByte);
+            Imgcodecs.imencode(".jpg", res, matOfByte);
 
             return matOfByte.toArray();
 
@@ -185,6 +186,7 @@ public class OpenISSImageDriver {
     		Mat gray = new Mat();
     		Mat binarized = new Mat();
             Mat draw = new Mat();
+            Mat res = new Mat();
             Imgproc.cvtColor(color, gray, Imgproc.COLOR_BGR2GRAY);
             Imgproc.threshold(gray, binarized, 100, 255, Imgproc.THRESH_BINARY);
             final List<MatOfPoint> points = new ArrayList<>();
@@ -192,7 +194,8 @@ public class OpenISSImageDriver {
             Imgproc.findContours(binarized, points, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
             binarized.convertTo(draw, CvType.CV_8U);
             MatOfByte matOfByte = new MatOfByte();
-            Imgcodecs.imencode(".jpg", draw, matOfByte);
+            Imgproc.cvtColor(draw, res, Imgproc.COLOR_GRAY2BGR);
+            Imgcodecs.imencode(".jpg", res, matOfByte);
 
             return matOfByte.toArray();
         }
