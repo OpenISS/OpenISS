@@ -130,6 +130,7 @@ def doContour(seq_num):
     img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     _, img_thresh = cv.threshold(img_gray ,100, 255, cv.THRESH_BINARY)
     print("Saving contour...")
+    img_thresh = cv.cvtColor(img_thresh, cv.COLOR_GRAY2BGR)
     cv.imwrite("contour.jpg", img_thresh)
     file_name = "f" + str(seq_num) + ".jpg"
     cv.imwrite(file_name, img_thresh)
