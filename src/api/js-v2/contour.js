@@ -7,27 +7,27 @@ const { writeFileSync, existsSync, mkdirSync } = require("fs");
   installDOM();
   await loadOpenCV();
   // using node-canvas, we an image file to an object compatible with HTML DOM Image and therefore with cv.imread()
-  const image = await loadImage('./color.jpg');
+  const image = await loadImage('./color_example.jpg');
   const src = cv.imread(image);
   //let dst = new cv.Mat();
   let dst = cv.Mat.zeros(src.cols, src.rows, cv.CV_8U);
   cv.cvtColor(src, src, cv.COLOR_RGB2GRAY, 0);
   cv.threshold(src, src, 100, 255, cv.THRESH_BINARY);
-  let contours = new cv.MatVector();
-  let hierarchy = new cv.Mat();
-  cv.findContours(src, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
+  // let contours = new cv.MatVector();
+  // let hierarchy = new cv.Mat();
+  // cv.findContours(src, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
 
-  let contoursColor = new cv.Scalar(255, 255, 255);
-  for (let i = 0; i < contours.size(); ++i) {
-    cv.drawContours(dst, contours, i, contoursColor, 1, cv.LINE_8, hierarchy, 100);
-  }
+  // let contoursColor = new cv.Scalar(255, 255, 255);
+  // for (let i = 0; i < contours.size(); ++i) {
+  //   cv.drawContours(dst, contours, i, contoursColor, 1, cv.LINE_8, hierarchy, 100);
+  // }
   const canvas = createCanvas(image.width, image.height);
-  cv.imshow(canvas, dst);
-  writeFileSync('contour.jpg', canvas.toBuffer('image/jpeg'));
+  cv.imshow(canvas, src);
+  writeFileSync('contour.jpg', canvas.toBuffer('image/jpeg', { quality: 0.95 } ));
   src.delete();
   dst.delete();
-  contours.delete();
-  hierarchy.delete();
+  // contours.delete();
+  // hierarchy.delete();
 })();
 // Load opencv.js just like before but using Promise instead of callbacks:
 function loadOpenCV() {
