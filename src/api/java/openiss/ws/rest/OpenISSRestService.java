@@ -64,6 +64,24 @@ public class OpenISSRestService {
         return "Canny set to false";
     }
 
+    @POST
+    @Path("setContour")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public static String setContour() {
+        OpenISSRestService.contourFlag = true;
+        return "Contour set to true";
+    }
+
+    @POST
+    @Path("unsetContour")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public static String unsetContour() {
+        OpenISSRestService.contourFlag = false;
+        return "Contour set to false";
+    }
+
     @GET
     @Path("getUDPPort")
     @Produces(MediaType.TEXT_PLAIN)

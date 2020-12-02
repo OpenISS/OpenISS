@@ -17,5 +17,8 @@
     "morgan": "^1.9.0",
     "npm": "^5.8.0",
     "soap": "^0.23.0"
+  },
+  "devDependencies": {
+    "node": "^15.3.0"
   }
 }

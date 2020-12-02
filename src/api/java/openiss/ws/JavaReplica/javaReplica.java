@@ -2,7 +2,9 @@ package openiss.ws.JavaReplica;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -16,6 +18,7 @@ public class javaReplica { // receving client request
         // obtain server stub
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://localhost:8080/rest/");
+        client.property("accept", "image/*");
         // response if API is unresponsive
         Response.StatusType status = new Response.StatusType() {
 
@@ -35,6 +38,21 @@ public class javaReplica { // receving client request
             }
 
         };
+        // unset canny and contour so the replica will process the image
+        Response checkUnset;
+        for(String unsetFlags : new String[]{"unsetCanny", "unsetContour"}){
+            try {
+                checkUnset = target.path("openiss/" + unsetFlags)
+                        .request(MediaType.TEXT_PLAIN)
+                        .post(Entity.text("sending"));
+            } catch (Exception e) {
+                checkUnset = Response.status(status).build();
+            }
+            String responseText = checkUnset.getStatus() == 666 ?
+                    checkUnset.getStatusInfo().getReasonPhrase() :
+                    checkUnset.readEntity(String.class);
+            System.out.println(responseText);
+        }
 
         // listen to the multicast
         int multicastPort = 20000;
@@ -59,18 +77,15 @@ public class javaReplica { // receving client request
                 String transformationOperation = requestList[1];
                 System.out.println(frame + " " + transformationOperation);
                 //process in API according to instructions
-                /*Response response;
+                Response response;
                 try {
-                    response = target.path("openiss/setCanny")
-                            .request(MediaType.TEXT_PLAIN)
-                            .post(Entity.text("sending"));
+                    response = target.path("openiss/color")
+                            .request().get();
                 } catch (Exception e) {
                    response = Response.status(status).build();
                 }
-                String responseText = response.getStatus() == 666 ?
-                        response.getStatusInfo().getReasonPhrase() :
-                        response.readEntity(String.class);
-                System.out.println(responseText);*/
+                String responseText = response.getStatusInfo().getReasonPhrase();
+                System.out.println(responseText);
             }
         } catch (Exception e) {
             e.printStackTrace();
