@@ -12,13 +12,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.NetworkInterface;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
 
 // need to refactor
 public class javaReplica { // receving client request
+    static final protected String PROJECT_HOME = System.getProperty("user.dir");
+
     public static void main(String[] args) {
 
         // obtain server stub
@@ -95,7 +95,6 @@ public class javaReplica { // receving client request
 
                 byte[] processedImgByteArray = toByteArray(response.readEntity(InputStream.class));
                 OpenISSImageDriver driver = new OpenISSImageDriver();
-                String PROJECT_HOME = System.getProperty("user.dir");
                 int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
                 String osName = System.getProperty("os.name").toLowerCase();
                 if (OpenISSConfig.USE_OPENCV) {
@@ -109,16 +108,19 @@ public class javaReplica { // receving client request
                 }
 
                 // Process according to instructions
-                if (transformationOperation.equals("canny")) processedImgByteArray = driver.doCanny(processedImgByteArray);
+                if (transformationOperation.equals("canny"))
+                    processedImgByteArray = driver.doCanny(processedImgByteArray);
+                if (transformationOperation.equals("contour"))
+                    processedImgByteArray = driver.contour(processedImgByteArray);
                 InputStream processedImgInputStream = new ByteArrayInputStream(processedImgByteArray);
                 BufferedImage processedImgBuff = ImageIO.read(processedImgInputStream);
-                File imgFile = new File(PROJECT_HOME + "/src/api/resources/Java/" +
-                        frameNumber + "_" + transformationOperation + ".jpg");
+                String imgPath = PROJECT_HOME + "/src/api/resources/Java/" + frameNumber + "_" + transformationOperation + ".jpg";
+                File imgFile = new File(imgPath);
                 ImageIO.write(processedImgBuff, "jpg", imgFile);
-
                 // set download SUCCES message to return
-                System.out.println("downloaded processed image successfully at " + PROJECT_HOME + "/src/api/resources/Java/" +
-                        serializedRequest.replace(',', '_') + ".png");
+                System.out.println("downloaded processed image successfully at " + imgPath);
+                ScriptPython.imgPath = imgPath;
+                System.out.println(ScriptPython.runScript());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -130,7 +132,7 @@ public class javaReplica { // receving client request
 
     public static byte[] toByteArray(InputStream in) throws IOException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024*5];
+        byte[] buffer = new byte[1024 * 5];
         int len;
 
         // read bytes from the input stream and store them in buffer
@@ -140,5 +142,56 @@ public class javaReplica { // receving client request
         }
 
         return os.toByteArray();
+    }
+
+    public static String[] requestReplyUDP(Integer udpPort, String... clientRequest) {
+        try (DatagramSocket sendUDP_store = new DatagramSocket()) {
+            if (udpPort == -1) return new String[]{"Wrong store address"};
+            //reference of the original socket
+            String serialRequest = String.join(",", clientRequest);
+            byte[] message = serialRequest.getBytes(); //message to be passed is stored in byte array
+            InetAddress aHost = InetAddress.getByName("localhost");
+            DatagramPacket request = new DatagramPacket(message, serialRequest.length(), aHost, udpPort);
+            sendUDP_store.send(request);//request sent out
+
+            byte[] buffer = new byte[1000];//it will be populated by what receive method returns
+            DatagramPacket reply = new DatagramPacket(buffer, buffer.length);//reply packet ready but not populated.
+            //Client waits until the reply is received-----------------------------------------------------------------------
+            sendUDP_store.receive(reply);//reply received and will populate reply packet now.
+            String serialReply = new String(reply.getData()).trim();
+            String[] replyMsg = serialReply.split(":");
+            //print reply message after converting it to a string from bytes
+            sendUDP_store.close();
+            return replyMsg;
+        } catch (SocketException e) {
+            return new String[]{"Socket: " + e.getMessage()};
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new String[]{"IO: " + e.getMessage()};
+        }
+    }
+
+    public static class ScriptPython {
+        static String imgPath;
+
+        public static String runScript() {
+            String line, lines = "";
+            try {
+                Process process;
+                process = Runtime.getRuntime().exec(new String[]{PROJECT_HOME + "/src/api/java/openiss/ws/JavaReplica/checkSum.py", imgPath});
+                InputStream stdout = process.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(stdout, StandardCharsets.UTF_8));
+                try {
+                    while ((line = reader.readLine()) != null) {
+                        lines = lines + line;
+                    }
+                } catch (IOException e) {
+                    System.out.println("Exception in reading output" + e.toString());
+                }
+            } catch (Exception e) {
+                System.out.println("Exception Raised" + e.toString());
+            }
+            return lines;
+        }
     }
 }

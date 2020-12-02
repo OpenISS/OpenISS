@@ -11,13 +11,13 @@
           <root url="file://$MODULE_DIR$/src/api/webapp" relative="/" />
         </webroots>
         <sourceRoots>
-          <root url="file://$MODULE_DIR$/src/api/java" />
           <root url="file://$MODULE_DIR$/src/api/resources" />
+          <root url="file://$MODULE_DIR$/src/api/java" />
         </sourceRoots>
       </configuration>
     </facet>
     <facet type="Python" name="Python">
-      <configuration sdkName="" />
+      <configuration sdkName="Python 3.8" />
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
@@ -51,5 +51,6 @@
     <orderEntry type="library" name="Maven: javax.ws.rs:javax.ws.rs-api:2.0.1" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna:4.5.1" level="project" />
     <orderEntry type="library" name="Maven: openiss:opencv:3.4.12" level="project" />
+    <orderEntry type="library" name="Python 3.8 interpreter library" level="application" />
   </component>
 </module>
