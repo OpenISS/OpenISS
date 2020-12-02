@@ -109,7 +109,7 @@ public class javaReplica { // receving client request
                 }
 
                 // Process according to instructions
-                if (transformationOperation == "Canny") driver.doCanny(processedImgByteArray);
+                if (transformationOperation.equals("canny")) processedImgByteArray = driver.doCanny(processedImgByteArray);
                 InputStream processedImgInputStream = new ByteArrayInputStream(processedImgByteArray);
                 BufferedImage processedImgBuff = ImageIO.read(processedImgInputStream);
                 File imgFile = new File(PROJECT_HOME + "/src/api/resources/Java/" +
@@ -118,7 +118,7 @@ public class javaReplica { // receving client request
 
                 // set download SUCCES message to return
                 System.out.println("downloaded processed image successfully at " + PROJECT_HOME + "/src/api/resources/Java/" +
-                        responseText.replace(',', '_') + ".png");
+                        serializedRequest.replace(',', '_') + ".png");
             }
         } catch (Exception e) {
             e.printStackTrace();
