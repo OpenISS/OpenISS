@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.NetworkInterface;
 
 // need to refactor
 public class javaReplica { // receving client request
@@ -39,9 +40,12 @@ public class javaReplica { // receving client request
         int multicastPort = 20000;
         MulticastSocket socket = null;
         InetAddress group = null;
+        System.setProperty("java.net.preferIPv4Stack", "true");
         try {
             socket = new MulticastSocket(multicastPort);
+            socket.setNetworkInterface(NetworkInterface.getByName("en0"));
             group = InetAddress.getByName("230.255.255.255");
+            System.out.println("Joining Multicast Group");
             socket.joinGroup(group);
 
             DatagramPacket packet;
