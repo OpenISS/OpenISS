@@ -112,6 +112,7 @@ def doCanny(seq_num):
         return
     img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     edges = cv.Canny(img_gray, 50, 150, 3, L2gradient=False)
+    edges = cv.cvtColor(edges, cv.COLOR_GRAY2BGR)
     print("Saving canny...")
     cv.imwrite("canny.jpg", edges)
     file_name = "f" + str(seq_num) + ".jpg"
