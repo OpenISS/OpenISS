@@ -84,6 +84,9 @@ provided jax-rs annotations.
 
     Run (Local Glassfish):
         mvn embedded-glassfish:run
+
+    Run (Java OpencV Replica):
+        mvn exec:java -Dexec.mainClass="openiss.ws.JavaReplica.javaReplica"
         
     Run (Using Docker with Tomcat7 image):
         cd tools/docker/rest-webserver
