@@ -2,21 +2,21 @@ package openiss.utils;
 
 import openiss.Kinect;
 import org.opencv.core.CvType;
+import org.opencv.imgproc.Imgproc;
+
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
-import org.opencv.core.MatOfPoint;
 import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.opencv.core.MatOfPoint;
 //import org.opencv.highgui.Highgui;
 
 
@@ -27,7 +27,7 @@ public class OpenISSImageDriver {
 
     static {
         kinect = new Kinect();
-        //System.out.println("initVideo");
+        System.out.println("initVideo");
         kinect.initVideo();
         kinect.initDepth();
     }
@@ -69,6 +69,34 @@ public class OpenISSImageDriver {
 
         return jpgImageInByte;
     }
+
+    /**
+     * Retrives a frame from either a real Kinect or fakenect
+     * @param type
+     * @return jpeg image as a byte array
+     */
+    public byte[] getStaticFrame(String fileName) {
+
+        byte[] imageInBytes = new byte[0];
+        byte[] jpgImageInByte = new byte[0];
+
+        try {
+            BufferedImage image;
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            image = kinect.getStaticFrame(fileName);
+
+            ImageIO.write(image, "jpg", baos);
+            baos.flush();
+            jpgImageInByte = baos.toByteArray();
+            baos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return jpgImageInByte;
+    }    
 
     /**
      * Mixes a jpg image with one from the kinect/fakenect

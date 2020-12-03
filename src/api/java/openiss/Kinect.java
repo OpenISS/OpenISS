@@ -494,6 +494,35 @@ public class Kinect {
 
 		}
 	}
+
+	/**
+	 * Get a static image (does not make a new object, use get() if you need a copy)
+	 * 
+	 * @return reference to static image 
+	 */		
+	public BufferedImage getStaticFrame(String fileName) {
+		try {
+
+			/**
+			 * Clients who want to test static frames
+			 * @return FramesSimulation/f1.jpg from resources
+			 */
+
+			return  ImageIO.read(new File(classLoader.getResource(fileName).getFile()));
+
+		}
+
+		/**
+		 * Image not found (404)
+		 * @return empty image
+		 */
+		catch (Exception e){
+			System.out.println("File not found in resources: " + fileName);
+			System.out.println(e.getMessage());
+			return processPPMImage(640, 480, new byte[0]);
+
+		}
+	}	
 	
 	
 	// These functions come from: http://graphics.stanford.edu/~mdfisher/Kinect.html

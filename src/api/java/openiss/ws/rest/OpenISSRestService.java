@@ -107,6 +107,19 @@ public class OpenISSRestService {
     }
 
     @GET
+    @Path("/getStaticFrame/{frameId}")
+    @Produces("image/*")
+    public Response getStaticFrame(@PathParam(value = "frameId") String frameId) {
+        ResponseBuilder response;
+        byte[] image = new byte[0];
+
+        image = driver.getStaticFrame("/FramesSimulation/f" + frameId + ".jpg");
+
+        response = Response.ok(image, "image/jpeg");
+        return response.build();
+    }
+
+    @GET
     @Path("/{type}")
     @Produces("image/*")
     public Response getImage(@PathParam(value = "type") String type) {
