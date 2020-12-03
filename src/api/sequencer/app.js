@@ -36,17 +36,13 @@ socket.on("message", function(message, rinfo) {
     console.info(`Message from: ${rinfo.address}:${rinfo.port} - ${message}`);
     var responseString = message.toString().split(",");
 
+    var responseTime = new Date() - requestStart;
+    
     frame = responseString[0];
     method = responseString[1];
     replica = responseString[2];
 
     if(method == "delivered"){
-        // var responseTime = new Date() - requestStart;
-        // if(responseTime > 1000){
-        //     fail[frame].push(replica);
-        //     return;
-        // }
-        // Initialize hash maps
         if(!(frame in delivered)){
             delivered[frame] = [];
         }
@@ -59,8 +55,22 @@ socket.on("message", function(message, rinfo) {
         if(!(frame in checksums)){
             checksums[frame] = [];
         }
+        if(replica && responseTime > 12000){
+            console.log(responseTime);
+            fail[frame].push(replica);
+            return;
+        }
+        // Initialize hash maps
         delivered[frame].push(replica);
-        var validator = spawn('python',["./test.py", "../python/jobs/f"+ frame + ".jpg", frame]);
+        if(replica == 1){
+            var validator = spawn('python',["./test.py", "../python/jobs/f"+ frame + ".jpg", frame]);
+        }
+        else if (replica == 3){
+            var validator = spawn('python',["./test.py", "../js-v2/jobs/f"+ frame + ".jpg", frame]);
+        }
+        else{
+            var validator = spawn('python',["./test.py", "../resources/Java/f"+ frame + ".jpg", frame]);
+        }
         validator.stdout.on('data', function(data) {
             response = data.toString().replace(/(\r\n|\n|\r)/gm, "");
             validatorResponse = response.toString().split(",");
@@ -119,10 +129,10 @@ http.createServer(function (req, res) {
     frame = requestString[1];
     method = requestString[2];
     if(method == "canny" || method == "contour"){
-        requestStart = new Date();
         const message = Buffer.from(SEQ_NUM + "," + method);
         socket.send(message, 0, message.length, REPLICA_PORT, MULTICAST_ADDR, function() {
             console.info(`Sending message "${message}"`);
+            requestStart = new Date();
         });
         SEQ_NUM += 1;
         res.write("Message Received!");
@@ -159,8 +169,7 @@ function sendUDPImage(frame) {
                 file_path = "../resources/Java/f" + frame + ".jpg"
             }
             else{
-                // Get via url request instead
-                // file_path = "../js-v2/jobs/f" + frame + ".jpg"
+                file_path = "../js-v2/jobs/f" + frame + ".jpg"
             }
         }
 
