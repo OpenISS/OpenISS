@@ -11,14 +11,15 @@ let imgArray = new Array();
 let requests_awaiting = {}
 let requests_finished = []
 
+let SEQ_NUM = 1;
 const REPLICA_NO = 3
 const MULTICAST_PORT = 20000;
 const MULTICAST_ADDR = "230.255.255.255";;
 var dgram = require('dgram');
+const { Console } = require('console');
 const client = dgram.createSocket({ type: "udp4", reuseAddr: true });
 
 ioClient = io.connect("http://localhost:3000")
-
 
 client.on('listening', function () {
     var address = client.address();
@@ -37,46 +38,12 @@ client.on('message', function (message, remote) {
     var msg = message.toString().split(',')
 
     if (msg[1]) {
-        if (msg[1].toLowerCase() === 'canny') {
-            console.log('C: processing canny for sequence: ' + msg[0])
-            let args = {type: 'color', seq_id: msg[0]}
-            replica.getCanny(args, (function (error, response, body) {
-
-                if(error) {
-                    console.log("got error")
-                    console.log(error);
-                }
-                else {
-                    imgArray[msg[0]] = body
-                    sendDeliveredMessage(msg[0])
-
-                    // @TODO this will be sent by RM
-                    console.log("sending image to FE using WS")
-                    ioClient.emit('chat message', 'sending image')
-
-                    ioClient.emit('show image', { image: true, buffer: body.toString('base64') });
-
-                }
-            }))
-        }
-        else if (msg[1].toLowerCase() === 'contour') {
-            console.log('C: processing contour for sequence: ' + msg[0])
-            let args = {type: 'color', seq_id: msg[0]}
-            replica.getContour(args, (function (error, response, body) {
-
-                if(error) {
-                    console.log("got error")
-                    console.log(error);
-                }
-                else {
-                    imgArray[msg[0]] = body
-                    sendDeliveredMessage(msg[0])
-
-                    // @TODO this will be sent by RM
-
-                    ioClient.emit('show image', { image: true, buffer: body.toString('base64') });
-                }
-            }))
+        if (msg[1].toLowerCase() === 'canny' || msg[1].toLowerCase() === 'contour') {
+            if(!(msg[0] in requests_awaiting) && !(msg[0] in requests_finished)){
+                requests_awaiting[msg[0]] = msg[1];
+                //processFrame(msg[0], msg[1].toLowerCase());
+                checkRequestsAwaiting();
+            }
         }
         else {
             console.log('C: Ignoring message: '+ message)
@@ -134,6 +101,70 @@ function sendDeliveredMessage(id) {
     client.send(message, 0, message.length, MULTICAST_PORT, MULTICAST_ADDR, function() {
         console.info(`Sending message "${message}"`);
     });
+}
+
+function checkRequestsAwaiting(){
+    while(SEQ_NUM in requests_awaiting){
+        processFrame(SEQ_NUM, requests_awaiting[SEQ_NUM]);
+        sendDeliveredMessage(SEQ_NUM);
+        delete requests_awaiting[SEQ_NUM];
+        requests_finished.push(SEQ_NUM);
+        SEQ_NUM += 1;
+    }
+}
+
+function processFrame(frame, method){
+    if(method.toLowerCase() === 'canny'){
+        doCanny(frame);
+    }
+    else{
+        doContour(frame);
+    }
+}
+
+function doCanny(frame){
+    console.log('C: processing canny for sequence: ' + frame)
+    let args = {type: 'color', seq_id: frame}
+    replica.getCanny(args, (function (error, response, body) {
+
+        if(error) {
+            console.log("got error")
+            console.log(error);
+        }
+        else {
+            console.log("Canny succesfully completed");
+            imgArray[frame] = body
+            // sendDeliveredMessage(frame)
+
+            // // @TODO this will be sent by RM
+            // console.log("sending image to FE using WS")
+            // ioClient.emit('chat message', 'sending image')
+
+            // ioClient.emit('show image', { image: true, buffer: body.toString('base64') });
+
+        }
+    }))
+}
+
+function doContour(frame){
+    console.log('C: processing contour for sequence: ' + frame)
+    let args = {type: 'color', seq_id: frame}
+    replica.getContour(args, (function (error, response, body) {
+
+        if(error) {
+            console.log("got error")
+            console.log(error);
+        }
+        else {
+            console.log("Contour succesfully completed");
+            imgArray[frame] = body
+            // sendDeliveredMessage(frame)
+
+            // // @TODO this will be sent by RM
+
+            // ioClient.emit('show image', { image: true, buffer: body.toString('base64') });
+        }
+    }))
 }
 
 app.listen(port, () => {
