@@ -154,6 +154,8 @@ public class javaReplica { // receving client request
                     ImageIO.write(processedImgBuff, "jpg", imgFile);
                     // set download SUCCES message to return
                     System.out.println("downloaded processed image successfully at " + imgPath);
+                    // replies to the sequencer using same adress same host
+                    replyUDPpacket(packet, String.valueOf(frNum),"processed", "2");
                     processingQ.remove(frNum);
                     awaitsProcessing.incrementAndGet();
                 }
@@ -186,5 +188,12 @@ public class javaReplica { // receving client request
         }
 
         return os.toByteArray();
+    }
+
+    public static DatagramPacket replyUDPpacket(DatagramPacket request, String... UDPresponse){
+        byte[] replyBuff;
+        String serialResp = String.join(",", UDPresponse);
+        replyBuff = serialResp.getBytes();
+        return new DatagramPacket(replyBuff, serialResp.length(), request.getAddress(), request.getPort());
     }
 }
