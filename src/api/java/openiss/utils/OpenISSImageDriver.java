@@ -2,21 +2,21 @@ package openiss.utils;
 
 import openiss.Kinect;
 import org.opencv.core.CvType;
-import org.opencv.imgproc.Imgproc;
-
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
+import org.opencv.core.MatOfPoint;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
-
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.opencv.core.MatOfPoint;
 //import org.opencv.highgui.Highgui;
 
 
@@ -27,7 +27,7 @@ public class OpenISSImageDriver {
 
     static {
         kinect = new Kinect();
-        System.out.println("initVideo");
+        //System.out.println("initVideo");
         kinect.initVideo();
         kinect.initDepth();
     }

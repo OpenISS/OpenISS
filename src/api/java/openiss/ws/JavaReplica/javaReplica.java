@@ -90,7 +90,7 @@ public class javaReplica { // receving client request
                 String[] requestList = serializedRequest.split(",");
                 String frameNumber = requestList[0];
                 String transformationOperation = requestList[1];
-                System.out.println(frameNumber + " " + transformationOperation + "received");
+                System.out.println(frameNumber + " " + transformationOperation + " received");
                 Integer frNum = null;
                 try {
                     frNum = Integer.parseInt(frameNumber);
@@ -115,7 +115,6 @@ public class javaReplica { // receving client request
                 while (processingQ.size() > 0) {
                     frNum = awaitsProcessing.get() + 1;
                     transformationOperation = processingQ.get(frNum);
-                    awaitsProcessing.incrementAndGet();
                     //get color from API according
                     try {
                         response = target.path("openiss/color")
@@ -123,9 +122,12 @@ public class javaReplica { // receving client request
                     } catch (Exception e) {
                         response = Response.status(status).build();
                     }
-                    String responseText = response.getStatusInfo().getReasonPhrase();
-                    System.out.println(responseText);
-                    //TODO handle API unresponsive
+                    if(response.getStatus() == 666) {
+                        String responseText = response.getStatusInfo().getReasonPhrase();
+                        System.out.println(responseText);
+                        response.close();
+                        break;
+                    }
                     byte[] processedImgByteArray = toByteArray(response.readEntity(InputStream.class));
                     OpenISSImageDriver driver = new OpenISSImageDriver();
                     int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
@@ -153,6 +155,7 @@ public class javaReplica { // receving client request
                     // set download SUCCES message to return
                     System.out.println("downloaded processed image successfully at " + imgPath);
                     processingQ.remove(frNum);
+                    awaitsProcessing.incrementAndGet();
                 }
             }
         } catch (
