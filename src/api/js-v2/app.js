@@ -6,6 +6,8 @@ const io = require('socket.io-client');
 const images = __dirname + '/images/';
 
 let imgArray = new Array();
+
+// @TODO make queues work
 let requests_awaiting = {}
 let requests_finished = []
 
