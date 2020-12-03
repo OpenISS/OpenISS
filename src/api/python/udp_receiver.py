@@ -28,6 +28,7 @@ class Request():
     def get_checksum(self):
         return self.checksum
 
+replica_number = 1
 img_url = "http://localhost:8080/rest/openiss/color"
 host = "localhost"
 multicast_group = "230.255.255.255"
@@ -50,9 +51,10 @@ def getUDPPort():
     _, temp_port = serv.get_port()
     return str(temp_port)
 
-@app.route('/getJob/<seq_num>.jpg', methods=['GET'])
+@app.route('/getJob/<seq_num>', methods=['GET'])
 def publishFrame(seq_num):
-    file_path = "f" + str(seq_num) + ".jpg"
+    print(str(seq_num))
+    file_path = "../python/jobs/f" + str(seq_num) + ".jpg"
     if os.path.isfile(file_path):
         return flask.send_file(file_path, mimetype='image/jpg')
     else:
@@ -64,9 +66,9 @@ def getFrame():
     return np.frombuffer(result, dtype=np.uint8)
 
 def deliverFrame(frame_num):
-    checksum = requests_awaiting[frame_num].checksum
+    # checksum = requests_awaiting[frame_num].checksum
     addr = (multicast_group, multicast_port)
-    udp_string = str(frame_num) + "," + str(checksum)
+    udp_string = str(frame_num) + ",delivered," + str(replica_number)
     udp_socket = socket(AF_INET,SOCK_DGRAM)
     udp_socket.sendto(udp_string.encode(), addr)
     print("Sending %s ..." % udp_string)
@@ -114,8 +116,8 @@ def doCanny(seq_num):
     edges = cv.Canny(img_gray, 50, 150, 3, L2gradient=False)
     edges = cv.cvtColor(edges, cv.COLOR_GRAY2BGR)
     print("Saving canny...")
-    cv.imwrite("canny.jpg", edges)
-    file_name = "f" + str(seq_num) + ".jpg"
+    # cv.imwrite("../python/jobs/canny.jpg", edges)
+    file_name = "../python/jobs/f" + str(seq_num) + ".jpg"
     sys.stdout.flush()
     cv.imwrite(file_name, edges)
     checksum = imagehash.average_hash(Image.open(file_name))
@@ -131,8 +133,8 @@ def doContour(seq_num):
     _, img_thresh = cv.threshold(img_gray ,100, 255, cv.THRESH_BINARY)
     print("Saving contour...")
     img_thresh = cv.cvtColor(img_thresh, cv.COLOR_GRAY2BGR)
-    cv.imwrite("contour.jpg", img_thresh)
-    file_name = "f" + str(seq_num) + ".jpg"
+    #cv.imwrite("contour.jpg", img_thresh)
+    file_name = "../python/jobs/f" + str(seq_num) + ".jpg"
     cv.imwrite(file_name, img_thresh)
     checksum = imagehash.average_hash(Image.open(file_name))
     requests_awaiting[seq_num].checksum = checksum
@@ -173,7 +175,8 @@ class UDPServer():
                     print("Message:", method, seq_num, "Address: ", address)
                     if(method == "success" or method == "fail" or method == "delivered"):
                         replica_num = int(strings.split(',')[2])
-                        addToSharedQueues(seq_num, method, replica_num)
+                        if replica_num != replica_number:
+                            addToSharedQueues(seq_num, method, replica_num)
                     elif(seq_num >= seq_count and seq_num not in requests_finished and seq_num not in requests_awaiting):
                         requests_awaiting[seq_num] = Request(seq_num, method)
                         processFrame(seq_num)
