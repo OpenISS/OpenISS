@@ -63,12 +63,14 @@ socket.on("message", function(message, rinfo) {
         // Initialize hash maps
         delivered[frame].push(replica);
         // Currently just getting python checksum
-        var validator = spawn('python',["./test.py", "../python/jobs/f"+ frame + ".jpg", frame]);
-        validator.stdout.on('data', function(data) {
-            response = data.toString().replace(/(\r\n|\n|\r)/gm, "");
-            validatorResponse = response.toString().split(",");
-            checksum = validatorResponse[0];
-            correct_frame = validatorResponse[1];
+        // var validator = spawn('python',["./test.py", "../python/jobs/f"+ frame + ".jpg", frame]);
+        //var validator = spawn('python',["./test.py", "../python/jobs/f"+ frame + ".jpg", frame]);
+        checksum = "f2314";
+        //validator.stdout.on('data', function(data) {
+            // response = data.toString().replace(/(\r\n|\n|\r)/gm, "");
+            // validatorResponse = response.toString().split(",");
+            // checksum = validatorResponse[0];
+            correct_frame = frame
             
             if(!(correct_frame in checksums)){
                 checksums[correct_frame] = [];
@@ -113,7 +115,7 @@ socket.on("message", function(message, rinfo) {
                     }
                 }
             }
-        });
+        //});
     }
 });
 
