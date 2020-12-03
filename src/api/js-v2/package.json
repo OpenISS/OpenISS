@@ -5,16 +5,19 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "replica": "node app.js",
+    "frontend": "node index.js",
     "demo": "NODE_ENV=demo node app.js",
     "debug": "nodemon --inspect app.js"
   },
   "keywords": [],
   "author": "Konstantinos Psimoulis <kosta@noima.com>",
   "dependencies": {
-    "express": "^4.17.1",
     "canvas": "^2.6.1",
+    "express": "^4.17.1",
     "jimp": "^0.16.1",
-    "jsdom": "^16.4.0"
+    "jsdom": "^16.4.0",
+    "socket.io": "^3.0.3",
+    "socket.io-client": "^3.0.3"
   }
 }
