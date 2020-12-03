@@ -12,7 +12,7 @@ let loaded = false;
 exports.getFrame = function(args, cb) {
 
   var requestSettings = {
-      url: baseUrl + '/rest/openiss/' + args.type,
+      url: baseUrl + '/rest/openiss/getStaticFrame/' + args.seq_id,
       method: 'GET',
       encoding: null
   };
@@ -25,7 +25,7 @@ exports.getFrame = function(args, cb) {
 exports.getCanny = async function(args, cb) {
 
   var requestSettings = {
-      url: baseUrl + '/rest/openiss/' + args.type,
+      url: baseUrl + '/rest/openiss/getStaticFrame/' + args.seq_id,
       method: 'GET',
       encoding: null
   };
@@ -65,7 +65,7 @@ exports.getCanny = async function(args, cb) {
 exports.getContour = async function(args, cb) {
 
   var requestSettings = {
-      url: baseUrl + '/rest/openiss/' + args.type,
+    url: baseUrl + '/rest/openiss/getStaticFrame/' + args.seq_id,
       method: 'GET',
       encoding: null
   };
