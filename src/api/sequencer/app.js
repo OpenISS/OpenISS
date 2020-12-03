@@ -55,11 +55,11 @@ socket.on("message", function(message, rinfo) {
         if(!(frame in checksums)){
             checksums[frame] = [];
         }
-        if(replica && responseTime > 12000){
-            console.log(responseTime);
-            fail[frame].push(replica);
-            return;
-        }
+        // if(replica && responseTime > 12000){
+        //     console.log(responseTime);
+        //     fail[frame].push(replica);
+        //     return;
+        // }
         // Initialize hash maps
         delivered[frame].push(replica);
         if(replica == 1){
