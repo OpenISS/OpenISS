@@ -21,7 +21,7 @@ socket.on("listening", function() {
 });
 
 function sendMessage() {
-    const message = Buffer.from(`1,canny`);
+    const message = Buffer.from(`2,canny`);
     socket.send(message, 0, message.length, REPLICA_PORT, MULTICAST_ADDR, function() {
         console.info(`Sending message "${message}"`);
     });

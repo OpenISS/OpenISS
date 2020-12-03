@@ -21,6 +21,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+interface EmptyProcessingQueue {
+    public void run();
+}
+
 // need to refactor
 public class javaReplica { // receving client request
     static final protected String PROJECT_HOME = System.getProperty("user.dir");
@@ -80,7 +84,6 @@ public class javaReplica { // receving client request
             group = InetAddress.getByName("230.255.255.255");
             System.out.println("Joining Multicast Group");
             socket.joinGroup(group);
-
             DatagramPacket packet;
             while (true) {
                 byte[] buf = new byte[1256];
@@ -90,7 +93,7 @@ public class javaReplica { // receving client request
                 String[] requestList = serializedRequest.split(",");
                 String frameNumber = requestList[0];
                 String transformationOperation = requestList[1];
-                System.out.println(frameNumber + " " + transformationOperation + " received");
+                System.out.println(frameNumber + " " + transformationOperation + " received :_: current order is " + (received.get() + 1));
                 Integer frNum = null;
                 try {
                     frNum = Integer.parseInt(frameNumber);
@@ -103,6 +106,7 @@ public class javaReplica { // receving client request
                     sendToProcessingSynchronized(frNum, transformationOperation, processingQ, received);
                 } else if (frNum > received.get() + 1) {
                     holdBack.put(frNum, transformationOperation); // no need to process this request yet
+                    System.out.println(frNum + " " + transformationOperation + " placed in hold back queue");
                     // check the holdback queue to see if the correct request came in
                     Integer correctFrame = received.get() + 1;
                     String operationCorrect = holdBack.get(correctFrame);
@@ -112,9 +116,11 @@ public class javaReplica { // receving client request
                     }
                 } // if frameNumber <= processed correctly ignores redundant operation that processed already
 
+                // empty processing queue
                 while (processingQ.size() > 0) {
                     frNum = awaitsProcessing.get() + 1;
                     transformationOperation = processingQ.get(frNum);
+                    System.out.println("Processing " + frNum + " " + transformationOperation);
                     //get color from API according
                     try {
                         response = target.path("openiss/color")
@@ -122,7 +128,7 @@ public class javaReplica { // receving client request
                     } catch (Exception e) {
                         response = Response.status(status).build();
                     }
-                    if(response.getStatus() == 666) {
+                    if (response.getStatus() == 666) {
                         String responseText = response.getStatusInfo().getReasonPhrase();
                         System.out.println(responseText);
                         response.close();
@@ -149,15 +155,19 @@ public class javaReplica { // receving client request
                         processedImgByteArray = driver.contour(processedImgByteArray);
                     InputStream processedImgInputStream = new ByteArrayInputStream(processedImgByteArray);
                     BufferedImage processedImgBuff = ImageIO.read(processedImgInputStream);
-                    String imgPath = PROJECT_HOME + "/src/api/resources/Java/" + "f" + "_" + frameNumber + ".jpg";
+                    String imgPath = PROJECT_HOME + "/src/api/resources/Java/" + "f" + frNum + ".jpg";
                     File imgFile = new File(imgPath);
                     ImageIO.write(processedImgBuff, "jpg", imgFile);
                     // set download SUCCES message to return
                     System.out.println("downloaded processed image successfully at " + imgPath);
                     // replies to the sequencer using same adress same host
-                    replyUDPpacket(packet, String.valueOf(frNum),"processed", "2");
+                    replyUDPpacket(packet, String.valueOf(frNum), "processed", "2");
                     processingQ.remove(frNum);
                     awaitsProcessing.incrementAndGet();
+                    Integer nextFrame = awaitsProcessing.get() + 1;
+                    String nextOperation = holdBack.get(nextFrame);
+                    if(nextOperation != null)
+                        sendToProcessingSynchronized(nextFrame, nextOperation, processingQ, received);
                 }
             }
         } catch (
@@ -172,6 +182,7 @@ public class javaReplica { // receving client request
 
     public static synchronized void sendToProcessingSynchronized(Integer frame, String command,
                                                                  Map<Integer, String> processingQ, AtomicInteger received) {
+        System.out.println("sending " + frame + " " + command + " to processing queue");
         processingQ.put(frame, command);
         received.incrementAndGet();
     }
@@ -190,7 +201,7 @@ public class javaReplica { // receving client request
         return os.toByteArray();
     }
 
-    public static DatagramPacket replyUDPpacket(DatagramPacket request, String... UDPresponse){
+    public static DatagramPacket replyUDPpacket(DatagramPacket request, String... UDPresponse) {
         byte[] replyBuff;
         String serialResp = String.join(",", UDPresponse);
         replyBuff = serialResp.getBytes();
