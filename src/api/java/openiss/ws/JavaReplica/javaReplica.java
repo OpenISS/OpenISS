@@ -94,6 +94,7 @@ public class javaReplica { // receving client request
                 String[] requestList = serializedRequest.split(",");
                 String frameNumber = requestList[0];
                 String transformationOperation = requestList[1];
+                if(!transformationOperation.equals("canny") && !transformationOperation.equals("contour")) continue;
                 System.out.println(frameNumber + " " + transformationOperation + " received :_: current order is " + (received.get() + 1));
                 Integer frNum = null;
                 try {
@@ -102,6 +103,7 @@ public class javaReplica { // receving client request
                     System.out.println("Wrongly formatted request; first element not integer");
                     continue;
                 }
+		if (!transformationOperation.equals("processing")
                 if (frNum == received.get() + 1) {
                     // kaaoshek like algorithim no need to keep the message backup asssuming local network reliable
                     sendToProcessingSynchronized(frNum, transformationOperation, processingQ, received);
@@ -116,7 +118,7 @@ public class javaReplica { // receving client request
                         holdBack.remove(correctFrame); // release resources
                     }
                 } // if frameNumber <= processed correctly ignores redundant operation that processed already
-
+                System.out.print("testing");
                 // empty processing queue
                 while (processingQ.size() > 0) {
                     frNum = awaitsProcessing.get() + 1;
@@ -124,7 +126,7 @@ public class javaReplica { // receving client request
                     System.out.println("Processing " + frNum + " " + transformationOperation);
                     //get color from API according
                     try {
-                        response = target.path("openiss/color")
+                        response = target.path("openiss/getStaticFrame/" + frNum)
                                 .request().get();
                     } catch (Exception e) {
                         response = Response.status(status).build();
