@@ -21,10 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-interface EmptyProcessingQueue {
-    public void run();
-}
-
 // need to refactor
 public class javaReplica { // receving client request
     static final protected String PROJECT_HOME = System.getProperty("user.dir");
@@ -78,9 +74,14 @@ public class javaReplica { // receving client request
         InetAddress group = null;
         System.setProperty("java.net.preferIPv4Stack", "true");
         Response response = null;
+        String osName = System.getProperty("os.name").toLowerCase();
         try {
             socket = new MulticastSocket(multicastPort);
-            socket.setNetworkInterface(NetworkInterface.getByName("en0"));
+
+            // Workaround for MacOS
+            if(osName.indexOf("mac") >= 0){
+                socket.setNetworkInterface(NetworkInterface.getByName("en0"));
+            }
             group = InetAddress.getByName("230.255.255.255");
             System.out.println("Joining Multicast Group");
             socket.joinGroup(group);
@@ -137,7 +138,7 @@ public class javaReplica { // receving client request
                     byte[] processedImgByteArray = toByteArray(response.readEntity(InputStream.class));
                     OpenISSImageDriver driver = new OpenISSImageDriver();
                     int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
-                    String osName = System.getProperty("os.name").toLowerCase();
+
                     if (OpenISSConfig.USE_OPENCV) {
                         if (osName.indexOf("win") >= 0) {
                             /*System.out.println(arch + " windows");*/
