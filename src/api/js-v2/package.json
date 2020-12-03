@@ -1,15 +1,18 @@
 {
-  "name": "test",
+  "name": "openiss_opencv_nodejs_replica",
   "version": "1.0.0",
-  "description": "",
-  "main": "test.js",
+  "description": "OpenISS OpenCV NodeJS Replica",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "demo": "NODE_ENV=demo node app.js",
+    "debug": "nodemon --inspect app.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Konstantinos Psimoulis <kosta@noima.com>",
   "dependencies": {
+    "express": "^4.17.1",
     "canvas": "^2.6.1",
     "jimp": "^0.16.1",
     "jsdom": "^16.4.0"
