@@ -12,22 +12,30 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
+import java.net.NetworkInterface;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 // need to refactor
 public class javaReplica { // receving client request
     static final protected String PROJECT_HOME = System.getProperty("user.dir");
 
     public static void main(String[] args) {
-
+        Map<Integer, String> holdBack = Collections.synchronizedMap(new HashMap<>());
+        Map<Integer, String> processingQ = Collections.synchronizedMap(new HashMap<>());
+        AtomicInteger received = new AtomicInteger(0);
+        AtomicInteger awaitsProcessing = new AtomicInteger(0);
         // obtain server stub
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://localhost:8080/rest/");
         client.property("accept", "image/*");
         // response if API is unresponsive
         Response.StatusType status = new Response.StatusType() {
-
             private int code = 666;
             private String msg = "API unresponsive";
 
@@ -82,52 +90,85 @@ public class javaReplica { // receving client request
                 String[] requestList = serializedRequest.split(",");
                 String frameNumber = requestList[0];
                 String transformationOperation = requestList[1];
-                System.out.println(frameNumber + " " + transformationOperation);
-                //get color from API according
+                System.out.println(frameNumber + " " + transformationOperation + "received");
+                Integer frNum = null;
                 try {
-                    response = target.path("openiss/color")
-                            .request().get();
+                    frNum = Integer.parseInt(frameNumber);
                 } catch (Exception e) {
-                    response = Response.status(status).build();
+                    System.out.println("Wrongly formatted request; first element not integer");
+                    continue;
                 }
-                String responseText = response.getStatusInfo().getReasonPhrase();
-                System.out.println(responseText);
-
-                byte[] processedImgByteArray = toByteArray(response.readEntity(InputStream.class));
-                OpenISSImageDriver driver = new OpenISSImageDriver();
-                int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
-                String osName = System.getProperty("os.name").toLowerCase();
-                if (OpenISSConfig.USE_OPENCV) {
-                    if (osName.indexOf("win") >= 0) {
-                        /*System.out.println(arch + " windows");*/
-                        System.load(PROJECT_HOME + "\\lib\\opencv\\win\\x64\\opencv_java341.dll");
-                    } else if (osName.indexOf("mac") >= 0) {
-                        /*System.out.println("Loading Native library" + PROJECT_HOME + "/lib/opencv/mac/libopencv_java3412.dylib");*/
-                        System.load(PROJECT_HOME + "/lib/opencv/mac/libopencv_java3412.dylib");
+                if (frNum == received.get() + 1) {
+                    // kaaoshek like algorithim no need to keep the message backup asssuming local network reliable
+                    sendToProcessingSynchronized(frNum, transformationOperation, processingQ, received);
+                } else if (frNum > received.get() + 1) {
+                    holdBack.put(frNum, transformationOperation); // no need to process this request yet
+                    // check the holdback queue to see if the correct request came in
+                    Integer correctFrame = received.get() + 1;
+                    String operationCorrect = holdBack.get(correctFrame);
+                    if (operationCorrect != null) {
+                        sendToProcessingSynchronized(correctFrame, operationCorrect, processingQ, received);
+                        holdBack.remove(correctFrame); // release resources
                     }
-                }
+                } // if frameNumber <= processed correctly ignores redundant operation that processed already
 
-                // Process according to instructions
-                if (transformationOperation.equals("canny"))
-                    processedImgByteArray = driver.doCanny(processedImgByteArray);
-                if (transformationOperation.equals("contour"))
-                    processedImgByteArray = driver.contour(processedImgByteArray);
-                InputStream processedImgInputStream = new ByteArrayInputStream(processedImgByteArray);
-                BufferedImage processedImgBuff = ImageIO.read(processedImgInputStream);
-                String imgPath = PROJECT_HOME + "/src/api/resources/Java/" + frameNumber + "_" + transformationOperation + ".jpg";
-                File imgFile = new File(imgPath);
-                ImageIO.write(processedImgBuff, "jpg", imgFile);
-                // set download SUCCES message to return
-                System.out.println("downloaded processed image successfully at " + imgPath);
-                ScriptPython.imgPath = imgPath;
-                System.out.println(ScriptPython.runScript());
+                while (processingQ.size() > 0) {
+                    frNum = awaitsProcessing.get() + 1;
+                    transformationOperation = processingQ.get(frNum);
+                    awaitsProcessing.incrementAndGet();
+                    //get color from API according
+                    try {
+                        response = target.path("openiss/color")
+                                .request().get();
+                    } catch (Exception e) {
+                        response = Response.status(status).build();
+                    }
+                    String responseText = response.getStatusInfo().getReasonPhrase();
+                    System.out.println(responseText);
+                    //TODO handle API unresponsive
+                    byte[] processedImgByteArray = toByteArray(response.readEntity(InputStream.class));
+                    OpenISSImageDriver driver = new OpenISSImageDriver();
+                    int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
+                    String osName = System.getProperty("os.name").toLowerCase();
+                    if (OpenISSConfig.USE_OPENCV) {
+                        if (osName.indexOf("win") >= 0) {
+                            /*System.out.println(arch + " windows");*/
+                            System.load(PROJECT_HOME + "\\lib\\opencv\\win\\x64\\opencv_java341.dll");
+                        } else if (osName.indexOf("mac") >= 0) {
+                            /*System.out.println("Loading Native library" + PROJECT_HOME + "/lib/opencv/mac/libopencv_java3412.dylib");*/
+                            System.load(PROJECT_HOME + "/lib/opencv/mac/libopencv_java3412.dylib");
+                        }
+                    }
+
+                    // Process according to instructions
+                    if (transformationOperation.equals("canny"))
+                        processedImgByteArray = driver.doCanny(processedImgByteArray);
+                    if (transformationOperation.equals("contour"))
+                        processedImgByteArray = driver.contour(processedImgByteArray);
+                    InputStream processedImgInputStream = new ByteArrayInputStream(processedImgByteArray);
+                    BufferedImage processedImgBuff = ImageIO.read(processedImgInputStream);
+                    String imgPath = PROJECT_HOME + "/src/api/resources/Java/" + "f" + "_" + frameNumber + ".jpg";
+                    File imgFile = new File(imgPath);
+                    ImageIO.write(processedImgBuff, "jpg", imgFile);
+                    // set download SUCCES message to return
+                    System.out.println("downloaded processed image successfully at " + imgPath);
+                    processingQ.remove(frNum);
+                }
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         } finally {
             response.close();
             client.close();
         }
+
+    }
+
+    public static synchronized void sendToProcessingSynchronized(Integer frame, String command,
+                                                                 Map<Integer, String> processingQ, AtomicInteger received) {
+        processingQ.put(frame, command);
+        received.incrementAndGet();
     }
 
     public static byte[] toByteArray(InputStream in) throws IOException {
@@ -142,56 +183,5 @@ public class javaReplica { // receving client request
         }
 
         return os.toByteArray();
-    }
-
-    public static String[] requestReplyUDP(Integer udpPort, String... clientRequest) {
-        try (DatagramSocket sendUDP_store = new DatagramSocket()) {
-            if (udpPort == -1) return new String[]{"Wrong store address"};
-            //reference of the original socket
-            String serialRequest = String.join(",", clientRequest);
-            byte[] message = serialRequest.getBytes(); //message to be passed is stored in byte array
-            InetAddress aHost = InetAddress.getByName("localhost");
-            DatagramPacket request = new DatagramPacket(message, serialRequest.length(), aHost, udpPort);
-            sendUDP_store.send(request);//request sent out
-
-            byte[] buffer = new byte[1000];//it will be populated by what receive method returns
-            DatagramPacket reply = new DatagramPacket(buffer, buffer.length);//reply packet ready but not populated.
-            //Client waits until the reply is received-----------------------------------------------------------------------
-            sendUDP_store.receive(reply);//reply received and will populate reply packet now.
-            String serialReply = new String(reply.getData()).trim();
-            String[] replyMsg = serialReply.split(":");
-            //print reply message after converting it to a string from bytes
-            sendUDP_store.close();
-            return replyMsg;
-        } catch (SocketException e) {
-            return new String[]{"Socket: " + e.getMessage()};
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new String[]{"IO: " + e.getMessage()};
-        }
-    }
-
-    public static class ScriptPython {
-        static String imgPath;
-
-        public static String runScript() {
-            String line, lines = "";
-            try {
-                Process process;
-                process = Runtime.getRuntime().exec(new String[]{PROJECT_HOME + "/src/api/java/openiss/ws/JavaReplica/checkSum.py", imgPath});
-                InputStream stdout = process.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(stdout, StandardCharsets.UTF_8));
-                try {
-                    while ((line = reader.readLine()) != null) {
-                        lines = lines + line;
-                    }
-                } catch (IOException e) {
-                    System.out.println("Exception in reading output" + e.toString());
-                }
-            } catch (Exception e) {
-                System.out.println("Exception Raised" + e.toString());
-            }
-            return lines;
-        }
     }
 }
