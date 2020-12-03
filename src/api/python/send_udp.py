@@ -3,7 +3,7 @@ from socket import AF_INET, SOCK_DGRAM, socket
 import requests
 import sys
 
-host = "localhost"
+host = "230.255.255.255"
 seq_num = sys.argv[1]
 method = sys.argv[2]
 buf = 2048

@@ -29,7 +29,6 @@ class Request():
         return self.checksum
 
 replica_number = 1
-img_url = "http://localhost:8080/rest/openiss/color"
 host = "localhost"
 multicast_group = "230.255.255.255"
 multicast_port = 20000
@@ -60,7 +59,8 @@ def publishFrame(seq_num):
     else:
         return flask.send_file("images/color_fail.jpg", mimetype='image/jpg')
 
-def getFrame():
+def getFrame(frame_num):
+    img_url = "http://openiss.noima.com:8080/rest/openiss/getStaticFrame/" + str(frame_num)
     response = requests.get(img_url)
     result = response.content
     return np.frombuffer(result, dtype=np.uint8)
@@ -107,7 +107,7 @@ def addToSharedQueues(frame_num, method, replica_num):
         delivered_req[frame_num].append(replica_num)    
 
 def doCanny(seq_num):
-    x = getFrame()
+    x = getFrame(seq_num)
     img = cv.imdecode(x, cv.IMREAD_UNCHANGED)
     if img is None:
         print("Error loading image")
@@ -124,7 +124,7 @@ def doCanny(seq_num):
     requests_awaiting[seq_num].checksum = checksum
 
 def doContour(seq_num):
-    x = getFrame()
+    x = getFrame(seq_num)
     img = cv.imdecode(x, cv.IMREAD_UNCHANGED)
     if img is None:
         print("Error loading image")
@@ -194,7 +194,7 @@ t = Thread(target=serv.run)
 t.start()
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8002)
+    app.run(host='127.0.0.1', port=8001)
 # If here, ctrl+c was called
 serv.terminate()
 t.join()

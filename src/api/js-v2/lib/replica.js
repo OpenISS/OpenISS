@@ -5,7 +5,8 @@ const Jimp = require('jimp');
 
 
 const request = require('request');
-const baseUrl = 'http://192.168.50.50:8080';
+//const baseUrl = 'http://192.168.50.50:8080';
+const baseUrl = 'http://openiss.noima.com:8080';
 
 let loaded = false;
 
@@ -49,6 +50,8 @@ exports.getCanny = async function(args, cb) {
     console.log("doCanny: " + id);
     cv.imshow(canvas, dst);
 
+    writeFileSync('./jobs/f' + id + '.jpg', canvas.toBuffer('image/jpeg', { quality: 0.95 } ));
+
     canvas.toBuffer((err, buf) => {
       if (err) throw err // encoding failed
       cb(error, response, buf);
@@ -88,6 +91,8 @@ exports.getContour = async function(args, cb) {
     const canvas = createCanvas(image.width, image.height);
     console.log("doContour: " + id);
     cv.imshow(canvas, src);
+
+    writeFileSync('./jobs/f' + id + '.jpg', canvas.toBuffer('image/jpeg', { quality: 0.95 } ));
 
     canvas.toBuffer((err, buf) => {
       if (err) throw err // encoding failed
