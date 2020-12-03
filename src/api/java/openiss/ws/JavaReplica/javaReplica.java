@@ -21,10 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-interface EmptyProcessingQueue {
-    public void run();
-}
-
 // need to refactor
 public class javaReplica { // receving client request
     static final protected String PROJECT_HOME = System.getProperty("user.dir");
