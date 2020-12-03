@@ -3,6 +3,7 @@
 Run it as follows:
 
 ```
+npm install
 node app.js
 ```
 
