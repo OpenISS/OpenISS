@@ -62,15 +62,8 @@ socket.on("message", function(message, rinfo) {
         // }
         // Initialize hash maps
         delivered[frame].push(replica);
-        if(replica == 1){
-            var validator = spawn('python',["./test.py", "../python/jobs/f"+ frame + ".jpg", frame]);
-        }
-        else if (replica == 3){
-            var validator = spawn('python',["./test.py", "../js-v2/jobs/f"+ frame + ".jpg", frame]);
-        }
-        else{
-            var validator = spawn('python',["./test.py", "../resources/Java/f"+ frame + ".jpg", frame]);
-        }
+        // Currently just getting python checksum
+        var validator = spawn('python',["./test.py", "../python/jobs/f"+ frame + ".jpg", frame]);
         validator.stdout.on('data', function(data) {
             response = data.toString().replace(/(\r\n|\n|\r)/gm, "");
             validatorResponse = response.toString().split(",");
