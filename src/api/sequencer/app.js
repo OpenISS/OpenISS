@@ -81,6 +81,7 @@ socket.on("message", function(message, rinfo) {
                 checksums[correct_frame] = [];
             }
             checksums[correct_frame].push([replica, checksum]);
+            console.log(checksum);
             if (checksums[correct_frame].length > 1){
                 if (delivered[correct_frame].length == 2) {
                     if(checksums[correct_frame][0][1] == checksums[correct_frame][1][1]){
@@ -132,7 +133,6 @@ http.createServer(function (req, res) {
         const message = Buffer.from(SEQ_NUM + "," + method);
         socket.send(message, 0, message.length, REPLICA_PORT, MULTICAST_ADDR, function() {
             console.info(`Sending message "${message}"`);
-            requestStart = new Date();
         });
         SEQ_NUM += 1;
         res.write("Message Received!");
