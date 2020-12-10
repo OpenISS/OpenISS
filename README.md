@@ -46,7 +46,7 @@ to be portable.
 
 * See [here](https://github.com/OpenISS/OpenISS/tree/master/src/api/java) for more documentation.
 
-### Early C API and Lunux Builds ###
+### Early C API and Linux Builds ###
 
 * See detailed list [here](doc/CONTRIBUTORS.md).
 * Updates for Linux and C in EL6 (CentOS 6.x), CSI230-101 Fall 2017 course students teams:
