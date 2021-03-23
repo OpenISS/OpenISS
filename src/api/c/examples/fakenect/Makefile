@@ -30,7 +30,7 @@ GLPCL_EXE=freenect-glpclview
 GLPCL_OBJ=$(GLPCL_EXE).o
 
 PRELOAD="../../../../../libfreenect/lib/fakenect/libfakenect.so"
-RECORDING_PATH="./test-recording"
+RECORDING_PATH="./sessions"
 
 # Default target
 all: $(GL_EXE) $(GLPCL_EXE)
@@ -43,7 +43,11 @@ rungl: $(GL_EXE)
 runglpcl: $(GLPCL_EXE)
 	LD_PRELOAD=$(PRELOAD) FAKENECT_PATH=$(RECORDING_PATH) ./$(GLPCL_EXE)
 
-
+runfakenect:
+	rm -rf sessions
+	mkdir sessions
+	cd ../../../../../libfreenect/bin && ./fakenect-record ../../src/api/c/examples/fakenect/sessions
+	
 # Other subtargets to make it happen
 $(GL_EXE): $(GL_OBJ)
 	$(CC) $(VFXLIBS) $(GL_OBJ) -lfreenect -lGL -lglut -lm -lpthread -o $(GL_EXE)

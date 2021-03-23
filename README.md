@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jacobnb/OpenISS.svg?branch=master)](https://travis-ci.org/jacobnb/OpenISS)
+
 # OpenISS
 
 *Open Illimitable Space System*

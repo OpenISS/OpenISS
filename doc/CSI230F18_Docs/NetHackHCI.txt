@@ -1,0 +1,95 @@
+NETHACK
+HCI files
+nethack/src.. or nethack/include..
+
+	nethack/src/Options.c
+void parseoptions(opts, tinitial, tfrom_file)
+*From what I have read from this function, it basically uses keywords and I assume the key inputs given in order to modify values or to bring up specific menus like checking status of the player or a menu to change the fonts.
+	nethack/src/cmd.c
+popch() 
+*from the comment, what it does is that it tells the program that a character should be read from a keyboard.
+
+doextcmd()
+*reads a full word command line
+
+extcmd_via_menu()	
+*shows all the possible commands
+
+wiz_wish()
+*command to wish? Key: W
+
+wiz_identify()
+*command to identify the player's inventory. Key:I
+	
+wiz_map()
+*reveals the map of the level and includes indicators for traps. Key:F
+
+wiz_genesis()
+*generates the mobs (monsters). Key: G
+
+wiz_where()
+*displays dungeon layout. Key: O
+
+wiz_detect()
+* detects hidden elements within the game itself. Key: E
+
+wiz_level_tele()
+*teleport the level? Key: V
+
+wiz_level_change()
+*modifies the level of the player. Is command no keypress
+
+wiz_polyself()
+*changes the form of the play. Is command
+
+dotravel()
+*travel command
+
+rhack(cmd)
+*theres more to here than it looks but a small snippet of it appears to be the one that handles movement, I could be wrong
+
+*All the files below are the ones i managed to find that actually have to do with the nethack inputs, I am aware that there is more to it*
+
+	nethack/sys/winnt/nhraykey.c
+int WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, PVOID pvReserved)
+*so key inputs are placed into an event that would then be fired for the program to read.
+
+int process_keystroke2(hConIn, ir, valid)
+*processes the key press into a value that the program will then be able to interpret.
+
+int __declspec(dllexport) __stdcall
+CheckInput(hConIn, ir, count, numpad, mode, mod, cc)
+*handles the mouses event as it will recieve an input from the mouse or just the position and then fire it as an event.
+
+	nethack/sys/wince/mhcmd.c
+*It appears this would used for inputs of a smart phone? 
+
+
+LRESULT CALLBACK NHCommandWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+*control input of mouseMoving, left and right buttons.
+
+void onPaint(HWND hWnd)
+*creates a bitmap to view
+
+void onMouseDown(HWND hWnd, WPARAM wParam, LPARAM lParam)
+*for when the mouse is pressed down
+
+void onMouseMove(HWND hWnd, WPARAM wParam, LPARAM lParam)
+*for when the mouse is moving
+
+void onMouseUp(HWND hWnd, WPARAM wParam, LPARAM lParam)
+*for when the mouse button is let go
+
+void ActivateCell(HWND hWnd, int cell)
+*cell data, layout and regulate keyboard event input queue? Not sure about the last part.
+
+void NHSPhoneSetKeypadFromString(const char* str)
+*cell keyboard input string data handling
+
+	nethack/sys/vms/vmstty.c
+parse_function_key(c)
+*reads the keys as into a buffer with a 1 second timeout. it basically reads through the sequences of keypresses and partses it.
+	
+
+	nethack/include/extern.h
+*header file that contains a whole ton of data ranging from options to the player types and the entirety of the level, game and data.
