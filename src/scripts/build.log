@@ -1,0 +1,866 @@
+=============
+./build.sh STARTED
+Tue Nov 20 20:17:57 EST 2018
+=============
+=======
+INSTALL
+Started: Tue Nov 20 20:17:57 EST 2018
+=======
+===============================
+installing GENERAL dependencies
+===============================
+Loaded plugins: fastestmirror, langpacks
+Cleaning repos: base elrepo epel extras rpmfusion-free-updates
+              : rpmfusion-nonfree-updates updates
+Cleaning up everything
+Maybe you want: rm -rf /var/cache/yum, to also free up space taken by orphaned data from disabled or removed repos
+Cleaning up list of fastest mirrors
+Loaded plugins: fastestmirror, langpacks
+Cleaning repos: base elrepo epel extras rpmfusion-free-updates
+              : rpmfusion-nonfree-updates updates
+0 metadata files removed
+Loaded plugins: fastestmirror, langpacks
+Determining fastest mirrors
+ * base: centos.mirror.iweb.ca
+ * elrepo: muug.ca
+ * epel: d2lzkl7pfhq30w.cloudfront.net
+ * extras: centos.mirror.iweb.ca
+ * rpmfusion-free-updates: mirror.us.leaseweb.net
+ * rpmfusion-nonfree-updates: mirror.us.leaseweb.net
+ * updates: centos.mirror.iweb.ca
+Package epel-release-7-11.noarch already installed and latest version
+Nothing to do
+Retrieving https://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
+Preparing...                          ########################################
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.iweb.ca
+ * elrepo: muug.ca
+ * epel: d2lzkl7pfhq30w.cloudfront.net
+ * extras: centos.mirror.iweb.ca
+ * rpmfusion-free-updates: mirror.us.leaseweb.net
+ * rpmfusion-nonfree-updates: mirror.us.leaseweb.net
+ * updates: centos.mirror.iweb.ca
+Package git-1.8.3.1-14.el7_5.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.iweb.ca
+ * elrepo: muug.ca
+ * epel: d2lzkl7pfhq30w.cloudfront.net
+ * extras: centos.mirror.iweb.ca
+ * rpmfusion-free-updates: mirror.us.leaseweb.net
+ * rpmfusion-nonfree-updates: mirror.us.leaseweb.net
+ * updates: centos.mirror.iweb.ca
+Package gcc-4.8.5-28.el7_5.1.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.iweb.ca
+ * elrepo: muug.ca
+ * epel: d2lzkl7pfhq30w.cloudfront.net
+ * extras: centos.mirror.iweb.ca
+ * rpmfusion-free-updates: mirror.us.leaseweb.net
+ * rpmfusion-nonfree-updates: mirror.us.leaseweb.net
+ * updates: centos.mirror.iweb.ca
+Package 1:make-3.82-23.el7.x86_64 already installed and latest version
+Package cmake-2.8.12.2-2.el7.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.iweb.ca
+ * elrepo: muug.ca
+ * epel: d2lzkl7pfhq30w.cloudfront.net
+ * extras: centos.mirror.iweb.ca
+ * rpmfusion-free-updates: mirror.us.leaseweb.net
+ * rpmfusion-nonfree-updates: mirror.us.leaseweb.net
+ * updates: centos.mirror.iweb.ca
+Package patch-2.7.1-10.el7_5.x86_64 already installed and latest version
+Package wget-1.14-15.el7_4.1.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.iweb.ca
+ * elrepo: muug.ca
+ * epel: d2lzkl7pfhq30w.cloudfront.net
+ * extras: centos.mirror.iweb.ca
+ * rpmfusion-free-updates: mirror.us.leaseweb.net
+ * rpmfusion-nonfree-updates: mirror.us.leaseweb.net
+ * updates: centos.mirror.iweb.ca
+Package libtool-2.4.2-22.el7_3.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.iweb.ca
+ * elrepo: muug.ca
+ * elrepo-kernel: muug.ca
+ * epel: d2lzkl7pfhq30w.cloudfront.net
+ * extras: centos.mirror.iweb.ca
+ * rpmfusion-free-updates: mirror.us.leaseweb.net
+ * rpmfusion-nonfree-updates: mirror.us.leaseweb.net
+ * updates: centos.mirror.iweb.ca
+Package kernel-ml-4.19.2-1.el7.elrepo.x86_64 already installed and latest version
+Package kernel-ml-devel-4.19.2-1.el7.elrepo.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.iweb.ca
+ * elrepo: muug.ca
+ * epel: d2lzkl7pfhq30w.cloudfront.net
+ * extras: centos.mirror.iweb.ca
+ * rpmfusion-free-updates: mirror.us.leaseweb.net
+ * rpmfusion-nonfree-updates: mirror.us.leaseweb.net
+ * updates: centos.mirror.iweb.ca
+Package libXmu-devel-1.1.2-2.el7.x86_64 already installed and latest version
+Package freeglut-devel-2.8.1-3.el7.x86_64 already installed and latest version
+Package systemd-devel-219-57.el7_5.3.x86_64 already installed and latest version
+Package libtool-2.4.2-22.el7_3.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.iweb.ca
+ * elrepo: muug.ca
+ * epel: d2lzkl7pfhq30w.cloudfront.net
+ * extras: centos.mirror.iweb.ca
+ * rpmfusion-free-updates: mirror.us.leaseweb.net
+ * rpmfusion-nonfree-updates: mirror.us.leaseweb.net
+ * updates: centos.mirror.iweb.ca
+Package python34-3.4.9-1.el7.x86_64 already installed and latest version
+Nothing to do
+===============================
+GENERAL dependencies installed
+===============================
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.iweb.ca
+ * elrepo: muug.ca
+ * epel: d2lzkl7pfhq30w.cloudfront.net
+ * extras: centos.mirror.iweb.ca
+ * rpmfusion-free-updates: mirror.us.leaseweb.net
+ * rpmfusion-nonfree-updates: mirror.us.leaseweb.net
+ * updates: centos.mirror.iweb.ca
+Package cmake3-3.12.2-1.el7.x86_64 already installed and latest version
+Package 1:make-3.82-23.el7.x86_64 already installed and latest version
+Package gcc-c++-4.8.5-28.el7_5.1.x86_64 already installed and latest version
+Package libX11-devel-1.6.5-1.el7.x86_64 already installed and latest version
+Package libXi-devel-1.7.9-1.el7.x86_64 already installed and latest version
+Package mesa-libGL-17.2.3-8.20171019.el7.x86_64 already installed and latest version
+Package mesa-libGL-devel-17.2.3-8.20171019.el7.x86_64 already installed and latest version
+Package mesa-libGLU-9.0.0-4.el7.x86_64 already installed and latest version
+Package libXrandr-devel-1.5.1-2.el7.x86_64 already installed and latest version
+Package libXext-devel-1.3.3-3.el7.x86_64 already installed and latest version
+Package libXcursor-devel-1.1.14-8.el7.x86_64 already installed and latest version
+Package libXinerama-devel-1.1.3-2.1.el7.x86_64 already installed and latest version
+Package libXi-devel-1.7.9-1.el7.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.iweb.ca
+ * elrepo: muug.ca
+ * epel: d2lzkl7pfhq30w.cloudfront.net
+ * extras: centos.mirror.iweb.ca
+ * rpmfusion-free-updates: mirror.us.leaseweb.net
+ * rpmfusion-nonfree-updates: mirror.us.leaseweb.net
+ * updates: centos.mirror.iweb.ca
+Package libXmu-devel-1.1.2-2.el7.x86_64 already installed and latest version
+Package freeglut-devel-2.8.1-3.el7.x86_64 already installed and latest version
+Nothing to do
+=============================
+OpenGL dependencies installed
+=============================
+============
+INSTALL DONE
+Tue Nov 20 20:18:38 EST 2018
+Cache:
+./dependencies/el7.sh-dependencies
+ogl
+============
+/home/lunick/OpenISS/ogl /home/lunick/OpenISS/src/scripts
+-- The C compiler identification is GNU 4.8.5
+-- The CXX compiler identification is GNU 4.8.5
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found OpenGL: /usr/lib64/libGL.so   
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - not found
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
+-- Using X11 for window creation
+-- Using GLX for context creation
+-- Looking for XOpenDisplay in /usr/lib64/libX11.so;/usr/lib64/libXext.so
+-- Looking for XOpenDisplay in /usr/lib64/libX11.so;/usr/lib64/libXext.so - found
+-- Looking for gethostbyname
+-- Looking for gethostbyname - found
+-- Looking for connect
+-- Looking for connect - found
+-- Looking for remove
+-- Looking for remove - found
+-- Looking for shmat
+-- Looking for shmat - found
+-- Looking for IceConnectionNumber in ICE
+-- Looking for IceConnectionNumber in ICE - found
+-- Found X11: /usr/lib64/libX11.so
+-- Looking for sys/types.h
+-- Looking for sys/types.h - found
+-- Looking for stdint.h
+-- Looking for stdint.h - found
+-- Looking for stddef.h
+-- Looking for stddef.h - found
+-- Check size of off64_t
+-- Check size of off64_t - done
+-- Looking for fseeko
+-- Looking for fseeko - found
+-- Looking for unistd.h
+-- Looking for unistd.h - found
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/lunick/OpenISS/ogl/build
+Scanning dependencies of target glfw
+[  0%] Building C object external/glfw-3.1.2/src/CMakeFiles/glfw.dir/context.c.o
+[  0%] Building C object external/glfw-3.1.2/src/CMakeFiles/glfw.dir/init.c.o
+[  0%] Building C object external/glfw-3.1.2/src/CMakeFiles/glfw.dir/input.c.o
+[  1%] Building C object external/glfw-3.1.2/src/CMakeFiles/glfw.dir/monitor.c.o
+[  1%] Building C object external/glfw-3.1.2/src/CMakeFiles/glfw.dir/window.c.o
+[  1%] Building C object external/glfw-3.1.2/src/CMakeFiles/glfw.dir/x11_init.c.o
+[  1%] Building C object external/glfw-3.1.2/src/CMakeFiles/glfw.dir/x11_monitor.c.o
+[  1%] Building C object external/glfw-3.1.2/src/CMakeFiles/glfw.dir/x11_window.c.o
+[  1%] Building C object external/glfw-3.1.2/src/CMakeFiles/glfw.dir/xkb_unicode.c.o
+[  2%] Building C object external/glfw-3.1.2/src/CMakeFiles/glfw.dir/linux_joystick.c.o
+[  2%] Building C object external/glfw-3.1.2/src/CMakeFiles/glfw.dir/posix_time.c.o
+[  2%] Building C object external/glfw-3.1.2/src/CMakeFiles/glfw.dir/posix_tls.c.o
+[  2%] Building C object external/glfw-3.1.2/src/CMakeFiles/glfw.dir/glx_context.c.o
+[  2%] Linking C static library libglfw3.a
+[  2%] Built target glfw
+Scanning dependencies of target GLEW_1130
+[  2%] Building C object external/CMakeFiles/GLEW_1130.dir/glew-1.13.0/src/glew.c.o
+[  2%] Linking C static library libGLEW_1130.a
+[  2%] Built target GLEW_1130
+Scanning dependencies of target tutorial18_billboards
+[  2%] Building CXX object CMakeFiles/tutorial18_billboards.dir/tutorial18_billboards_and_particles/tutorial18_billboards.cpp.o
+[  2%] Building CXX object CMakeFiles/tutorial18_billboards.dir/common/shader.cpp.o
+[  2%] Building CXX object CMakeFiles/tutorial18_billboards.dir/common/texture.cpp.o
+[  3%] Building CXX object CMakeFiles/tutorial18_billboards.dir/common/controls.cpp.o
+[  3%] Linking CXX executable tutorial18_billboards
+[  3%] Built target tutorial18_billboards
+Scanning dependencies of target ANTTWEAKBAR_116_OGLCORE_GLFW
+[  3%] Building CXX object external/CMakeFiles/ANTTWEAKBAR_116_OGLCORE_GLFW.dir/AntTweakBar-1.16/src/LoadOGL.cpp.o
+[  3%] Building CXX object external/CMakeFiles/ANTTWEAKBAR_116_OGLCORE_GLFW.dir/AntTweakBar-1.16/src/LoadOGLCore.cpp.o
+[  3%] Building CXX object external/CMakeFiles/ANTTWEAKBAR_116_OGLCORE_GLFW.dir/AntTweakBar-1.16/src/TwColors.cpp.o
+[  3%] Building CXX object external/CMakeFiles/ANTTWEAKBAR_116_OGLCORE_GLFW.dir/AntTweakBar-1.16/src/TwBar.cpp.o
+[  3%] Building C object external/CMakeFiles/ANTTWEAKBAR_116_OGLCORE_GLFW.dir/AntTweakBar-1.16/src/TwEventGLFW.c.o
+[  4%] Building CXX object external/CMakeFiles/ANTTWEAKBAR_116_OGLCORE_GLFW.dir/AntTweakBar-1.16/src/TwFonts.cpp.o
+[  4%] Building CXX object external/CMakeFiles/ANTTWEAKBAR_116_OGLCORE_GLFW.dir/AntTweakBar-1.16/src/TwMgr.cpp.o
+[  4%] Building CXX object external/CMakeFiles/ANTTWEAKBAR_116_OGLCORE_GLFW.dir/AntTweakBar-1.16/src/TwOpenGL.cpp.o
+[  4%] Building CXX object external/CMakeFiles/ANTTWEAKBAR_116_OGLCORE_GLFW.dir/AntTweakBar-1.16/src/TwOpenGLCore.cpp.o
+[  4%] Building CXX object external/CMakeFiles/ANTTWEAKBAR_116_OGLCORE_GLFW.dir/AntTweakBar-1.16/src/TwPrecomp.cpp.o
+[  5%] Linking CXX static library libANTTWEAKBAR_116_OGLCORE_GLFW.a
+[  5%] Built target ANTTWEAKBAR_116_OGLCORE_GLFW
+Scanning dependencies of target misc05_picking_custom
+[  5%] Building CXX object CMakeFiles/misc05_picking_custom.dir/misc05_picking/misc05_picking_custom.cpp.o
+[  5%] Building CXX object CMakeFiles/misc05_picking_custom.dir/common/shader.cpp.o
+[  6%] Building CXX object CMakeFiles/misc05_picking_custom.dir/common/controls.cpp.o
+[  6%] Building CXX object CMakeFiles/misc05_picking_custom.dir/common/texture.cpp.o
+[  6%] Building CXX object CMakeFiles/misc05_picking_custom.dir/common/objloader.cpp.o
+[  6%] Building CXX object CMakeFiles/misc05_picking_custom.dir/common/vboindexer.cpp.o
+[  6%] Linking CXX executable misc05_picking_custom
+[  6%] Built target misc05_picking_custom
+Scanning dependencies of target zlib
+[  6%] Building C object external/assimp-3.0.1270/contrib/zlib/CMakeFiles/zlib.dir/adler32.c.o
+[  6%] Building C object external/assimp-3.0.1270/contrib/zlib/CMakeFiles/zlib.dir/compress.c.o
+[  6%] Building C object external/assimp-3.0.1270/contrib/zlib/CMakeFiles/zlib.dir/crc32.c.o
+[  6%] Building C object external/assimp-3.0.1270/contrib/zlib/CMakeFiles/zlib.dir/deflate.c.o
+[  7%] Building C object external/assimp-3.0.1270/contrib/zlib/CMakeFiles/zlib.dir/inffast.c.o
+[  7%] Building C object external/assimp-3.0.1270/contrib/zlib/CMakeFiles/zlib.dir/inflate.c.o
+[  7%] Building C object external/assimp-3.0.1270/contrib/zlib/CMakeFiles/zlib.dir/inftrees.c.o
+[  7%] Building C object external/assimp-3.0.1270/contrib/zlib/CMakeFiles/zlib.dir/trees.c.o
+[  7%] Building C object external/assimp-3.0.1270/contrib/zlib/CMakeFiles/zlib.dir/zutil.c.o
+[  8%] Linking C static library libz.a
+[  8%] Built target zlib
+Scanning dependencies of target assimp
+[  8%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/Assimp.cpp.o
+[  8%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/AssimpPCH.cpp.o
+[  8%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/BaseImporter.cpp.o
+[  9%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/BaseProcess.cpp.o
+[  9%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/PostStepRegistry.cpp.o
+[  9%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ImporterRegistry.cpp.o
+[  9%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/DefaultIOStream.cpp.o
+[  9%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/DefaultIOSystem.cpp.o
+[ 10%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/Importer.cpp.o
+[ 10%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/SGSpatialSort.cpp.o
+[ 10%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/VertexTriangleAdjacency.cpp.o
+[ 10%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/SpatialSort.cpp.o
+[ 10%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/SceneCombiner.cpp.o
+[ 11%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ScenePreprocessor.cpp.o
+[ 11%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/SkeletonMeshBuilder.cpp.o
+[ 11%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/SplitByBoneCountProcess.cpp.o
+[ 11%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/StandardShapes.cpp.o
+[ 11%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/TargetAnimation.cpp.o
+[ 12%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/RemoveComments.cpp.o
+[ 12%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/Subdivision.cpp.o
+[ 12%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/DefaultLogger.cpp.o
+[ 12%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/Exporter.cpp.o
+[ 12%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/AssimpCExport.cpp.o
+[ 13%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/CalcTangentsProcess.cpp.o
+[ 13%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ComputeUVMappingProcess.cpp.o
+[ 13%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ConvertToLHProcess.cpp.o
+[ 13%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/FindDegenerates.cpp.o
+[ 13%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/FindInstancesProcess.cpp.o
+[ 13%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/FindInvalidDataProcess.cpp.o
+[ 14%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/FixNormalsStep.cpp.o
+[ 14%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/GenFaceNormalsProcess.cpp.o
+[ 14%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/GenVertexNormalsProcess.cpp.o
+[ 14%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/PretransformVertices.cpp.o
+[ 14%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ImproveCacheLocality.cpp.o
+[ 15%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/JoinVerticesProcess.cpp.o
+[ 15%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/LimitBoneWeightsProcess.cpp.o
+[ 15%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/RemoveRedundantMaterials.cpp.o
+[ 15%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/RemoveVCProcess.cpp.o
+[ 15%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/SortByPTypeProcess.cpp.o
+[ 16%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/SplitLargeMeshes.cpp.o
+[ 16%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/TerragenLoader.cpp.o
+[ 16%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/TextureTransform.cpp.o
+[ 16%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/TriangulateProcess.cpp.o
+[ 16%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ValidateDataStructure.cpp.o
+[ 17%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/OptimizeGraph.cpp.o
+[ 17%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/OptimizeMeshes.cpp.o
+[ 17%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/DeboneProcess.cpp.o
+[ 17%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ProcessHelper.cpp.o
+[ 17%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/MakeVerboseFormat.cpp.o
+[ 18%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/3DSConverter.cpp.o
+[ 18%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/3DSLoader.cpp.o
+[ 18%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ACLoader.cpp.o
+[ 18%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ASELoader.cpp.o
+[ 18%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ASEParser.cpp.o
+[ 19%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/B3DImporter.cpp.o
+[ 19%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/BVHLoader.cpp.o
+[ 19%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ColladaLoader.cpp.o
+[ 19%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ColladaParser.cpp.o
+[ 19%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ColladaExporter.cpp.o
+[ 20%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/DXFLoader.cpp.o
+[ 20%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/CSMLoader.cpp.o
+[ 20%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/HMPLoader.cpp.o
+[ 20%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/IRRLoader.cpp.o
+[ 20%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/IRRMeshLoader.cpp.o
+[ 21%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/IRRShared.cpp.o
+[ 21%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/LWOAnimation.cpp.o
+[ 21%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/LWOBLoader.cpp.o
+[ 21%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/LWOLoader.cpp.o
+[ 21%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/LWOMaterial.cpp.o
+[ 21%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/LWSLoader.cpp.o
+[ 22%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/M3Importer.cpp.o
+[ 22%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/MD2Loader.cpp.o
+[ 22%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/MD3Loader.cpp.o
+[ 22%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/MD5Loader.cpp.o
+[ 22%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/MD5Parser.cpp.o
+[ 23%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/MDCLoader.cpp.o
+[ 23%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/MDLLoader.cpp.o
+[ 23%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/MDLMaterialLoader.cpp.o
+[ 23%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/MaterialSystem.cpp.o
+[ 23%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/NFFLoader.cpp.o
+[ 24%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/OFFLoader.cpp.o
+[ 24%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ObjFileImporter.cpp.o
+[ 24%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ObjFileMtlImporter.cpp.o
+[ 24%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ObjFileParser.cpp.o
+[ 24%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/ObjExporter.cpp.o
+[ 25%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/OgreImporter.cpp.o
+[ 25%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/OgreMaterial.cpp.o
+[ 25%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/OgreMesh.cpp.o
+[ 25%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/OgreSkeleton.cpp.o
+[ 25%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/PlyLoader.cpp.o
+[ 26%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/PlyParser.cpp.o
+[ 26%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/PlyExporter.cpp.o
+[ 26%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/Q3DLoader.cpp.o
+[ 26%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/Q3BSPFileParser.cpp.o
+[ 26%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/Q3BSPFileImporter.cpp.o
+[ 27%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/Q3BSPZipArchive.cpp.o
+[ 27%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/RawLoader.cpp.o
+[ 27%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/SMDLoader.cpp.o
+[ 27%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/STLLoader.cpp.o
+[ 27%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/STLExporter.cpp.o
+[ 28%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/UnrealLoader.cpp.o
+[ 28%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/XFileImporter.cpp.o
+[ 28%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/XFileParser.cpp.o
+[ 28%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/MS3DLoader.cpp.o
+[ 28%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/COBLoader.cpp.o
+[ 29%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/BlenderLoader.cpp.o
+[ 29%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/BlenderDNA.cpp.o
+[ 29%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/BlenderScene.cpp.o
+[ 29%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/BlenderModifier.cpp.o
+[ 29%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/NDOLoader.cpp.o
+[ 30%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/IFCLoader.cpp.o
+[ 30%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/IFCReaderGen.cpp.o
+[ 30%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/IFCUtil.cpp.o
+[ 30%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/IFCGeometry.cpp.o
+[ 30%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/IFCMaterial.cpp.o
+[ 30%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/IFCProfile.cpp.o
+[ 31%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/IFCCurve.cpp.o
+[ 31%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/STEPFileReader.cpp.o
+[ 31%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/XGLLoader.cpp.o
+[ 31%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/__/contrib/irrXML/irrXML.cpp.o
+[ 31%] Building C object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/__/contrib/ConvertUTF/ConvertUTF.c.o
+[ 32%] Building C object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/__/contrib/unzip/ioapi.c.o
+[ 32%] Building C object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/__/contrib/unzip/unzip.c.o
+[ 32%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/__/contrib/poly2tri/poly2tri/common/shapes.cc.o
+[ 32%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/__/contrib/poly2tri/poly2tri/sweep/advancing_front.cc.o
+[ 32%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/__/contrib/poly2tri/poly2tri/sweep/cdt.cc.o
+[ 33%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/__/contrib/poly2tri/poly2tri/sweep/sweep.cc.o
+[ 33%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/__/contrib/poly2tri/poly2tri/sweep/sweep_context.cc.o
+[ 33%] Building CXX object external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/__/contrib/clipper/clipper.cpp.o
+[ 33%] Linking CXX static library libassimp.a
+[ 33%] Built target assimp
+Scanning dependencies of target tutorial09_AssImp
+[ 33%] Building CXX object CMakeFiles/tutorial09_AssImp.dir/tutorial09_vbo_indexing/tutorial09_AssImp.cpp.o
+[ 33%] Building CXX object CMakeFiles/tutorial09_AssImp.dir/common/shader.cpp.o
+[ 33%] Building CXX object CMakeFiles/tutorial09_AssImp.dir/common/controls.cpp.o
+[ 33%] Building CXX object CMakeFiles/tutorial09_AssImp.dir/common/texture.cpp.o
+[ 34%] Building CXX object CMakeFiles/tutorial09_AssImp.dir/common/objloader.cpp.o
+[ 34%] Linking CXX executable tutorial09_AssImp
+[ 34%] Built target tutorial09_AssImp
+Scanning dependencies of target tutorial15_lightmaps
+[ 34%] Building CXX object CMakeFiles/tutorial15_lightmaps.dir/tutorial15_lightmaps/tutorial15.cpp.o
+[ 35%] Building CXX object CMakeFiles/tutorial15_lightmaps.dir/common/shader.cpp.o
+[ 35%] Building CXX object CMakeFiles/tutorial15_lightmaps.dir/common/controls.cpp.o
+[ 35%] Building CXX object CMakeFiles/tutorial15_lightmaps.dir/common/texture.cpp.o
+[ 35%] Building CXX object CMakeFiles/tutorial15_lightmaps.dir/common/objloader.cpp.o
+[ 35%] Building CXX object CMakeFiles/tutorial15_lightmaps.dir/common/vboindexer.cpp.o
+[ 36%] Linking CXX executable tutorial15_lightmaps
+[ 36%] Built target tutorial15_lightmaps
+Scanning dependencies of target tutorial08_basic_shading
+[ 37%] Building CXX object CMakeFiles/tutorial08_basic_shading.dir/tutorial08_basic_shading/tutorial08.cpp.o
+[ 37%] Building CXX object CMakeFiles/tutorial08_basic_shading.dir/common/shader.cpp.o
+[ 37%] Building CXX object CMakeFiles/tutorial08_basic_shading.dir/common/controls.cpp.o
+[ 37%] Building CXX object CMakeFiles/tutorial08_basic_shading.dir/common/texture.cpp.o
+[ 37%] Building CXX object CMakeFiles/tutorial08_basic_shading.dir/common/objloader.cpp.o
+[ 38%] Linking CXX executable tutorial08_basic_shading
+[ 38%] Built target tutorial08_basic_shading
+Scanning dependencies of target tutorial06_keyboard_and_mouse
+[ 39%] Building CXX object CMakeFiles/tutorial06_keyboard_and_mouse.dir/tutorial06_keyboard_and_mouse/tutorial06.cpp.o
+[ 39%] Building CXX object CMakeFiles/tutorial06_keyboard_and_mouse.dir/common/shader.cpp.o
+[ 39%] Building CXX object CMakeFiles/tutorial06_keyboard_and_mouse.dir/common/controls.cpp.o
+[ 39%] Building CXX object CMakeFiles/tutorial06_keyboard_and_mouse.dir/common/texture.cpp.o
+[ 39%] Linking CXX executable tutorial06_keyboard_and_mouse
+[ 39%] Built target tutorial06_keyboard_and_mouse
+Scanning dependencies of target tutorial13_normal_mapping
+[ 39%] Building CXX object CMakeFiles/tutorial13_normal_mapping.dir/tutorial13_normal_mapping/tutorial13.cpp.o
+[ 39%] Building CXX object CMakeFiles/tutorial13_normal_mapping.dir/common/shader.cpp.o
+[ 39%] Building CXX object CMakeFiles/tutorial13_normal_mapping.dir/common/controls.cpp.o
+[ 40%] Building CXX object CMakeFiles/tutorial13_normal_mapping.dir/common/texture.cpp.o
+[ 40%] Building CXX object CMakeFiles/tutorial13_normal_mapping.dir/common/objloader.cpp.o
+[ 40%] Building CXX object CMakeFiles/tutorial13_normal_mapping.dir/common/vboindexer.cpp.o
+[ 40%] Building CXX object CMakeFiles/tutorial13_normal_mapping.dir/common/text2D.cpp.o
+[ 40%] Building CXX object CMakeFiles/tutorial13_normal_mapping.dir/common/tangentspace.cpp.o
+[ 41%] Linking CXX executable tutorial13_normal_mapping
+[ 41%] Built target tutorial13_normal_mapping
+Scanning dependencies of target tutorial05_textured_cube
+[ 41%] Building CXX object CMakeFiles/tutorial05_textured_cube.dir/tutorial05_textured_cube/tutorial05.cpp.o
+[ 41%] Building CXX object CMakeFiles/tutorial05_textured_cube.dir/common/shader.cpp.o
+[ 41%] Building CXX object CMakeFiles/tutorial05_textured_cube.dir/common/texture.cpp.o
+[ 41%] Linking CXX executable tutorial05_textured_cube
+[ 41%] Built target tutorial05_textured_cube
+Scanning dependencies of target tutorial07_model_loading
+[ 41%] Building CXX object CMakeFiles/tutorial07_model_loading.dir/tutorial07_model_loading/tutorial07.cpp.o
+[ 42%] Building CXX object CMakeFiles/tutorial07_model_loading.dir/common/shader.cpp.o
+[ 42%] Building CXX object CMakeFiles/tutorial07_model_loading.dir/common/controls.cpp.o
+[ 42%] Building CXX object CMakeFiles/tutorial07_model_loading.dir/common/texture.cpp.o
+[ 42%] Building CXX object CMakeFiles/tutorial07_model_loading.dir/common/objloader.cpp.o
+[ 42%] Linking CXX executable tutorial07_model_loading
+[ 42%] Built target tutorial07_model_loading
+Scanning dependencies of target tutorial03_matrices
+[ 43%] Building CXX object CMakeFiles/tutorial03_matrices.dir/tutorial03_matrices/tutorial03.cpp.o
+[ 43%] Building CXX object CMakeFiles/tutorial03_matrices.dir/common/shader.cpp.o
+[ 43%] Linking CXX executable tutorial03_matrices
+[ 43%] Built target tutorial03_matrices
+Scanning dependencies of target tutorial09_vbo_indexing
+[ 43%] Building CXX object CMakeFiles/tutorial09_vbo_indexing.dir/tutorial09_vbo_indexing/tutorial09.cpp.o
+[ 44%] Building CXX object CMakeFiles/tutorial09_vbo_indexing.dir/common/shader.cpp.o
+[ 44%] Building CXX object CMakeFiles/tutorial09_vbo_indexing.dir/common/controls.cpp.o
+[ 44%] Building CXX object CMakeFiles/tutorial09_vbo_indexing.dir/common/texture.cpp.o
+[ 44%] Building CXX object CMakeFiles/tutorial09_vbo_indexing.dir/common/objloader.cpp.o
+[ 44%] Building CXX object CMakeFiles/tutorial09_vbo_indexing.dir/common/vboindexer.cpp.o
+[ 45%] Linking CXX executable tutorial09_vbo_indexing
+[ 45%] Built target tutorial09_vbo_indexing
+Scanning dependencies of target tutorial09_several_objects
+[ 45%] Building CXX object CMakeFiles/tutorial09_several_objects.dir/tutorial09_vbo_indexing/tutorial09_several_objects.cpp.o
+[ 45%] Building CXX object CMakeFiles/tutorial09_several_objects.dir/common/shader.cpp.o
+[ 45%] Building CXX object CMakeFiles/tutorial09_several_objects.dir/common/controls.cpp.o
+[ 46%] Building CXX object CMakeFiles/tutorial09_several_objects.dir/common/texture.cpp.o
+[ 46%] Building CXX object CMakeFiles/tutorial09_several_objects.dir/common/objloader.cpp.o
+[ 46%] Building CXX object CMakeFiles/tutorial09_several_objects.dir/common/vboindexer.cpp.o
+[ 46%] Linking CXX executable tutorial09_several_objects
+[ 46%] Built target tutorial09_several_objects
+Scanning dependencies of target tutorial02_red_triangle
+[ 46%] Building CXX object CMakeFiles/tutorial02_red_triangle.dir/tutorial02_red_triangle/tutorial02.cpp.o
+[ 46%] Building CXX object CMakeFiles/tutorial02_red_triangle.dir/common/shader.cpp.o
+[ 46%] Linking CXX executable tutorial02_red_triangle
+[ 46%] Built target tutorial02_red_triangle
+Scanning dependencies of target playground
+[ 46%] Building CXX object CMakeFiles/playground.dir/playground/playground.cpp.o
+[ 46%] Building CXX object CMakeFiles/playground.dir/common/shader.cpp.o
+[ 46%] Linking CXX executable playground
+[ 46%] Built target playground
+Scanning dependencies of target tutorial01_first_window
+[ 47%] Building CXX object CMakeFiles/tutorial01_first_window.dir/tutorial01_first_window/tutorial01.cpp.o
+[ 47%] Linking CXX executable tutorial01_first_window
+[ 47%] Built target tutorial01_first_window
+Scanning dependencies of target tutorial11_2d_fonts
+[ 47%] Building CXX object CMakeFiles/tutorial11_2d_fonts.dir/tutorial11_2d_fonts/tutorial11.cpp.o
+[ 47%] Building CXX object CMakeFiles/tutorial11_2d_fonts.dir/common/shader.cpp.o
+[ 47%] Building CXX object CMakeFiles/tutorial11_2d_fonts.dir/common/controls.cpp.o
+[ 48%] Building CXX object CMakeFiles/tutorial11_2d_fonts.dir/common/texture.cpp.o
+[ 48%] Building CXX object CMakeFiles/tutorial11_2d_fonts.dir/common/objloader.cpp.o
+[ 48%] Building CXX object CMakeFiles/tutorial11_2d_fonts.dir/common/vboindexer.cpp.o
+[ 48%] Building CXX object CMakeFiles/tutorial11_2d_fonts.dir/common/text2D.cpp.o
+[ 48%] Linking CXX executable tutorial11_2d_fonts
+[ 48%] Built target tutorial11_2d_fonts
+Scanning dependencies of target tutorial12_extensions
+[ 49%] Building CXX object CMakeFiles/tutorial12_extensions.dir/tutorial12_extensions/tutorial12.cpp.o
+[ 49%] Building CXX object CMakeFiles/tutorial12_extensions.dir/common/shader.cpp.o
+[ 49%] Building CXX object CMakeFiles/tutorial12_extensions.dir/common/controls.cpp.o
+[ 49%] Building CXX object CMakeFiles/tutorial12_extensions.dir/common/texture.cpp.o
+[ 49%] Building CXX object CMakeFiles/tutorial12_extensions.dir/common/objloader.cpp.o
+[ 50%] Building CXX object CMakeFiles/tutorial12_extensions.dir/common/vboindexer.cpp.o
+[ 50%] Linking CXX executable tutorial12_extensions
+[ 50%] Built target tutorial12_extensions
+Scanning dependencies of target tutorial16_shadowmaps_simple
+[ 50%] Building CXX object CMakeFiles/tutorial16_shadowmaps_simple.dir/tutorial16_shadowmaps/tutorial16_SimpleVersion.cpp.o
+[ 50%] Building CXX object CMakeFiles/tutorial16_shadowmaps_simple.dir/common/shader.cpp.o
+[ 50%] Building CXX object CMakeFiles/tutorial16_shadowmaps_simple.dir/common/controls.cpp.o
+[ 51%] Building CXX object CMakeFiles/tutorial16_shadowmaps_simple.dir/common/texture.cpp.o
+[ 51%] Building CXX object CMakeFiles/tutorial16_shadowmaps_simple.dir/common/objloader.cpp.o
+[ 51%] Building CXX object CMakeFiles/tutorial16_shadowmaps_simple.dir/common/vboindexer.cpp.o
+[ 51%] Linking CXX executable tutorial16_shadowmaps_simple
+[ 51%] Built target tutorial16_shadowmaps_simple
+Scanning dependencies of target tutorial14_render_to_texture
+[ 51%] Building CXX object CMakeFiles/tutorial14_render_to_texture.dir/tutorial14_render_to_texture/tutorial14.cpp.o
+[ 51%] Building CXX object CMakeFiles/tutorial14_render_to_texture.dir/common/shader.cpp.o
+[ 51%] Building CXX object CMakeFiles/tutorial14_render_to_texture.dir/common/controls.cpp.o
+[ 51%] Building CXX object CMakeFiles/tutorial14_render_to_texture.dir/common/texture.cpp.o
+[ 52%] Building CXX object CMakeFiles/tutorial14_render_to_texture.dir/common/objloader.cpp.o
+[ 52%] Building CXX object CMakeFiles/tutorial14_render_to_texture.dir/common/vboindexer.cpp.o
+[ 52%] Building CXX object CMakeFiles/tutorial14_render_to_texture.dir/common/text2D.cpp.o
+[ 52%] Linking CXX executable tutorial14_render_to_texture
+[ 52%] Built target tutorial14_render_to_texture
+Scanning dependencies of target tutorial04_colored_cube
+[ 52%] Building CXX object CMakeFiles/tutorial04_colored_cube.dir/tutorial04_colored_cube/tutorial04.cpp.o
+[ 52%] Building CXX object CMakeFiles/tutorial04_colored_cube.dir/common/shader.cpp.o
+[ 53%] Linking CXX executable tutorial04_colored_cube
+[ 53%] Built target tutorial04_colored_cube
+Scanning dependencies of target tutorial17_rotations
+[ 53%] Building CXX object CMakeFiles/tutorial17_rotations.dir/tutorial17_rotations/tutorial17.cpp.o
+[ 54%] Building CXX object CMakeFiles/tutorial17_rotations.dir/common/shader.cpp.o
+[ 54%] Building CXX object CMakeFiles/tutorial17_rotations.dir/common/controls.cpp.o
+[ 54%] Building CXX object CMakeFiles/tutorial17_rotations.dir/common/texture.cpp.o
+[ 54%] Building CXX object CMakeFiles/tutorial17_rotations.dir/common/objloader.cpp.o
+[ 54%] Building CXX object CMakeFiles/tutorial17_rotations.dir/common/vboindexer.cpp.o
+[ 55%] Building CXX object CMakeFiles/tutorial17_rotations.dir/common/quaternion_utils.cpp.o
+[ 55%] Linking CXX executable tutorial17_rotations
+[ 55%] Built target tutorial17_rotations
+Scanning dependencies of target tutorial18_particles
+[ 55%] Building CXX object CMakeFiles/tutorial18_particles.dir/tutorial18_billboards_and_particles/tutorial18_particles.cpp.o
+[ 55%] Building CXX object CMakeFiles/tutorial18_particles.dir/common/shader.cpp.o
+[ 55%] Building CXX object CMakeFiles/tutorial18_particles.dir/common/texture.cpp.o
+[ 56%] Building CXX object CMakeFiles/tutorial18_particles.dir/common/controls.cpp.o
+[ 56%] Linking CXX executable tutorial18_particles
+[ 56%] Built target tutorial18_particles
+Scanning dependencies of target LinearMath
+[ 56%] Building CXX object external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/btAlignedAllocator.cpp.o
+[ 56%] Building CXX object external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/btConvexHull.cpp.o
+[ 57%] Building CXX object external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/btConvexHullComputer.cpp.o
+[ 57%] Building CXX object external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/btGeometryUtil.cpp.o
+[ 57%] Building CXX object external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/btPolarDecomposition.cpp.o
+[ 57%] Building CXX object external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/btQuickprof.cpp.o
+[ 57%] Building CXX object external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/btSerializer.cpp.o
+[ 58%] Building CXX object external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/btVector3.cpp.o
+[ 58%] Linking CXX static library libLinearMath.a
+[ 58%] Built target LinearMath
+Scanning dependencies of target BulletCollision
+[ 58%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/BroadphaseCollision/btAxisSweep3.cpp.o
+[ 58%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/BroadphaseCollision/btBroadphaseProxy.cpp.o
+[ 58%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/BroadphaseCollision/btCollisionAlgorithm.cpp.o
+[ 58%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/BroadphaseCollision/btDbvt.cpp.o
+[ 59%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/BroadphaseCollision/btDbvtBroadphase.cpp.o
+[ 59%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/BroadphaseCollision/btDispatcher.cpp.o
+[ 59%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/BroadphaseCollision/btMultiSapBroadphase.cpp.o
+[ 59%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/BroadphaseCollision/btOverlappingPairCache.cpp.o
+[ 59%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/BroadphaseCollision/btQuantizedBvh.cpp.o
+[ 60%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/BroadphaseCollision/btSimpleBroadphase.cpp.o
+[ 60%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btActivatingCollisionAlgorithm.cpp.o
+[ 60%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btBoxBoxCollisionAlgorithm.cpp.o
+[ 60%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btBox2dBox2dCollisionAlgorithm.cpp.o
+[ 60%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btBoxBoxDetector.cpp.o
+[ 61%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btCollisionDispatcher.cpp.o
+[ 61%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btCollisionObject.cpp.o
+[ 61%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btCollisionWorld.cpp.o
+[ 61%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btCompoundCollisionAlgorithm.cpp.o
+[ 61%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btConvexConcaveCollisionAlgorithm.cpp.o
+[ 62%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btConvexConvexAlgorithm.cpp.o
+[ 62%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btConvexPlaneCollisionAlgorithm.cpp.o
+[ 62%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btConvex2dConvex2dAlgorithm.cpp.o
+[ 62%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btDefaultCollisionConfiguration.cpp.o
+[ 62%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btEmptyCollisionAlgorithm.cpp.o
+[ 63%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btGhostObject.cpp.o
+[ 63%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btInternalEdgeUtility.cpp.o
+[ 63%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btManifoldResult.cpp.o
+[ 63%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btSimulationIslandManager.cpp.o
+[ 63%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btSphereBoxCollisionAlgorithm.cpp.o
+[ 64%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btSphereSphereCollisionAlgorithm.cpp.o
+[ 64%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btSphereTriangleCollisionAlgorithm.cpp.o
+[ 64%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/btUnionFind.cpp.o
+[ 64%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionDispatch/SphereTriangleDetector.cpp.o
+[ 64%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btBoxShape.cpp.o
+[ 64%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btBox2dShape.cpp.o
+[ 65%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btBvhTriangleMeshShape.cpp.o
+[ 65%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btCapsuleShape.cpp.o
+[ 65%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btCollisionShape.cpp.o
+[ 65%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btCompoundShape.cpp.o
+[ 65%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btConcaveShape.cpp.o
+[ 66%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btConeShape.cpp.o
+[ 66%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btConvexHullShape.cpp.o
+[ 66%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btConvexInternalShape.cpp.o
+[ 66%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btConvexPointCloudShape.cpp.o
+[ 66%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btConvexPolyhedron.cpp.o
+[ 67%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btConvexShape.cpp.o
+[ 67%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btConvex2dShape.cpp.o
+[ 67%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btConvexTriangleMeshShape.cpp.o
+[ 67%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btCylinderShape.cpp.o
+[ 67%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btEmptyShape.cpp.o
+[ 68%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btHeightfieldTerrainShape.cpp.o
+[ 68%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btMinkowskiSumShape.cpp.o
+[ 68%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btMultimaterialTriangleMeshShape.cpp.o
+[ 68%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btMultiSphereShape.cpp.o
+[ 68%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btOptimizedBvh.cpp.o
+[ 69%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btPolyhedralConvexShape.cpp.o
+[ 69%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btScaledBvhTriangleMeshShape.cpp.o
+[ 69%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btShapeHull.cpp.o
+[ 69%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btSphereShape.cpp.o
+[ 69%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btStaticPlaneShape.cpp.o
+[ 70%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btStridingMeshInterface.cpp.o
+[ 70%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btTetrahedronShape.cpp.o
+[ 70%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btTriangleBuffer.cpp.o
+[ 70%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btTriangleCallback.cpp.o
+[ 70%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btTriangleIndexVertexArray.cpp.o
+[ 71%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btTriangleIndexVertexMaterialArray.cpp.o
+[ 71%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btTriangleMesh.cpp.o
+[ 71%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btTriangleMeshShape.cpp.o
+[ 71%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/CollisionShapes/btUniformScalingShape.cpp.o
+[ 71%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/Gimpact/btContactProcessing.cpp.o
+[ 72%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/Gimpact/btGenericPoolAllocator.cpp.o
+[ 72%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/Gimpact/btGImpactBvh.cpp.o
+[ 72%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/Gimpact/btGImpactCollisionAlgorithm.cpp.o
+[ 72%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/Gimpact/btGImpactQuantizedBvh.cpp.o
+[ 72%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/Gimpact/btGImpactShape.cpp.o
+[ 72%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/Gimpact/btTriangleShapeEx.cpp.o
+[ 73%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/Gimpact/gim_box_set.cpp.o
+[ 73%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/Gimpact/gim_contact.cpp.o
+[ 73%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/Gimpact/gim_memory.cpp.o
+[ 73%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/Gimpact/gim_tri_collision.cpp.o
+[ 73%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/NarrowPhaseCollision/btContinuousConvexCollision.cpp.o
+[ 74%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/NarrowPhaseCollision/btConvexCast.cpp.o
+[ 74%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/NarrowPhaseCollision/btGjkConvexCast.cpp.o
+[ 74%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/NarrowPhaseCollision/btGjkEpa2.cpp.o
+[ 74%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/NarrowPhaseCollision/btGjkEpaPenetrationDepthSolver.cpp.o
+[ 74%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/NarrowPhaseCollision/btGjkPairDetector.cpp.o
+[ 75%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/NarrowPhaseCollision/btMinkowskiPenetrationDepthSolver.cpp.o
+[ 75%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/NarrowPhaseCollision/btPersistentManifold.cpp.o
+[ 75%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/NarrowPhaseCollision/btRaycastCallback.cpp.o
+[ 75%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/NarrowPhaseCollision/btSubSimplexConvexCast.cpp.o
+[ 75%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/NarrowPhaseCollision/btVoronoiSimplexSolver.cpp.o
+[ 76%] Building CXX object external/bullet-2.81-rev2613/src/BulletCollision/CMakeFiles/BulletCollision.dir/NarrowPhaseCollision/btPolyhedralContactClipping.cpp.o
+[ 76%] Linking CXX static library libBulletCollision.a
+[ 76%] Built target BulletCollision
+Scanning dependencies of target BulletDynamics
+[ 76%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/Character/btKinematicCharacterController.cpp.o
+[ 76%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/ConstraintSolver/btConeTwistConstraint.cpp.o
+[ 76%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/ConstraintSolver/btContactConstraint.cpp.o
+[ 77%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/ConstraintSolver/btGearConstraint.cpp.o
+[ 77%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/ConstraintSolver/btGeneric6DofConstraint.cpp.o
+[ 77%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/ConstraintSolver/btGeneric6DofSpringConstraint.cpp.o
+[ 77%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/ConstraintSolver/btHinge2Constraint.cpp.o
+[ 77%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/ConstraintSolver/btHingeConstraint.cpp.o
+[ 78%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/ConstraintSolver/btPoint2PointConstraint.cpp.o
+[ 78%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/ConstraintSolver/btSequentialImpulseConstraintSolver.cpp.o
+[ 78%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/ConstraintSolver/btSliderConstraint.cpp.o
+[ 78%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/ConstraintSolver/btSolve2LinearConstraint.cpp.o
+[ 78%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/ConstraintSolver/btTypedConstraint.cpp.o
+[ 79%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/ConstraintSolver/btUniversalConstraint.cpp.o
+[ 79%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/Dynamics/btDiscreteDynamicsWorld.cpp.o
+[ 79%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/Dynamics/btRigidBody.cpp.o
+[ 79%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/Dynamics/btSimpleDynamicsWorld.cpp.o
+[ 79%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/Dynamics/Bullet-C-API.cpp.o
+[ 80%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/Vehicle/btRaycastVehicle.cpp.o
+[ 80%] Building CXX object external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/Vehicle/btWheelInfo.cpp.o
+[ 80%] Linking CXX static library libBulletDynamics.a
+[ 80%] Built target BulletDynamics
+Scanning dependencies of target misc05_picking_BulletPhysics
+[ 80%] Building CXX object CMakeFiles/misc05_picking_BulletPhysics.dir/misc05_picking/misc05_picking_BulletPhysics.cpp.o
+[ 80%] Building CXX object CMakeFiles/misc05_picking_BulletPhysics.dir/common/shader.cpp.o
+[ 80%] Building CXX object CMakeFiles/misc05_picking_BulletPhysics.dir/common/controls.cpp.o
+[ 80%] Building CXX object CMakeFiles/misc05_picking_BulletPhysics.dir/common/texture.cpp.o
+[ 81%] Building CXX object CMakeFiles/misc05_picking_BulletPhysics.dir/common/objloader.cpp.o
+[ 81%] Building CXX object CMakeFiles/misc05_picking_BulletPhysics.dir/common/vboindexer.cpp.o
+[ 81%] Linking CXX executable misc05_picking_BulletPhysics
+[ 81%] Built target misc05_picking_BulletPhysics
+Scanning dependencies of target tutorial16_shadowmaps
+[ 81%] Building CXX object CMakeFiles/tutorial16_shadowmaps.dir/tutorial16_shadowmaps/tutorial16.cpp.o
+[ 81%] Building CXX object CMakeFiles/tutorial16_shadowmaps.dir/common/shader.cpp.o
+[ 81%] Building CXX object CMakeFiles/tutorial16_shadowmaps.dir/common/controls.cpp.o
+[ 81%] Building CXX object CMakeFiles/tutorial16_shadowmaps.dir/common/texture.cpp.o
+[ 81%] Building CXX object CMakeFiles/tutorial16_shadowmaps.dir/common/objloader.cpp.o
+[ 82%] Building CXX object CMakeFiles/tutorial16_shadowmaps.dir/common/vboindexer.cpp.o
+[ 82%] Linking CXX executable tutorial16_shadowmaps
+[ 82%] Built target tutorial16_shadowmaps
+Scanning dependencies of target tutorial10_transparency
+[ 82%] Building CXX object CMakeFiles/tutorial10_transparency.dir/tutorial10_transparency/tutorial10.cpp.o
+[ 82%] Building CXX object CMakeFiles/tutorial10_transparency.dir/common/shader.cpp.o
+[ 82%] Building CXX object CMakeFiles/tutorial10_transparency.dir/common/controls.cpp.o
+[ 82%] Building CXX object CMakeFiles/tutorial10_transparency.dir/common/texture.cpp.o
+[ 83%] Building CXX object CMakeFiles/tutorial10_transparency.dir/common/objloader.cpp.o
+[ 83%] Building CXX object CMakeFiles/tutorial10_transparency.dir/common/vboindexer.cpp.o
+[ 83%] Linking CXX executable tutorial10_transparency
+[ 83%] Built target tutorial10_transparency
+Scanning dependencies of target misc05_picking_slow_easy
+[ 84%] Building CXX object CMakeFiles/misc05_picking_slow_easy.dir/misc05_picking/misc05_picking_slow_easy.cpp.o
+[ 84%] Building CXX object CMakeFiles/misc05_picking_slow_easy.dir/common/shader.cpp.o
+[ 84%] Building CXX object CMakeFiles/misc05_picking_slow_easy.dir/common/controls.cpp.o
+[ 84%] Building CXX object CMakeFiles/misc05_picking_slow_easy.dir/common/texture.cpp.o
+[ 84%] Building CXX object CMakeFiles/misc05_picking_slow_easy.dir/common/objloader.cpp.o
+[ 85%] Building CXX object CMakeFiles/misc05_picking_slow_easy.dir/common/vboindexer.cpp.o
+[ 85%] Linking CXX executable misc05_picking_slow_easy
+[ 85%] Built target misc05_picking_slow_easy
+Scanning dependencies of target boing
+[ 85%] Building C object external/glfw-3.1.2/examples/CMakeFiles/boing.dir/boing.c.o
+[ 86%] Linking C executable boing
+[ 86%] Built target boing
+Scanning dependencies of target gears
+[ 87%] Building C object external/glfw-3.1.2/examples/CMakeFiles/gears.dir/gears.c.o
+[ 87%] Linking C executable gears
+[ 87%] Built target gears
+Scanning dependencies of target heightmap
+[ 87%] Building C object external/glfw-3.1.2/examples/CMakeFiles/heightmap.dir/heightmap.c.o
+[ 87%] Building C object external/glfw-3.1.2/examples/CMakeFiles/heightmap.dir/__/deps/glad.c.o
+[ 88%] Linking C executable heightmap
+[ 88%] Built target heightmap
+Scanning dependencies of target particles
+[ 88%] Building C object external/glfw-3.1.2/examples/CMakeFiles/particles.dir/particles.c.o
+[ 88%] Building C object external/glfw-3.1.2/examples/CMakeFiles/particles.dir/__/deps/tinycthread.c.o
+[ 88%] Building C object external/glfw-3.1.2/examples/CMakeFiles/particles.dir/__/deps/getopt.c.o
+[ 89%] Linking C executable particles
+[ 89%] Built target particles
+Scanning dependencies of target wave
+[ 89%] Building C object external/glfw-3.1.2/examples/CMakeFiles/wave.dir/wave.c.o
+[ 89%] Linking C executable wave
+[ 89%] Built target wave
+Scanning dependencies of target simple
+[ 89%] Building C object external/glfw-3.1.2/examples/CMakeFiles/simple.dir/simple.c.o
+[ 89%] Linking C executable simple
+[ 89%] Built target simple
+Scanning dependencies of target splitview
+[ 90%] Building C object external/glfw-3.1.2/examples/CMakeFiles/splitview.dir/splitview.c.o
+[ 90%] Linking C executable splitview
+[ 90%] Built target splitview
+Scanning dependencies of target windows
+[ 90%] Building C object external/glfw-3.1.2/tests/CMakeFiles/windows.dir/windows.c.o
+[ 91%] Linking C executable windows
+[ 91%] Built target windows
+Scanning dependencies of target sharing
+[ 91%] Building C object external/glfw-3.1.2/tests/CMakeFiles/sharing.dir/sharing.c.o
+[ 91%] Linking C executable sharing
+[ 91%] Built target sharing
+Scanning dependencies of target tearing
+[ 91%] Building C object external/glfw-3.1.2/tests/CMakeFiles/tearing.dir/tearing.c.o
+[ 91%] Building C object external/glfw-3.1.2/tests/CMakeFiles/tearing.dir/__/deps/getopt.c.o
+[ 91%] Linking C executable tearing
+[ 91%] Built target tearing
+Scanning dependencies of target events
+[ 91%] Building C object external/glfw-3.1.2/tests/CMakeFiles/events.dir/events.c.o
+[ 92%] Building C object external/glfw-3.1.2/tests/CMakeFiles/events.dir/__/deps/getopt.c.o
+[ 92%] Linking C executable events
+[ 92%] Built target events
+Scanning dependencies of target gamma
+[ 92%] Building C object external/glfw-3.1.2/tests/CMakeFiles/gamma.dir/gamma.c.o
+[ 92%] Building C object external/glfw-3.1.2/tests/CMakeFiles/gamma.dir/__/deps/getopt.c.o
+[ 92%] Linking C executable gamma
+[ 92%] Built target gamma
+Scanning dependencies of target title
+[ 92%] Building C object external/glfw-3.1.2/tests/CMakeFiles/title.dir/title.c.o
+[ 92%] Linking C executable title
+[ 92%] Built target title
+Scanning dependencies of target threads
+[ 93%] Building C object external/glfw-3.1.2/tests/CMakeFiles/threads.dir/threads.c.o
+[ 93%] Building C object external/glfw-3.1.2/tests/CMakeFiles/threads.dir/__/deps/tinycthread.c.o
+[ 93%] Linking C executable threads
+[ 93%] Built target threads
+Scanning dependencies of target empty
+[ 93%] Building C object external/glfw-3.1.2/tests/CMakeFiles/empty.dir/empty.c.o
+[ 93%] Building C object external/glfw-3.1.2/tests/CMakeFiles/empty.dir/__/deps/tinycthread.c.o
+[ 93%] Linking C executable empty
+[ 93%] Built target empty
+Scanning dependencies of target msaa
+[ 93%] Building C object external/glfw-3.1.2/tests/CMakeFiles/msaa.dir/msaa.c.o
+[ 94%] Building C object external/glfw-3.1.2/tests/CMakeFiles/msaa.dir/__/deps/getopt.c.o
+[ 94%] Linking C executable msaa
+[ 94%] Built target msaa
+Scanning dependencies of target glfwinfo
+[ 95%] Building C object external/glfw-3.1.2/tests/CMakeFiles/glfwinfo.dir/glfwinfo.c.o
+[ 95%] Building C object external/glfw-3.1.2/tests/CMakeFiles/glfwinfo.dir/__/deps/getopt.c.o
+[ 95%] Linking C executable glfwinfo
+[ 95%] Built target glfwinfo
+Scanning dependencies of target iconify
+[ 95%] Building C object external/glfw-3.1.2/tests/CMakeFiles/iconify.dir/iconify.c.o
+[ 95%] Building C object external/glfw-3.1.2/tests/CMakeFiles/iconify.dir/__/deps/getopt.c.o
+[ 95%] Linking C executable iconify
+[ 95%] Built target iconify
+Scanning dependencies of target monitors
+[ 95%] Building C object external/glfw-3.1.2/tests/CMakeFiles/monitors.dir/monitors.c.o
+[ 95%] Building C object external/glfw-3.1.2/tests/CMakeFiles/monitors.dir/__/deps/getopt.c.o
+[ 95%] Linking C executable monitors
+[ 95%] Built target monitors
+Scanning dependencies of target cursor
+[ 95%] Building C object external/glfw-3.1.2/tests/CMakeFiles/cursor.dir/cursor.c.o
+[ 96%] Linking C executable cursor
+[ 96%] Built target cursor
+Scanning dependencies of target joysticks
+[ 96%] Building C object external/glfw-3.1.2/tests/CMakeFiles/joysticks.dir/joysticks.c.o
+[ 97%] Linking C executable joysticks
+[ 97%] Built target joysticks
+Scanning dependencies of target clipboard
+[ 97%] Building C object external/glfw-3.1.2/tests/CMakeFiles/clipboard.dir/clipboard.c.o
+[ 97%] Building C object external/glfw-3.1.2/tests/CMakeFiles/clipboard.dir/__/deps/getopt.c.o
+[ 97%] Linking C executable clipboard
+[ 97%] Built target clipboard
+Scanning dependencies of target reopen
+[ 97%] Building C object external/glfw-3.1.2/tests/CMakeFiles/reopen.dir/reopen.c.o
+[ 98%] Linking C executable reopen
+[ 98%] Built target reopen
+Scanning dependencies of target BulletSoftBody
+[ 98%] Building CXX object external/bullet-2.81-rev2613/src/BulletSoftBody/CMakeFiles/BulletSoftBody.dir/btSoftBody.cpp.o
+[ 98%] Building CXX object external/bullet-2.81-rev2613/src/BulletSoftBody/CMakeFiles/BulletSoftBody.dir/btSoftBodyConcaveCollisionAlgorithm.cpp.o
+[ 99%] Building CXX object external/bullet-2.81-rev2613/src/BulletSoftBody/CMakeFiles/BulletSoftBody.dir/btSoftBodyHelpers.cpp.o
+[ 99%] Building CXX object external/bullet-2.81-rev2613/src/BulletSoftBody/CMakeFiles/BulletSoftBody.dir/btSoftBodyRigidBodyCollisionConfiguration.cpp.o
+[ 99%] Building CXX object external/bullet-2.81-rev2613/src/BulletSoftBody/CMakeFiles/BulletSoftBody.dir/btSoftRigidCollisionAlgorithm.cpp.o
+[ 99%] Building CXX object external/bullet-2.81-rev2613/src/BulletSoftBody/CMakeFiles/BulletSoftBody.dir/btSoftRigidDynamicsWorld.cpp.o
+[ 99%] Building CXX object external/bullet-2.81-rev2613/src/BulletSoftBody/CMakeFiles/BulletSoftBody.dir/btSoftSoftCollisionAlgorithm.cpp.o
+[ 99%] Building CXX object external/bullet-2.81-rev2613/src/BulletSoftBody/CMakeFiles/BulletSoftBody.dir/btDefaultSoftBodySolver.cpp.o
+[100%] Linking CXX static library libBulletSoftBody.a
+[100%] Built target BulletSoftBody
+/home/lunick/OpenISS/src/scripts
+=============
+./build.sh DONE
+Tue Nov 20 20:20:53 EST 2018
+=============

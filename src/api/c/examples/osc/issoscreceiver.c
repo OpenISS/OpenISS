@@ -4,6 +4,7 @@
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include "tinyosc.h"
@@ -17,9 +18,13 @@ static void sigintHandler(int x) {
 
 int main(int argc, char *argv[])
 {
- char buffer[2048]; // declare a 2Kb buffer to read packet data into
+ char buffer[2048]; // declare a 2Kb buffer to read packet data int
 
- // open a socket to listen for datagrams (i.e. UDP packets) on port 9000
+  //open the file to write the log to
+  stdout = fopen("log.txt", "w"); //redirect stdout to a file
+  fprintf(stdout, "%s\n", "Reciever: ");
+
+  // open a socket to listen for datagrams (i.e. UDP packets) on port 9000
   const int fd = socket(AF_INET, SOCK_DGRAM, 0);
   fcntl(fd, F_SETFL, O_NONBLOCK); // set the socket to non-blocking
   struct sockaddr_in sin;
@@ -29,7 +34,6 @@ int main(int argc, char *argv[])
   bind(fd, (struct sockaddr *) &sin, sizeof(struct sockaddr_in));
   printf("tinyosc is now listening on port 9000.\n");
   printf("Press Ctrl+C to stop.\n");
-
   while (keepRunning) {
     fd_set readSet;
     FD_ZERO(&readSet);
@@ -47,6 +51,7 @@ int main(int argc, char *argv[])
           tosc_message osc;
           while (tosc_getNextMessage(&bundle, &osc)) {
             tosc_printMessage(&osc);
+	   
           }
         } else {
           tosc_message osc;

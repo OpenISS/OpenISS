@@ -48,7 +48,7 @@ opencv:
 
 clean:
 	cd $(SCRIPTSDIR) ; \
-	./$(EXE) $(UNINSTALL_OPTION)
+	./$(EXE) $(UNINSTALL_OPTION) --build.sh
 
 clean-opencv:
 	cd $(SCRIPTSDIR) ; \

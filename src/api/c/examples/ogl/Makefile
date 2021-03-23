@@ -16,11 +16,13 @@ VFXLIBS=\
 	-L ../../../../../ogl/build/external
 
 # A list of executable, object, and library files
-EXE=tutorial02
-OBJ=tutorial02.o tutorial02Wrapper.o
+EXE=tutorial02 
+EXE2=tutorial03
+OBJ=tutorial02.o tutorial02Wrapper.o 
+OBJ2=tutorial03.o tutorial03Wrapper.o
 
 # Default target
-all: $(EXE)
+all: $(EXE) $(EXE2)
 	@echo "All is perfectly done!"
 
 # Other subtargets to make it happen
@@ -30,11 +32,20 @@ $(EXE): $(OBJ)
 		-lXxf86vm -lXcursor -lpthread -lrt -lX11 -lXrandr -lXi -lXinerama -lm -ldl \
 		-o $(EXE)
 
+$(EXE2): $(OBJ2)
+	$(CC) $(OBJ2) $(VFXLIBS) \
+		-lGL -lglfw3 -lGLEW_1130 -lANTTWEAKBAR_116_OGLCORE_GLFW -lstdc++ \
+		-lXxf86vm -lXcursor -lpthread -lrt -lX11 -lXrandr -lXi -lXinerama -lm -ldl \
+		-o $(EXE2)
+
 %.o: %.c %.h
 	$(CC) $(CFLAGS) $(VFXLIBS) -c $<
 
 tutorial02Wrapper.o: tutorial02Wrapper.cpp tutorial02Wrapper.h
 	g++ $(CFLAGS) -c tutorial02Wrapper.cpp
+
+tutorial03Wrapper.o: tutorial03Wrapper.cpp tutorial03Wrapper.h
+	g++ $(CFLAGS) -c tutorial03Wrapper.cpp
 
 # run
 run: all

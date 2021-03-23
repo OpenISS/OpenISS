@@ -1,0 +1,241 @@
+=======
+INSTALL
+Started: Tue Nov 20 20:08:01 EST 2018
+=======
+===============================
+installing GENERAL dependencies
+===============================
+Loaded plugins: fastestmirror, langpacks
+Cleaning repos: base elrepo epel extras rpmfusion-free-updates
+              : rpmfusion-nonfree-updates updates
+Cleaning up everything
+Maybe you want: rm -rf /var/cache/yum, to also free up space taken by orphaned data from disabled or removed repos
+Cleaning up list of fastest mirrors
+Loaded plugins: fastestmirror, langpacks
+Cleaning repos: base elrepo epel extras rpmfusion-free-updates
+              : rpmfusion-nonfree-updates updates
+0 metadata files removed
+Loaded plugins: fastestmirror, langpacks
+Determining fastest mirrors
+ * base: centos.mirror.ca.planethoster.net
+ * elrepo: muug.ca
+ * epel: fedora-epel.mirror.iweb.com
+ * extras: centos.mirror.ca.planethoster.net
+ * rpmfusion-free-updates: mirror.math.princeton.edu
+ * rpmfusion-nonfree-updates: mirror.math.princeton.edu
+ * updates: centos.mirror.ca.planethoster.net
+Package epel-release-7-11.noarch already installed and latest version
+Nothing to do
+Retrieving https://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
+Preparing...                          ########################################
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.ca.planethoster.net
+ * elrepo: muug.ca
+ * epel: fedora-epel.mirror.iweb.com
+ * extras: centos.mirror.ca.planethoster.net
+ * rpmfusion-free-updates: mirror.math.princeton.edu
+ * rpmfusion-nonfree-updates: mirror.math.princeton.edu
+ * updates: centos.mirror.ca.planethoster.net
+Package git-1.8.3.1-14.el7_5.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.ca.planethoster.net
+ * elrepo: muug.ca
+ * epel: fedora-epel.mirror.iweb.com
+ * extras: centos.mirror.ca.planethoster.net
+ * rpmfusion-free-updates: mirror.math.princeton.edu
+ * rpmfusion-nonfree-updates: mirror.math.princeton.edu
+ * updates: centos.mirror.ca.planethoster.net
+Package gcc-4.8.5-28.el7_5.1.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.ca.planethoster.net
+ * elrepo: muug.ca
+ * epel: fedora-epel.mirror.iweb.com
+ * extras: centos.mirror.ca.planethoster.net
+ * rpmfusion-free-updates: mirror.math.princeton.edu
+ * rpmfusion-nonfree-updates: mirror.math.princeton.edu
+ * updates: centos.mirror.ca.planethoster.net
+Package 1:make-3.82-23.el7.x86_64 already installed and latest version
+Package cmake-2.8.12.2-2.el7.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.ca.planethoster.net
+ * elrepo: muug.ca
+ * epel: fedora-epel.mirror.iweb.com
+ * extras: centos.mirror.ca.planethoster.net
+ * rpmfusion-free-updates: mirror.math.princeton.edu
+ * rpmfusion-nonfree-updates: mirror.math.princeton.edu
+ * updates: centos.mirror.ca.planethoster.net
+Package patch-2.7.1-10.el7_5.x86_64 already installed and latest version
+Package wget-1.14-15.el7_4.1.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.ca.planethoster.net
+ * elrepo: muug.ca
+ * epel: fedora-epel.mirror.iweb.com
+ * extras: centos.mirror.ca.planethoster.net
+ * rpmfusion-free-updates: mirror.math.princeton.edu
+ * rpmfusion-nonfree-updates: mirror.math.princeton.edu
+ * updates: centos.mirror.ca.planethoster.net
+Package libtool-2.4.2-22.el7_3.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.ca.planethoster.net
+ * elrepo: muug.ca
+ * elrepo-kernel: muug.ca
+ * epel: fedora-epel.mirror.iweb.com
+ * extras: centos.mirror.ca.planethoster.net
+ * rpmfusion-free-updates: mirror.math.princeton.edu
+ * rpmfusion-nonfree-updates: mirror.math.princeton.edu
+ * updates: centos.mirror.ca.planethoster.net
+Package kernel-ml-4.19.2-1.el7.elrepo.x86_64 already installed and latest version
+Package kernel-ml-devel-4.19.2-1.el7.elrepo.x86_64 already installed and latest version
+Nothing to do
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.ca.planethoster.net
+ * elrepo: muug.ca
+ * epel: fedora-epel.mirror.iweb.com
+ * extras: centos.mirror.ca.planethoster.net
+ * rpmfusion-free-updates: mirror.math.princeton.edu
+ * rpmfusion-nonfree-updates: mirror.math.princeton.edu
+ * updates: centos.mirror.ca.planethoster.net
+Package libtool-2.4.2-22.el7_3.x86_64 already installed and latest version
+Resolving Dependencies
+--> Running transaction check
+---> Package freeglut-devel.x86_64 0:2.8.1-3.el7 will be installed
+---> Package libXmu-devel.x86_64 0:1.1.2-2.el7 will be installed
+---> Package systemd-devel.x86_64 0:219-57.el7_5.3 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package               Arch          Version               Repository      Size
+================================================================================
+Installing:
+ freeglut-devel        x86_64        2.8.1-3.el7           base           114 k
+ libXmu-devel          x86_64        1.1.2-2.el7           base            24 k
+ systemd-devel         x86_64        219-57.el7_5.3        updates        196 k
+
+Transaction Summary
+================================================================================
+Install  3 Packages
+
+Total download size: 333 k
+Installed size: 519 k
+Downloading packages:
+--------------------------------------------------------------------------------
+Total                                              2.2 MB/s | 333 kB  00:00     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : libXmu-devel-1.1.2-2.el7.x86_64                              1/3 
+  Installing : systemd-devel-219-57.el7_5.3.x86_64                          2/3 
+  Installing : freeglut-devel-2.8.1-3.el7.x86_64                            3/3 
+  Verifying  : freeglut-devel-2.8.1-3.el7.x86_64                            1/3 
+  Verifying  : systemd-devel-219-57.el7_5.3.x86_64                          2/3 
+  Verifying  : libXmu-devel-1.1.2-2.el7.x86_64                              3/3 
+
+Installed:
+  freeglut-devel.x86_64 0:2.8.1-3.el7      libXmu-devel.x86_64 0:1.1.2-2.el7   
+  systemd-devel.x86_64 0:219-57.el7_5.3   
+
+Complete!
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.ca.planethoster.net
+ * elrepo: muug.ca
+ * epel: fedora-epel.mirror.iweb.com
+ * extras: centos.mirror.ca.planethoster.net
+ * rpmfusion-free-updates: mirror.math.princeton.edu
+ * rpmfusion-nonfree-updates: mirror.math.princeton.edu
+ * updates: centos.mirror.ca.planethoster.net
+Package python34-3.4.9-1.el7.x86_64 already installed and latest version
+Nothing to do
+===============================
+GENERAL dependencies installed
+===============================
+----------------------------------------OGL OPTION WAS 1
+----------------------------------------Attempting OGL Install
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.ca.planethoster.net
+ * elrepo: muug.ca
+ * epel: fedora-epel.mirror.iweb.com
+ * extras: centos.mirror.ca.planethoster.net
+ * rpmfusion-free-updates: mirror.math.princeton.edu
+ * rpmfusion-nonfree-updates: mirror.math.princeton.edu
+ * updates: centos.mirror.ca.planethoster.net
+Package cmake3-3.12.2-1.el7.x86_64 already installed and latest version
+Package 1:make-3.82-23.el7.x86_64 already installed and latest version
+Package gcc-c++-4.8.5-28.el7_5.1.x86_64 already installed and latest version
+Package libX11-devel-1.6.5-1.el7.x86_64 already installed and latest version
+Package mesa-libGL-17.2.3-8.20171019.el7.x86_64 already installed and latest version
+Package mesa-libGL-devel-17.2.3-8.20171019.el7.x86_64 already installed and latest version
+Package mesa-libGLU-9.0.0-4.el7.x86_64 already installed and latest version
+Package libXrandr-devel-1.5.1-2.el7.x86_64 already installed and latest version
+Package libXext-devel-1.3.3-3.el7.x86_64 already installed and latest version
+Package libXcursor-devel-1.1.14-8.el7.x86_64 already installed and latest version
+Package libXinerama-devel-1.1.3-2.1.el7.x86_64 already installed and latest version
+Resolving Dependencies
+--> Running transaction check
+---> Package libXi-devel.x86_64 0:1.7.9-1.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package              Arch            Version               Repository     Size
+================================================================================
+Installing:
+ libXi-devel          x86_64          1.7.9-1.el7           base          105 k
+
+Transaction Summary
+================================================================================
+Install  1 Package
+
+Total download size: 105 k
+Installed size: 126 k
+Downloading packages:
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : libXi-devel-1.7.9-1.el7.x86_64                               1/1 
+  Verifying  : libXi-devel-1.7.9-1.el7.x86_64                               1/1 
+
+Installed:
+  libXi-devel.x86_64 0:1.7.9-1.el7                                              
+
+Complete!
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.ca.planethoster.net
+ * elrepo: muug.ca
+ * epel: fedora-epel.mirror.iweb.com
+ * extras: centos.mirror.ca.planethoster.net
+ * rpmfusion-free-updates: mirror.math.princeton.edu
+ * rpmfusion-nonfree-updates: mirror.math.princeton.edu
+ * updates: centos.mirror.ca.planethoster.net
+Package libXmu-devel-1.1.2-2.el7.x86_64 already installed and latest version
+Package freeglut-devel-2.8.1-3.el7.x86_64 already installed and latest version
+Nothing to do
+=============================
+OpenGL dependencies installed
+=============================
+============
+INSTALL DONE
+Tue Nov 20 20:09:13 EST 2018
+Cache:
+./el7.sh-dependencies
+ogl
+============
