@@ -43,6 +43,10 @@ public class OpenISSRestService {
                 System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
                 System.load(PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
             }
+            else if(osName.indexOf("linux") >= 0) {
+                System.out.println("Loading Native library" + PROJECT_HOME+ "/lib/opencv/linux/libopencv_java3413.so");
+                System.load(PROJECT_HOME+"/lib/opencv/linux/libopencv_java3413.so");
+            }
         }
 
     }
