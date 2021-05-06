@@ -49,8 +49,11 @@ import org.openkinect.freenect.VideoFormat;
 import org.openkinect.freenect.VideoHandler;
 
 import javax.imageio.ImageIO;
+import openiss.utils.Utils;
+import openiss.utils.OpenISSConfig.SensorType;
 
-public class Kinect1 {
+// TODO: Move Fakenect implementation that uses local files
+public class Kinect1 implements Sensor {
 
     static byte[] color;
     static ShortBuffer depth;
@@ -118,7 +121,8 @@ public class Kinect1 {
         /**
          * Both Freenect and Fakenect are disabled
          */
-        if (!OpenISSConfig.USE_FREENECT && !OpenISSConfig.USE_FAKENECT) {
+        if (OpenISSConfig.SENSOR_TYPE != OpenISSConfig.SensorType.FREENECT && 
+            OpenISSConfig.SENSOR_TYPE != OpenISSConfig.SensorType.FAKENECT) {
             return;
         }
 
@@ -132,7 +136,7 @@ public class Kinect1 {
 
         // Lookup table for all possible depth values (0 - 2047)
         for (int i = 0; i < depthLookUp.length; i++) {
-            depthLookUp[i] = rawDepthToMeters(i);
+            depthLookUp[i] = Utils.rawDepthToMeters(i);
         }
 
         context = Freenect.createContext();
@@ -213,18 +217,19 @@ public class Kinect1 {
         videoEnabled = false;
     }
 
+    @Override public void initSensor() {}
 
     /**
      * Start getting depth from Kinect1 (available as raw array or mapped to image)
      *
      */
-    public void initDepth() {
+    @Override public void initSensorDepth() {
 
         /**
          * Clients who have configured Fakenect but do not support the library
          * Currently only Windows
          */
-        if (OpenISSConfig.USE_FAKENECT && !Freenect.LIB_IS_LOADED) {
+        if (OpenISSConfig.SENSOR_TYPE == OpenISSConfig.SensorType.FAKENECT && !Freenect.LIB_IS_LOADED) {
             try {
                 useFileSystemDepth();
                 return;
@@ -237,7 +242,8 @@ public class Kinect1 {
         /**
          * Both Freenect and Fakenect are disabled
          */
-        if (!OpenISSConfig.USE_FREENECT && !OpenISSConfig.USE_FAKENECT) {
+        if (OpenISSConfig.SENSOR_TYPE != OpenISSConfig.SensorType.FREENECT && 
+            OpenISSConfig.SENSOR_TYPE != OpenISSConfig.SensorType.FAKENECT) {
             return;
         }
 
@@ -261,13 +267,13 @@ public class Kinect1 {
      * Start getting RGB video from Kinect1.
      *
      */
-    public void initVideo() {
+    @Override public void initSensorVideo() {
 
         /**
          * Clients who have configured Fakenect but do not support the library
          * Currently only Windows
          */
-        if (OpenISSConfig.USE_FAKENECT && !Freenect.LIB_IS_LOADED) {
+        if (OpenISSConfig.SENSOR_TYPE == OpenISSConfig.SensorType.FAKENECT && !Freenect.LIB_IS_LOADED) {
             try {
                 useFileSystemColor();
                 return;
@@ -280,7 +286,8 @@ public class Kinect1 {
         /**
          * Both Freenect and Fakenect are disabled
          */
-        if (!OpenISSConfig.USE_FREENECT && !OpenISSConfig.USE_FAKENECT) {
+        if (OpenISSConfig.SENSOR_TYPE != OpenISSConfig.SensorType.FREENECT && 
+            OpenISSConfig.SENSOR_TYPE != OpenISSConfig.SensorType.FAKENECT) {
             return;
         }
 
@@ -363,7 +370,7 @@ public class Kinect1 {
             device.setVideoFormat(VideoFormat.RGB);
         }
         if (!videoEnabled) {
-            initVideo();
+            initSensorVideo();
         }
 
 
@@ -383,37 +390,28 @@ public class Kinect1 {
      *
      * @return reference to depth image
      */
-    public BufferedImage getDepthImage() {
+    @Override public BufferedImage getSensorDepthImage() {
         byte[] imageInBytes;
 
         try {
-
-            /**
-             * Clients who do not have Kinect1 and have not configured Fakenect
-             * @return depth_example.jpg from resources
-             */
-            if (OpenISSConfig.USE_STATIC_IMAGES) {
-                return ImageIO.read(new File(classLoader.getResource(depthFileName).getFile()));
-            }
-
             /**
              * Clients who have configured Fakenect but do not support the library
              * Currently only Windows
              * @return current image from FAKENECT_PATH recorded session
              */
-            else if (!Freenect.LIB_IS_LOADED && OpenISSConfig.USE_FAKENECT) {
+            if (!Freenect.LIB_IS_LOADED && (OpenISSConfig.SENSOR_TYPE == OpenISSConfig.SensorType.FAKENECT)) {
                 imageInBytes = Files.readAllBytes(new File(getFileName("depth")).toPath());
                 ByteBuffer buf = ByteBuffer.wrap(imageInBytes);
-                return processPGMImage(640, 480, buf.asShortBuffer());
+                return Utils.processPGMImage(640, 480, buf.asShortBuffer());
             }
 
             /**
              * Clients who support the library and use Kinect1 or Fakenect
              * @return current image from Kinect1 Live Stream or FAKENECT_PATH recorded session
              */
-            else if (Freenect.LIB_IS_LOADED && (OpenISSConfig.USE_FREENECT || OpenISSConfig
-					.USE_FAKENECT)) {
-                return processPGMImage(640, 480, depth);
+            else if (Freenect.LIB_IS_LOADED && (OpenISSConfig.SENSOR_TYPE == OpenISSConfig.SensorType.FREENECT ||
+                     OpenISSConfig.SENSOR_TYPE == SensorType.FAKENECT)) {
+                return Utils.processPGMImage(640, 480, depth);
             }
 
             /**
@@ -432,7 +430,7 @@ public class Kinect1 {
          * @return empty image
          */ catch (Exception e) {
             System.out.println(e.getMessage());
-            return processPGMImage(640, 480, new byte[0]);
+            return Utils.processPGMImage(640, 480, new byte[0]);
         }
     }
 
@@ -441,35 +439,26 @@ public class Kinect1 {
      *
      * @return reference to video image
      */
-    public BufferedImage getVideoImage() {
+    @Override public BufferedImage getSensorVideoImage() {
         byte[] imageInBytes = new byte[0];
         try {
-
-            /**
-             * Clients who do not have Kinect1 and have not configured Fakenect
-             * @return color_example.jpg from resources
-             */
-            if (OpenISSConfig.USE_STATIC_IMAGES) {
-                return ImageIO.read(new File(classLoader.getResource(colorFileName).getFile()));
-            }
-
             /**
              * Clients who have configured Fakenect but do not support the library. Currently
 			 * only Windows
              * @return current image from FAKENECT_PATH recorded session
              */
-            else if (!Freenect.LIB_IS_LOADED && OpenISSConfig.USE_FAKENECT) {
+            if (!Freenect.LIB_IS_LOADED && OpenISSConfig.SENSOR_TYPE == OpenISSConfig.SensorType.FAKENECT) {
                 imageInBytes = Files.readAllBytes(new File(getFileName("color")).toPath());
-                return processPPMImage(640, 480, imageInBytes);
+                return Utils.processPPMImage(640, 480, imageInBytes);
             }
 
             /**
              * Clients who support the library and use Kinect1 or Fakenect
              * @return current image from Kinect1 Live Stream or FAKENECT_PATH recorded session
              */
-            else if (Freenect.LIB_IS_LOADED && (OpenISSConfig.USE_FREENECT || OpenISSConfig
-					.USE_FAKENECT)) {
-                return processPPMImage(640, 480, color);
+            else if (Freenect.LIB_IS_LOADED && (OpenISSConfig.SENSOR_TYPE == OpenISSConfig.SensorType.FREENECT || 
+                     OpenISSConfig.SENSOR_TYPE == SensorType.FAKENECT)) {
+                return Utils.processPPMImage(640, 480, color);
             }
 
             /**
@@ -489,133 +478,9 @@ public class Kinect1 {
          * @return empty image
          */ catch (Exception e) {
             System.out.println(e.getMessage());
-            return processPPMImage(640, 480, new byte[0]);
+            return Utils.processPPMImage(640, 480, new byte[0]);
 
         }
-    }
-
-
-    // These functions come from: http://graphics.stanford.edu/~mdfisher/Kinect.html
-    private float rawDepthToMeters(int depthValue) {
-        if (depthValue < 2047) {
-            return (float) (1.0 / ((double) (depthValue) * -0.0030711016 + 3.3309495161));
-        }
-        return 0.0f;
-    }
-
-    static public BufferedImage processPPMImage(int width, int height, byte[] data) {
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        int red, green, blue, k = 0, pixel;
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; (x < width) && ((k + 3) < data.length); x++) {
-                red = data[k++] & 0xFF;
-                green = data[k++] & 0xFF;
-                blue = data[k++] & 0xFF;
-                pixel = 0xFF000000 + (red << 16) + (green << 8) + blue;
-                image.setRGB(x, y, pixel);
-            }
-        }
-        return image;
-    }
-
-
-    static public BufferedImage processPGMImage(int width, int height, ShortBuffer data) {
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        int red, green, blue, pixel;
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-
-                int offset = x + y * width;
-                short depth = data.get(offset);
-                image.setRGB(x, y, depth2rgb(depth));
-            }
-        }
-
-        return image;
-    }
-
-    static public BufferedImage processPGMImage(int width, int height, byte[] data) {
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        int red, green, blue, pixel;
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                int offset = x + y * width;
-//                short depth = data.get(offset);
-                short depth = Kinect1.bytesToShort(data);
-                image.setRGB(x, y, depth2rgb(depth));
-            }
-        }
-
-        return image;
-    }
-
-    public static short bytesToShort(byte[] bytes) {
-        return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getShort();
-    }
-
-    static int depth2rgb(short depth) {
-        int r, g, b;
-
-        float v = depth / 2047f;
-        v = (float) Math.pow(v, 3) * 6;
-        v = v * 6 * 256;
-
-        int pval = Math.round(v);
-        int lb = pval & 0xff;
-        switch (pval >> 8) {
-            case 0:
-                b = 255;
-                g = 255 - lb;
-                r = 255 - lb;
-                break;
-            case 1:
-                b = 255;
-                g = lb;
-                r = 0;
-                break;
-            case 2:
-                b = 255 - lb;
-                g = 255;
-                r = 0;
-                break;
-            case 3:
-                b = 0;
-                g = 255;
-                r = lb;
-                break;
-            case 4:
-                b = 0;
-                g = 255 - lb;
-                r = 255;
-                break;
-            case 5:
-                b = 0;
-                g = 0;
-                r = 255 - lb;
-                break;
-            default:
-                r = 0;
-                g = 0;
-                b = 0;
-                break;
-        }
-
-        int pixel = (0xFF) << 24
-                    | (b & 0xFF) << 16
-                    | (g & 0xFF) << 8
-                    | (r & 0xFF) << 0;
-
-        return pixel;
-    }
-
-    static int depth2intensity(short depth) {
-        int d = Math.round((1 - (depth / 2047f)) * 255f);
-        int pixel = (0xFF) << 24
-                    | (d & 0xFF) << 16
-                    | (d & 0xFF) << 8
-                    | (d & 0xFF) << 0;
-
-        return pixel;
     }
 
 

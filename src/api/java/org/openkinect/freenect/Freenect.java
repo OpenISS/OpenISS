@@ -74,7 +74,7 @@ public class Freenect implements Library {
 
 			    System.load(path+"libusb-1.0.0.dylib");
 				NativeLibrary instance;
-				if (OpenISSConfig.USE_FAKENECT) {
+				if (OpenISSConfig.SENSOR_TYPE == OpenISSConfig.SensorType.FAKENECT) {
 					NativeLibrary.addSearchPath("fakenect", path);
 					instance = NativeLibrary.getInstance("fakenect");
 				}

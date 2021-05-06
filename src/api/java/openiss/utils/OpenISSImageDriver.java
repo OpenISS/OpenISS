@@ -1,7 +1,10 @@
 package openiss.utils;
 
+import openiss.Sensor;
 import openiss.Kinect1;
 import openiss.Kinect2;
+import openiss.StaticSensor;
+
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -23,18 +26,28 @@ import java.util.List;
 
 public class OpenISSImageDriver {
 
-//    static Kinect1 kinect;
-    static Kinect2 kinect;
-
+    static Sensor kinect;
+    
     static {
-        kinect = new Kinect2();
-//        kinect = new Kinect1();
-        System.out.println("initVideo");
+        switch(OpenISSConfig.SENSOR_TYPE) {
+            case FAKENECT:
+            case FREENECT:
+                kinect = new Kinect1();
+                break;
+            case FREENECT2:
+                kinect = new Kinect2();
+                break;
+            case STATIC_SENSOR:
+                kinect = new StaticSensor();
+                break;
+            default:
+                System.out.println("Sensor selected in config is invalid! Exiting...");
+                System.exit(0);
+        }
 
-        kinect.initVideo();
-        kinect.initDepth();
-
-        kinect.initDevice();
+        kinect.initSensorVideo();
+        kinect.initSensorDepth();
+        kinect.initSensor();
     }
 
     /**
@@ -56,12 +69,11 @@ public class OpenISSImageDriver {
             if (!type.equals("color") && !type.equals("depth")) {
                 throw new IllegalArgumentException("Bad type for getFrame: " + type);
             }
-
             if (type.equals("color")) {
-                image = kinect.getVideoImage();
+                image = kinect.getSensorVideoImage();
             }
             else {
-                image = kinect.getDepthImage();
+                image = kinect.getSensorDepthImage();
             }
 
             ImageIO.write(image, "jpg", baos);
@@ -108,13 +120,12 @@ public class OpenISSImageDriver {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         // convert kinect/fakenect image to BufferedImage image_2
         if (type.equals("color")) {
-            image_2 = kinect.getVideoImage();
+            image_2 = kinect.getSensorVideoImage();
         }
         else {
-            image_2 = kinect.getDepthImage();
+            image_2 = kinect.getSensorDepthImage();
         }
 
         // check height and width

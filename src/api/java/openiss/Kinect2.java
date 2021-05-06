@@ -37,7 +37,7 @@ along with openKinect2 library for Processing.  If not, see
 <http://www.gnu.org/licenses/>.
 */
 
-public class Kinect2 extends Device {
+public class Kinect2 extends Device implements Sensor {
 
 
 //    public Kinect2(PApplet _p) {
@@ -102,6 +102,22 @@ public class Kinect2 extends Device {
             g.drawImage(img, 0, 0, this);
 //            g.drawString("hello world" + count++, 20, 20);
         }
+    }
+
+    @Override public BufferedImage getSensorVideoImage() {
+        return this.getVideoImage();
+    }
+    @Override public BufferedImage getSensorDepthImage() {
+        return this.getDepthImage();
+    }
+    @Override public void initSensorVideo() {
+        this.initVideo();
+    }
+    @Override public void initSensorDepth() {
+        this.initDepth();
+    }
+    @Override public void initSensor() {
+        this.initDevice();
     }
 
 }
