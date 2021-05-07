@@ -136,7 +136,7 @@ public class OpenISSImageDriver {
 
         // check height and width
         int width = image_1.getWidth();
-        int height = image_2.getHeight();
+        int height = image_1.getHeight();
 
         // check equal size
         if(width != image_2.getWidth() || height != image_2.getHeight()) {
