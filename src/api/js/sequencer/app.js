@@ -1,5 +1,5 @@
-const http = require('http')
-const fs = require('fs')
+const http = require('http');
+const fs = require('fs');
 const PORT = 20000;
 const REPLICA_PORT = 20000;
 const MULTICAST_ADDR = "230.255.255.255";
@@ -7,18 +7,19 @@ const io = require('socket.io-client');
 const spawn = require("child_process").spawn;
 var requestStart = new Date();
 
-let SEQ_NUM = 1
+let SEQ_NUM = 1;
 let success = {};
 let fail = {};
 let delivered = {};
 let checksums = {};
+let singleReplica = true;
 
 const dgram = require("dgram");
 const process = require("process");
 const { stringify } = require('querystring');
 
 const socket = dgram.createSocket({ type: "udp4", reuseAddr: true });
-ioClient = io.connect("http://localhost:3000")
+ioClient = io.connect("http://localhost:3000");
 
 socket.bind(PORT);
 
@@ -77,39 +78,51 @@ socket.on("message", function(message, rinfo) {
             }
             checksums[correct_frame].push([replica, checksum]);
             console.log(checksum);
-            if (checksums[correct_frame].length > 1){
-                if (delivered[correct_frame].length == 2) {
-                    if(checksums[correct_frame][0][1] == checksums[correct_frame][1][1]){
-                        success[correct_frame].push(delivered[correct_frame][0]);
-                        success[correct_frame].push(delivered[correct_frame][1]);
-                        console.log("Checksums matching!!");
-                        sendUDPImage(correct_frame);
-                    }
+
+            if (singleReplica) {
+                if (delivered[correct_frame].length == 1) {
+                    success[correct_frame].push(delivered[correct_frame][0]);
+                    sendUDPImage(correct_frame);
                 }
-                else if(checksums[correct_frame].length == 3){
-                    if(checksums[correct_frame][0][1] == checksums[correct_frame][2][1]){
-                        if(checksums[correct_frame][0][1] != checksums[correct_frame][1][1]){
-                            fail[correct_frame].push(delivered[correct_frame][1]); 
-                            checkFailQueue(delivered[correct_frame][1]);
+                else {
+                    console.log("Couldn't find delivered correct frame...");
+                }
+            }
+            else {
+                if (checksums[correct_frame].length > 1){
+                    if (delivered[correct_frame].length == 2) {
+                        if(checksums[correct_frame][0][1] == checksums[correct_frame][1][1]){
+                            success[correct_frame].push(delivered[correct_frame][0]);
+                            success[correct_frame].push(delivered[correct_frame][1]);
+                            console.log("Checksums matching!!");
+                            sendUDPImage(correct_frame);
                         }
-                        success[correct_frame].push(delivered[correct_frame][0]);
-                        success[correct_frame].push(delivered[correct_frame][2]);
                     }
-                    else{
-                        if(checksums[correct_frame][1][1] == checksums[correct_frame][2][1]){
-                            fail[correct_frame].push(delivered[correct_frame][0]);
-                            checkFailQueue(delivered[correct_frame][0]);
+                    else if(checksums[correct_frame].length == 3){
+                        if(checksums[correct_frame][0][1] == checksums[correct_frame][2][1]){
+                            if(checksums[correct_frame][0][1] != checksums[correct_frame][1][1]){
+                                fail[correct_frame].push(delivered[correct_frame][1]); 
+                                checkFailQueue(delivered[correct_frame][1]);
+                            }
+                            success[correct_frame].push(delivered[correct_frame][0]);
+                            success[correct_frame].push(delivered[correct_frame][2]);
                         }
                         else{
-                            if((checksums[correct_frame][0][1] != checksums[correct_frame][1][1])){
-                                console.log("WARNING! No replicas matching. There might be an issue with image retrieval/processing.")
+                            if(checksums[correct_frame][1][1] == checksums[correct_frame][2][1]){
                                 fail[correct_frame].push(delivered[correct_frame][0]);
-                                fail[correct_frame].push(delivered[correct_frame][1]);
-                                fail[correct_frame].push(delivered[correct_frame][2]);
+                                checkFailQueue(delivered[correct_frame][0]);
                             }
                             else{
-                                fail[correct_frame].push(delivered[correct_frame][2]);
-                                checkFailQueue(delivered[correct_frame][2]);
+                                if((checksums[correct_frame][0][1] != checksums[correct_frame][1][1])){
+                                    console.log("WARNING! No replicas matching. There might be an issue with image retrieval/processing.")
+                                    fail[correct_frame].push(delivered[correct_frame][0]);
+                                    fail[correct_frame].push(delivered[correct_frame][1]);
+                                    fail[correct_frame].push(delivered[correct_frame][2]);
+                                }
+                                else{
+                                    fail[correct_frame].push(delivered[correct_frame][2]);
+                                    checkFailQueue(delivered[correct_frame][2]);
+                                }
                             }
                         }
                     }
@@ -158,13 +171,13 @@ function sendUDPImage(frame) {
     for (i = 0; i < success[frame].length; ++i) {
         if(success[frame][i]){
             if(success[frame][i] == 1){
-                file_path = "../python/jobs/f" + frame + ".jpg"
+                file_path = "../../python/jobs/f" + frame + ".jpg"
             }
             else if(success[frame][i] == 2){
-                file_path = "../resources/Java/f" + frame + ".jpg"
+                file_path = "../../resources/Java/f" + frame + ".jpg"
             }
             else{
-                file_path = "../js-v2/jobs/f" + frame + ".jpg"
+                file_path = "../../js/opencv-replica/jobs/f" + frame + ".jpg"
             }
         }
 
@@ -173,8 +186,12 @@ function sendUDPImage(frame) {
                 if (err) {
                     return console.log(err);
                 }
+                console.log(data);
                 ioClient.emit('show image', { image: true, buffer: data.toString('base64') });
             });
+        }
+        else {
+            console.log("Couldn't find image path!");
         }
     }
 }

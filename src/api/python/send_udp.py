@@ -1,6 +1,6 @@
 from socket import AF_INET, SOCK_DGRAM, socket
 
-import requests
+# import requests
 import sys
 
 host = "230.255.255.255"
