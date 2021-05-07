@@ -1,16 +1,23 @@
 package openiss.ws.rest;
 
+
 import openiss.utils.OpenISSConfig;
 import openiss.utils.OpenISSImageDriver;
 import openiss.utils.PATCH;
+import org.glassfish.jersey.media.multipart.*;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
 
 import javax.ws.rs.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.ServerSocket;
+import java.io.*;
+import java.nio.file.Files;
 
 @Path("/openiss")
 public class OpenISSRestService {
@@ -35,6 +42,10 @@ public class OpenISSRestService {
             else if(osName.indexOf("mac") >= 0){
                 System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac/libopencv_java3412.dylib");
                 System.load(PROJECT_HOME+"/lib/opencv/mac/libopencv_java3412.dylib");
+            }
+            else if(osName.indexOf("linux") >= 0) {
+                System.out.println("Loading Native library" + PROJECT_HOME+ "/lib/opencv/linux/libopencv_java3413.so");
+                System.load(PROJECT_HOME+"/lib/opencv/linux/libopencv_java3413.so");
             }
         }
 
@@ -213,6 +224,95 @@ public class OpenISSRestService {
 
 
 
+    @GET
+    @Path("/reqmix")
+    public Response requestMix(
+            @QueryParam("addr") String addr, @QueryParam("port") String port) {
+        byte[] image = driver.getFrame("depth");
+
+//        String serverURL = "http://" + addr + ":" + port + "/rest/openiss/upload";
+        String serverURL = "http://" + addr + "/rest/openiss/upload";
+
+        System.out.println("Server URL: " + serverURL);
+
+        String result = "http://" + addr + ":" + port + "/rest/openiss/mix/result";
+
+        Client client = ClientBuilder.newBuilder().
+                register(MultiPartFeature.class).build();
+        WebTarget server = client.target(serverURL);
+
+        MultiPart multiPart = new MultiPart();
+        StreamDataBodyPart body = new StreamDataBodyPart("file", new ByteArrayInputStream(image));
+        multiPart.bodyPart(body);
+
+        Response response = server.request()
+                .post(Entity.entity(multiPart, "multipart/form-data"));
+        ResponseBuilder builder = Response.ok(response.getEntity(), "image/jpeg")
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Headers", "*")
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .allow("OPTIONS");
+
+        if (response.getStatus() == 200) {
+            return builder.build();
+        } else {
+            return Response.noContent().build();
+        }
+    }
+
+    boolean canMix = false;
+    String mixImgName;
+
+    @POST
+    @Path("/upload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadFile(FormDataMultiPart form) throws IOException {
+        System.out.println("receive something ...");
+
+        FormDataBodyPart filePart = form.getField("file");
+        ContentDisposition headerOfFilePart =  filePart.getContentDisposition();
+        InputStream fileInputStream = filePart.getValueAs(InputStream.class);
+//        mixImgName = headerOfFilePart.getFileName();
+
+        mixImgName = "wait_for_mix.jpg";
+        writeToFile(fileInputStream, mixImgName);
+
+        byte[] image = Files.readAllBytes(new File(mixImgName).toPath());
+        ResponseBuilder response = Response.ok(pipelineImage(image, "usermix"), "image/jpeg");
+        response.header("Content-Disposition", "inline")
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Headers", "*")
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .allow("OPTIONS");
+        return response.build();
+
+
+//        // save the file to the server
+//        writeToFile(fileInputStream, mixImgName);
+//        String output = "File saved to server location using FormDataMultiPart : " + mixImgName;
+//        return Response.status(200).entity(output).build();
+
+    }
+
+    // save uploaded file to new location
+    private void writeToFile(InputStream uploadedInputStream, String uploadedFileLocation) {
+        try {
+            OutputStream out;
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            out = new FileOutputStream(new File(uploadedFileLocation));
+            while ((read = uploadedInputStream.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
+
     private String getFlags() {
         String flags = "Mix: " + String.valueOf(mixFlag) +
                 "\nCanny: " + String.valueOf(cannyFlag) +
@@ -251,8 +351,11 @@ public class OpenISSRestService {
         	processedImage = driver.contour(image);
         }
 
-        return processedImage;
+        if ("usermix".equals(baseImage)) {
+            processedImage = driver.mixFrame(image, "color", "+");
+        }
 
+        return processedImage;
     }
 
 

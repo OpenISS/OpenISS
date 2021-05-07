@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
   int len = 0;
 
 /* Currently, send a hard coded message to the reciever */
-  len = tosc_writeMessage(buffer, sizeof(buffer), "/player 1", "/left-hand",
+  len = tosc_writeMessage(buffer, sizeof(buffer), "/player 1", "sfff", "/left-hand",
       1.0f, 2.0f, 3.0f); 
   tosc_printOscBuffer(buffer, len);
   printf("done.\n");

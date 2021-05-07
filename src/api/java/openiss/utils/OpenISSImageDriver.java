@@ -1,39 +1,57 @@
 package openiss.utils;
 
-import openiss.Kinect;
-import org.opencv.core.CvType;
-import org.opencv.imgproc.Imgproc;
+import openiss.Sensor;
+import openiss.Kinect1;
+import openiss.Kinect2;
+import openiss.StaticSensor;
 
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
+import org.opencv.core.MatOfPoint;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
-
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opencv.core.MatOfPoint;
 //import org.opencv.highgui.Highgui;
-
 
 public class OpenISSImageDriver {
 
-    private ClassLoader classLoader = getClass().getClassLoader();
-    static Kinect kinect;
-
+    static Sensor kinect;
+    
     static {
-        kinect = new Kinect();
-        System.out.println("initVideo");
-        kinect.initVideo();
-        kinect.initDepth();
+        switch(OpenISSConfig.SENSOR_TYPE) {
+            case FAKENECT:
+            case FREENECT:
+                kinect = new Kinect1();
+                break;
+            case FREENECT2:
+                kinect = new Kinect2();
+                break;
+            case STATIC_SENSOR:
+                kinect = new StaticSensor();
+                break;
+            default:
+                System.out.println("Sensor selected in config is invalid! Exiting...");
+                System.exit(0);
+        }
+
+        kinect.initSensorVideo();
+        kinect.initSensorDepth();
+        kinect.initSensor();
     }
 
     /**
-     * Retrives a frame from either a real Kinect or fakenect
+     * Retrives a frame from either a real Kinect1 or fakenect
      * @param type
      * @return jpeg image as a byte array
      */
@@ -51,12 +69,11 @@ public class OpenISSImageDriver {
             if (!type.equals("color") && !type.equals("depth")) {
                 throw new IllegalArgumentException("Bad type for getFrame: " + type);
             }
-
             if (type.equals("color")) {
-                image = kinect.getVideoImage();
+                image = kinect.getSensorVideoImage();
             }
             else {
-                image = kinect.getDepthImage();
+                image = kinect.getSensorDepthImage();
             }
 
             ImageIO.write(image, "jpg", baos);
@@ -131,13 +148,12 @@ public class OpenISSImageDriver {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         // convert kinect/fakenect image to BufferedImage image_2
         if (type.equals("color")) {
-            image_2 = kinect.getVideoImage();
+            image_2 = kinect.getSensorVideoImage();
         }
         else {
-            image_2 = kinect.getDepthImage();
+            image_2 = kinect.getSensorDepthImage();
         }
 
         // check height and width

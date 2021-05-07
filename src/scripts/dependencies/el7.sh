@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-# el6.sh
+# el7.sh
 #
 # Script to install requirements:
 #	libraries
@@ -37,7 +37,6 @@ function install_dev_dependencies()
  	echo "installing GENERAL dependencies"
  	echo "==============================="
 
-	# Making sure gcc is installed
 	yum -y clean all
 	yum -y clean expire-cache
 
@@ -58,21 +57,24 @@ function install_dev_dependencies()
 		yum install -y epel-release
 		# From elrepo.org
 		rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
-		rpm -Uvh http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm
+		rpm -Uvh https://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
 	fi
 
+	# Making sure gcc is installed
 	# basic install/compile requirements
 	yum install -y git
 	yum install -y gcc gcc-c++
 	yum install -y make cmake
 	yum install -y patch wget
+	yum install -y libtool systemd-devel
 
 	# recent kernel install for the latest USB3 drivers
 	#yum --enablerepo=elrepo-kernel install -y kernel-ml-devel-4.8.7-1.el6.elrepo.x86_64
 	yum --enablerepo=elrepo-kernel install -y kernel-ml kernel-ml-devel
 
 	# packages for OpenGL and libusb
-	yum install -y libXmu-devel glut-devel libudev-devel libtool
+	yum install -y libXmu-devel glut-devel libudev-devel
+	yum install -y libusbx-devel libusb-devel
 
 	# install python 34 from epel
 	yum --enablerepo=epel install -y python34.x86_64
@@ -180,7 +182,7 @@ function install_ogl()
 	yum install -y \
 		cmake3 make \
 		gcc-c++ \
-		libX11-devel libXi-devel \
+		libX11-devel \
 		mesa-libGL mesa-libGL-devel mesa-libGLU \
 		libXrandr-devel libXext-devel libXcursor-devel \
 		libXinerama-devel libXi-devel
@@ -293,6 +295,9 @@ function install_libfreenect()
 # 	pushd ../../libfreenect2/depends
 # 		./install_libusb.sh
 # 	popd
+
+	# Make sure OpenGL dependencies are installed
+	install_ogl	
 
 	# TODO: OpenNI2 will require cmake3 and gcc 4.8+ from devtoolset-2
 	yum install -y cmake3
