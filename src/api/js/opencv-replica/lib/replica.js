@@ -6,7 +6,7 @@ const Jimp = require('jimp');
 
 const request = require('request');
 //const baseUrl = 'http://192.168.50.50:8080';
-const baseUrl = 'http://openiss.noima.com:8080';
+const baseUrl = 'http://localhost:8080';
 
 let loaded = false;
 

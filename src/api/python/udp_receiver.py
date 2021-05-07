@@ -60,7 +60,7 @@ def publishFrame(seq_num):
         return flask.send_file("images/color_fail.jpg", mimetype='image/jpg')
 
 def getFrame(frame_num):
-    img_url = "http://openiss.noima.com:8080/rest/openiss/getStaticFrame/" + str(frame_num)
+    img_url = "http://localhost:8080/rest/openiss/getStaticFrame/" + str(frame_num)
     response = requests.get(img_url)
     result = response.content
     return np.frombuffer(result, dtype=np.uint8)
