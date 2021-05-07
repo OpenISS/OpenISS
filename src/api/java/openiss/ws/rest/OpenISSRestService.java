@@ -19,6 +19,9 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import java.io.*;
 import java.nio.file.Files;
 
+import java.awt.image.BufferedImage;
+import java.net.ServerSocket;
+
 @Path("/openiss")
 public class OpenISSRestService {
 

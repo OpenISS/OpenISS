@@ -103,7 +103,7 @@ public class javaReplica { // receving client request
                     System.out.println("Wrongly formatted request; first element not integer");
                     continue;
                 }
-		if (!transformationOperation.equals("processing")
+		if (!transformationOperation.equals("processing"))
                 if (frNum == received.get() + 1) {
                     // kaaoshek like algorithim no need to keep the message backup asssuming local network reliable
                     sendToProcessingSynchronized(frNum, transformationOperation, processingQ, received);
@@ -148,6 +148,8 @@ public class javaReplica { // receving client request
                         } else if (osName.indexOf("mac") >= 0) {
                             /*System.out.println("Loading Native library" + PROJECT_HOME + "/lib/opencv/mac/libopencv_java3412.dylib");*/
                             System.load(PROJECT_HOME + "/lib/opencv/mac/libopencv_java3412.dylib");
+                        } else if (osName.indexOf("linux") >= 0) {
+                            System.load(PROJECT_HOME + "/lib/opencv/linux/libopencv_java3413.so");
                         }
                     }
 

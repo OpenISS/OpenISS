@@ -41,7 +41,7 @@
         <dependency>
             <groupId>openiss</groupId>
             <artifactId>opencv</artifactId>
-            <version>3.4.12</version>
+            <version>3.4.13</version>
         </dependency>
         <dependency>
             <groupId>openiss</groupId>

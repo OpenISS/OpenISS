@@ -19,15 +19,18 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import openiss.utils.Utils;
 
 //import org.opencv.highgui.Highgui;
 
 public class OpenISSImageDriver {
 
     static Sensor kinect;
-    
+    public ClassLoader classLoader = getClass().getClassLoader();
+
     static {
         switch(OpenISSConfig.SENSOR_TYPE) {
             case FAKENECT:
@@ -88,7 +91,7 @@ public class OpenISSImageDriver {
     }
 
     /**
-     * Retrives a frame from either a real Kinect or fakenect
+     * Retrives a static frame from a given folder. To be used for JavaReplica
      * @param type
      * @return jpeg image as a byte array
      */
@@ -102,7 +105,7 @@ public class OpenISSImageDriver {
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-            image = kinect.getStaticFrame(fileName);
+            image = ImageIO.read(new File(classLoader.getResource(fileName).getFile()));
 
             ImageIO.write(image, "jpg", baos);
             baos.flush();
