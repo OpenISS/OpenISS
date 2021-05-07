@@ -92,17 +92,24 @@ public class Freenect implements Library {
 			try {
 				System.out.println(arch + " linux");
 //				LibraryPath libPath = new LibraryPath();
+				String path = PROJECT_HOME + "/lib/v1/linux/";
+				
+				// GH: added for compatibility with ARM systems
+				if ("arm".equals(System.getProperty("os.arch"))) {
+					path = PROJECT_HOME + "/lib/v1/linux-armv6hf/";
+				}
 
-			    String dirPath = "/v1/linux/";
-                            // GH: added for compatibility with ARM systems
-                            if ("arm".equals(System.getProperty("os.arch"))) {
-                                dirPath = PROJECT_HOME + "/v1/linux-armv6hf/";
-                            }
-			    System.out.println("Found path: " + dirPath);
-			    
-				NativeLibrary.addSearchPath("freenect", dirPath);
-			
-				NativeLibrary instance = NativeLibrary.getInstance("freenect");
+				NativeLibrary instance;
+				if (OpenISSConfig.SENSOR_TYPE == OpenISSConfig.SensorType.FAKENECT) {
+					NativeLibrary.addSearchPath("fakenect", path);
+					instance = NativeLibrary.getInstance("fakenect");
+				}
+				else {
+					NativeLibrary.addSearchPath("freenect", path);
+					instance = NativeLibrary.getInstance("freenect");
+				}
+			    System.out.println("Found path: " + path);
+
 				System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath());
 				LIB_IS_LOADED = true;
 				Native.register(instance);
