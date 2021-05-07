@@ -36,6 +36,21 @@ E.g. For the first Frame
 
 ## Test GetJob Image from Replica
 
+Make sure you are running the UDP sequencer and have already sent the image with the sequence number you are querying.
+
     E.g. For Sequence number 3:
         http://localhost:8003/getJob/3
+
+## Patching ##
+
+    Scan for security vulnerabilities:
+        npm audit
+    
+    Fix security vulnerabilities:
+        npm audit fix
+    
+    Note: If the issue cannot be fixed with command above, you will either need to patch manually or contact the package maintainer.
+
+    If you want to check dependency tree for a specific package e.g. underscore:
+        npm list underscore
      
