@@ -1,9 +1,9 @@
 'use strict';
 
 const express = require('express');
-let serviceLibrary = process.env.NODE_WEB_SERVICE || 'rest.js';
+const serviceLibrary = process.env.NODE_WEB_SERVICE || 'rest.js';
 const service = require('./lib/'+serviceLibrary);
-var morgan = require('morgan');
+const morgan = require('morgan');
 
 // Constants
 const PORT = 3000;
