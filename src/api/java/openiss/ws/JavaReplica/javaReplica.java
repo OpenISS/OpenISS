@@ -160,7 +160,7 @@ public class javaReplica { // receving client request
                         processedImgByteArray = driver.contour(processedImgByteArray);
                     InputStream processedImgInputStream = new ByteArrayInputStream(processedImgByteArray);
                     BufferedImage processedImgBuff = ImageIO.read(processedImgInputStream);
-                    String imgPath = PROJECT_HOME + "/src/api/resources/Java/" + "f" + frNum + ".jpg";
+                    String imgPath = PROJECT_HOME + "/src/api/java/resources/Java/" + "f" + frNum + ".jpg";
                     File imgFile = new File(imgPath);
                     ImageIO.write(processedImgBuff, "jpg", imgFile);
                     // set download SUCCES message to return

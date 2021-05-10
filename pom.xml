@@ -80,7 +80,7 @@
         <testSourceDirectory>src/test/java</testSourceDirectory>
         <resources>
             <resource>
-                <directory>src/api/resources</directory>
+                <directory>src/api/java/resources</directory>
             </resource>
         </resources>
         <plugins>

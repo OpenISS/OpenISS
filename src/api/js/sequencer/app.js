@@ -174,7 +174,7 @@ function sendUDPImage(frame) {
                 file_path = "../../python/jobs/f" + frame + ".jpg"
             }
             else if(success[frame][i] == 2){
-                file_path = "../../resources/Java/f" + frame + ".jpg"
+                file_path = "../../java/resources/Java/f" + frame + ".jpg"
             }
             else{
                 file_path = "../../js/opencv-replica/jobs/f" + frame + ".jpg"
