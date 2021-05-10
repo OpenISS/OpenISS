@@ -44,3 +44,16 @@ Two methods currently supported:
     Clean:
         Delete directory node_modules:
             rm -fr node_modules
+
+## Patching ##
+
+    Scan for security vulnerabilities:
+        npm audit
+    
+    Fix security vulnerabilities:
+        npm audit fix
+    
+    Note: If the issue cannot be fixed with command above, you will either need to patch manually or contact the package maintainer.
+
+    If you want to check dependency tree for a specific package e.g. underscore:
+        npm list underscore
