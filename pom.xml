@@ -97,7 +97,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>
-                    <warSourceDirectory>src/api/webapp</warSourceDirectory>
+                    <warSourceDirectory>src/api/java/webapp</warSourceDirectory>
                 </configuration>
             </plugin>
             <plugin>
