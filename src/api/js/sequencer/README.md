@@ -1,6 +1,6 @@
 # UDP Sequencer for Replicas
 
-This UDP sequencer is when running the java, js and python replicas. You can run one or all of the replica implementations, then run this sequencer and send images as shown below.
+This UDP sequencer is used when running the java, js and python replicas. You can run one or all of the replica implementations, then run this sequencer and send images as shown below.
 
 TODO: Implement for live camera feed as well (color and depth).
 
