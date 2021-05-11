@@ -9,4 +9,5 @@ public class OpenISSConfig {
     }
     public static SensorType SENSOR_TYPE = SensorType.FREENECT;
     public static boolean USE_OPENCV = true; // You should disable this if you cannot install OPENCV
+    public static final String OUTPUT_FILE_DIR = "/Users/kosta/Desktop/";
 }

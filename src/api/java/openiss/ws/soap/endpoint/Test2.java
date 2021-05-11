@@ -39,8 +39,8 @@ public class Test2 {
 //        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 //        System.load("/usr/local/Cellar/opencv/3.4.1_2/lib/");
 
-        String inputFile = "/Users/kosta/Desktop/bsd.jpg";
-        String outputFile = "/Users/kosta/Desktop/bsdCanny2.jpg";
+        String inputFile = OpenISSConfig.OUTPUT_FILE_DIR + "bsd.jpg";
+        String outputFile = OpenISSConfig.OUTPUT_FILE_DIR + "bsdCanny2.jpg";
 
 
         try {
