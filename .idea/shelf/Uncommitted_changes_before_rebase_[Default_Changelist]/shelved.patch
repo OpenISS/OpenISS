@@ -1,0 +1,45 @@
+Index: .idea/OpenISS.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule=\"true\" type=\"JAVA_MODULE\" version=\"4\">\n  <component name=\"FacetManager\">\n    <facet type=\"web\" name=\"Web\">\n      <configuration>\n        <descriptors>\n          <deploymentDescriptor name=\"glassfish-web.xml\" url=\"file://$MODULE_DIR$/src/api/webapp/WEB-INF/glassfish-web.xml\" />\n          <deploymentDescriptor name=\"web.xml\" url=\"file://$MODULE_DIR$/src/api/webapp/WEB-INF/web.xml\" />\n        </descriptors>\n        <webroots>\n          <root url=\"file://$MODULE_DIR$/src/api/webapp\" relative=\"/\" />\n        </webroots>\n        <sourceRoots>\n          <root url=\"file://$MODULE_DIR$/src/api/java\" />\n          <root url=\"file://$MODULE_DIR$/src/api/resources\" />\n        </sourceRoots>\n      </configuration>\n    </facet>\n    <facet type=\"Python\" name=\"Python\">\n      <configuration sdkName=\"\" />\n    </facet>\n  </component>\n  <component name=\"NewModuleRootManager\" LANGUAGE_LEVEL=\"JDK_1_8\">\n    <output url=\"file://$MODULE_DIR$/target/classes\" />\n    <output-test url=\"file://$MODULE_DIR$/target/test-classes\" />\n    <content url=\"file://$MODULE_DIR$\">\n      <sourceFolder url=\"file://$MODULE_DIR$/src/test/java\" isTestSource=\"true\" />\n      <sourceFolder url=\"file://$MODULE_DIR$/src/api/java\" isTestSource=\"false\" />\n      <sourceFolder url=\"file://$MODULE_DIR$/src/api/resources\" type=\"java-resource\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/target\" />\n    </content>\n    <orderEntry type=\"inheritedJdk\" />\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\n    <orderEntry type=\"library\" scope=\"PROVIDED\" name=\"GlassFish 5.0.0\" level=\"application_server_libraries\" />\n    <orderEntry type=\"library\" name=\"java\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: openiss:opencv:3.4.1\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: openiss:opencv:3.4.1\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: openiss:opencv:3.4.1\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: org.glassfish.jersey.containers:jersey-container-servlet-core:2.23.2\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: org.glassfish.hk2.external:javax.inject:2.5.0-b05\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: org.glassfish.jersey.core:jersey-common:2.23.2\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: javax.annotation:javax.annotation-api:1.2\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: org.glassfish.jersey.bundles.repackaged:jersey-guava:2.23.2\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: org.glassfish.hk2:hk2-api:2.5.0-b05\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: org.glassfish.hk2:hk2-utils:2.5.0-b05\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: org.glassfish.hk2.external:aopalliance-repackaged:2.5.0-b05\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: org.glassfish.hk2:hk2-locator:2.5.0-b05\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: org.javassist:javassist:3.20.0-GA\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: org.glassfish.hk2:osgi-resource-locator:1.0.1\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: org.glassfish.jersey.core:jersey-server:2.23.2\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: org.glassfish.jersey.core:jersey-client:2.23.2\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: org.glassfish.jersey.media:jersey-media-jaxb:2.23.2\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: javax.validation:validation-api:1.1.0.Final\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: javax.ws.rs:javax.ws.rs-api:2.0.1\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: net.java.dev.jna:jna:4.5.1\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Maven: openiss:opencv:3.4.12\" level=\"project\" />\n  </component>\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/OpenISS.iml b/.idea/OpenISS.iml
+--- a/.idea/OpenISS.iml	(revision 925835fb186f4cec94e4b538583334a005c56878)
++++ b/.idea/OpenISS.iml	(date 1606877478159)
+@@ -33,9 +33,6 @@
+     <orderEntry type="sourceFolder" forTests="false" />
+     <orderEntry type="library" scope="PROVIDED" name="GlassFish 5.0.0" level="application_server_libraries" />
+     <orderEntry type="library" name="java" level="project" />
+-    <orderEntry type="library" name="Maven: openiss:opencv:3.4.1" level="project" />
+-    <orderEntry type="library" name="Maven: openiss:opencv:3.4.1" level="project" />
+-    <orderEntry type="library" name="Maven: openiss:opencv:3.4.1" level="project" />
+     <orderEntry type="library" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet-core:2.23.2" level="project" />
+     <orderEntry type="library" name="Maven: org.glassfish.hk2.external:javax.inject:2.5.0-b05" level="project" />
+     <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-common:2.23.2" level="project" />
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"VcsDirectoryMappings\">\n    <mapping directory=\"\" vcs=\"Git\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+--- a/.idea/vcs.xml	(revision 925835fb186f4cec94e4b538583334a005c56878)
++++ b/.idea/vcs.xml	(date 1606877453426)
+@@ -2,5 +2,13 @@
+ <project version="4">
+   <component name="VcsDirectoryMappings">
+     <mapping directory="" vcs="Git" />
++    <mapping directory="$PROJECT_DIR$/libfreenect" vcs="Git" />
++    <mapping directory="$PROJECT_DIR$/libfreenect2" vcs="Git" />
++    <mapping directory="$PROJECT_DIR$/ogl" vcs="Git" />
++    <mapping directory="$PROJECT_DIR$/openFrameworks" vcs="Git" />
++    <mapping directory="$PROJECT_DIR$/openFrameworks/apps/projectGenerator" vcs="Git" />
++    <mapping directory="$PROJECT_DIR$/openFrameworks/scripts/apothecary" vcs="Git" />
++    <mapping directory="$PROJECT_DIR$/opencv" vcs="Git" />
++    <mapping directory="$PROJECT_DIR$/tinyosc" vcs="Git" />
+   </component>
+ </project>
+\ No newline at end of file

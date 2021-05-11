@@ -27,11 +27,10 @@ package org.openkinect.freenect;
 import com.sun.jna.*;
 import com.sun.jna.ptr.PointerByReference;
 import openiss.utils.OpenISSConfig;
-import openiss.ws.soap.endpoint.ServicePublisher;
 
 import java.io.IOException;
-import java.nio.ByteOrder;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.DoubleBuffer;
 
 public class Freenect implements Library {
@@ -75,7 +74,7 @@ public class Freenect implements Library {
 
 			    System.load(path+"libusb-1.0.0.dylib");
 				NativeLibrary instance;
-				if (OpenISSConfig.USE_FAKENECT) {
+				if (OpenISSConfig.SENSOR_TYPE == OpenISSConfig.SensorType.FAKENECT) {
 					NativeLibrary.addSearchPath("fakenect", path);
 					instance = NativeLibrary.getInstance("fakenect");
 				}
@@ -93,17 +92,24 @@ public class Freenect implements Library {
 			try {
 				System.out.println(arch + " linux");
 //				LibraryPath libPath = new LibraryPath();
+				String path = PROJECT_HOME + "/lib/v1/linux/";
+				
+				// GH: added for compatibility with ARM systems
+				if ("arm".equals(System.getProperty("os.arch"))) {
+					path = PROJECT_HOME + "/lib/v1/linux-armv6hf/";
+				}
 
-			    String dirPath = "/v1/linux/";
-                            // GH: added for compatibility with ARM systems
-                            if ("arm".equals(System.getProperty("os.arch"))) {
-                                dirPath = PROJECT_HOME + "/v1/linux-armv6hf/";
-                            }
-			    System.out.println("Found path: " + dirPath);
-			    
-				NativeLibrary.addSearchPath("freenect", dirPath);
-			
-				NativeLibrary instance = NativeLibrary.getInstance("freenect");
+				NativeLibrary instance;
+				if (OpenISSConfig.SENSOR_TYPE == OpenISSConfig.SensorType.FAKENECT) {
+					NativeLibrary.addSearchPath("fakenect", path);
+					instance = NativeLibrary.getInstance("fakenect");
+				}
+				else {
+					NativeLibrary.addSearchPath("freenect", path);
+					instance = NativeLibrary.getInstance("freenect");
+				}
+			    System.out.println("Found path: " + path);
+
 				System.err.println("Loaded " + instance.getName() + " from " + instance.getFile().getCanonicalPath());
 				LIB_IS_LOADED = true;
 				Native.register(instance);

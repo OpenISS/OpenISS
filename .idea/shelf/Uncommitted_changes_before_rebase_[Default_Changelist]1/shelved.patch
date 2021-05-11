@@ -1,0 +1,112 @@
+Index: src/api/java/openiss/ws/JavaReplica/javaReplica.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package openiss.ws.JavaReplica;\n\nimport javax.ws.rs.client.Client;\nimport javax.ws.rs.client.ClientBuilder;\nimport javax.ws.rs.client.Entity;\nimport javax.ws.rs.client.WebTarget;\nimport javax.ws.rs.core.MediaType;\nimport javax.ws.rs.core.Response;\nimport java.net.DatagramPacket;\nimport java.net.InetAddress;\nimport java.net.MulticastSocket;\nimport java.net.NetworkInterface;\n\n// need to refactor\npublic class javaReplica { // receving client request\n    public static void main(String[] args) {\n\n        // obtain server stub\n        Client client = ClientBuilder.newClient();\n        WebTarget target = client.target(\"http://localhost:8080/rest/\");\n        client.property(\"accept\", \"image/*\");\n        // response if API is unresponsive\n        Response.StatusType status = new Response.StatusType() {\n\n            private int code = 666;\n            private String msg = \"API unresponsive\";\n\n            public Response.Status.Family getFamily() {\n                return Response.Status.Family.INFORMATIONAL;\n            }\n\n            public String getReasonPhrase() {\n                return msg;\n            }\n\n            public int getStatusCode() {\n                return code;\n            }\n\n        };\n        // unset canny and contour so the replica will process the image\n        Response checkUnset;\n        for(String unsetFlags : new String[]{\"unsetCanny\", \"unsetContour\"}){\n            try {\n                checkUnset = target.path(\"openiss/\" + unsetFlags)\n                        .request(MediaType.TEXT_PLAIN)\n                        .post(Entity.text(\"sending\"));\n            } catch (Exception e) {\n                checkUnset = Response.status(status).build();\n            }\n            String responseText = checkUnset.getStatus() == 666 ?\n                    checkUnset.getStatusInfo().getReasonPhrase() :\n                    checkUnset.readEntity(String.class);\n            System.out.println(responseText);\n        }\n\n        // listen to the multicast\n        int multicastPort = 20000;\n        MulticastSocket socket = null;\n        InetAddress group = null;\n        System.setProperty(\"java.net.preferIPv4Stack\", \"true\");\n        try {\n            socket = new MulticastSocket(multicastPort);\n            socket.setNetworkInterface(NetworkInterface.getByName(\"en0\"));\n            group = InetAddress.getByName(\"230.255.255.255\");\n            System.out.println(\"Joining Multicast Group\");\n            socket.joinGroup(group);\n\n            DatagramPacket packet;\n            while (true) {\n                byte[] buf = new byte[1256];\n                packet = new DatagramPacket(buf, buf.length);\n                socket.receive(packet);\n                String serializedRequest = new String(packet.getData()).trim();\n                String[] requestList = serializedRequest.split(\",\");\n                String frame = requestList[0];\n                String transformationOperation = requestList[1];\n                System.out.println(frame + \" \" + transformationOperation);\n                //process in API according to instructions\n                Response response;\n                try {\n                    response = target.path(\"openiss/color\")\n                            .request().get();\n                } catch (Exception e) {\n                   response = Response.status(status).build();\n                }\n                String responseText = response.getStatusInfo().getReasonPhrase();\n                System.out.println(responseText);\n            }\n        } catch (Exception e) {\n            e.printStackTrace();\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/api/java/openiss/ws/JavaReplica/javaReplica.java b/src/api/java/openiss/ws/JavaReplica/javaReplica.java
+--- a/src/api/java/openiss/ws/JavaReplica/javaReplica.java	(revision 9f7ac3fc3b5da7060ec7dac4bb8213df6a492a24)
++++ b/src/api/java/openiss/ws/JavaReplica/javaReplica.java	(date 1606895880050)
+@@ -1,11 +1,20 @@
+ package openiss.ws.JavaReplica;
+ 
++import jersey.repackaged.com.google.common.io.ByteStreams;
++import openiss.utils.OpenISSConfig;
++import openiss.utils.OpenISSImageDriver;
++import sun.misc.IOUtils;
++
+ import javax.ws.rs.client.Client;
+ import javax.ws.rs.client.ClientBuilder;
+ import javax.ws.rs.client.Entity;
+ import javax.ws.rs.client.WebTarget;
+ import javax.ws.rs.core.MediaType;
+ import javax.ws.rs.core.Response;
++import java.io.ByteArrayInputStream;
++import java.io.FileOutputStream;
++import java.io.InputStream;
++import java.io.OutputStream;
+ import java.net.DatagramPacket;
+ import java.net.InetAddress;
+ import java.net.MulticastSocket;
+@@ -40,7 +49,7 @@
+         };
+         // unset canny and contour so the replica will process the image
+         Response checkUnset;
+-        for(String unsetFlags : new String[]{"unsetCanny", "unsetContour"}){
++        for (String unsetFlags : new String[]{"unsetCanny", "unsetContour"}) {
+             try {
+                 checkUnset = target.path("openiss/" + unsetFlags)
+                         .request(MediaType.TEXT_PLAIN)
+@@ -59,6 +68,7 @@
+         MulticastSocket socket = null;
+         InetAddress group = null;
+         System.setProperty("java.net.preferIPv4Stack", "true");
++        Response response = null;
+         try {
+             socket = new MulticastSocket(multicastPort);
+             socket.setNetworkInterface(NetworkInterface.getByName("en0"));
+@@ -73,22 +83,58 @@
+                 socket.receive(packet);
+                 String serializedRequest = new String(packet.getData()).trim();
+                 String[] requestList = serializedRequest.split(",");
+-                String frame = requestList[0];
++                String frameNumber = requestList[0];
+                 String transformationOperation = requestList[1];
+-                System.out.println(frame + " " + transformationOperation);
+-                //process in API according to instructions
+-                Response response;
++                System.out.println(frameNumber + " " + transformationOperation);
++                //get color from API according
+                 try {
+                     response = target.path("openiss/color")
+                             .request().get();
+                 } catch (Exception e) {
+-                   response = Response.status(status).build();
++                    response = Response.status(status).build();
+                 }
+                 String responseText = response.getStatusInfo().getReasonPhrase();
+                 System.out.println(responseText);
++
++                InputStream colorImgStream = response.readEntity(InputStream.class);
++                OpenISSImageDriver driver = new OpenISSImageDriver();
++                String PROJECT_HOME = System.getProperty("user.dir");
++                int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
++                String osName = System.getProperty("os.name").toLowerCase();
++                if (OpenISSConfig.USE_OPENCV) {
++                    if (osName.indexOf("win") >= 0) {
++                        System.out.println(arch + " windows");
++                        System.load(PROJECT_HOME + "\\lib\\opencv\\win\\x64\\opencv_java341.dll");
++                    } else if (osName.indexOf("mac") >= 0) {
++                        System.out.println("Loading Native library" + PROJECT_HOME + "/lib/opencv/mac/libopencv_java3412.dylib");
++                        System.load(PROJECT_HOME + "/lib/opencv/mac/libopencv_java3412.dylib");
++                    }
++                }
++
++                // Process according to instructions
++                byte[] processedImage = new byte[1024];
++                colorImgStream.read(processedImage);
++                if (transformationOperation == "Canny") driver.doCanny(processedImage);
++                colorImgStream = new ByteArrayInputStream(processedImage);
++                OutputStream outputStream = new FileOutputStream(PROJECT_HOME + "/src/api/resources/Java/" +
++                        responseText.replace(',', Character.MIN_VALUE) + ".png");
++                byte[] buffer = new byte[1024];
++                int bytesRead;
++                while ((bytesRead = colorImgStream.read(buffer)) != -1) {
++                    outputStream.write(buffer, 0, bytesRead);
++                }
++
++                // set download SUCCES message to return
++                System.out.println("downloaded processed image successfully at " + PROJECT_HOME + "/src/api/resources/Java/" +
++                        responseText.replace(',', '_') + ".png");
++                // release resources, if any
++                outputStream.close();
+             }
+         } catch (Exception e) {
+             e.printStackTrace();
++        } finally {
++            response.close();
++            client.close();
+         }
+     }
+ }
