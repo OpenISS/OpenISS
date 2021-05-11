@@ -1,0 +1,19 @@
+{
+  "name": "sequencer",
+  "version": "1.0.0",
+  "description": "Run it as follows:",
+  "main": "app.js",
+  "dependencies": {
+    "dgram": "^1.0.1",
+    "http": "^0.0.1-security",
+    "save": "^2.4.0",
+    "socket.io-client": "^4.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sequencer": "node app.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
