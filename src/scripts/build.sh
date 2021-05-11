@@ -17,7 +17,7 @@ do_all=1
 install_option="--install"
 cleanup_option="--cleanup"
 mode=0
-system="el6"
+system="el7"
 el6_system="el6"
 el7_system="el7"
 

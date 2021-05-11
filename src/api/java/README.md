@@ -35,13 +35,12 @@ team11:
 * Piratheeban Annamalai
 * Andrew Laramee
 
-## Using Filesystem fakenect recorded stream (SOAP Only) ##
+## Editing Config Values ##
 
-Edit src/api/java/openiss/ws/soap/endpoint/ServicePublisher.java and set the following:
+Edit src/api/java/openiss/utils/OpenISSConfig.java and set the following depending on which implementation you want to use:
 
-* USE_FREENECT = true (To enable using libfreenect libraries)
-* USE_STATIC_IMAGES = true (Uses two static images color_example.jpg and depth_example.jpg)
-* USE_FAKENECT = true (If you want to use a fakenect recorded stream using libfakenect library)
+* SENSOR_TYPE = (FREENECT, FREENECT2, FAKENECT, STATIC_SENSOR)
+* USE_OPENCV = (true, false)
 
 ## SOAP Build Instructions ##
 
@@ -74,6 +73,8 @@ The @PATCH annotation is not supported by jax-rs, as a workaround we create our 
 having `@HttpMethod("PATCH")` as its own annotation. We can use it in the same way as the other 
 provided jax-rs annotations.
 
+## OpenCV 3.4.12 (Mac)
+    brew install opencv@3
 
 ## REST Build Instructions ##
 
@@ -82,6 +83,9 @@ provided jax-rs annotations.
 
     Run (Local Glassfish):
         mvn embedded-glassfish:run
+
+    Run (Java OpencV Replica):
+        mvn exec:java -Dexec.mainClass="openiss.ws.JavaReplica.javaReplica"
         
     Run (Using Docker with Tomcat7 image):
         cd tools/docker/rest-webserver
@@ -89,3 +93,17 @@ provided jax-rs annotations.
 
     Clean:
         mvn clean
+
+## Test Rest API with Static Images
+
+    Color (resources/color_example.jpg):
+        http://localhost:8080/rest/openiss/color
+     
+    Depth (resources/depth_example.jpg):
+        http://localhost:8080/rest/openiss/depth
+
+## JavaScript Frontend
+
+The ws-client folder within src/api/js contains a frontend implementation of a simple UI, to test the streams with OpenCV.
+
+[JS Frontend](../js/ws-client)

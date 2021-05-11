@@ -1,46 +1,21 @@
-# OpenISS Webservices #
+# Javascript APIs
 
-This is a javascript SOAP Client for OpenISS Webservices
+This folder contains three separate project folders that are used for different purposes. Below is a short description of what each one does.
 
-Two methods currently supported:
+## opencv-replica
 
-* getFrame(String type) - Returns the current frame from a kinect device or a recorded session in JPEG blob format
+This project contains the implementation of the Javascript replica used for the three replica HA-FT solution and its frontend.
 
-* MixFrame(String type) - Reads a JPEG as input and returns a mixed frame from a kinect device or a recorded session
+More info [here](opencv-replica/README.md)
 
-## Contributors ##
+## sequencer
 
-* Project Lead: Konstantinos Psimoulis
-* Yasmine Chiter
-* Inna Taushanova-Atanasova
-* Amjrali Shirkhodaei
-* Paul Palmieri
+This project contains the implementation of the sequencer used for the three replicas. It receives frames from three different implementations, compares the checksum of the images and sends the image to the frontend if more than 2 match.
 
-## Build Instructions ##
+More info [here](sequencer/README.md)
 
-    Compile:
-        npm install
+## ws-client
 
-    Run (SOAP Service):		
-        npm start
+The ws-client project provides a simple frontend to test the Java openiss backend. It provides a simple UI to switch between color and depth and use OpenCV for image manipulation.
 
-    Run (REST Service):		
-        npm run rest
-    
-    Browse to http://localhost:3000
-    
-    Example to get a color frame:    
-        http://localhost:3000/getFrame/color
-    
-    Example to get a depth frame:
-        http://localhost:3000/getFrame/depth
-    
-    Example to get a mix frame of type color with example.jpg using operand +
-        http://localhost:3000/mixFrame/example&color&+
-
-    Example to do a rest api call to /rest/openiss/hello:
-        http://localhost:3000/api/hello
-
-    Clean:
-        Delete directory node_modules:
-            rm -fr node_modules
+More info [here](ws-client/README.md)
