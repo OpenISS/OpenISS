@@ -1,16 +1,18 @@
 # OpenISS
 
-*Open Illimitable Space System*
-
-OpenISS is a motion capture data aggregation and delivery framwork for VFX that
+OpenISS is a motion capture data aggregation and delivery framework for VFX that
 has library instances abstracting various middleware and cameras for many application types.
 
 Applications include AI+Art, performing arts, interactive film, facial animation,
 NUI applications using OpenGL, Processing, TensorFlow, Keras, and MARF.
 
 The OpenISS framework provides a uniform abstraction layer over libfreenect,
-libfreenect2, librealsense, OpenNI2, NiTE2, NuiTrack, and ROS and has
-REST and SOAP web services. There are different front-end modules as well based on OpenGL, Processing, and web browsers (JS).
+libfreenect2, librealsense, OpenNI2, NiTE2, NuiTrack, Azure SDK, PCL, and ROS and has
+REST and SOAP web services. There are different front-end modules as
+well based on OpenGL, Processing, and web browsers (JS).
+
+The public GitHub updates are done periodically from private forks where
+a lot of integration / contributions happen.
 
 ## History ##
 
@@ -33,11 +35,16 @@ to be portable.
 
 ### Current ###
 
+* Kyle Ross, Unity plugin and related rigging
+* [Konstantinos (Kosta) Psimoulis](https://github.com/kostapsimoulis): Web Services lead (REST and SOAP), SimpleOpenNIRS/liblrealsense2 support
+* [Jonathan Llewellyn](https://github.com/inexistenz): actvity/action recognition, VFX pipeline
+* Dominique Cartier, point clouds integration and object/surface reconstruction
+
+### Recent ###
+
 * [Jashanjot Singh](https://github.com/jashanj0tsingh): Gesture and Hand Tracking Framework, NiTE2/NuiTrack, and ROS support, SWIG support for Java/Processing
 * [Haotao (Eric) Lai](https://github.com/laihaotao): Person Re-identifcation, Green Screening, device abstracion (Kinects 1 and 2, RealSense D435), TensorFlow/Keras/Python abstractions; Kinect 2 web service
 * [Yiran (Bernie) Shen](https://github.com/UNO998): Facial Recognition and data (landmarks and expressions) provider framework abstraction over OpenFace, OpenCV, including TensortFlow for VFX
-* [Konstantinos (Kosta) Psimoulis](https://github.com/kostapsimoulis): Web Services lead (REST and SOAP), SimpleOpenNIRS/liblrealsense2 support
-* [Jonathan Llewellyn](https://github.com/inexistenz): actvity recognition, VFX pipeline, softbody linkage
 * Yuhao Mao: Art and AI, Sound Visualization, Style Transfer
 * [Chao Wang](https://github.com/chaowangCanada): Style Transfer, Magenta support, motion-based audio support, finger tracking
 * Zihao Song: Singnal Processing for Audio and Image Processing effects and MARF
