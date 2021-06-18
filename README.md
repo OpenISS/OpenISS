@@ -1,5 +1,7 @@
 # OpenISS
 
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/2829/badge)](https://bestpractices.coreinfrastructure.org/projects/2829)
+
 OpenISS is a motion capture data aggregation and delivery framework for VFX that
 has library instances abstracting various middleware and cameras for many application types.
 
