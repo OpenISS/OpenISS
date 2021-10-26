@@ -1,0 +1,40 @@
+# Add 'meta' label to any root file changes
+meta:
+- '*'
+- .github/*
+
+# Add '@domain/core' label to any change within the 'core' package
+C:
+- src/api/c/*
+- src/api/c/**/*
+
+C++:
+- src/api/cpp/*
+- src/api/cpp/**/*
+
+Java:
+- src/api/java/*
+- src/api/java/**/*
+
+JavaScript:
+- src/api/js/*
+- src/api/js/**/*
+
+web services:
+- src/api/js/*
+- src/api/js/**/*
+
+python:
+- src/api/python/*
+- src/api/python/**/*
+
+CI:
+- tools/ci/*
+
+# Add 'source' label to any change to src files within the source dir EXCEPT for the docs sub-folder
+#source:
+#- any: ['src/**/*', '!docs/*']
+
+# Add 'dependencies' label to any change in lib
+dependencies:
+- any: ['lib/**/*', 'src/scripts/build.sh', 'src/scripts/dependencies/*/**']
