@@ -37,4 +37,6 @@ CI:
 
 # Add 'dependencies' label to any change in lib
 dependencies:
-- any: ['lib/**/*', 'src/scripts/build.sh', 'src/scripts/dependencies/*/**']
+- any: ['lib/**/*']
+- any: ['src/scripts/build.sh']
+- any: ['src/scripts/dependencies/*/**']
