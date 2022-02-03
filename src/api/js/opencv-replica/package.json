@@ -13,7 +13,7 @@
   "keywords": [],
   "author": "Konstantinos Psimoulis <kosta@noima.com>",
   "dependencies": {
-    "canvas": "^2.6.1",
+    "canvas": "^2.9.0",
     "express": "^4.17.1",
     "jimp": "^0.16.1",
     "jsdom": "^16.4.0",
