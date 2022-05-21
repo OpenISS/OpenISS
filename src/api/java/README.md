@@ -76,6 +76,22 @@ provided jax-rs annotations.
 ## OpenCV 3.4.12 (Mac)
     brew install opencv@3
 
+## OpenCV 3.4.16 (Mac M1)
+Follow these steps to use the solution with an M1 processor:
+
+Install opencv version 3.4.16:
+
+    brew install opencv@3
+
+You will also need to install JDK8, since jaxws does not currently work with JDK11+. Here's a download link to the jdk for M1 Macs:
+https://cdn.azul.com/zulu/bin/zulu8.62.0.19-ca-jdk8.0.332-macosx_aarch64.dmg
+
+
+After installing add the following command to your .bashrc or .zshrc then restart your terminal:
+
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home/jre
+
+
 ## REST Build Instructions ##
 
     Compile:

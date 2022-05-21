@@ -3,6 +3,7 @@ package openiss.ws.soap.endpoint;
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 import openiss.utils.OpenISSImageDriver;
+import openiss.utils.OpenISSConfig;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
@@ -21,14 +22,21 @@ public class Test2 {
         String PROJECT_HOME = System.getProperty("user.dir");
         int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
         String osName = System.getProperty("os.name").toLowerCase();
+        String osArch = System.getProperty("os.arch").toLowerCase();
 
         if(osName.indexOf("win") >= 0) {
             System.out.println(arch + " windows");
             System.load(PROJECT_HOME+"\\lib\\opencv\\win\\x64\\opencv_java341.dll");
         }
         else if(osName.indexOf("mac") >= 0){
-            System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
-            System.load(PROJECT_HOME+"/lib/opencv/mac/libopencv_java341.dylib");
+            if(osArch.equals("aarch64")){
+                System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac-m1/libopencv_java3416.dylib");
+                System.load(PROJECT_HOME+"/lib/opencv/mac-m1/libopencv_java3416.dylib");
+            }
+            else {
+                System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac/libopencv_java3412.dylib");
+                System.load(PROJECT_HOME+"/lib/opencv/mac/libopencv_java3412.dylib");
+            }
         }
 
     }
