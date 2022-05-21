@@ -59,7 +59,7 @@
         </dependency>
         <dependency>
             <groupId>openiss</groupId>
-            <artifactId>opencv-mac-m1</artifactId>
+            <artifactId>opencv-mac-aarch64</artifactId>
             <version>3.4.16</version>
             <scope>runtime</scope>
             <type>dylib</type>

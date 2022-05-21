@@ -148,8 +148,8 @@ public class javaReplica { // receving client request
                             System.load(PROJECT_HOME + "\\lib\\opencv\\win\\x64\\opencv_java341.dll");
                         } else if (osName.indexOf("mac") >= 0) {
                             if(osArch.equals("aarch64")){
-                                // System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac-m1/libopencv_java3416.dylib");
-                                System.load(PROJECT_HOME+"/lib/opencv/mac-m1/libopencv_java3416.dylib");
+                                // System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac-aarch64/libopencv_java3416.dylib");
+                                System.load(PROJECT_HOME+"/lib/opencv/mac-aarch64/libopencv_java3416.dylib");
                             }
                             else {
                                 // System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac/libopencv_java3412.dylib");
