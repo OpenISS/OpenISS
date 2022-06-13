@@ -2,8 +2,9 @@ package openiss.ws.rest;
 
 
 import openiss.utils.OpenISSConfig;
-import openiss.utils.OpenISSImageDriver;
 import openiss.utils.PATCH;
+import openiss.utils.legacy.OpenISSImageDriver;
+
 import org.glassfish.jersey.media.multipart.*;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
@@ -37,14 +38,16 @@ public class OpenISSRestService {
         int arch = Integer.parseInt(System.getProperty("sun.arch.data.model"));
         String osName = System.getProperty("os.name").toLowerCase();
         String osArch = System.getProperty("os.arch").toLowerCase();
-
+        System.out.println(osArch + " OPENISS ARCH");
+        System.out.println(osName + " OPENISS NAME");
         if (OpenISSConfig.USE_OPENCV) {
             if(osName.indexOf("win") >= 0) {
                 System.out.println(arch + " windows");
                 System.load(PROJECT_HOME+"\\lib\\opencv\\win\\x64\\opencv_java341.dll");
             }
             else if(osName.indexOf("mac") >= 0){
-                if(osArch.equals("aarch64")){
+            	
+                if(osArch.equals("aarch64") || osArch.equals("arm64") || osArch.equals("x86_64")){
                     System.out.println("Loading Native library" + PROJECT_HOME+"/lib/opencv/mac-aarch64/libopencv_java3416.dylib");
                     System.load(PROJECT_HOME+"/lib/opencv/mac-aarch64/libopencv_java3416.dylib");
                 }

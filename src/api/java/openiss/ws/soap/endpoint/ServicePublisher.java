@@ -1,6 +1,6 @@
 package openiss.ws.soap.endpoint;
 
-import openiss.utils.OpenISSImageDriver;
+import openiss.utils.legacy.OpenISSImageDriver;
 import openiss.ws.soap.service.OpenISSSOAPServiceImpl;
 import javax.xml.ws.Endpoint;
 

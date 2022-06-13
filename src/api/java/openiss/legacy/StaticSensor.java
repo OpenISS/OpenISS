@@ -1,4 +1,4 @@
-package openiss;
+package openiss.legacy;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
+
 import openiss.utils.OpenISSConfig;
 import openiss.ws.soap.service.OpenISSSOAPServiceImpl;
 

@@ -1,7 +1,7 @@
 package openiss.ws.JavaReplica;
 
 import openiss.utils.OpenISSConfig;
-import openiss.utils.OpenISSImageDriver;
+import openiss.utils.legacy.OpenISSImageDriver;
 
 import javax.imageio.ImageIO;
 import javax.ws.rs.client.Client;

@@ -2,8 +2,10 @@ package openiss.ws.soap.endpoint;
 
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
-import openiss.utils.OpenISSImageDriver;
+
 import openiss.utils.OpenISSConfig;
+import openiss.utils.legacy.OpenISSImageDriver;
+
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;

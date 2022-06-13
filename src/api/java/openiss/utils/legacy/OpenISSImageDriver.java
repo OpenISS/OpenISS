@@ -1,9 +1,9 @@
-package openiss.utils;
+package openiss.utils.legacy;
 
-import openiss.Sensor;
-import openiss.Kinect1;
-import openiss.Kinect2;
-import openiss.StaticSensor;
+import openiss.legacy.Kinect1;
+import openiss.legacy.Kinect2;
+import openiss.legacy.Sensor;
+import openiss.legacy.StaticSensor;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import openiss.utils.OpenISSConfig;
 import openiss.utils.Utils;
 
 //import org.opencv.highgui.Highgui;

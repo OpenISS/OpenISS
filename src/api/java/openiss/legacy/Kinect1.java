@@ -26,7 +26,7 @@
  */
 
 
-package openiss;
+package openiss.legacy;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

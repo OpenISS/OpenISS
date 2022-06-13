@@ -1,4 +1,4 @@
-package openiss;
+package openiss.legacy;
 
 import org.openkinect.freenect2.Device;
 
