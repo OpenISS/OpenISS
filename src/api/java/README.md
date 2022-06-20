@@ -76,12 +76,16 @@ provided jax-rs annotations.
 ## OpenCV 3.4.12 (Mac)
     brew install opencv@3
 
+
 ## OpenCV 3.4.16 (Mac M1)
 Follow these steps to use the solution with an M1 processor:
 
 Install opencv version 3.4.16:
 
     brew install opencv@3
+
+Make sure that you install opencv@3 in the opt/homebrew/Cellar folder.
+
 
 You will also need to install JDK8, since jaxws does not currently work with JDK11+. Here's a download link to the jdk for M1 Macs:
 https://cdn.azul.com/zulu/bin/zulu8.62.0.19-ca-jdk8.0.332-macosx_aarch64.dmg
@@ -112,12 +116,50 @@ After installing add the following command to your .bashrc or .zshrc then restar
 
 ## Test Rest API with Static Images
 
-    Color (resources/color_example.jpg):
-        http://localhost:8080/rest/openiss/color
-     
-    Depth (resources/depth_example.jpg):
-        http://localhost:8080/rest/openiss/depth
+### GET
+   |Endpoint|  URL | Description |
+  |:----------|:---------|:----------|
+   |Color (resources/color_example.jpg)| http://localhost:8080/rest/openiss/color   |Fetches color image from the current camera  |
+  |Depth (resources/depth_example.jpg)| http://localhost:8080/rest/openiss/depth   |Fetches depth image from the current camera|
+ |Get UDP Port| http://localhost:8080/rest/openiss/getUDPPort | Fetches the UDP port |
+ |Get static frame| http://localhost:8080/rest/openiss/getStaticFrame/{frameId}| Lorem ipsum | 
+  | Request mix| http://localhost:8080/rest/openiss/reqmix| Lorem ipsum | 
+  |  Horizontal Split | http://localhost:8080/rest/openiss/hsplit/{parts}/{part} | Splits image horizontally by passing integers as in the {part} parameter |
+  
+       
+    
+    		
+### POST 
+  |Endpoint|  URL | Description |
+  |:----------|:---------|:----------|
+   |setCanny (src/api/test/canny_java.jpg)|  http://localhost:8080/rest/openiss/setCanny | Enable canny edge extraction|
+   |unsetCanny| http://localhost:8080/rest/openiss/unsetCanny | Disable canny edge extraction|
+   |setContour (src/api/test/contour_java.jpg)|http://localhost:8080/rest/openiss/setContour|Enable contour extraction|
+   |unsetContour | http://localhost:8080/rest/openiss/unsetContour|Disable contour extraction|
+   | Upload | http://localhost:8080/rest/openiss/upload | Saves file to the server |
+   
+    
+    
+    
+### PATCH 
+  |Endpoint|  URL | Description |  
+|:----------|:---------|:----------|
+|mix/{action}|http://localhost:8080/rest/openiss/mix/{action}|GET images will be mixed with depth, color or canny. The parameter {action} can be replaced with depth, color or canny.|
+|opencv/{type}|http://localhost:8080/rest/openiss/opencv/{type}|The mix, canny and contour can be enabled by putting mix, canny or contour in the {type} parameter|
+		
+	
+### DELETE
+ |Endpoint|  URL | Description |
+ |:----------|:---------|:----------|
+|mix|http://localhost:8080/rest/openiss/mix|Mixed images will be reset to default, canny and contour will be disabled|
+|opencv/{type}|http://localhost:8080/rest/openiss/opencv/{type}|The mix, canny or contour can be disabled by putting mix, canny or contour in the {type} parameter|
+	
+		
+	
+	
+            
 
+  
 ## JavaScript Frontend
 
 The ws-client folder within src/api/js contains a frontend implementation of a simple UI, to test the streams with OpenCV.
