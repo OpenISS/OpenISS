@@ -8,7 +8,11 @@
     "replica": "node app.js",
     "frontend": "node index.js",
     "demo": "NODE_ENV=demo node app.js",
-    "debug": "nodemon --inspect app.js"
+    "debug": "nodemon --inspect app.js",
+    "preinstall": "npx npm-force-resolutions"
+  },
+  "resolutions": {
+    "jpeg-js": "0.4.4"
   },
   "keywords": [],
   "author": "Konstantinos Psimoulis <kosta@noima.com>",
@@ -16,7 +20,7 @@
     "canvas": "^2.9.0",
     "express": "^4.17.1",
     "jimp": "^0.16.1",
-    "jsdom": "^16.4.0",
+    "jsdom": "^16.5.0",
     "socket.io": "^3.1.2",
     "socket.io-client": "^4.0.2"
   }
