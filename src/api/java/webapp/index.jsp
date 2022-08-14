@@ -14,5 +14,9 @@
   <p><a href="rest/openiss/hello">Jersey Hello World</a></p>
   <p><a href="rest/openiss/color">Color Image</a></p>
   <p><a href="rest/openiss/depth">Depth Image</a></p>
+  <p><a href = "rest/openiss/skeletons">Skeleton Image</a> </p>
+  <p><a href = "rest/openiss/gestures">Gestures</a></p>
+  <p><a href = "rest/openiss/faces">Faces</a> </p> 
+
   </body>
 </html>

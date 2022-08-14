@@ -125,6 +125,15 @@ After installing add the following command to your .bashrc or .zshrc then restar
  |Get static frame| http://localhost:8080/rest/openiss/getStaticFrame/{frameId}| Lorem ipsum | 
   | Request mix| http://localhost:8080/rest/openiss/reqmix| Lorem ipsum | 
   |  Horizontal Split | http://localhost:8080/rest/openiss/hsplit/{parts}/{part} | Splits image horizontally by passing integers as in the {part} parameter |
+  |  Skeletons | http://localhost:8080/rest/openiss/skeletons | Fetches skeleton joints data of the image from the current camera in a JSON format |
+  |  Faces | http://localhost:8080/rest/openiss/faces | Fetches face data of the image from the current camera in a JSON format |
+  |  Gestures | http://localhost:8080/rest/openiss/gestures | Fetches gesture data from the gesture captured by the current camera in JSON fromat  |
+  |  Hands | http://localhost:8080/rest/openiss/hands | Fetches hand data of image from thr current camera in JSON format  |
+  |  Get device | http://localhost:8080/rest/openiss/devices | Fetches the ID of the current device in use      |
+
+
+
+
   
        
     
@@ -146,6 +155,11 @@ After installing add the following command to your .bashrc or .zshrc then restar
 |:----------|:---------|:----------|
 |mix/{action}|http://localhost:8080/rest/openiss/mix/{action}|GET images will be mixed with depth, color or canny. The parameter {action} can be replaced with depth, color or canny.|
 |opencv/{type}|http://localhost:8080/rest/openiss/opencv/{type}|The mix, canny and contour can be enabled by putting mix, canny or contour in the {type} parameter|
+
+### PUT
+|Endpoint|  URL | Description |  
+|:----------|:---------|:----------|
+|devices/{deviceId}|http://localhost:8080/rest/openiss//devices/{deviceId}| Putting the deviceId in the {deviceId} parameter allows you to select a device for image capture |
 		
 	
 ### DELETE
