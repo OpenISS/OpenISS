@@ -2,6 +2,7 @@ package openiss.ws.rest;
 
 
 import openiss.utils.OpenISSConfig;
+
 import openiss.utils.PATCH;
 import openiss.utils.legacy.OpenISSImageDriver;
 
@@ -22,6 +23,20 @@ import java.nio.file.Files;
 
 import java.awt.image.BufferedImage;
 import java.net.ServerSocket;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.json.simple.JSONArray;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import javassist.bytecode.Descriptor.Iterator;
+
+
 
 @Path("/openiss")
 public class OpenISSRestService {
@@ -222,7 +237,10 @@ public class OpenISSRestService {
         }
         return getFlags();
     }
-
+    
+    
+    String PROJECT_HOME = System.getProperty("user.dir");
+    
     @GET
     @Path("/hsplit/{parts}/{part}")
     @Produces("image/*")
@@ -233,10 +251,97 @@ public class OpenISSRestService {
         response = Response.ok(image, "image/jpeg");
         return response.build();
     }
+    //skeleton gestures faces etc
+    @GET
+    @Path("/skeletons")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String skeletons () throws IOException, ParseException, FileNotFoundException, Exception {
+        JSONParser parser = new JSONParser();
+        JSONObject jsonSkeleton;
+           
+           jsonSkeleton = (JSONObject) parser.parse(new FileReader(PROJECT_HOME + "/src/api/java/openiss/ws/rest/skeleton.json"));;
+           
+           JSONArray jointsArray = (JSONArray) jsonSkeleton.get("OISKELETON_JOINT_TYPES");
+               Object s = jointsArray.get(2) ;
+                 
+        	   System.out.println(s);
+            
+           
+           String joints = jointsArray.toString();
+           return joints ;
+   
+    }
+    @GET
+    @Path("/IR")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String IR () {
+        return 
+            "IR image" ;
+   
+    }
+    @GET
+    @Path("/gestures")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String gestures () throws IOException, ParseException, FileNotFoundException, Exception{
+    	JSONParser parser = new JSONParser();
+        JSONObject jsonGestures;
+         
+           jsonGestures = (JSONObject) parser.parse(new FileReader(PROJECT_HOME + "/src/api/java/openiss/ws/rest/skeleton.json"));;
+           
+           JSONArray gesturesArray = (JSONArray) jsonGestures.get("OIGESTURE_TYPES");
+           String gestures = gesturesArray.toString();
+    	
+        return gestures ;
+   
+    }
+    @GET
+    @Path("/faces")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String faces () throws IOException, ParseException, FileNotFoundException, Exception{
+    	JSONParser parser = new JSONParser();
+        JSONObject jsonFaces;
+           
+           jsonFaces = (JSONObject) parser.parse(new FileReader(PROJECT_HOME + "/src/api/java/openiss/ws/rest/skeleton.json"));;
+           
+           JSONArray facesArray = (JSONArray) jsonFaces.get("OIFACE");
+           String faces = facesArray.toString();
+    	return faces;
+            
+   
+    }
+    @GET
+    @Path("/hands")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String hands () throws IOException, ParseException, FileNotFoundException, Exception{
+    	JSONParser parser = new JSONParser();
+        JSONObject jsonHands;
+           
+           jsonHands = (JSONObject) parser.parse(new FileReader(PROJECT_HOME + "/src/api/java/openiss/ws/rest/skeleton.json"));;
+           
+           JSONArray handsArray = (JSONArray) jsonHands.get("OIHAND");
+           String hands = handsArray.toString();
+    	return hands;
+    }
+    
+    @GET
+    @Path("/devices")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getDevices () {
+        return 
+            "Current device" ;
+   
+    }
+    //PCL , IR 
 
-
-
-
+    @PUT
+    @Path("/devices/{deviceId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String selectDevice(@PathParam(value = "deviceId") String deviceId) {
+        return 
+           "device selected" ;
+   
+    }
+  
     @GET
     @Path("/reqmix")
     public Response requestMix(
