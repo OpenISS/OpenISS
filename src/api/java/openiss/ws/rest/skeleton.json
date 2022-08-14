@@ -1,0 +1,518 @@
+
+    {   "OIFACE" : 
+    	 [
+    	  {
+    	  		"ID": 0,
+                "name": "OIFACE_FOREHEAD",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    	  },
+    	  {
+    	  	    "ID": 0,
+                "name": "OIFACE_JAWLINE",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    	  },
+    	  {
+    	  		"ID": 0,
+                "name": "OIFACE_EYES",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    	  },
+    	  {
+    	  		"ID": 0,
+                "name": "OIFACE_NOSE",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    	  },
+    	  {
+    	  		"ID": 0,
+                "name": "OIFACE_MOUTH",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    	  },
+    	  {
+    	  		"ID": 0,
+                "name": "OIFACE_CHIN",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    	  }
+    	 
+    	 ],
+    
+        "OISKELETON_JOINT_TYPES" : 
+         [
+            {
+                "ID": 0,
+                "name": "OISKELETON_JOINT_HEAD",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },
+            {
+                "ID": 2,
+                "name": "OISKELETON_JOINT_NECK",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },
+            {
+                "ID": 3,
+                "name": "OISKELETON_JOINT_LEFT_SHOULDER",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },
+            {
+                "ID": 4,
+                "name": "OISKELETON_JOINT_RIGHT_SHOULDER",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },
+            {
+                "ID": 5,
+                "name": "OISKELETON_JOINT_LEFT_ELBOW",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },
+            {
+                "ID": 6,
+                "name": "OISKELETON_JOINT_RIGHT_ELBOW",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },
+            {
+                "ID": 7,
+                "name": "OISKELETON_JOINT_LEFT_HAND",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },
+            {
+                "ID": 8,
+                "name": "OISKELETON_JOINT_RIGHT_HAND",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },{
+                "ID": 9,
+                "name": "OISKELETON_JOINT_TORSO",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },{
+                "ID": 10,
+                "name": "OISKELETON_JOINT_LEFT_HIP",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },{
+                "ID": 11,
+                "name": "OISKELETON_JOINT_RIGHT_HIP",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },{
+                "ID": 12,
+                "name": "OISKELETON_JOINT_LEFT_KNEE",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },{
+                "ID": 13,
+                "name": "OISKELETON_JOINT_RIGHT_KNEE",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },{
+                "ID": 14,
+                "name": "OISKELETON_JOINT_LEFT_FOOT",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            },{
+                "ID": 15,
+                "name": "OISKELETON_JOINT_RIGHT_FOOT",
+                "type": "spherical",
+                "frame" : "21",
+                "parent": -1,
+                "colorX": 123,
+                "colorY": 123,
+                "depthX": 123,
+                "depthY": 123,
+                "x-coordinate": 12,
+                "y-coordinate": 12,
+                "z-coordinate": 12,
+                "x-orientation": 12,
+                "y-orientation": 12,
+                "z-orientation": 12
+    
+            }
+         ]
+    
+    ,
+    "OIGESTURE_TYPES" : 
+    [
+    	{
+    		"gestureType": "GESTURE_WAVE",
+    		" gestureData": 
+    		[
+    			{
+    				"x-coordinate": 12,
+    				"y-coordinate": 12,
+    				"z-coordinate": 12,
+                                 "stroke" : 1
+    			}
+    		],
+    		"gestureState": "true",
+    		"frame": 12,
+    		"depth": 12
+    		
+    	},
+    	{
+    		"gestureType": "GESTURE_CLICK",
+    		 
+    		"gestureState": "true",
+    		"frame": 12,
+    		"depth": 12
+    	},
+    	{
+    		"gestureType": "GESTURE_HAND_RAISE",
+    		" gestureData": 
+    		[
+    			{
+    				"x-coordinate": 12,
+    				"y-coordinate": 12,
+    				"z-coordinate": 12,
+                                 "stroke" : 1
+    			}
+    		],
+    		"gestureState": "true",
+    		"frame": 12,
+    		"depth": 12
+    	},
+    	{
+    		"gestureType": "GESTURE_SWIPE_LEFT",
+    		" gestureData": 
+    		[
+    			{
+    				"x-coordinate": 12,
+    				"y-coordinate": 12,
+    				"z-coordinate": 12,
+                    "stroke" : 1
+    			}
+    		],
+    		"gestureState": "true",
+    		"frame": 12,
+    		"depth": 12
+    	},
+    	{
+    		"gestureType": "GESTURE_SWIPE_RIGHT",
+    		" gestureData": 
+    		[
+    			{
+    				"x-coordinate": 12,
+    				"y-coordinate": 12,
+    				"z-coordinate": 12,
+                    "stroke" : 1
+    			}
+    		],
+    		"gestureState": "true",
+    		"frame": 12,
+    		"depth": 12
+    	},
+    	{
+    		"gestureType": "GESTURE_SWIPE_UP",
+    		" gestureData": 
+    		[
+    			{
+    				"x-coordinate": 12,
+    				"y-coordinate": 12,
+    				"z-coordinate": 12,
+                    "stroke" : 1
+    			}
+    		],
+    		"gestureState": "true",
+    		"frame": 12,
+    		"depth": 12
+    	},
+    	{
+    		"gestureType": "GESTURE_SWIPE_DOWN",
+    		" gestureData": 
+    		[
+    			{
+    				"x-coordinate": 12,
+    				"y-coordinate": 12,
+    				"z-coordinate": 12,
+                    "stroke" : 1
+    			}
+    		],
+    		"gestureState": "true",
+    		"frame": 12,
+    		"depth": 12
+    	},
+    	{
+    		"gestureType": "GESTURE_PUSH",
+    		" gestureData": 
+    		[
+    			{
+    				"x-coordinate": 12,
+    				"y-coordinate": 12,
+    				"z-coordinate": 12,
+                    "stroke" : 1
+    			}
+    		],
+    		"gestureState": "true",
+    		"frame": 12,
+    		"depth": 12
+    	}
+    	
+    ],
+    "OIHAND": 
+    [
+    	{
+    		"handID": 1,
+    		"frame": 1,
+    		"isHandLost": "true",
+    		"isHandNew": "true",
+    		"isHandTracked": "true",
+    		"isHandTouchingFOV": "true",
+    		"handPosition": 
+    			[
+    				{
+    					"x-coordinate": 12,
+    					"y-coordinate": 12,
+    					"z-coordinate": 12
+    				}
+    			],
+    		"handState": "1",
+            "depth":12
+    		
+    	}
+    ]
+    	
+    }
+
