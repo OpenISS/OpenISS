@@ -21,7 +21,7 @@
     "express": "^4.17.3",
     "jimp": "^0.16.1",
     "jsdom": "^16.5.0",
-    "socket.io": "^4.5.3",
+    "socket.io": "^4.6.1",
     "socket.io-client": "^4.0.2"
   }
 }
