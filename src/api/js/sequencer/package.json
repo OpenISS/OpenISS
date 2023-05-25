@@ -7,7 +7,7 @@
     "dgram": "^1.0.1",
     "http": "^0.0.1-security",
     "save": "^2.4.0",
-    "socket.io-client": "^4.0.2"
+    "socket.io-client": "^4.6.1"
   },
   "devDependencies": {},
   "scripts": {
