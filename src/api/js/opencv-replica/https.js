@@ -7,7 +7,8 @@ var key = fs.readFileSync(__dirname + '/./certs/selfsigned.key');
 var cert = fs.readFileSync(__dirname + '/./certs/selfsigned.crt');
 var options = {
   key: key,
-  cert: cert
+  cert: cert,
+  maxHeaderSize: 8192
 };
 
 app.get('/', function(req, res){
