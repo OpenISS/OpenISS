@@ -13,7 +13,7 @@
     "debug-rest": "nodemon --inspect app.js"
   },
   "dependencies": {
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "morgan": "^1.10.0",
     "soap": "^1.0.1"
   }
