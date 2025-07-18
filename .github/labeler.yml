@@ -1,32 +1,50 @@
+# Docs changes
+Documentation:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['doc/*', '*.md']
+
 # Add 'meta' label to any root file changes
 meta:
-- any: ['*', '.github/*']
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['*', '.github/*']
 
-# Add '@domain/core' label to any change within the 'core' package
+# Add 'C' label to any change within the 'C' code base
 C:
-- any: ['src/api/c/*', 'src/api/c/**/*']
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['src/api/c/*', 'src/api/c/**/*']
 
 C++:
-- any: ['src/api/cpp/*', 'src/api/cpp/**/*']
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['src/api/cpp/*', 'src/api/cpp/**/*']
 
 Java:
-- any: ['src/api/java/*', 'src/api/java/**/*']
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['src/api/java/*', 'src/api/java/**/*']
 
 JavaScript:
-- any: ['src/api/js/*', 'src/api/js/**/*']
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['src/api/js/*', 'src/api/js/**/*']
 
 WebServices:
-- any: ['src/api/js/*', 'src/api/js/**/*']
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['src/api/js/*', 'src/api/js/**/*']
 
 python:
-- any: ['src/api/python/*', 'src/api/python/**/*']
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['src/api/python/*', 'src/api/python/**/*']
 
 CI:
-- any: ['tools/ci/*']
-
-# Add 'source' label to any change to src files within the source dir EXCEPT for the docs sub-folder
-#source:
-#- any: ['src/**/*', '!docs/*']
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['tools/ci/*']
 
 # Add 'dependencies' label to any change in lib
 dependencies:
