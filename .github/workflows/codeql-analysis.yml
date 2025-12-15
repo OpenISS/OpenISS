@@ -1,0 +1,79 @@
+# Custom CodeQL config
+#
+# References:
+#  - https://dev.to/nivicius/how-to-enable-codeql-analysis-in-your-github-repository-5ad3
+#  - https://docs.github.com/en/enterprise-server@3.19/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/codeql-code-scanning-for-compiled-languages#adding-build-steps-for-a-compiled-language
+#  - https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/configuring-advanced-setup-for-code-scanning
+#  - https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning
+
+name: "OpenISS CodeQL Analysis"
+
+on:
+  push:
+    branches: [ "master", "cpp", "main" ]
+  pull_request:
+    branches: [ "master", "cpp", "main" ]
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
+  schedule:
+    # Runs at 1:30 AM UTC every Sunday
+    - cron: '30 1 * * 0'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # Available options: 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby'
+        #language: [ 'cpp', 'java', 'javascript', 'python' ]
+        include:
+          # Analyzes C and C++ code using the commands in `Build C and C++ code`
+          - language: c-cpp
+            build-mode: manual
+          # Analyzes C# code by automatically detecting a build
+          #- language: csharp
+          #  build-mode: autobuild
+          # Analyzes Java code directly from the codebase without a build
+          - language: java-kotlin
+            build-mode: none # analyzes Java only
+          - language: javascript
+            build-mode: none
+          - language: python
+            build-mode: none
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5
+
+    # Initializes CodeQL tools and creates a codebase for analysis.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v4
+      with:
+        languages: ${{ matrix.language }}
+    - if: ${{ matrix.build-mode == 'manual' }}
+      name: Build OpenISS C and C++ code
+      run: |
+        echo ' make C'
+        cd src/api/c && make
+        echo ' make C++'
+        cd src/api/cpp && make
+        exit 1
+
+    # Autobuild attempts to build any compiled languages
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
+
+# EOF
