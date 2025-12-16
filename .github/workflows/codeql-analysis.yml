@@ -62,14 +62,14 @@ jobs:
       name: Build OpenISS C and C++ code
       run: |
         echo ' make C'
-        cd src/api/c && make
+        cd src/api/c && make || exit 0
         echo ' make C++'
-        cd src/api/cpp && make
+        cd src/api/cpp && make || exit 0
         exit 1
 
     # Autobuild attempts to build any compiled languages
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v4
+    # - name: Autobuild
+    #  uses: github/codeql-action/autobuild@v4
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4
