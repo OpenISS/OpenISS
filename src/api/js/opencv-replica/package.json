@@ -20,7 +20,7 @@
     "canvas": "^3.2.1",
     "express": "^4.22.0",
     "jimp": "^0.22.12",
-    "jsdom": "^16.7.0",
+    "jsdom": "^28.1.0",
     "socket.io": "^4.8.0",
     "socket.io-client": "^4.6.1"
   }
